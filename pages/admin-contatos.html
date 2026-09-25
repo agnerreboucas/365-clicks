@@ -62,6 +62,13 @@
   </section>
 </div>
 
+<h2>Compartilhamentos e origem das visitas</h2>
+<p class="small" style="margin-top:-8px">Uso interno, não aparece para o público. Cada link compartilhado leva UTM (canal, foto) e o <span class="mono">ref</span> de quem compartilhou. Assim sabemos quais fotógrafos trazem mais gente para o 365 Clicks.</p>
+<div class="split">
+  <div class="table-wrap"><table class="table"><thead><tr><th>Fotógrafo</th><th class="r">Compartilhamentos</th><th class="r">Visitas trazidas</th><th class="r">Cadastros gerados</th><th class="r">Visitas por link</th></tr></thead><tbody id="t-ref"></tbody></table></div>
+  <section class="panel"><h3 style="margin-top:0">Visitas por canal (utm_source)</h3><div id="t-canal"></div></section>
+</div>
+
 <h2>Contatos recebidos</h2>
 <p class="small" style="margin-top:-8px">Cada contato aceitou o Termo de Contato e Direitos Autorais. O 365 Clicks registra, mas não interfere na negociação.</p>
 <div class="table-wrap"><table class="table"><thead><tr><th>Data</th><th>Nome</th><th>Telefone</th><th>E-mail</th><th>Interesse</th><th>Foto</th><th>Fotógrafo</th><th>Termo</th></tr></thead><tbody id="t-leads"></tbody></table></div>
@@ -202,6 +209,30 @@ document.addEventListener("c365:fotos", async function () {
       var d = new Date(l.em);
       return "<tr><td class=\"num\">" + d.toLocaleDateString("pt-BR") + " " + d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) + "</td><td><strong>" + esc(l.nome) + "</strong>" + (l.exemplo ? ' <span class="badge plain">exemplo</span>' : "") + (l.mensagem ? '<div class="small" style="white-space:normal;max-width:260px">' + esc(l.mensagem.slice(0, 120)) + "</div>" : "") + "</td><td>" + esc(l.telefone) + "</td><td>" + esc(l.email || "—") + "</td><td>" + esc(l.interesse) + "</td><td>" + esc(l.fotoTitulo) + "</td><td>" + esc(l.fotografoNome) + '</td><td><span class="badge badge-success plain">' + esc(l.termo) + "</span></td></tr>";
     }).join("") || '<tr><td colspan="8" class="small">Nenhum contato no período. Abra uma foto e clique em “Falar com o fotógrafo” para testar.</td></tr>';
+
+    /* Compartilhamentos e origem (UTM) */
+    var ex2 = $("#f-exemplo").checked, reais = []; try { reais = JSON.parse(localStorage.getItem("c365-shares") || "[]"); } catch (e) {}
+    var chegadas = []; try { chegadas = JSON.parse(localStorage.getItem("c365-chegadas") || "[]"); } catch (e) {}
+    var ref = {};
+    F.fotografos.forEach(function (ph) {
+      var sh = ex2 ? F.doFotografo(ph.id).reduce(function (a, f) { return a + f.compartilhamentos; }, 0) : 0;
+      ref[ph.id] = { sh: sh, vis: ex2 ? Math.round(sh * (4 + (ph.clicks % 7))) : 0, cad: 0 };
+    });
+    reais.forEach(function (r) { if (ref[r.por]) ref[r.por].sh++; });
+    chegadas.forEach(function (c) { if (ref[c.ref]) ref[c.ref].vis++; });
+    Object.keys(ref).forEach(function (k) { ref[k].cad = Math.round(ref[k].vis * 0.04); });
+    $("#t-ref").innerHTML = Object.keys(ref).filter(function (k) { return !quem || k === quem; }).sort(function (a, b2) { return ref[b2].vis - ref[a].vis; }).map(function (k) {
+      var r = ref[k], ph = F.fotografo(k);
+      return "<tr><td><strong>" + esc(ph.nome) + '</strong> <span class="small">@' + k + '</span></td><td class="r">' + n(r.sh) + '</td><td class="r">' + n(r.vis) + '</td><td class="r">' + n(r.cad) + '</td><td class="r">' + (r.sh ? (r.vis / r.sh).toFixed(1).replace(".", ",") : "—") + "</td></tr>";
+    }).join("");
+    var canais = ex2 ? { instagram: 38, whatsapp: 27, facebook: 12, site: 9, linkedin: 8, link: 6 } : {};
+    reais.forEach(function (r) { canais[r.canal] = (canais[r.canal] || 0) + 1; });
+    var tot = Object.keys(canais).reduce(function (a, k) { return a + canais[k]; }, 0) || 1, mx = Math.max.apply(null, Object.keys(canais).map(function (k) { return canais[k]; }).concat([1]));
+    var NOME = { instagram: "Instagram", whatsapp: "WhatsApp", facebook: "Facebook", site: "Sites (incorporado)", linkedin: "LinkedIn", link: "Link direto", x: "X" };
+    $("#t-canal").innerHTML = Object.keys(canais).sort(function (a, b2) { return canais[b2] - canais[a]; }).map(function (k) {
+      return '<div class="hbar"><span>' + (NOME[k] || k) + '</span><span class="b" style="width:' + (canais[k] / mx * 100) + '%"></span><span class="num" style="text-align:right">' + Math.round(canais[k] / tot * 100) + "%</span></div>";
+    }).join("") || '<p class="small" style="margin:0">Nenhum compartilhamento ainda.</p>';
+
     render.leads = lv;
   }
   ["f-periodo", "f-foto", "f-exemplo"].forEach(function (id) { document.getElementById(id).addEventListener("change", render); });

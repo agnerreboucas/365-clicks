@@ -323,6 +323,18 @@
     colEls.forEach(function (c) { grid.appendChild(c); });
     grid.classList.add("is-masonry");
   }
+  C365.masonry = function () { document.querySelectorAll(".grid").forEach(function (g) { layoutMasonry(g, true); }); };
+  /* Chegadas por link compartilhado (UTM + ref): base do ranking de quem traz visitas */
+  (function () {
+    try {
+      var q = new URLSearchParams(location.search);
+      if (q.get("utm_source") || q.get("ref")) {
+        var l = JSON.parse(localStorage.getItem("c365-chegadas") || "[]");
+        l.push({ fonte: q.get("utm_source"), meio: q.get("utm_medium"), foto: q.get("utm_content"), ref: q.get("ref"), em: Date.now() });
+        localStorage.setItem("c365-chegadas", JSON.stringify(l.slice(-1000)));
+      }
+    } catch (e) {}
+  })();
   function initMasonry() {
     var grids = Array.prototype.slice.call(document.querySelectorAll(".grid"));
     if (!grids.length) return;

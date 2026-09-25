@@ -225,6 +225,21 @@ Todas as ações relevantes geram e-mail: curtida, comentário, citação, marca
 ### 11.4 Seguidores
 A lista de seguidores é ordenada por engajamento nos últimos 90 dias: curtidas + 3 × comentários + 4 × marcações e citações + 5 × mensagens. Faixas: Super fã, Engajado, Ativo e Discreto. Também dá para ordenar por curtidas, comentários, marcações ou por seguidores novos.
 
+### 11.6 Ordem das fotos (“Em alta”) e destaques
+Ordem padrão da Home e do Explorar:
+- **pontos** = curtidas + 2 × comentários + 3 × compartilhamentos + 5 × contatos + 0,1 × visualizações
+- **recência** = 1 ÷ (horas desde a publicação + 2)^1,2 (as recentes sobem, as antigas descem aos poucos)
+- **frequência** = 1 + 0,05 × publicações do autor nos últimos 7 dias (máximo de 7)
+- **em alta** = pontos × recência × frequência
+
+Também é possível ordenar por mais recentes, mais curtidas e mais compartilhadas. Destaques públicos: em alta agora, mais curtida do dia, mais curtida da semana, mais compartilhada da semana e fotógrafo mais ativo. Os pesos são um ponto de partida e devem ser calibrados com dados reais.
+
+### 11.7 Compartilhamento e rastreio de origem (UTM)
+- A foto nunca é baixada, mas pode ser compartilhada: WhatsApp, Facebook, LinkedIn, X, texto pronto para Instagram (legenda ou stories), link direto e código para incorporar em sites.
+- Todo link leva `utm_source` (canal), `utm_medium` (social, direto, embed), `utm_campaign=compartilhar_foto`, `utm_content` (id da foto) e `ref` (quem compartilhou).
+- Cada chegada por esses links é registrada. O admin vê, por fotógrafo, os compartilhamentos, as visitas trazidas, os cadastros gerados e as visitas por link, além da distribuição por canal.
+- **Uso interno:** o ranking de quem traz mais visitas não é público. Publicamente, aparece só “mais compartilhada”, e quem traz mais gente ganha destaque editorial.
+
 ### 11.5 Foto aberta, proteção e contato com o fotógrafo
 - Clicar em qualquer foto abre o visualizador em tela cheia com: a foto grande, o autor, o título, a descrição escrita pelo fotógrafo, o EXIF, o local e a data, curtir e salvar, comentários, marcações e “Mais de [fotógrafo]”.
 - **Proteção:** a foto não pode ser baixada. Não é exibida como `<img>` comum. O clique direito, o arrastar, o Ctrl/Cmd+S e o Ctrl/Cmd+P ficam bloqueados. A foto tem marca d’água com o nome do autor, a data e a hora da visualização. O visualizador serve no máximo a versão de 1600 px, a impressão sai sem as fotos, e a imagem fica borrada quando a janela perde o foco ou quando o sistema detecta a tecla Print Screen ou o atalho de captura. **Limite:** nenhuma tecnologia web impede totalmente uma captura de tela ou uma foto da tela. Essas medidas dificultam a cópia e identificam a origem.

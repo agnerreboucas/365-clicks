@@ -58,11 +58,12 @@
         entry = cache[key] = { ref: ref, chain: Promise.resolve(), timer: null };
         entry.loading = ref.get().then(function (s) {
           var d = s.exists ? s.data() : null;
-          entry.data = { foto: foto.id, fotografo: foto.fotografo, dia: hoje(), views: d ? d.views || 0 : 0, clicks: d ? d.clicks || 0 : 0, leads: d ? d.leads || 0 : 0 };
-        }).catch(function () { entry.data = { foto: foto.id, fotografo: foto.fotografo, dia: hoje(), views: 0, clicks: 0, leads: 0 }; });
+          entry.data = { foto: foto.id, fotografo: foto.fotografo, dia: hoje(), views: d ? d.views || 0 : 0, clicks: d ? d.clicks || 0 : 0, leads: d ? d.leads || 0 : 0, shares: d ? d.shares || 0 : 0 };
+        }).catch(function () { entry.data = { foto: foto.id, fotografo: foto.fotografo, dia: hoje(), views: 0, clicks: 0, leads: 0, shares: 0 }; });
       }
       await entry.loading;
-      entry.data[tipo === "view" ? "views" : tipo === "click" ? "clicks" : "leads"]++;
+      var campo = { view: "views", click: "clicks", lead: "leads", share: "shares" }[tipo];
+      entry.data[campo] = (entry.data[campo] || 0) + 1;
       agendar(entry);
     }
 
@@ -88,8 +89,8 @@
       var agg = {};
       lerLocal("c365-eventos").forEach(function (e) {
         var k = e.foto + "~" + e.dia;
-        var a = agg[k] || (agg[k] = { foto: e.foto, fotografo: e.fotografo, dia: e.dia, views: 0, clicks: 0, leads: 0 });
-        a[e.t === "view" ? "views" : e.t === "click" ? "clicks" : "leads"]++;
+        var a = agg[k] || (agg[k] = { foto: e.foto, fotografo: e.fotografo, dia: e.dia, views: 0, clicks: 0, leads: 0, shares: 0 });
+        a[{ view: "views", click: "clicks", lead: "leads", share: "shares" }[e.t]]++;
       });
       return { fonte: "local", stats: Object.keys(agg).map(function (k) { return agg[k]; }), leads: lerLocal("c365-leads") };
     }
@@ -136,11 +137,12 @@
   }
 
   /* ================= Cards das galerias ================= */
-  function hidratar(root) {
-    var cards = (root || document).querySelectorAll(".card:not([data-photo])");
+  function hidratar(root, ordem) {
+    var fonte = ordem || F.lista;
+    var cards = (root || document).querySelectorAll(ordem ? ".card" : ".card:not([data-photo])");
     var n = 0;
     cards.forEach(function (card) {
-      var foto = F.lista[n++ % F.lista.length], ph = F.fotografo(foto.fotografo);
+      var foto = fonte[n++ % fonte.length], ph = F.fotografo(foto.fotografo);
       card.setAttribute("data-photo", foto.id);
       var img = card.querySelector("img");
       if (img) {
@@ -152,7 +154,9 @@
       }
       var cap = card.querySelector(".meta");
       if (cap) cap.innerHTML = "<b>" + esc(foto.titulo) + '</b><span class="small">@' + ph.id + " · " + esc(foto.local) + '</span><span class="exif">' + esc(foto.exif) + "</span>";
-      if (!card.querySelector(".card-hit")) {
+      var velho = card.querySelector(".card-hit");
+      if (velho && ordem) velho.setAttribute("aria-label", "Abrir “" + foto.titulo + "”, de " + ph.nome);
+      if (!velho) {
         var hit = document.createElement("button");
         hit.type = "button";
         hit.className = "card-hit";
@@ -197,6 +201,8 @@
       else if (a === "voltar") mostrarInfo();
       else if (a === "abrir") abrir(F.foto(b.getAttribute("data-id")), F.doFotografo(atual.fotografo));
       else if (a === "marcar") abrirMarcacao();
+      else if (a === "compartilhar") abrirShare();
+      else if (a === "copiar") copiar(b.getAttribute("data-canal"));
       else if (a === "salvar-tags") salvarMarcacao();
       else if (a === "mencionar") mencionar(b.getAttribute("data-id"));
     });
@@ -233,7 +239,7 @@
       '<h2 id="viewer-title" class="viewer-title">' + esc(foto.titulo) + "</h2>" +
       '<p class="viewer-desc">' + esc(foto.descricao) + "</p>" +
       '<dl class="kv" style="grid-template-columns:auto 1fr;margin:16px 0"><dt>Câmera</dt><dd style="text-align:left" class="mono">' + esc(foto.exif) + '</dd><dt>Local</dt><dd style="text-align:left">' + esc(foto.local) + '</dd><dt>Publicada</dt><dd style="text-align:left">' + esc(foto.data) + "</dd></dl>" +
-      '<div class="cluster"><button class="btn btn-secondary btn-sm" type="button" aria-pressed="false" data-toggle data-on="Curtida registrada">' + I("heart", "i-sm") + " " + foto.curtidas + '</button><button class="btn btn-secondary btn-sm" type="button" aria-pressed="false" data-toggle data-on="Salva em Coleções">' + I("bookmark", "i-sm") + " Salvar</button></div>" +
+      '<div class="cluster"><button class="btn btn-secondary btn-sm" type="button" aria-pressed="false" data-toggle data-on="Curtida registrada">' + I("heart", "i-sm") + " " + foto.curtidas + '</button><button class="btn btn-secondary btn-sm" type="button" aria-pressed="false" data-toggle data-on="Salva em Coleções">' + I("bookmark", "i-sm") + " Salvar</button>" + '<button class="btn btn-secondary btn-sm" type="button" data-v="compartilhar">Compartilhar</button></div><div data-share hidden></div>' +
       '<div class="viewer-cta"><strong>Quer usar esta foto?</strong><p class="small" style="margin:4px 0 12px">Esta foto não pode ser baixada. Para comprar, licenciar ou contratar um trabalho, fale direto com ' + esc(ph.nome.split(" ")[0]) + '.</p><button class="btn btn-accent btn-block" type="button" data-v="contato">Falar com o fotógrafo</button></div>' +
       (outras.length ? '<h3 class="viewer-more">Mais de ' + esc(ph.nome) + '</h3><div class="viewer-thumbs">' + outras.map(function (f) {
         return '<button type="button" class="viewer-thumb" data-v="abrir" data-id="' + f.id + '" aria-label="Abrir “' + esc(f.titulo) + '”" style="background-image:url(\'' + f.thumb + "'),linear-gradient(160deg," + f.tone2 + "," + f.tone + ')"></button>';
@@ -348,6 +354,47 @@
     img.style.height = Math.round(h) + "px";
   }
   window.addEventListener("resize", ajustar);
+
+
+  /* ================= Compartilhamento com rastreio (UTM) =================
+     A foto nunca é baixada: compartilha-se o link da página da foto. Cada link leva
+     utm_source (canal), utm_medium, utm_campaign, utm_content (foto) e ref (quem compartilhou). */
+  var SITE = "https://365clicks.com.br", EU = "marcosandrade";
+  var CANAIS = [
+    ["whatsapp", "WhatsApp", function (u, t) { return "https://wa.me/?text=" + encodeURIComponent(t + " " + u); }],
+    ["facebook", "Facebook", function (u) { return "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(u); }],
+    ["linkedin", "LinkedIn", function (u) { return "https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(u); }],
+    ["x", "X", function (u, t) { return "https://twitter.com/intent/tweet?url=" + encodeURIComponent(u) + "&text=" + encodeURIComponent(t); }]
+  ];
+  function linkUTM(foto, canal, medio) {
+    return SITE + "/foto/" + foto.id + "?utm_source=" + canal + "&utm_medium=" + (medio || "social") + "&utm_campaign=compartilhar_foto&utm_content=" + foto.id + "&ref=" + EU;
+  }
+  function abrirShare() {
+    var box = V.querySelector("[data-share]");
+    if (!box.hidden) { box.hidden = true; return; }
+    var ph = F.fotografo(atual.fotografo), texto = "“" + atual.titulo + "”, de " + ph.nome + ", no 365 Clicks";
+    box.innerHTML = '<div class="share-box"><span class="small">Compartilhe o link da foto. Ela continua protegida: quem abrir vê no 365 Clicks.</span><div class="cluster">' +
+      CANAIS.map(function (c) { return '<a class="btn btn-secondary btn-sm" target="_blank" rel="noopener" data-canal="' + c[0] + '" href="' + esc(c[2](linkUTM(atual, c[0]), texto)) + '">' + c[1] + "</a>"; }).join("") +
+      '<button class="btn btn-secondary btn-sm" type="button" data-v="copiar" data-canal="instagram">Copiar para Instagram</button><button class="btn btn-secondary btn-sm" type="button" data-v="copiar" data-canal="link">Copiar link</button><button class="btn btn-secondary btn-sm" type="button" data-v="copiar" data-canal="site">Incorporar no site</button></div>' +
+      '<code class="share-url" data-share-url>' + esc(linkUTM(atual, "link", "direto")) + "</code></div>";
+    box.hidden = false;
+  }
+  function copiar(canal) {
+    var ph = F.fotografo(atual.fotografo), u = linkUTM(atual, canal, canal === "site" ? "embed" : canal === "link" ? "direto" : "social");
+    var txt = canal === "site"
+      ? '<a href="' + u + '" target="_blank" rel="noopener">“' + atual.titulo + "”, de " + ph.nome + " · veja no 365 Clicks</a>"
+      : canal === "instagram" ? "“" + atual.titulo + "”, de @" + ph.id + ". Veja a foto no 365 Clicks: " + u : u;
+    V.querySelector("[data-share-url]").textContent = txt;
+    var ok = function () { C.toast(canal === "site" ? "Código para o site copiado" : canal === "instagram" ? "Texto copiado: cole na legenda ou nos stories" : "Link copiado"); };
+    try { navigator.clipboard.writeText(txt).then(ok, selecionar); } catch (e) { selecionar(); }
+    registrarShare(canal);
+  }
+  function selecionar() { var el = V.querySelector("[data-share-url]"), r = document.createRange(); r.selectNodeContents(el); var sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); C.toast("Link selecionado. Copie com Ctrl+C"); }
+  function registrarShare(canal) {
+    Track.registrar("share", atual);
+    try { var l = JSON.parse(localStorage.getItem("c365-shares") || "[]"); l.push({ foto: atual.id, fotografo: atual.fotografo, canal: canal, por: EU, em: Date.now() }); localStorage.setItem("c365-shares", JSON.stringify(l.slice(-1000))); } catch (e) {}
+  }
+  document.addEventListener("click", function (e) { var a = e.target.closest("a[data-canal]"); if (a && V && V.contains(a)) { registrarShare(a.getAttribute("data-canal")); C.toast("Compartilhamento registrado · " + a.textContent); } });
 
   function mostrarInfo() {
     V.querySelector('[data-panel="info"]').hidden = false;

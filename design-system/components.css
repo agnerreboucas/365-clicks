@@ -673,3 +673,5 @@ body.is-shielded .card img, body.is-shielded .viewer-img, body.is-shielded .feed
 .promo-close { flex: none; width: 28px; height: 28px; display: grid; place-items: center; border: 0; border-radius: var(--r-sm); background: transparent; color: var(--ink-inverse); cursor: pointer; opacity: .7; }
 .promo-close:hover { opacity: 1; }
 @media (max-width: 640px) { .promo-item { justify-content: flex-start; } .promo-tag { display: none; } }
+.share-box { display: grid; gap: var(--sp-3); margin-top: var(--sp-3); padding: var(--sp-4); border-radius: var(--r-md); background: var(--surface-2); }
+.share-url { display: block; font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--ink-2); word-break: break-all; -webkit-user-select: all; user-select: all; }

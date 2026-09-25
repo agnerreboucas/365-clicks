@@ -113,7 +113,34 @@
     return out;
   }
 
+  /* ---------- Ordem "Em alta" ----------
+     pontos = curtidas + 2×comentários + 3×compartilhamentos + 5×contatos + 0,1×visualizações
+     peso de recência = 1 / (horas desde a publicação + 2)^1,2
+     bônus de frequência = 1 + 0,05 × publicações do autor nos últimos 7 dias (máx. 7)
+     em alta = pontos × peso de recência × bônus de frequência */
+  var POSTS_7D = { analima: 7, rafaborges: 4, juliasantos: 6, pedrocosta: 3, marinafaria: 5, marcosandrade: 2 };
+  function horasDesde(data) { var p = data.split("/"); return Math.max(1, (Date.now() - new Date(+p[2], +p[1] - 1, +p[0], 12).getTime()) / 36e5); }
+  lista.forEach(function (f, k) {
+    f.comentarios = 2 + (f.curtidas * 7) % 23;
+    f.compartilhamentos = 1 + (f.curtidas * 13 + k * 5) % 41;
+    f.visualizacoes = f.curtidas * 9 + (k * 37) % 400;
+    f.contatos = (f.curtidas + k) % 6;
+    f.curtidasHoje = (f.curtidas * 3 + k * 11) % 48;
+    f.compartilhamentosSemana = (f.compartilhamentos * 2 + k) % 57;
+  });
+  function emAlta(f) {
+    var pontos = f.curtidas + 2 * f.comentarios + 3 * f.compartilhamentos + 5 * f.contatos + 0.1 * f.visualizacoes;
+    var recencia = 1 / Math.pow(horasDesde(f.data) + 2, 1.2);
+    var freq = 1 + 0.05 * Math.min(7, POSTS_7D[f.fotografo] || 0);
+    return pontos * recencia * freq * 1000;
+  }
+  function ordenar(modo) {
+    var chave = { alta: emAlta, recentes: function (f) { return -horasDesde(f.data); }, curtidas: function (f) { return f.curtidas; }, compartilhadas: function (f) { return f.compartilhamentos; } }[modo] || emAlta;
+    return lista.slice().sort(function (a, b) { return chave(b) - chave(a); });
+  }
+
   window.Fotos = {
+    ordenar: ordenar, emAlta: emAlta, posts7d: POSTS_7D,
     pessoas: PESSOAS,
     pessoa: function (id) { return PESSOAS.filter(function (p) { return p.id === id; })[0]; },
     comentariosExemplo: comentariosExemplo,
