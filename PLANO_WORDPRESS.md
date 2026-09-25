@@ -5,13 +5,13 @@
 
 ## 1. Diagnóstico das telas
 
-### 1.1 Prontas como protótipo (interativas, conteúdo e regras definidos) — 31
-Home · Explorar · Fotografia · Feed · Meu Perfil · Editar Perfil · Publicar · Seguidores · Criar conta · Desafios 365 · Desafio do Dia · Projetos · Projeto · Eventos · Foto na Paulista · Foto no Parque · Palestra · Inscrição · Meus Ingressos · Termos e contratos · Cursos · Curso · Loja · A foto que eu nunca tirei · Blog · Biblioteca · Radar 365 · Admin Usuários · Admin Eventos · Admin Contatos e métricas · Admin Desafios
+### 1.1 Prontas como protótipo (interativas, conteúdo e regras definidos) — 32
+Home · Explorar · Fotografia · Feed · Meu Perfil · Editar Perfil · Publicar · Seguidores · Criar conta · Desafios 365 · Desafio do Dia · Projetos · Projeto · Eventos · Foto na Paulista · Foto no Parque · Palestra · Inscrição · Meus Ingressos · Termos e contratos · Cursos · Curso · Loja · A foto que eu nunca tirei · Blog · Biblioteca · Radar 365 · Admin Usuários · Admin Eventos · Admin Contatos e métricas · Admin Desafios · Admin Moderação
 
 ### 1.2 Parciais (visual pronto, conteúdo de exemplo) — 4
 Fotografias · Coleções · Inspiração · Portfólio
 
-### 1.3 Com conteúdo genérico (precisam de definição e desenho) — 33
+### 1.3 Com conteúdo genérico (precisam de definição e desenho) — 32
 
 | Módulo | Telas |
 |---|---|
@@ -35,7 +35,7 @@ Fotografias · Coleções · Inspiração · Portfólio
 | Resultados de busca | Fotos, fotógrafos, desafios, temas e artigos |
 | Página de tema / coleção individual | Explorar por tema; abrir uma coleção |
 | Arquivo do Radar e edição individual | Edições anteriores da newsletter |
-| Denunciar conteúdo + Admin Moderação | Direitos autorais, nudez, ofensa, spam |
+| Denunciar foto (o de comentário já existe) | Direito autoral, nudez, ofensa, spam |
 | Admin Biblioteca e Referências | Cadastrar elementos, fotógrafos, livros, filmes |
 | Admin Radar e Linha Editorial | Montar a edição semanal e o calendário de pautas |
 | Admin Loja e Pedidos | Produtos, estoque, pedidos, frete |

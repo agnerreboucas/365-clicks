@@ -89,7 +89,7 @@
       ["admin", "Dashboard", "Visão operacional"],
       ["admin-contatos", "Contatos e métricas", "Visualizações, cliques e contatos"],
       ["admin-usuarios", "Usuários", "Gestão de usuários"],
-      ["admin-fotos", "Fotografias", "Moderação e destaque"],
+      ["admin-fotos", "Moderação", "Denúncias de comentários e fotos"],
       ["admin-desafios", "Desafios", "Criador dos 365 desafios"],
       ["admin-cursos", "Cursos", "Gestão educacional"],
       ["admin-eventos", "Eventos", "Gestão de experiências"],

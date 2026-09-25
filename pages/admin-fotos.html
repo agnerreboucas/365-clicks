@@ -1,8 +1,64 @@
 <!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>365 Clicks — Admin Fotografias</title>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>365 Clicks — Admin Moderação</title>
 <link rel="stylesheet" href="../design-system/tokens.css">
 <link rel="stylesheet" href="../design-system/components.css">
-<script src="../design-system/app.js" defer></script></head><body data-page="admin-fotos">
-<header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
-<main><h1>Admin Fotografias</h1><p>Moderação e destaque</p><div class="row"><div class="panel stat"><span class="small">Usuários</span><div class="metric">12.480</div></div><div class="panel stat"><span class="small">Fotografias</span><div class="metric">84.210</div></div><div class="panel stat"><span class="small">Receita</span><div class="metric">R$ 48.900</div></div></div><h2>Atividade</h2><div class="panel">Tabela operacional, filtros, busca, ações de moderação e relatórios.</div></main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer></body></html>
+<script src="../design-system/app.js" defer></script>
+</head><body data-page="admin-fotos">
+<header data-shell><a class="logo" href="home.html">365·CLICKS</a></header>
+<main>
+<h1>Moderação</h1>
+<p>Denúncias de comentários e fotos. Prazo de resposta: 24 horas.</p>
+<div class="row" style="margin:24px 0" id="kpis"></div>
+<div class="tabs" role="tablist" id="abas"><button role="tab" type="button" aria-selected="true" data-f="aberta">Abertas</button><button role="tab" type="button" aria-selected="false" data-f="resolvida">Resolvidas</button><button role="tab" type="button" aria-selected="false" data-f="">Todas</button></div>
+<div class="stack" id="lista" style="gap:12px"></div>
+</main>
+<footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  "use strict";
+  var C = window.C365, filtro = "aberta";
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  var h = Date.now();
+  var EXEMPLOS = [
+    { tipo: "comentario", fotoTitulo: "Luz de fim de tarde", autorNome: "Thiago Rocha", texto: "Compre seguidores baratos no meu perfil!!!", motivo: "Spam ou propaganda", por: "rafaborges", em: h - 36e5 * 3, status: "aberta", exemplo: true },
+    { tipo: "comentario", fotoTitulo: "Via Láctea sobre a serra", autorNome: "Conta sem foto", texto: "Isso é montagem, você não tirou essa foto.", motivo: "Ofensa, assédio ou discurso de ódio", por: "juliasantos", em: h - 36e5 * 7, status: "aberta", exemplo: true },
+    { tipo: "foto", fotoTitulo: "Casa do lago ao amanhecer", autorNome: "Usuário @paisagens_top", texto: "Foto publicada por outra conta, igual à de Ana Lima.", motivo: "Uso indevido da minha foto ou do meu trabalho", por: "analima", em: h - 36e5 * 26, status: "resolvida", decisao: "Foto removida e conta advertida", exemplo: true }
+  ];
+  function ler() { try { return JSON.parse(localStorage.getItem("c365-denuncias") || "[]"); } catch (e) { return []; } }
+  function gravar(l) { try { localStorage.setItem("c365-denuncias", JSON.stringify(l)); } catch (e) {} }
+  var decisoesEx = {};
+  function todas() { return ler().concat(EXEMPLOS.map(function (d, i) { return Object.assign({}, d, decisoesEx[i] || {}, { _ex: i }); })); }
+  function render() {
+    var l = todas(), abertas = l.filter(function (d) { return d.status === "aberta"; });
+    document.getElementById("kpis").innerHTML =
+      '<div class="panel stat"><span class="small">Abertas</span><div class="metric">' + abertas.length + '</div><span class="small">aguardando decisão</span></div>' +
+      '<div class="panel stat"><span class="small">Mais antiga</span><div class="metric">' + (abertas.length ? Math.round((h - Math.min.apply(null, abertas.map(function (d) { return d.em; }))) / 36e5) + " h" : "—") + '</div><span class="small">meta: até 24 h</span></div>' +
+      '<div class="panel stat"><span class="small">Resolvidas</span><div class="metric">' + l.filter(function (d) { return d.status === "resolvida"; }).length + "</div></div>";
+    var vis = l.filter(function (d) { return !filtro || d.status === filtro; }).sort(function (a, b) { return b.em - a.em; });
+    document.getElementById("lista").innerHTML = vis.map(function (d) {
+      var k = d._ex != null ? "ex" + d._ex : String(d.em);
+      return '<article class="panel stack" style="gap:10px"><div class="cluster" style="justify-content:space-between"><div class="cluster"><span class="badge ' + (d.status === "aberta" ? "badge-warning" : "badge-success") + '">' + (d.status === "aberta" ? "Aberta" : "Resolvida") + '</span><span class="badge plain">' + (d.tipo === "foto" ? "Foto" : "Comentário") + '</span><strong>' + esc(d.motivo) + '</strong>' + (d.exemplo ? ' <span class="badge plain">exemplo</span>' : "") + '</div><span class="small muted">' + new Date(d.em).toLocaleString("pt-BR") + "</span></div>" +
+        '<blockquote style="margin:0;padding:10px 14px;border-left:3px solid var(--c-line-strong);background:var(--c-surface-2);border-radius:var(--r-sm)">' + esc(d.texto) + "</blockquote>" +
+        '<span class="small">Autor: <strong>' + esc(d.autorNome) + "</strong> · na foto “" + esc(d.fotoTitulo) + "” · denunciado por @" + esc(d.por) + (d.bloqueou ? " (que também bloqueou o autor)" : "") + (d.detalhes ? " · “" + esc(d.detalhes) + "”" : "") + "</span>" +
+        (d.status === "aberta" ? '<div class="cluster"><button class="btn btn-sm btn-secondary" type="button" data-dec="Denúncia rejeitada: comentário mantido" data-k="' + k + '">Manter</button><button class="btn btn-sm btn-secondary" type="button" data-dec="Comentário removido" data-k="' + k + '">Remover</button><button class="btn btn-sm btn-secondary" type="button" data-dec="Removido e autor advertido" data-k="' + k + '">Remover e advertir</button><button class="btn btn-sm btn-danger" type="button" data-dec="Removido e conta suspensa por 7 dias" data-k="' + k + '">Suspender autor</button></div>' : '<span class="small">Decisão: <strong>' + esc(d.decisao || "") + "</strong></span>") +
+        "</article>";
+    }).join("") || '<div class="empty"><div class="frame"></div><h3>Nenhuma denúncia aqui</h3><p>Denúncias feitas nos comentários das fotos aparecem nesta fila.</p></div>';
+  }
+  document.getElementById("lista").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-dec]"); if (!b) return;
+    var k = b.getAttribute("data-k"), dec = b.getAttribute("data-dec");
+    if (k.indexOf("ex") === 0) decisoesEx[+k.slice(2)] = { status: "resolvida", decisao: dec };
+    else { var l = ler(); l.forEach(function (d) { if (String(d.em) === k) { d.status = "resolvida"; d.decisao = dec; } }); gravar(l); }
+    render(); C.toast(dec + ". O autor e quem denunciou recebem um e-mail.");
+  });
+  document.getElementById("abas").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-f]"); if (!b) return;
+    filtro = b.getAttribute("data-f");
+    this.querySelectorAll("[data-f]").forEach(function (x) { x.setAttribute("aria-selected", String(x === b)); });
+    render();
+  });
+  render();
+});
+</script>
+</body></html>

@@ -64,6 +64,8 @@
       <label class="switch"><input type="checkbox" id="p-mostracidade" name="mostracidade" checked> Mostrar minha cidade</label>
       <label class="switch"><input type="checkbox" id="p-exif" name="exif" checked> Mostrar os dados da câmera (EXIF) nas minhas fotos</label>
       <label class="switch"><input type="checkbox" id="p-gps" name="gps"> Mostrar o local exato (GPS) das fotos</label>
+      <label class="switch"><input type="checkbox" id="p-aprovar" name="aprovar" checked> Aprovar comentários antes de aparecerem nas minhas fotos</label>
+      <div class="field" style="max-width:360px"><label class="label" for="p-comentar">Quem pode comentar nas minhas fotos</label><select class="select" id="p-comentar" name="comentar"><option>Todos</option><option>Quem eu sigo</option><option>Ninguém</option></select></div>
       <div class="field" style="max-width:360px"><label class="label" for="p-marcar">Quem pode me marcar em fotos</label><select class="select" id="p-marcar" name="marcar"><option>Todos</option><option>Quem eu sigo</option><option>Ninguém</option></select></div>
       <a class="small" href="configuracoes.html">E-mails e notificações ficam em Configurações →</a>
     </div>
@@ -84,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var C = window.C365, $ = function (s) { return document.querySelector(s); }, f = $("#perfil");
   var ESP = ["Rua", "Retrato", "Natureza", "Paisagem", "Arquitetura", "Noturna", "Macro", "Documental", "Viagem", "Preto e branco", "Esporte", "Casamento", "Produto", "Celular"];
   var SERV = ["Venda de fotos", "Licença para uso comercial", "Ensaios", "Eventos", "Produto e publicidade", "Cobertura jornalística", "Aulas e workshops"];
-  var PADRAO = { nome: "Marcos Andrade", user: "marcosandrade", cidade: "São Paulo", uf: "SP", bio: "Aprendendo a ver um dia de cada vez. Rua e arquitetura.", sobre: "", perfil: "Fotógrafo amador", ano: "1", camera: "Fujifilm X-T4", lentes: "", aceita: true, whats: "", email: "", insta: "", site: "", linkedin: "", publico: true, mostracidade: true, exif: true, gps: false, marcar: "Todos", esp: ["Rua", "Arquitetura"], serv: ["Venda de fotos"], avatar: "", capa: "" };
+  var PADRAO = { nome: "Marcos Andrade", user: "marcosandrade", cidade: "São Paulo", uf: "SP", bio: "Aprendendo a ver um dia de cada vez. Rua e arquitetura.", sobre: "", perfil: "Fotógrafo amador", ano: "1", camera: "Fujifilm X-T4", lentes: "", aceita: true, whats: "", email: "", insta: "", site: "", linkedin: "", publico: true, mostracidade: true, exif: true, gps: false, aprovar: true, comentar: "Todos", marcar: "Todos", esp: ["Rua", "Arquitetura"], serv: ["Venda de fotos"], avatar: "", capa: "" };
   var p; try { p = Object.assign({}, PADRAO, JSON.parse(localStorage.getItem("c365-perfil") || "{}")); } catch (e) { p = Object.assign({}, PADRAO); }
   function chips(host, lista, sel, max) {
     host.innerHTML = lista.map(function (x) { return '<button class="chip" type="button" aria-pressed="' + (sel.indexOf(x) > -1) + '" data-v="' + x + '">' + x + "</button>"; }).join("");

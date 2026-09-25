@@ -226,8 +226,9 @@
       else if (a === "copiar") copiar(b.getAttribute("data-canal"));
       else if (a === "salvar-tags") salvarMarcacao();
       else if (a === "mencionar") mencionar(b.getAttribute("data-id"));
+      else if (a.indexOf("com-") === 0) acaoComentario(a, b.getAttribute("data-id"));
     });
-    V.addEventListener("submit", function (e) { if (!comentar(e)) enviarContato(e); });
+    V.addEventListener("submit", function (e) { if (!enviarDenuncia(e) && !comentar(e)) enviarContato(e); });
   }
 
   function abrir(foto, lista, origem) {
@@ -288,17 +289,95 @@
     C.toast((nomes.length === 1 ? nomes[0] + " recebeu" : nomes.join(", ") + " receberam") + " um e-mail: " + acao);
   }
 
+  /* ---------- Comentários com moderação ----------
+     Quem escreveu: edita (fica marcado "editado") e exclui.
+     Quem recebeu (dono da foto): aprova ou recusa antes de aparecer, oculta e denuncia quem comentou.
+     Qualquer pessoa pode denunciar um comentário. As denúncias vão para Admin → Moderação. */
+  var EU_ID = "marcosandrade";
+  function aprovaAntes() { try { var pf = JSON.parse(localStorage.getItem("c365-perfil") || "null"); return !pf || pf.aprovar !== false; } catch (e) { return true; } }
+  function comentarios(foto) {
+    var dono = foto.fotografo === EU_ID, mod = lerJSON("c365-com-mod-" + foto.id, {});
+    var ex = F.comentariosExemplo(foto).map(function (c, i) {
+      return Object.assign({ id: "ex-" + i, status: dono && aprovaAntes() && i === 0 ? "pendente" : "aprovado" }, c);
+    });
+    return ex.concat(lerJSON("c365-com-" + foto.id, [])).map(function (c) { return Object.assign({}, c, mod[c.id] || {}); })
+      .filter(function (c) { return c.status !== "excluido" && c.status !== "recusado"; });
+  }
+  function salvarMod(foto, id, dados) {
+    var mod = lerJSON("c365-com-mod-" + foto.id, {});
+    mod[id] = Object.assign(mod[id] || {}, dados);
+    gravarJSON("c365-com-mod-" + foto.id, mod);
+  }
+  function acoesComentario(c, dono) {
+    var b = function (acao, rotulo) { return '<button type="button" class="btn btn-ghost btn-sm" data-v="' + acao + '" data-id="' + c.id + '">' + rotulo + "</button>"; };
+    var out = [];
+    if (c.autor === "voce") out.push(b("com-editar", "Editar"), b("com-excluir", "Excluir"));
+    if (dono && c.autor !== "voce") {
+      if (c.status === "pendente") out.push(b("com-aprovar", "Aprovar"), b("com-recusar", "Recusar"));
+      else if (c.status === "oculto") out.push(b("com-aprovar", "Mostrar de novo"));
+      else out.push(b("com-ocultar", "Ocultar"));
+    }
+    if (c.autor !== "voce") out.push(b("com-denunciar", "Denunciar"));
+    return '<div class="comment-actions">' + out.join("") + "</div>";
+  }
   function renderSocial(foto) {
     var tags = lerJSON("c365-tags-" + foto.id, []);
     V.querySelector("[data-tags]").innerHTML = tags.length
       ? tags.map(function (id) { var p = F.pessoa(id); return '<span class="chip" style="cursor:default"><span class="avatar avatar-sm" style="--size:22px;--av:' + p.av + '">' + F.iniciais(p.nome) + "</span>@" + id + "</span>"; }).join("")
       : '<span class="small">Ninguém marcado ainda. Marque um fotógrafo para mostrar esta foto a ele.</span>';
-    var coms = F.comentariosExemplo(foto).concat(lerJSON("c365-com-" + foto.id, []));
-    V.querySelector("[data-ncom]").textContent = coms.length;
-    V.querySelector("[data-comments]").innerHTML = coms.map(function (c) {
-      var p = F.pessoa(c.autor) || { nome: "Você", av: "var(--accent-soft)" };
-      return '<div class="comment"><span class="avatar avatar-sm" style="--av:' + p.av + '">' + F.iniciais(p.nome) + '</span><div><strong>' + esc(p.nome) + '</strong> <span class="small">· ' + esc(c.quando) + "</span><div>" + realcar(c.texto) + "</div></div></div>";
-    }).join("");
+    var dono = foto.fotografo === EU_ID;
+    var coms = comentarios(foto).filter(function (c) { return dono || c.autor === "voce" || c.status === "aprovado"; });
+    var pend = coms.filter(function (c) { return c.status === "pendente"; }).length;
+    V.querySelector("[data-ncom]").textContent = coms.filter(function (c) { return c.status === "aprovado"; }).length + (dono && pend ? " · " + pend + " para aprovar" : "");
+    V.querySelector("[data-comments]").innerHTML = (dono ? '<p class="small muted" style="margin:0">Esta foto é sua. ' + (aprovaAntes() ? "Comentários novos só aparecem depois que você aprovar." : "Comentários aparecem na hora.") + ' <a href="editar-perfil.html#s-privacidade">Mudar</a></p>' : "") +
+      coms.map(function (c) {
+        var p = F.pessoa(c.autor) || { nome: "Você", av: "var(--accent-soft)" };
+        var selo = c.status === "pendente" ? '<span class="badge badge-warning plain">' + (c.autor === "voce" ? "Aguardando aprovação" : "Para aprovar") + "</span>" : c.status === "oculto" ? '<span class="badge plain">Oculto</span>' : "";
+        return '<div class="comment' + (c.status !== "aprovado" ? " is-muted" : "") + '" data-cid="' + c.id + '"><span class="avatar avatar-sm" style="--av:' + p.av + '">' + F.iniciais(p.nome) + '</span><div class="comment-body"><div><strong>' + esc(p.nome) + '</strong> <span class="small">· ' + esc(c.quando) + (c.editado ? " · editado" : "") + "</span> " + selo + '</div><div class="comment-text">' + realcar(c.texto) + "</div>" + acoesComentario(c, dono) + '<div class="comment-extra"></div></div></div>';
+      }).join("");
+  }
+  function acharComentario(id) { return comentarios(atual).filter(function (c) { return c.id === id; })[0]; }
+  function acaoComentario(acao, id) {
+    var c = acharComentario(id); if (!c) return;
+    var box = V.querySelector('[data-cid="' + id + '"] .comment-extra');
+    if (acao === "com-editar") {
+      box.innerHTML = '<label class="sr-only" for="ed-' + id + '">Editar comentário</label><textarea class="textarea" id="ed-' + id + '" rows="2">' + esc(c.texto) + '</textarea><div class="cluster" style="margin-top:6px"><button class="btn btn-sm" type="button" data-v="com-salvar" data-id="' + id + '">Salvar</button><button class="btn btn-ghost btn-sm" type="button" data-v="com-cancelar" data-id="' + id + '">Cancelar</button></div>';
+      box.querySelector("textarea").focus();
+    } else if (acao === "com-salvar") {
+      var t = box.querySelector("textarea").value.trim();
+      if (!t) { C.toast("O comentário não pode ficar vazio. Use Excluir."); return; }
+      var lista = lerJSON("c365-com-" + atual.id, []);
+      lista.forEach(function (x) { if (x.id === id) { x.texto = t.slice(0, 600); x.editado = true; } });
+      gravarJSON("c365-com-" + atual.id, lista);
+      renderSocial(atual); C.toast("Comentário editado");
+    } else if (acao === "com-cancelar") { box.innerHTML = ""; }
+    else if (acao === "com-excluir") {
+      box.innerHTML = '<div class="notice warning"><span>Excluir este comentário? <button class="btn btn-sm btn-danger" type="button" data-v="com-excluir-ok" data-id="' + id + '">Excluir</button> <button class="btn btn-ghost btn-sm" type="button" data-v="com-cancelar" data-id="' + id + '">Manter</button></span></div>';
+    } else if (acao === "com-excluir-ok") {
+      gravarJSON("c365-com-" + atual.id, lerJSON("c365-com-" + atual.id, []).filter(function (x) { return x.id !== id; }));
+      renderSocial(atual); C.toast("Comentário excluído");
+    } else if (acao === "com-aprovar") { salvarMod(atual, id, { status: "aprovado" }); renderSocial(atual); C.toast("Comentário aprovado. " + (F.pessoa(c.autor) || {}).nome + " recebeu um e-mail."); }
+    else if (acao === "com-recusar") { salvarMod(atual, id, { status: "recusado" }); renderSocial(atual); C.toast("Comentário recusado. Ele não aparece para ninguém."); }
+    else if (acao === "com-ocultar") { salvarMod(atual, id, { status: "oculto" }); renderSocial(atual); C.toast("Comentário oculto. Só você ainda o vê."); }
+    else if (acao === "com-denunciar") {
+      box.innerHTML = '<form class="report" data-denuncia="' + id + '"><label class="label" for="dn-' + id + '">Por que você está denunciando?</label><select class="select" id="dn-' + id + '"><option>Ofensa, assédio ou discurso de ódio</option><option>Spam ou propaganda</option><option>Conteúdo impróprio</option><option>Uso indevido da minha foto ou do meu trabalho</option><option>Outro motivo</option></select>' +
+        '<label class="sr-only" for="dd-' + id + '">Detalhes</label><textarea class="textarea" id="dd-' + id + '" rows="2" placeholder="Detalhes (opcional)"></textarea>' +
+        '<label class="check"><input type="checkbox" id="db-' + id + '"> Bloquear ' + esc((F.pessoa(c.autor) || { nome: "esta pessoa" }).nome) + " (não poderá mais comentar nas suas fotos)</label>" +
+        '<div class="cluster"><button class="btn btn-sm btn-danger" type="submit">Enviar denúncia</button><button class="btn btn-ghost btn-sm" type="button" data-v="com-cancelar" data-id="' + id + '">Cancelar</button></div></form>';
+    }
+  }
+  function enviarDenuncia(e) {
+    var f = e.target.closest("[data-denuncia]"); if (!f) return false;
+    e.preventDefault();
+    var id = f.getAttribute("data-denuncia"), c = acharComentario(id), autor = F.pessoa(c.autor) || { id: c.autor, nome: c.autor };
+    var lista = lerJSON("c365-denuncias", []);
+    lista.unshift({ tipo: "comentario", foto: atual.id, fotoTitulo: atual.titulo, fotografo: atual.fotografo, comentario: id, autor: autor.id, autorNome: autor.nome, texto: c.texto,
+      motivo: f.querySelector("select").value, detalhes: f.querySelector("textarea").value.trim().slice(0, 500), bloqueou: f.querySelector("input[type=checkbox]").checked, por: EU_ID, em: Date.now(), status: "aberta" });
+    gravarJSON("c365-denuncias", lista.slice(0, 200));
+    if (atual.fotografo === EU_ID) salvarMod(atual, id, { status: "oculto" });
+    renderSocial(atual);
+    C.toast("Denúncia enviada para a moderação" + (atual.fotografo === EU_ID ? " e comentário ocultado" : "") + ". Resposta em até 24 h.");
+    return true;
   }
 
   function abrirMarcacao() {
@@ -352,13 +431,14 @@
     var t = V.querySelector("#cm-texto"), texto = t.value.trim();
     if (!texto) { t.focus(); return true; }
     var lista = lerJSON("c365-com-" + atual.id, []);
-    lista.push({ autor: "voce", texto: texto.slice(0, 600), quando: "agora" });
+    var precisa = atual.fotografo !== EU_ID && atual.fotografo === "rafaborges"; /* exemplo: Rafael aprova comentários antes */
+    lista.push({ id: "c" + Date.now(), autor: "voce", texto: texto.slice(0, 600), quando: "agora", status: precisa ? "pendente" : "aprovado" });
     gravarJSON("c365-com-" + atual.id, lista);
     t.value = "";
     renderSocial(atual);
     var citados = (texto.match(/@([a-z0-9_.]+)/gi) || []).map(function (x) { return x.slice(1).toLowerCase(); });
     var ph = F.fotografo(atual.fotografo);
-    C.toast(ph.nome.split(" ")[0] + " recebeu um e-mail com seu comentário");
+    C.toast(atual.fotografo === EU_ID ? "Comentário publicado" : ph.nome.split(" ")[0] + (precisa ? " vai aprovar seu comentário antes de ele aparecer" : " recebeu um e-mail com seu comentário"));
     if (citados.length) setTimeout(function () { notificar(citados.filter(function (c) { return c !== ph.id; }), "você foi citado num comentário"); }, 900);
     return true;
   }

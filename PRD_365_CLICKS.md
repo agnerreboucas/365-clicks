@@ -214,6 +214,14 @@ Rolagem horizontal infinita com as fotos de quem a pessoa segue. Enquanto a comu
 - Citação: `@usuario` no comentário, com sugestão automática de nomes.
 - Marcação: “Marcar fotógrafo” para mostrar a foto a outra pessoa (a própria ou a de outro autor).
 - Quem é citado ou marcado recebe e-mail.
+- **Quem escreveu** pode editar (o comentário fica marcado como “editado”) e excluir o próprio comentário.
+- **Quem recebeu** (dono da foto) pode:
+  - aprovar ou recusar antes de o comentário aparecer (opção “Aprovar comentários antes de aparecerem”, ligada por padrão em Editar perfil → Privacidade);
+  - ocultar um comentário já publicado;
+  - denunciar quem comentou, com a opção de bloquear a pessoa. A denúncia oculta o comentário na hora.
+- O dono também escolhe quem pode comentar: todos, quem ele segue ou ninguém.
+- **Qualquer pessoa** pode denunciar um comentário: ofensa ou assédio, spam, conteúdo impróprio, uso indevido de foto ou outro motivo.
+- As denúncias vão para **Admin → Moderação**, com prazo de 24 horas. As decisões possíveis são manter, remover, remover e advertir, ou suspender o autor. Quem denunciou e quem foi denunciado recebem e-mail com a decisão.
 
 ### 11.3 Notificações por e-mail
 Todas as ações relevantes geram e-mail: curtida, comentário, citação, marcação, novo seguidor, contato de interessado, resposta da curadoria, inscrição, pagamento e desafio do dia. A pessoa escolhe a frequência em Configurações (imediato, resumo diário ou desligado, por tipo).

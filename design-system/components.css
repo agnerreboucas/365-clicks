@@ -728,3 +728,11 @@ body.is-shielded .card img, body.is-shielded .viewer-img, body.is-shielded .feed
 .infinite-head { display: flex; flex-direction: column; gap: 2px; margin-bottom: var(--sp-4); padding-top: var(--sp-4); border-top: 1px solid var(--c-line); }
 .infinite-head h3 { margin: 0; }
 .infinite-sentinel { height: 1px; }
+.comment-body { flex: 1; min-width: 0; }
+.comment.is-muted .comment-text { color: var(--c-muted); }
+.comment-actions { display: flex; flex-wrap: wrap; gap: 2px; margin: 2px 0 0 -12px; }
+.comment-actions .btn-sm { min-height: 28px; padding: 0 10px; font-size: var(--fs-12); color: var(--c-muted); }
+.comment-actions .btn-sm:hover { color: var(--c-ink); }
+.comment-extra:empty { display: none; }
+.comment-extra { margin-top: 6px; }
+.report { display: grid; gap: 8px; padding: var(--sp-3); border-radius: var(--r-md); background: var(--c-surface-2); }
