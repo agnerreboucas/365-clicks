@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>365 Clicks Design System</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<script src="app.js" defer></script>
+<style>
+.sg { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: var(--sp-8); }
+.sg-toc { position: sticky; top: calc(var(--header-h) + 24px); align-self: start; display: flex; flex-direction: column; gap: 2px; font-size: var(--fs-sm); }
+.sg-toc .eyebrow { margin: var(--sp-4) 0 var(--sp-1); }
+.sg-toc a { color: var(--ink-2); text-decoration: none; padding: 4px 0; }
+.sg-toc a:hover { color: var(--ink); }
+.sg section { scroll-margin-top: calc(var(--header-h) + 16px); padding-bottom: var(--sp-8); border-bottom: 1px solid var(--line); margin-bottom: var(--sp-8); }
+.sg section:last-child { border-bottom: 0; }
+.sg section > h2 { margin-top: 0; }
+.sg-intro { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: var(--sp-7); align-items: end; margin-bottom: var(--sp-8); }
+.sg-intro h1 { font-size: var(--fs-5xl); max-width: 12ch; }
+.sg-intro .facts { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3); }
+.demo { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: var(--sp-6); display: flex; flex-direction: column; gap: var(--sp-5); }
+.demo + .demo { margin-top: var(--sp-4); }
+.demo-label { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--ink-3); }
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--sp-4); }
+.swatch { display: grid; gap: 2px; font-size: var(--fs-sm); }
+.swatch span { height: 64px; border-radius: var(--r-md); border: 1px solid var(--line); margin-bottom: var(--sp-2); }
+.swatch code { font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--ink-2); }
+.swatch small { color: var(--ink-3); font-size: var(--fs-xs); }
+.type-row { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: var(--sp-4); align-items: baseline; padding: var(--sp-3) 0; border-bottom: 1px solid var(--line); }
+.type-row:last-child { border-bottom: 0; }
+.type-row .demo-label { line-height: 1.4; }
+.space-row { display: flex; align-items: center; gap: var(--sp-4); font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--ink-3); }
+.space-row i { display: block; height: 14px; background: var(--accent); border-radius: 2px; }
+.radius-row { display: flex; flex-wrap: wrap; gap: var(--sp-4); }
+.radius-row div { width: 84px; height: 64px; background: var(--surface-2); border: 1px solid var(--line-strong); display: grid; place-items: end start; padding: 6px 8px; font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--ink-3); }
+.fake-phone { width: 300px; max-width: 100%; border: 1px solid var(--line-strong); border-radius: 28px; overflow: hidden; background: var(--bg); position: relative; height: 150px; }
+.fake-phone .tabbar { display: grid; position: absolute; grid-template-columns: repeat(5, 1fr); height: var(--tabbar-h); bottom: 0; left: 0; right: 0; background: var(--surface); border-top: 1px solid var(--line); }
+.fake-phone .tabbar a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; text-decoration: none; color: var(--ink-3); font-size: 11px; }
+.fake-phone .tabbar a[aria-current="page"] { color: var(--ink); font-weight: 700; }
+.fake-phone .tabbar a.shoot .i { width: 44px; height: 32px; padding: 6px 12px; border-radius: var(--r-pill); background: var(--accent); color: var(--on-accent); }
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: var(--sp-4); }
+.rules .panel h3 { margin-top: 0; font-size: var(--fs-lg); }
+.rules .panel p { margin: 0; font-size: var(--fs-sm); }
+@media (max-width: 960px) {
+  .sg { grid-template-columns: 1fr; }
+  .sg-toc { position: static; flex-direction: row; flex-wrap: wrap; gap: 4px 14px; }
+  .sg-toc .eyebrow { width: 100%; margin: 0; }
+  .sg-intro { grid-template-columns: 1fr; }
+}
+</style></head><body data-page="design-system">
+<header data-shell><a class="logo" href="../pages/home.html">365 Clicks</a></header>
+<main>
+<div class="sg-intro">
+  <div>
+    <div class="eyebrow">Design System · v1.0 · setembro de 2026</div>
+    <h1>A fotografia vem primeiro.</h1>
+    <p>Tokens, componentes e padrões que montam as 58 telas do 365 Clicks. A interface fica neutra e silenciosa para que as fotos levem a cor. O âmbar da golden hour aparece só onde está o hábito diário: o dia, a sequência e o progresso.</p>
+    <div class="cluster"><a class="btn" href="../index.html">Abrir o protótipo (58 telas)</a><a class="btn btn-secondary" href="../pages/home.html">Ver a Home</a></div>
+  </div>
+  <div class="facts">
+    <div class="panel stat"><span class="small">Telas</span><div class="metric">58</div></div>
+    <div class="panel stat"><span class="small">Módulos</span><div class="metric">9</div></div>
+    <div class="panel stat"><span class="small">Tokens de cor</span><div class="metric">23</div></div>
+    <div class="panel stat"><span class="small">Temas</span><div class="metric">2</div></div>
+  </div>
+</div>
+
+<div class="sg">
+<nav class="sg-toc" aria-label="Seções do design system">
+  <span class="eyebrow">Fundamentos</span>
+  <a href="#principios">Princípios</a><a href="#cor">Cor</a><a href="#tipografia">Tipografia</a><a href="#espaco">Espaço e raio</a>
+  <span class="eyebrow">Componentes</span>
+  <a href="#botoes">Botões</a><a href="#formularios">Formulários</a><a href="#rotulos">Chips e badges</a><a href="#avatares">Avatares</a><a href="#fotos">Foto e Masonry</a><a href="#desafio">365 Challenge</a><a href="#dados">Métricas e tabela</a><a href="#listas">Listas e abas</a><a href="#vazio">Estado vazio</a><a href="#modal">Modal e toast</a>
+  <span class="eyebrow">Padrões</span>
+  <a href="#navegacao">Navegação</a><a href="#uso">Como usar</a>
+</nav>
+
+<div>
+<section id="principios">
+  <h2>Princípios</h2>
+  <div class="rules">
+    <div class="panel"><h3>Foto sem moldura</h3><p>A fotografia não ganha borda, sombra nem fundo de card. A legenda fica abaixo, em texto pequeno.</p></div>
+    <div class="panel"><h3>Uma cor com função</h3><p>O âmbar marca apenas o 365 Challenge. Se tudo fica âmbar, o dia de hoje perde o destaque.</p></div>
+    <div class="panel"><h3>Dados de fotógrafo</h3><p>EXIF, dia do ano e sequência usam fonte mono com números tabulares, como no visor da câmera.</p></div>
+    <div class="panel"><h3>Mobile primeiro</h3><p>Barra inferior com Publicar no centro, gaveta com o mapa completo e modais que viram folha inferior.</p></div>
+  </div>
+</section>
+
+<section id="cor">
+  <h2>Cor</h2>
+  <p>Neutros levemente quentes, com modo escuro completo. Alterne o tema pelo botão no cabeçalho: todos os tokens abaixo mudam juntos.</p>
+  <div class="swatches"><div class="swatch"><span style="background:var(--bg)"></span><strong>Fundo</strong><code>--bg</code><small>Página</small></div><div class="swatch"><span style="background:var(--surface)"></span><strong>Superfície</strong><code>--surface</code><small>Cards e painéis</small></div><div class="swatch"><span style="background:var(--surface-2)"></span><strong>Superfície 2</strong><code>--surface-2</code><small>Campos e chips</small></div><div class="swatch"><span style="background:var(--ink)"></span><strong>Tinta</strong><code>--ink</code><small>Texto e botão primário</small></div><div class="swatch"><span style="background:var(--ink-2)"></span><strong>Tinta 2</strong><code>--ink-2</code><small>Texto de apoio</small></div><div class="swatch"><span style="background:var(--ink-3)"></span><strong>Tinta 3</strong><code>--ink-3</code><small>Metadados e EXIF</small></div><div class="swatch"><span style="background:var(--line)"></span><strong>Linha</strong><code>--line</code><small>Bordas</small></div><div class="swatch"><span style="background:var(--accent)"></span><strong>Golden hour</strong><code>--accent</code><small>Só no 365 Challenge</small></div><div class="swatch"><span style="background:var(--accent-soft)"></span><strong>Golden hour suave</strong><code>--accent-soft</code><small>Fundos de destaque</small></div><div class="swatch"><span style="background:var(--success)"></span><strong>Sucesso</strong><code>--success</code><small>Ativo, concluído</small></div><div class="swatch"><span style="background:var(--warning)"></span><strong>Atenção</strong><code>--warning</code><small>Moderação</small></div><div class="swatch"><span style="background:var(--danger)"></span><strong>Perigo</strong><code>--danger</code><small>Suspender, excluir</small></div><div class="swatch"><span style="background:var(--info)"></span><strong>Informação</strong><code>--info</code><small>Avisos</small></div></div>
+</section>
+
+<section id="tipografia">
+  <h2>Tipografia</h2>
+  <p>Bricolage Grotesque nos títulos, Schibsted Grotesk no texto da interface e IBM Plex Mono nos dados técnicos.</p>
+  <div class="demo">
+    <div class="type-row"><span class="demo-label">5xl · 60<br>Display 800</span><span style="font-family:var(--font-display);font-weight:800;font-size:var(--fs-5xl);letter-spacing:-.035em;line-height:1">Fotografe hoje.</span></div>
+    <div class="type-row"><span class="demo-label">4xl · 44<br>h1</span><h1 style="margin:0">Desafios 365</h1></div>
+    <div class="type-row"><span class="demo-label">2xl · 24<br>h2</span><h2 style="margin:0">Fotografias da comunidade</h2></div>
+    <div class="type-row"><span class="demo-label">xl · 20<br>h3</span><h3 style="margin:0">Fotografia de rua em São Paulo</h3></div>
+    <div class="type-row"><span class="demo-label">md · 15<br>Corpo</span><p style="margin:0">Fotografe a água de um jeito que você normalmente não observaria.</p></div>
+    <div class="type-row"><span class="demo-label">sm · 13<br>Metadado</span><span class="small">@analima · São Paulo · há 2 h</span></div>
+    <div class="type-row"><span class="demo-label">xs · 12<br>Mono</span><span class="exif">35mm · f/2 · 1/500s · ISO 200</span></div>
+    <div class="type-row"><span class="demo-label">xs · 12<br>Eyebrow</span><span class="eyebrow">365 Challenge</span></div>
+  </div>
+</section>
+
+<section id="espaco">
+  <h2>Espaço e raio</h2>
+  <p>Escala de 4 px. Fotos usam raio médio para não parecerem botões.</p>
+  <div class="demo">
+    <div class="stack" style="gap:8px">
+      <div class="space-row"><i style="width:4px"></i>sp-1 · 4</div><div class="space-row"><i style="width:8px"></i>sp-2 · 8</div><div class="space-row"><i style="width:12px"></i>sp-3 · 12</div><div class="space-row"><i style="width:16px"></i>sp-4 · 16</div><div class="space-row"><i style="width:24px"></i>sp-6 · 24</div><div class="space-row"><i style="width:32px"></i>sp-7 · 32</div><div class="space-row"><i style="width:48px"></i>sp-8 · 48</div><div class="space-row"><i style="width:64px"></i>sp-9 · 64</div><div class="space-row"><i style="width:96px"></i>sp-10 · 96</div>
+    </div>
+    <div class="radius-row"><div style="border-radius:var(--r-sm)">sm · 6</div><div style="border-radius:var(--r-md)">md · 10</div><div style="border-radius:var(--r-lg)">lg · 16</div><div style="border-radius:var(--r-xl)">xl · 22</div><div style="border-radius:var(--r-pill)">pill</div></div>
+  </div>
+</section>
+
+<section id="botoes">
+  <h2>Botões</h2>
+  <div class="demo">
+    <span class="demo-label">.btn · .btn-secondary · .btn-ghost · .btn-accent · .btn-danger</span>
+    <div class="cluster"><button class="btn" type="button" data-toast="Botão primário">Publicar</button><button class="btn btn-secondary" type="button">Salvar rascunho</button><button class="btn btn-ghost" type="button">Cancelar</button><button class="btn btn-accent" type="button" data-toast="Desafio aceito · Dia 127">Aceitar desafio</button><button class="btn btn-danger" type="button">Excluir foto</button></div>
+    <span class="demo-label">Tamanhos, ícone, desativado e alternável (aria-pressed)</span>
+    <div class="cluster"><button class="btn btn-sm" type="button">Pequeno</button><button class="btn" type="button">Médio</button><button class="btn btn-lg" type="button">Grande</button><button class="btn btn-secondary btn-icon" type="button" aria-label="Curtir"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button class="btn" type="button" disabled>Desativado</button><button class="btn btn-secondary" type="button" aria-pressed="false" data-toggle data-on="Agora você segue Ana Lima">Seguir</button></div>
+  </div>
+</section>
+
+<section id="formularios">
+  <h2>Formulários</h2>
+  <div class="demo">
+    <form class="search-field lg" role="search" data-search><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><label class="sr-only" for="sg-q">Pesquisar</label><input class="input" id="sg-q" type="search" placeholder="Pesquise fotografias, fotógrafos, desafios e lugares"></form>
+    <div class="row">
+      <div class="field"><label class="label" for="sg-titulo">Título da foto</label><input class="input" id="sg-titulo" value="Casa do lago ao amanhecer"><span class="hint">Até 80 caracteres.</span></div>
+      <div class="field"><label class="label" for="sg-cat">Categoria</label><select class="select" id="sg-cat"><option>Natureza</option><option>Rua</option><option>Retrato</option></select></div>
+      <div class="field"><label class="label" for="sg-user">Usuário</label><input class="input" id="sg-user" value="ana lima" aria-invalid="true"><span class="hint error">Use só letras minúsculas, números e _.</span></div>
+    </div>
+    <div class="field"><label class="label" for="sg-leg">Legenda</label><textarea class="textarea" id="sg-leg" placeholder="O que você viu nessa cena?"></textarea></div>
+    <div class="cluster" style="gap:24px"><label class="check"><input type="checkbox" id="sg-c1" checked> Adicionar ao portfólio</label><label class="switch"><input type="checkbox" id="sg-s1" checked> Mostrar dados EXIF</label></div>
+  </div>
+</section>
+
+<section id="rotulos">
+  <h2>Chips e badges</h2>
+  <div class="demo">
+    <span class="demo-label">.chips › .chip[aria-pressed] — filtros de um só valor</span>
+    <div class="chips" style="margin:0"><button class="chip" type="button" aria-pressed="true">Destaques</button><button class="chip" type="button" aria-pressed="false">Natureza</button><button class="chip" type="button" aria-pressed="false">Retratos</button><button class="chip" type="button" aria-pressed="false">Rua</button><button class="chip" type="button" aria-pressed="false">P&amp;B</button></div>
+    <span class="demo-label">.badge-* — status · .day — contador do desafio</span>
+    <div class="cluster"><span class="badge badge-success">Ativo</span><span class="badge badge-warning">Em moderação</span><span class="badge badge-danger">Suspenso</span><span class="badge badge-info">Novo</span><span class="badge badge-accent">Destaque do dia</span><span class="badge plain">Rascunho</span><span class="day">DIA <b>127</b>/365</span></div>
+  </div>
+</section>
+
+<section id="avatares">
+  <h2>Avatares</h2>
+  <div class="demo">
+    <div class="cluster" style="gap:16px"><span class="avatar avatar-sm" style="--av:#d9e3f2">AL</span><span class="avatar" style="--av:#f2e1cf">RB</span><span class="avatar avatar-lg" style="--av:#dcefe2">JS</span><span class="avatar avatar-xl" style="--av:var(--accent-soft)">MA</span><div class="avatar-stack"><span class="avatar avatar-sm" style="--av:#d9e3f2">AL</span><span class="avatar avatar-sm" style="--av:#f2e1cf">RB</span><span class="avatar avatar-sm" style="--av:#dcefe2">JS</span><span class="avatar avatar-sm">+9</span></div></div>
+  </div>
+</section>
+
+<section id="fotos">
+  <h2>Foto e grid Masonry</h2>
+  <p>Cada foto declara a proporção (<code class="mono">--ratio</code>) e a cor dominante (<code class="mono">--tone</code>). Assim o espaço fica reservado e a cor aparece antes da imagem carregar. O Masonry distribui as fotos por linha: a mais recente fica sempre no topo à esquerda. Passe o mouse para ver curtir e salvar.</p>
+  <div class="grid"><figure class="card"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&h=1000&q=80" alt="Fotografia de @fotografo_1" loading="lazy" style="--ratio:4/5;--tone:#18233a;--tone2:#4b5f88"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #127</b><span class="small">@fotografo_1 · São Paulo</span><span class="exif">35mm · f/2 · 1/500s · ISO 200</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_2" loading="lazy" style="--ratio:3/2;--tone:#37433a;--tone2:#8b9a84"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #128</b><span class="small">@fotografo_2 · São Paulo</span><span class="exif">50mm · f/1.8 · 1/250s · ISO 400</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=800&h=800&q=80" alt="Fotografia de @fotografo_3" loading="lazy" style="--ratio:1/1;--tone:#4f4336;--tone2:#c09a6c"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #129</b><span class="small">@fotografo_3 · São Paulo</span><span class="exif">24mm · f/8 · 1/125s · ISO 100</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&h=1200&q=80" alt="Fotografia de @fotografo_4" loading="lazy" style="--ratio:2/3;--tone:#26231f;--tone2:#6d6054"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #130</b><span class="small">@fotografo_4 · São Paulo</span><span class="exif">85mm · f/1.4 · 1/1000s · ISO 100</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_5" loading="lazy" style="--ratio:3/2;--tone:#35402f;--tone2:#7f8c6c"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #131</b><span class="small">@fotografo_5 · São Paulo</span><span class="exif">16mm · f/2.8 · 20s · ISO 3200</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=800&h=1000&q=80" alt="Fotografia de @fotografo_6" loading="lazy" style="--ratio:4/5;--tone:#2c464e;--tone2:#a3bab2"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #132</b><span class="small">@fotografo_6 · São Paulo</span><span class="exif">28mm · f/5.6 · 1/320s · ISO 160</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&h=1067&q=80" alt="Fotografia de @fotografo_7" loading="lazy" style="--ratio:3/4;--tone:#304131;--tone2:#a2b298"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #133</b><span class="small">@fotografo_7 · São Paulo</span><span class="exif">35mm · f/4 · 1/60s · ISO 800</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_8" loading="lazy" style="--ratio:3/2;--tone:#382c28;--tone2:#8e7061"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #134</b><span class="small">@fotografo_8 · São Paulo</span><span class="exif">70mm · f/2.8 · 1/400s · ISO 250</span></figcaption></figure></div>
+</section>
+
+<section id="desafio">
+  <h2>365 Challenge</h2>
+  <section class="challenge" style="padding-bottom:24px;border-bottom:1px solid var(--line);margin:0">
+    <div>
+      <span class="day">DIA <b>127</b>/365</span>
+      <div class="theme">Água</div>
+      <div class="technique">Técnica obrigatória: reflexos</div>
+    </div>
+    <div class="stack" style="min-width:220px">
+      <div class="streak"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c-4 0-6.5-2.7-6.5-6.2 0-3.4 2.5-5.3 3.5-8.3 1.6 1.2 2.4 2.7 2.5 4.2 1-1 1.6-2.4 1.6-4.2 3 2.2 5.4 5.3 5.4 8.5 0 3.4-2.5 6-6.5 6z"/></svg> 12 dias seguidos</div>
+      <div class="progress" role="progressbar" aria-label="Progresso no ano" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" style="--value:35%"><span></span></div>
+      <span class="small num">127 de 365 dias · 35%</span>
+    </div>
+  </section>
+  <div class="demo" style="margin-top:16px">
+    <span class="demo-label">.days — ano inteiro · feito · perdido · hoje</span>
+    <div class="days" aria-label="Calendário de 365 dias"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="missed"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="missed"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="missed"></i><i class="missed"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="missed"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="missed"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="today"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  </div>
+</section>
+
+<section id="dados">
+  <h2>Métricas e tabela</h2>
+  <div class="row">
+    <div class="panel stat"><span class="small">Ativos em 30 dias</span><div class="metric">8.912</div><span class="delta up">+6,2%</span></div>
+    <div class="panel stat"><span class="small">Envios hoje</span><div class="metric">1.284</div><span class="delta up">+11%</span></div>
+    <div class="panel stat"><span class="small">Em moderação</span><div class="metric">14</div><span class="delta down">+4 hoje</span></div>
+  </div>
+  <div class="table-wrap" style="margin-top:16px"><table class="table">
+    <thead><tr><th>Fotógrafo</th><th>Plano</th><th>Status</th><th class="r">Clicks</th><th class="r">Sequência</th></tr></thead>
+    <tbody>
+      <tr><td><div class="who"><span class="avatar avatar-sm" style="--av:#d9e3f2">AL</span><strong>Ana Lima</strong></div></td><td>Clube</td><td><span class="badge badge-success">Ativo</span></td><td class="r">312</td><td class="r">48 dias</td></tr>
+      <tr><td><div class="who"><span class="avatar avatar-sm" style="--av:#ece0f2">PC</span><strong>Pedro Costa</strong></div></td><td>Free</td><td><span class="badge badge-warning">Em moderação</span></td><td class="r">41</td><td class="r">0 dias</td></tr>
+      <tr><td><div class="who"><span class="avatar avatar-sm" style="--av:#f2dada">MF</span><strong>Marina Faria</strong></div></td><td>365</td><td><span class="badge badge-danger">Suspenso</span></td><td class="r">88</td><td class="r">0 dias</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="listas">
+  <h2>Listas e abas</h2>
+  <div class="tabs" role="tablist"><button role="tab" type="button" aria-selected="true">Todas</button><button role="tab" type="button" aria-selected="false">Curtidas</button><button role="tab" type="button" aria-selected="false">Comentários</button><button role="tab" type="button" aria-selected="false">Desafios</button></div>
+  <div class="list">
+    <div class="list-item unread"><span class="avatar avatar-sm" style="--av:#f2e1cf">RB</span><div class="grow"><strong>Rafael Borges</strong> comentou na sua foto <span class="small">· há 2 h</span></div><span class="badge badge-accent plain">Nova</span></div>
+    <div class="list-item unread"><span class="avatar avatar-sm" style="--av:#dcefe2">JS</span><div class="grow"><strong>Júlia Santos</strong> começou a seguir você <span class="small">· há 5 h</span></div><span class="badge badge-accent plain">Nova</span></div>
+    <div class="list-item"><span class="avatar avatar-sm" style="--av:var(--accent-soft)">365</span><div class="grow">O desafio do <strong>dia 128</strong> abre amanhã às 06:00 <span class="small">· ontem</span></div></div>
+  </div>
+</section>
+
+<section id="vazio">
+  <h2>Estado vazio</h2>
+  <div class="empty"><div class="frame"></div><h3>Nenhuma foto nesta coleção</h3><p>Salve fotografias de qualquer página com o ícone de marcador. Elas aparecem aqui.</p><a class="btn" href="../pages/explorar.html">Explorar fotografias</a></div>
+</section>
+
+<section id="modal">
+  <h2>Modal e toast</h2>
+  <p>No celular, o modal vira uma folha que sobe da parte de baixo da tela. O toast confirma a ação com um verbo no passado.</p>
+  <div class="cluster"><button class="btn" type="button" data-modal-open="sg-modal">Abrir modal</button><button class="btn btn-secondary" type="button" data-toast="Foto salva em Coleções">Mostrar toast</button></div>
+  <div class="modal" id="sg-modal" hidden role="dialog" aria-modal="true" aria-labelledby="sg-modal-t">
+    <div class="modal-backdrop" data-modal-close></div>
+    <div class="modal-dialog">
+      <button class="btn btn-ghost btn-icon modal-close" type="button" data-modal-close aria-label="Fechar"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+      <h3 id="sg-modal-t">Excluir esta foto?</h3>
+      <p>Ela sai do seu perfil e do desafio do dia 127. Curtidas e comentários também são removidos.</p>
+      <div class="modal-foot"><button class="btn btn-ghost" type="button" data-modal-close>Cancelar</button><button class="btn btn-danger" type="button" data-modal-close data-toast="Foto excluída">Excluir foto</button></div>
+    </div>
+  </div>
+</section>
+
+<section id="navegacao">
+  <h2>Navegação</h2>
+  <p>O cabeçalho desta página é o mesmo das 58 telas. No desktop, “Mais” abre o mapa completo por módulo. No celular, o menu abre uma gaveta com os 9 módulos, e a barra inferior fixa Início, Explorar, Publicar, Desafios e Perfil. Dentro de um módulo, as abas levam às telas vizinhas.</p>
+  <div class="demo" style="flex-direction:row;flex-wrap:wrap;align-items:flex-end">
+    <div class="fake-phone" aria-hidden="true"><nav class="tabbar"><a href="#navegacao" aria-current="page"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/></svg><span>Início</span></a><a href="#navegacao"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg><span>Explorar</span></a><a href="#navegacao" class="shoot"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Publicar</span></a><a href="#navegacao"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg><span>Desafios</span></a><a href="#navegacao"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 4.5-5.5 8-5.5s6.5 1.5 8 5.5"/></svg><span>Perfil</span></a></nav></div>
+    <div style="flex:1;min-width:240px"><span class="eyebrow">Sub-navegação do módulo</span><div class="tabs" style="margin:8px 0 0"><a href="../pages/desafios.html">Desafios 365</a><a href="../pages/desafio-do-dia.html" aria-current="page">Desafio do Dia</a><a href="../pages/calendario.html">Calendário</a><a href="../pages/ranking.html">Ranking</a></div></div>
+  </div>
+</section>
+
+<section id="uso">
+  <h2>Como usar numa tela</h2>
+  <p>Cada tela carrega dois CSS e um script. O cabeçalho, a barra inferior, a gaveta, as abas do módulo e o rodapé são gerados a partir do mapa do site em <code class="mono">app.js</code>.</p>
+  <div class="table-wrap"><pre style="margin:0;padding:20px;font-family:var(--font-mono);font-size:var(--fs-xs);line-height:1.7;color:var(--ink-2)">&lt;link rel="stylesheet" href="../design-system/tokens.css"&gt;
+&lt;link rel="stylesheet" href="../design-system/components.css"&gt;
+&lt;script src="../design-system/app.js" defer&gt;&lt;/script&gt;
+
+&lt;body data-page="desafio-do-dia"&gt;
+  &lt;header data-shell&gt;&lt;/header&gt;
+  &lt;main&gt; … componentes … &lt;/main&gt;
+  &lt;footer data-shell&gt;&lt;/footer&gt;
+&lt;/body&gt;</pre></div>
+</section>
+</div>
+</div>
+</main>
+<footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
+</body></html>
