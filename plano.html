@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>365 Clicks Plano WordPress</title>
+<link rel="stylesheet" href="design-system/tokens.css">
+<link rel="stylesheet" href="design-system/components.css">
+<script src="design-system/app.js" defer></script>
+<style>
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--sp-4); margin: var(--sp-6) 0; }
+.kpis .panel { border-top: 4px solid var(--c-line); }
+.kpis .ok { border-top-color: var(--c-success); }
+.kpis .par { border-top-color: var(--c-warning); }
+.kpis .gen { border-top-color: var(--c-muted); }
+.kpis .nao { border-top-color: var(--c-danger); }
+.pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.pills a, .pills span { display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border-radius: var(--r-pill); border: 1px solid var(--c-line); background: var(--c-surface); font-size: var(--fs-14); text-decoration: none; color: var(--c-ink-2); }
+.pills a:hover { border-color: var(--c-ink); color: var(--c-ink); }
+.arch { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-4); }
+.arch .panel h3 { margin-top: 0; }
+.arch ul, .fases ul { margin: 0; padding-left: 18px; font-size: var(--fs-14); display: grid; gap: 4px; }
+.fases { display: grid; gap: var(--sp-3); }
+.fase { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; gap: var(--sp-4); align-items: start; padding: var(--sp-4); background: var(--c-surface); border: 1px solid var(--c-line); border-radius: var(--r-lg); }
+.fase .n { font-family: var(--font-mono); font-size: var(--fs-24); color: var(--c-accent-ink); }
+@media (max-width: 900px) { .arch { grid-template-columns: 1fr; } .fase { grid-template-columns: 40px minmax(0, 1fr); } .fase .badge { grid-column: 2; justify-self: start; } }
+</style>
+</head><body data-page="plano">
+<header data-shell><a class="logo" href="pages/home.html">365·CLICKS</a></header>
+<main>
+<span class="eyebrow">Diagnóstico · 25/09/2026</span>
+<h1 style="margin-top:4px">Do protótipo ao WordPress</h1>
+<p class="lead">O protótipo já mostra como o 365 Clicks funciona e como ele se parece. Para virar um site no ar, faltam as telas abaixo e a parte que grava de verdade: contas, fotos, pagamentos e e-mails.</p>
+
+<div class="kpis">
+  <div class="panel stat ok"><span class="small">Prontas como protótipo</span><div class="metric">31</div><span class="small">interativas, com regras definidas</span></div>
+  <div class="panel stat par"><span class="small">Parciais</span><div class="metric">4</div><span class="small">visual pronto, conteúdo de exemplo</span></div>
+  <div class="panel stat gen"><span class="small">Com conteúdo genérico</span><div class="metric">33</div><span class="small">precisam de definição</span></div>
+  <div class="panel stat nao"><span class="small">Ainda não existem</span><div class="metric">16</div><span class="small">telas novas necessárias</span></div>
+</div>
+
+<section class="section" id="telas">
+  <div class="section-head"><div><span class="eyebrow">Telas</span><h2 class="h2">Situação de cada tela</h2></div></div>
+  <div class="stack" id="grupos" style="gap:20px"></div>
+</section>
+
+<section class="section">
+  <div class="section-head"><div><span class="eyebrow">Ainda não existem</span><h2 class="h2">16 telas novas</h2></div></div>
+  <div class="table-wrap"><table class="table"><thead><tr><th>Tela</th><th>Para quê</th></tr></thead><tbody id="novas"></tbody></table></div>
+</section>
+
+<section class="section">
+  <div class="section-head"><div><span class="eyebrow">Arquitetura</span><h2 class="h2">Aparência separada das regras</h2></div></div>
+  <div class="arch">
+    <div class="panel"><span class="tag">Tema</span><h3>365clicks (block theme)</h3><ul><li><code class="mono">theme.json</code> gerado dos tokens do design system</li><li>Templates e patterns de cada tela</li><li>Componentes viram blocos</li><li>Visualizador, compressor e shell reaproveitados</li></ul></div>
+    <div class="panel"><span class="tag">Plugin</span><h3>365clicks-core</h3><ul><li>Tipos: foto, desafio, projeto, coleção, oferta, referência, história, Radar</li><li>Taxonomias: ciclo, tema, técnica, enquadramento, linguagem, equipamento, editoria</li><li>Tabelas: curtidas, seguidores, marcações, métricas, contatos, UTM, aceites, inscrições, pontos</li><li>API REST, tarefas agendadas e importador da planilha</li></ul></div>
+    <div class="panel"><span class="tag">Apoio</span><h3>Plugins e serviços</h3><ul><li>WooCommerce: loja, checkout, ingressos e assinaturas</li><li>Mercado Pago, Pagar.me ou Asaas (Pix, cartão, boleto)</li><li>Tutor LMS ou LearnDash</li><li>SMTP (SES ou Brevo) e newsletter</li><li>Cloudflare, Redis, armazenamento S3, backups</li></ul></div>
+  </div>
+  <p class="small muted" style="margin-top:12px">Trocar o tema não apaga dados; atualizar o plugin não quebra o visual.</p>
+</section>
+
+<section class="section">
+  <div class="section-head"><div><span class="eyebrow">Ordem</span><h2 class="h2">Fases</h2></div></div>
+  <div class="fases" id="fases"></div>
+</section>
+
+<section class="section">
+  <div class="section-head"><div><span class="eyebrow">Com você</span><h2 class="h2">Decisões para começar</h2></div></div>
+  <ol class="list" style="padding:0;list-style:none" id="decisoes"></ol>
+</section>
+
+<section class="section">
+  <div class="panel inverse"><h3>Documentos no repositório</h3><p style="margin:0"><code class="mono">PLANO_WORDPRESS.md</code> (este diagnóstico completo), <code class="mono">PRD_EVOLUCAO_365.md</code> (Motor dos 365 Desafios, Matriz Criativa, Biblioteca, Linha Editorial, Radar e relacionamentos) e <code class="mono">PRD_365_CLICKS.md</code>.</p></div>
+</section>
+</main>
+<footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var P = function (s) { return "pages/" + s + ".html"; };
+  var GRUPOS = [
+    ["ok", "Prontas como protótipo", [["home", "Home"], ["explorar", "Explorar"], ["fotografia", "Fotografia"], ["feed", "Feed"], ["perfil", "Meu Perfil"], ["editar-perfil", "Editar Perfil"], ["publicar", "Publicar"], ["seguidores", "Seguidores"], ["cadastro", "Criar conta"], ["desafios", "Desafios 365"], ["desafio-do-dia", "Desafio do Dia"], ["projetos", "Projetos"], ["projeto", "Projeto"], ["eventos", "Eventos"], ["foto-na-paulista", "Foto na Paulista"], ["foto-no-parque", "Foto no Parque"], ["oferta", "Palestra"], ["inscricao", "Inscrição"], ["meus-ingressos", "Meus Ingressos"], ["termos", "Termos e contratos"], ["cursos", "Cursos"], ["curso", "Curso"], ["loja", "Loja"], ["nunca-tirei", "A foto que eu nunca tirei"], ["blog", "Blog"], ["biblioteca", "Biblioteca"], ["radar", "Radar 365"], ["admin-usuarios", "Admin Usuários"], ["admin-eventos", "Admin Eventos"], ["admin-contatos", "Admin Contatos e métricas"], ["admin-desafios", "Admin Desafios"]]],
+    ["par", "Parciais", [["fotografias", "Fotografias"], ["colecoes", "Coleções"], ["inspiracao", "Inspiração"], ["portfolio", "Portfólio"]]],
+    ["gen", "Com conteúdo genérico", [["sobre", "Sobre"], ["contato", "Contato"], ["ajuda", "Central de Ajuda"], ["artigo", "Artigo"], ["fotografos", "Fotógrafos"], ["seguindo", "Seguindo"], ["notificacoes", "Notificações"], ["mensagens", "Mensagens"], ["configuracoes", "Configurações"], ["calendario", "Calendário"], ["meus-desafios", "Meus Desafios"], ["ranking", "Ranking"], ["conquistas", "Conquistas"], ["equipamentos", "Equipamentos"], ["meus-cursos", "Meus Cursos"], ["aula", "Aula"], ["ebooks", "E-books"], ["exercicios", "Exercícios"], ["foto-criativa", "Foto Criativa"], ["gerador-ideias", "Gerador de Ideias"], ["gerador-desafio", "Gerador de Desafio"], ["roteiros", "Roteiros"], ["planos", "Planos"], ["assinatura", "Assinatura"], ["checkout", "Checkout"], ["minha-assinatura", "Minha Assinatura"], ["minhas-compras", "Minhas Compras"], ["admin", "Admin Dashboard"], ["admin-fotos", "Admin Fotografias"], ["admin-cursos", "Admin Cursos"], ["admin-assinaturas", "Admin Assinaturas"], ["admin-conteudo", "Admin Conteúdo"], ["admin-gamificacao", "Admin Gamificação"]]]
+  ];
+  var BADGE = { ok: "badge-success", par: "badge-warning", gen: "" };
+  document.getElementById("grupos").innerHTML = GRUPOS.map(function (g) {
+    return '<div><div class="cluster" style="margin-bottom:8px"><span class="badge ' + BADGE[g[0]] + '">' + g[1] + '</span><span class="small muted">' + g[2].length + ' telas</span></div><div class="pills">' +
+      g[2].map(function (p) { return '<a href="' + P(p[0]) + '">' + p[1] + "</a>"; }).join("") + "</div></div>";
+  }).join("");
+  var NOVAS = [["Entrar, sair e recuperar senha", "Login com e-mail e senha, Google e Apple"], ["Onboarding (primeiro acesso)", "Ano no 365, especialidades, fotógrafos para seguir e termos"], ["Perfil público de outro fotógrafo", "/@usuario; hoje só existe Meu perfil"], ["Central do fotógrafo", "Visualizações, cliques, contatos e compartilhamentos das próprias fotos"], ["Caixa de contatos recebidos", "O fotógrafo lê e responde os interessados"], ["Resultados de busca", "Fotos, fotógrafos, desafios, temas e artigos"], ["Página de tema e de coleção", "Explorar por tema; abrir uma coleção"], ["Arquivo do Radar", "Edições anteriores da newsletter"], ["Denunciar conteúdo + Admin Moderação", "Direito autoral, nudez, ofensa e spam"], ["Admin Biblioteca e Referências", "Elementos, fotógrafos, livros, filmes"], ["Admin Radar e Linha Editorial", "Edição semanal e calendário de pautas"], ["Admin Loja e Pedidos", "Produtos, estoque, pedidos e frete"], ["Pagamento e pedido confirmado da loja", "Hoje o carrinho é simulado"], ["Termos de uso e Política de cookies", "Termos gerais da plataforma"], ["Página 404 e estados de erro", "Não encontrada, sem conexão, sem permissão"], ["Modelos de e-mail", "Boas-vindas, desafio do dia, menção, contato, ingresso, Radar"]];
+  document.getElementById("novas").innerHTML = NOVAS.map(function (n) { return "<tr><td><strong>" + n[0] + '</strong></td><td style="white-space:normal">' + n[1] + "</td></tr>"; }).join("");
+  var FASES = [["0", "Fundação", "Grande", ["Hospedagem e domínio", "Tema com o design system e plugin core", "Contas, onboarding e perfil", "Publicar com EXIF e WebP", "Motor dos 365 desafios importado da planilha"]], ["1", "Comunidade", "Grande", ["Feed e visualizador protegido", "Curtidas, comentários, menções e marcações", "Seguidores e notificações por e-mail", "Ordem Em alta"]], ["2", "Receita", "Grande", ["Eventos e inscrições com Pix, cartão e boleto", "Loja", "Planos e assinatura", "Cursos"]], ["3", "Conteúdo", "Média", ["Blog com editorias", "Biblioteca de Conhecimento", "Radar 365 com newsletter", "A foto que eu nunca tirei"]], ["4", "Gestão", "Média", ["Contatos e métricas", "UTM e origem das visitas", "Moderação", "Admin de conteúdo e gamificação"]], ["5", "Futuro", "—", ["App", "DRM contra print no celular", "IA na Foto Criativa", "Marketplace"]]];
+  document.getElementById("fases").innerHTML = FASES.map(function (f) { return '<div class="fase"><span class="n">' + f[0] + '</span><div><h3 style="margin:0 0 6px">' + f[1] + "</h3><ul>" + f[3].map(function (i) { return "<li>" + i + "</li>"; }).join("") + '</ul></div><span class="badge plain">' + f[2] + "</span></div>"; }).join("");
+  var DEC = ["Hospedagem e domínio", "Gateway de pagamento e nota fiscal (razão social e CNPJ)", "Plataforma de cursos", "Provedor de e-mail e de newsletter", "Revisão jurídica dos termos", "Curadoria do calendário: dicas, variações de ano e referências", "O que cada uma das 33 telas genéricas precisa mostrar"];
+  document.getElementById("decisoes").innerHTML = DEC.map(function (d, i) { return '<li class="list-item"><span class="mono" style="color:var(--c-accent-ink)">' + (i + 1) + '</span><div class="grow">' + d + "</div></li>"; }).join("");
+});
+</script>
+</body></html>

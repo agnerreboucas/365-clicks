@@ -36,16 +36,53 @@
   function semanaDoAno(d) { var ini = domingoDe(new Date(d.getFullYear(), 0, 1)); return Math.floor((domingoDe(d) - ini) / (7 * 864e5)) + 1; }
   var NOMES_DIA = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"];
 
+  /* ---------- Motor dos 365 desafios (pages/calendario-365.js, gerado da planilha editorial) ----------
+     Cada dia tem tema, objetivo, missão, técnica, enquadramento, linguagem, equipamento, combinação criativa,
+     3 dicas de inspiração (não são requisitos) e variações para os anos 1, 2 e 3.
+     As 4 características do desafio são os 4 elementos da combinação: técnica, enquadramento, linguagem e equipamento.
+     O calendário segue o dia/mês de um ano de 365 dias; 29/02 repete o desafio de 28/02. */
+  var CAL = window.CALENDARIO_365 || null;
+  function diaCalendario(d) {
+    var m = d.getMonth(), dd = d.getDate();
+    if (m === 1 && dd === 29) dd = 28;
+    return Math.round((new Date(2025, m, dd) - new Date(2025, 0, 1)) / 864e5) + 1;
+  }
+  function caracteristica(rotulo, valor) {
+    return valor === "Livre" ? rotulo + " livre (sua escolha)" : rotulo + ": " + valor;
+  }
+  function doCalendario(n) {
+    var r = CAL.dias[n - 1], tema = r[0], tl = tema.toLowerCase();
+    var tec = CAL.tecnicas[r[3]], enq = CAL.enquadramentos[r[4]], ling = CAL.linguagens[r[5]], eq = CAL.equipamentos[r[6]];
+    return {
+      tema: tema, ciclo: CAL.ciclos[r[1]], objetivo: CAL.objetivos[r[2]],
+      missao: "Crie uma fotografia a partir do tema '" + tema + "', buscando uma interpretação autoral.",
+      tecnica: tec, enquadramento: enq, linguagem: ling, equipamento: eq,
+      combinacao: [tema, tec, enq, ling, eq].join(" + "),
+      caracteristicas: [caracteristica("Técnica", tec), caracteristica("Enquadramento", enq), caracteristica("Linguagem", ling), caracteristica("Equipamento", eq)],
+      dicas: ["Observe onde '" + tl + "' aparece de maneira inesperada.", "Mude distância, altura ou ponto de vista antes de apertar o disparador.", "Procure uma relação entre o tema e algo que normalmente passaria despercebido."],
+      anos: ["Explore " + tl + " com foco em observação e técnica.", "Interprete " + tl + " de uma maneira diferente da proposta do primeiro ano.", "Transforme " + tl + " em uma narrativa ou conceito autoral."],
+      artigo: "Como fotografar '" + tl + "'",
+      referencias: "Fotógrafo + livro + filme/exposição relacionados a '" + tl + "'"
+    };
+  }
+
   /* Desafio de um dia do calendário */
   function doDia(data) {
     var inicio = meiaNoite(data), fim = new Date(inicio.getTime() + 864e5 - 1000);
-    var n = diaDoAno(inicio), b = BANCO[(n - 1) % BANCO.length];
-    return {
-      id: inicio.getFullYear() + "-" + String(inicio.getMonth() + 1).padStart(2, "0") + "-" + String(inicio.getDate()).padStart(2, "0"),
-      dia: n, semana: semanaDoAno(inicio), diaSemana: inicio.getDay() + 1, nomeDia: NOMES_DIA[inicio.getDay()],
-      tema: b[0], tecnica: b[1], caracteristicas: b[2].slice(),
-      inicio: inicio, fim: fim
-    };
+    var n = CAL ? diaCalendario(inicio) : diaDoAno(inicio);
+    var base = { id: inicio.getFullYear() + "-" + String(inicio.getMonth() + 1).padStart(2, "0") + "-" + String(inicio.getDate()).padStart(2, "0"),
+      dia: n, semana: semanaDoAno(inicio), diaSemana: inicio.getDay() + 1, nomeDia: NOMES_DIA[inicio.getDay()], inicio: inicio, fim: fim };
+    if (CAL) return Object.assign(base, doCalendario(n));
+    var b = BANCO[(n - 1) % BANCO.length];
+    return Object.assign(base, { tema: b[0], tecnica: b[1], caracteristicas: b[2].slice(), dicas: [], anos: [] });
+  }
+  /* Todos os dias que usam um elemento (para a Biblioteca de Conhecimento) */
+  function comElemento(campo, valor) {
+    if (!CAL) return [];
+    var lista = { tecnica: CAL.tecnicas, enquadramento: CAL.enquadramentos, linguagem: CAL.linguagens, equipamento: CAL.equipamentos }[campo];
+    var col = { tecnica: 3, enquadramento: 4, linguagem: 5, equipamento: 6 }[campo], k = lista.indexOf(valor), out = [];
+    CAL.dias.forEach(function (r, i) { if (r[col] === k) out.push(Object.assign({ dia: i + 1, data: new Date(2025, 0, i + 1) }, doCalendario(i + 1))); });
+    return out;
   }
   /* Desafio em que um instante cai */
   function noInstante(d) { return doDia(new Date(d)); }
@@ -73,7 +110,7 @@
     var d = doDia(new Date());
     document.querySelectorAll("[data-desafio]").forEach(function (el) {
       var k = el.getAttribute("data-desafio");
-      if (k === "caracteristicas") el.innerHTML = d.caracteristicas.map(function (c) { return "<li>" + c + "</li>"; }).join("");
+      if (k === "caracteristicas" || k === "dicas" || k === "anos") el.innerHTML = (d[k] || []).map(function (c, i) { return "<li>" + (k === "anos" ? "<strong>Ano " + (i + 1) + ":</strong> " : "") + c + "</li>"; }).join("");
       else if (k === "prazo") el.textContent = "23:59:59 de hoje";
       else if (k === "contagem") {
         var tick = function () { var ms = d.fim - new Date() + 1000; if (ms < 0) { location.reload(); return; } el.textContent = "encerra em " + Math.floor(ms / 36e5) + "h" + String(Math.floor(ms % 36e5 / 6e4)).padStart(2, "0"); };
@@ -84,7 +121,7 @@
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", preencher); else preencher();
 
   window.Desafios = {
-    MINIMO: MINIMO, PONTOS: PONTOS, banco: BANCO,
+    MINIMO: MINIMO, PONTOS: PONTOS, banco: BANCO, calendario: CAL, comElemento: comElemento,
     doDia: doDia, noInstante: noInstante, hoje: function () { return doDia(new Date()); },
     semana: semana, status: status, pontos: pontos, fmt: fmt, dataCurta: dataCurta
   };

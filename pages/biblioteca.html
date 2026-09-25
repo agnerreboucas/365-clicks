@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>365 Clicks — Biblioteca de Conhecimento</title>
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="../design-system/components.css">
+<script src="../design-system/app.js" defer></script>
+<script src="calendario-365.js" defer></script>
+<script src="desafios.js" defer></script>
+</head><body data-page="biblioteca">
+<header data-shell><a class="logo" href="home.html">365·CLICKS</a></header>
+<main>
+<span class="eyebrow">Biblioteca de Conhecimento</span>
+<h1 style="margin-top:4px">Técnicas, enquadramentos, linguagens e equipamentos</h1>
+<p>Cada elemento dos desafios tem uma página: o que é, como praticar e em quais dias do ano ele aparece. Os conteúdos de curadoria (artigo, fotógrafo, livro e filme) são preenchidos pela equipe editorial.</p>
+<div class="split" style="margin-top:24px">
+  <article class="stack" id="detalhe" style="gap:20px"></article>
+  <nav class="stack sticky" id="indice" aria-label="Elementos" style="gap:16px"></nav>
+</div>
+</main>
+<footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.Desafios, CAL = D.calendario, DEF = {"tecnica": {"Macro": "Aproximação extrema do assunto, revelando detalhes e texturas que o olho não percebe à distância.", "Panning": "Acompanhar um assunto em movimento com a câmera durante a exposição: o assunto fica nítido e o fundo, borrado.", "Silhueta": "Assunto escuro recortado contra um fundo claro. A forma conta a história no lugar dos detalhes.", "Minimalismo": "Poucos elementos, muito espaço vazio e uma ideia clara.", "Dupla exposição": "Duas imagens sobrepostas no mesmo quadro, na câmera ou na edição, criando um significado novo."}, "enquadramento": {"Vista superior": "Câmera acima do assunto, olhando para baixo (plongée ou vista de cima).", "Plano médio": "Mostra o assunto da cintura para cima, ou uma cena com contexto moderado.", "Enquadramento fechado": "Corta o excesso e deixa só o essencial dentro do quadro.", "Close": "O assunto ocupa quase todo o quadro, como um rosto ou um objeto.", "Plano geral": "Mostra o ambiente inteiro e o assunto dentro dele.", "Vista inferior": "Câmera abaixo do assunto, olhando para cima (contra-plongée).", "Plano detalhe": "Um fragmento do assunto: mãos, olhos, uma textura."}, "linguagem": {"Narrativa": "A foto conta uma história, com começo, meio ou uma tensão.", "Experimental": "Quebra de regras, técnicas incomuns e erro como recurso.", "Documental": "Registro fiel da realidade, com contexto e informação.", "Street": "Fotografia de rua: pessoas e cidade em momentos espontâneos.", "Poética": "Imagem que sugere em vez de explicar; atmosfera e metáfora.", "Abstrata": "Forma, cor e textura sem um assunto reconhecível.", "Conceitual": "A ideia vem antes da imagem; a foto representa um conceito.", "Fotojornalística": "Informação e acontecimento, com ética e contexto.", "Minimalista": "Economia de elementos a serviço de uma ideia."}, "equipamento": {"Celular": "A câmera que está sempre com você.", "Câmera": "Câmera dedicada, com controle manual de exposição.", "Grande angular": "Lente com campo de visão amplo; exagera a perspectiva.", "Lente normal": "Campo de visão próximo ao do olho humano (cerca de 50mm em full frame).", "Teleobjetiva": "Lente longa, que aproxima e comprime planos.", "Macro": "Lente ou acessório para foco muito próximo.", "Tripé": "Estabilidade para exposições longas e composições precisas.", "Flash": "Luz artificial controlada, direta ou rebatida.", "Luz natural": "Só a luz disponível: sol, céu, janela."}};
+  var GRUPOS = [["tecnica", "Técnicas", CAL.tecnicas], ["enquadramento", "Enquadramentos", CAL.enquadramentos], ["linguagem", "Linguagens", CAL.linguagens], ["equipamento", "Equipamentos", CAL.equipamentos]];
+  var slug = function (v) { return v.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-"); };
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  document.getElementById("indice").innerHTML = GRUPOS.map(function (g) {
+    return '<div class="panel stack" style="gap:6px"><span class="eyebrow">' + g[1] + '</span><div class="cluster" style="gap:6px">' +
+      g[2].filter(function (v) { return v !== "Livre"; }).map(function (v) { return '<a class="chip" href="#' + g[0] + "-" + slug(v) + '" data-ref="' + g[0] + "-" + slug(v) + '">' + esc(v) + "</a>"; }).join("") + "</div></div>";
+  }).join("");
+  function mostrar() {
+    var h = location.hash.slice(1), achado = null;
+    GRUPOS.forEach(function (g) { g[2].forEach(function (v) { if (g[0] + "-" + slug(v) === h) achado = [g, v]; }); });
+    if (!achado) achado = [GRUPOS[0], GRUPOS[0][2][0]];
+    var g = achado[0], v = achado[1], dias = D.comElemento(g[0], v), hoje = D.hoje().dia;
+    var proximos = dias.filter(function (d) { return d.dia >= hoje; }).slice(0, 6), total = dias.length;
+    document.querySelectorAll("#indice [data-ref]").forEach(function (a) { a.setAttribute("aria-pressed", String(a.getAttribute("data-ref") === g[0] + "-" + slug(v))); });
+    document.getElementById("detalhe").innerHTML =
+      '<div><span class="tag">' + g[1].slice(0, -1) + '</span><h2 class="h1" style="margin-top:8px;font-size:var(--fs-56)">' + esc(v) + '</h2><p class="lead">' + esc((DEF[g[0]] || {})[v] || "") + "</p></div>" +
+      '<div class="row"><div class="panel stat"><span class="small">Aparece em</span><div class="metric">' + total + ' dias</div><span class="small">do calendário de 365</span></div><div class="panel stat"><span class="small">Próxima vez</span><div class="metric">' + (proximos[0] ? "Dia " + proximos[0].dia : "—") + '</div><span class="small">' + (proximos[0] ? esc(proximos[0].tema) : "") + "</span></div></div>" +
+      '<section><h3>Conteúdo relacionado</h3><div class="list">' +
+        [["Artigo", "O que é " + v.toLowerCase() + " e como praticar"], ["Fotógrafo de referência", "A definir pela curadoria"], ["Livro ou fotolivro", "A definir pela curadoria"], ["Filme ou documentário", "A definir pela curadoria"], ["Exercício", "Pratique " + v.toLowerCase() + " em 3 fotos antes do próximo desafio"]].map(function (i) {
+          return '<div class="list-item"><div class="grow"><span class="eyebrow">' + i[0] + "</span><div>" + esc(i[1]) + "</div></div>" + (i[1].indexOf("A definir") === 0 ? '<span class="badge badge-warning plain">Curadoria</span>' : "") + "</div>";
+        }).join("") + "</div></section>" +
+      '<section><h3>Próximos desafios com ' + esc(v) + '</h3><div class="list">' + proximos.map(function (d) {
+        return '<div class="list-item"><div class="date-block"><span class="m">' + d.data.toLocaleDateString("pt-BR", { month: "short" }).replace(".", "") + '</span><span class="d">' + d.data.getDate() + '</span><span class="w">dia ' + d.dia + '</span></div><div class="grow"><strong>' + esc(d.tema) + '</strong><div class="small muted">' + esc(d.combinacao) + "</div></div></div>";
+      }).join("") + (proximos.length ? "" : '<p class="small">Nenhum dia restante neste ano.</p>') + "</div></section>";
+    window.scrollTo({ top: 0 });
+  }
+  window.addEventListener("hashchange", mostrar);
+  mostrar();
+});
+</script>
+</body></html>

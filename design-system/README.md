@@ -12,7 +12,7 @@ Guia de implementação. Serve para pessoas e para o Claude Code aplicarem este 
 | `home.html` | Home de referência, seguindo a ordem do PRD (usa `components-v0.css`) |
 | `decisoes.html` | Guia visual: benchmark dos concorrentes, decisões, cores, tipografia, componentes e regras |
 | `components-v0.css` | Versão original dos componentes, usada pelas duas páginas de referência |
-| `index.html` | Biblioteca de componentes do protótipo navegável (66 telas) |
+| `index.html` | Biblioteca de componentes do protótipo navegável (68 telas) |
 
 ## Como aplicar em outro projeto
 

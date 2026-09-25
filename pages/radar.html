@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>365 Clicks — Radar 365</title>
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="../design-system/components.css">
+<script src="../design-system/app.js" defer></script>
+<script src="calendario-365.js" defer></script>
+<script src="desafios.js" defer></script>
+</head><body data-page="radar">
+<header data-shell><a class="logo" href="home.html">365·CLICKS</a></header>
+<main>
+<div class="split">
+  <div>
+    <span class="eyebrow">Newsletter semanal</span>
+    <h1 style="margin-top:4px">Radar 365</h1>
+    <p class="lead">Toda segunda, o que está acontecendo na fotografia no Brasil e no mundo: exposições, prêmios, editais, lançamentos e mercado.</p>
+  </div>
+  <form class="panel stack" id="assinar" data-demo-form>
+    <strong>Receba o Radar por e-mail</strong>
+    <div class="field"><label class="label" for="r-email">E-mail</label><input class="input" id="r-email" type="email" required placeholder="voce@email.com"></div>
+    <span class="label">Assuntos</span>
+    <div class="stack" id="r-temas" style="gap:4px"></div>
+    <button class="btn btn-primary" type="submit">Assinar grátis</button>
+  </form>
+</div>
+<h2 id="edicao"></h2>
+<div class="notice warning" style="margin-bottom:16px"><span>Estrutura da edição. Os itens abaixo são marcadores: a curadoria preenche cada seção toda semana.</span></div>
+<div class="offers" id="secoes"></div>
+</main>
+<footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var CAL = window.CALENDARIO_365, D = window.Desafios;
+  var hoje = new Date(), seg = new Date(hoje); seg.setDate(hoje.getDate() - ((hoje.getDay() + 6) % 7));
+  document.getElementById("edicao").textContent = "Edição de " + seg.toLocaleDateString("pt-BR") + " · semana " + D.hoje().semana;
+  var radar = ["Eventos e exposições", "Prêmios e concursos", "Editais, bolsas e residências", "Museus e instituições", "Livros e fotolivros", "Equipamentos", "Agências e mercado", "Cinema e séries"];
+  var func = {}; CAL.editorias.forEach(function (e) { func[e[0]] = e[1]; });
+  document.getElementById("r-temas").innerHTML = radar.map(function (r, i) { return '<label class="check"><input type="checkbox" id="rt-' + i + '" checked> ' + r + "</label>"; }).join("");
+  document.getElementById("secoes").innerHTML = radar.map(function (r) {
+    return '<article class="panel stack" style="gap:8px"><span class="eyebrow">' + r + '</span><p class="small muted" style="margin:0">' + (func[r] || "") + '</p><ul class="small" style="margin:0;padding-left:18px"><li>[Item 1: título · onde · quando]</li><li>[Item 2: título · onde · quando]</li><li>[Item 3: título · onde · quando]</li></ul></article>';
+  }).join("") + '<article class="panel stack" style="gap:8px"><span class="eyebrow">Desafios da semana</span><ul class="small" style="margin:0;padding-left:18px">' + D.semana(0).map(function (d) { return "<li>" + d.nomeDia + ": <strong>" + d.tema + "</strong> · " + d.tecnica + "</li>"; }).join("") + "</ul></article>";
+});
+</script>
+</body></html>

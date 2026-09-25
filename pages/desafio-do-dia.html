@@ -4,46 +4,62 @@
 <link rel="stylesheet" href="../design-system/tokens.css">
 <link rel="stylesheet" href="../design-system/components.css">
 <script src="../design-system/app.js" defer></script>
+<script src="calendario-365.js" defer></script>
 <script src="desafios.js" defer></script></head><body data-page="desafio-do-dia">
 <header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
 <main>
 <div class="cover" role="img" aria-label="Superfície de lago com reflexos" style="--img:url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1800&h=600&q=80');--tone:#2c464e;--tone2:#a3bab2"></div>
 <div class="split">
-  <section class="stack">
-    <span class="day" style="align-self:flex-start">DIA <b data-desafio="dia">127</b>/365</span>
-    <h1 data-desafio="tema">Água</h1>
-    <p style="margin:0">Hoje é <strong data-desafio="nomeDia"></strong>, dia <span data-desafio="diaSemana"></span> da semana. O desafio vale de 00:00:00 a 23:59:59 e só conta foto tirada hoje.</p>
-    <div class="panel"><span class="eyebrow">As 4 características · cumpra pelo menos 2</span><ol data-desafio="caracteristicas" style="margin:8px 0 0;padding-left:20px;display:grid;gap:4px"></ol></div>
-    <div class="row">
-      <div class="panel stat"><span class="small">Técnica obrigatória</span><div class="metric" style="font-size:var(--fs-xl)" data-desafio="tecnica">Reflexos</div></div>
-      <div class="panel stat"><span class="small">Pontos</span><div class="metric" style="font-size:var(--fs-xl)">até 10</div></div>
-      <div class="panel stat"><span class="small">Prazo</span><div class="metric num" style="font-size:var(--fs-xl)" data-desafio="prazo">23:59:59 de hoje</div><span class="small" data-desafio="contagem"></span></div>
+  <section class="stack" style="gap:20px">
+    <div class="cluster"><span class="day">DIA <b data-desafio="dia">—</b>/365</span><span class="tag" data-desafio="ciclo"></span></div>
+    <h1 data-desafio="tema" style="margin:0">—</h1>
+    <p class="lead" style="margin:0" data-desafio="missao"></p>
+    <p class="small muted" style="margin:0">Objetivo: <span data-desafio="objetivo"></span> · Hoje é <span data-desafio="nomeDia"></span>, dia <span data-desafio="diaSemana"></span> da semana. Vale de 00:00:00 a 23:59:59 e só conta foto tirada hoje.</p>
+    <div class="panel stack" style="gap:12px">
+      <span class="eyebrow">Combinação criativa · as 4 características</span>
+      <div class="cluster" id="combo"></div>
+      <p class="small" style="margin:0">Sua foto precisa cumprir <strong>pelo menos 2</strong> destas 4 características. Cada uma vale 2 pontos, e publicar hoje vale mais 2.</p>
+    </div>
+    <div class="panel stack" style="gap:8px">
+      <span class="eyebrow">3 dicas de inspiração</span>
+      <ol data-desafio="dicas" style="margin:0;padding-left:20px;display:grid;gap:4px"></ol>
+      <div class="notice"><span>As dicas são inspiração, não regras. Você pode ignorá-las: o que vale são as características acima.</span></div>
+    </div>
+    <div class="panel stack" style="gap:8px">
+      <span class="eyebrow">Em que ano do 365 você está?</span>
+      <div class="tabs" role="tablist" id="anos-tabs" style="margin:0"><button role="tab" type="button" aria-selected="true" data-ano="0">Ano 1</button><button role="tab" type="button" aria-selected="false" data-ano="1">Ano 2</button><button role="tab" type="button" aria-selected="false" data-ano="2">Ano 3</button></div>
+      <p style="margin:0" id="ano-texto"></p>
     </div>
     <div class="cluster"><a class="btn btn-primary btn-lg" href="publicar.html">Enviar meu click</a><a class="btn btn-secondary btn-lg" href="desafios.html">Ver a semana</a></div>
   </section>
-  <aside class="panel stack">
-    <div class="streak"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c-4 0-6.5-2.7-6.5-6.2 0-3.4 2.5-5.3 3.5-8.3 1.6 1.2 2.4 2.7 2.5 4.2 1-1 1.6-2.4 1.6-4.2 3 2.2 5.4 5.3 5.4 8.5 0 3.4-2.5 6-6.5 6z"/></svg> Sequência de 12 dias</div>
-    <div class="days" aria-label="Últimos 28 dias"><i class="done"></i><i class="done"></i><i class="missed"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="missed"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="today"></i></div>
-    <span class="small">Últimos 28 dias · 2 dias perdidos</span>
-    <hr class="divider" style="margin:4px 0">
-    <span class="eyebrow">Dicas de campo</span>
-    <p class="small" style="margin:0">Abaixe a câmera até quase tocar a superfície. Com o céu nublado, os reflexos ficam mais nítidos.</p>
+  <aside class="stack sticky" style="gap:16px">
+    <div class="panel stack" style="gap:8px">
+      <div class="stat"><span class="small">Encerra em</span><div class="metric num" data-desafio="contagem">—</div></div>
+      <div class="streak"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c-4 0-6.5-2.7-6.5-6.2 0-3.4 2.5-5.3 3.5-8.3 1.6 1.2 2.4 2.7 2.5 4.2 1-1 1.6-2.4 1.6-4.2 3 2.2 5.4 5.3 5.4 8.5 0 3.4-2.5 6-6.5 6z"/></svg> Sequência de 12 dias</div>
+    </div>
+    <div class="panel stack" style="gap:10px">
+      <span class="eyebrow">Para estudar</span>
+      <a class="list-item" style="padding:0;border:0" id="link-artigo" href="biblioteca.html"><div class="grow"><strong data-desafio="artigo"></strong><div class="small muted">Artigo-base do tema</div></div></a>
+      <div id="links-bib" class="stack" style="gap:6px"></div>
+      <span class="small muted" data-desafio="referencias"></span>
+    </div>
   </aside>
 </div>
 <h2>Interpretações da comunidade <span class="badge plain num">1.284</span></h2>
 <div class="grid"><figure class="card"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&h=1000&q=80" alt="Fotografia de @fotografo_1" loading="lazy" style="--ratio:4/5;--tone:#18233a;--tone2:#4b5f88"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #127</b><span class="small">@fotografo_1 · São Paulo</span><span class="exif">35mm · f/2 · 1/500s · ISO 200</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_2" loading="lazy" style="--ratio:3/2;--tone:#37433a;--tone2:#8b9a84"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #128</b><span class="small">@fotografo_2 · São Paulo</span><span class="exif">50mm · f/1.8 · 1/250s · ISO 400</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=800&h=800&q=80" alt="Fotografia de @fotografo_3" loading="lazy" style="--ratio:1/1;--tone:#4f4336;--tone2:#c09a6c"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #129</b><span class="small">@fotografo_3 · São Paulo</span><span class="exif">24mm · f/8 · 1/125s · ISO 100</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&h=1200&q=80" alt="Fotografia de @fotografo_4" loading="lazy" style="--ratio:2/3;--tone:#26231f;--tone2:#6d6054"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #130</b><span class="small">@fotografo_4 · São Paulo</span><span class="exif">85mm · f/1.4 · 1/1000s · ISO 100</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_5" loading="lazy" style="--ratio:3/2;--tone:#35402f;--tone2:#7f8c6c"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #131</b><span class="small">@fotografo_5 · São Paulo</span><span class="exif">16mm · f/2.8 · 20s · ISO 3200</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=800&h=1000&q=80" alt="Fotografia de @fotografo_6" loading="lazy" style="--ratio:4/5;--tone:#2c464e;--tone2:#a3bab2"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #132</b><span class="small">@fotografo_6 · São Paulo</span><span class="exif">28mm · f/5.6 · 1/320s · ISO 160</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&h=1067&q=80" alt="Fotografia de @fotografo_7" loading="lazy" style="--ratio:3/4;--tone:#304131;--tone2:#a2b298"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #133</b><span class="small">@fotografo_7 · São Paulo</span><span class="exif">35mm · f/4 · 1/60s · ISO 800</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_8" loading="lazy" style="--ratio:3/2;--tone:#382c28;--tone2:#8e7061"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #134</b><span class="small">@fotografo_8 · São Paulo</span><span class="exif">70mm · f/2.8 · 1/400s · ISO 250</span></figcaption></figure></div>
-<div class="modal" id="enviar" hidden role="dialog" aria-modal="true" aria-labelledby="enviar-t">
-  <div class="modal-backdrop" data-modal-close></div>
-  <div class="modal-dialog">
-    <button class="btn btn-ghost btn-icon modal-close" type="button" data-modal-close aria-label="Fechar"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
-    <span class="day">DIA <b data-desafio="dia">127</b>/365</span>
-    <h3 id="enviar-t" style="margin-top:12px">Enviar para “Água”</h3>
-    <div class="stack">
-      <div class="empty" style="padding:32px 16px"><div class="frame"></div><strong>Arraste sua fotografia</strong><span class="small">JPG ou HEIC, até 25 MB. Os dados EXIF são lidos automaticamente.</span></div>
-      <div class="field"><label class="label" for="legenda">Legenda</label><input class="input" id="legenda" placeholder="O que você viu nesse reflexo?"></div>
-      <label class="check"><input type="checkbox" id="portf" checked> Adicionar também ao meu portfólio</label>
-    </div>
-    <div class="modal-foot"><button class="btn btn-ghost" type="button" data-modal-close>Cancelar</button><button class="btn btn-primary" type="button" data-modal-close data-toast="Click enviado · sequência de 13 dias">Enviar click</button></div>
-  </div>
-</div>
-</main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer></body></html>
+</main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer><script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.Desafios; if (!D) return;
+  var h = D.hoje();
+  var slug = function (v) { return v.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-"); };
+  var el = [["Técnica", "tecnica", h.tecnica], ["Enquadramento", "enquadramento", h.enquadramento], ["Linguagem", "linguagem", h.linguagem], ["Equipamento", "equipamento", h.equipamento]];
+  document.getElementById("combo").innerHTML = '<span class="chip" style="cursor:default;background:var(--c-ink);color:var(--c-inverse);border-color:var(--c-ink)">' + h.tema + "</span>" +
+    el.map(function (e) { return '<a class="chip" href="biblioteca.html#' + e[1] + "-" + slug(e[2]) + '"><span class="small muted">' + e[0] + "</span>&nbsp;" + e[2] + "</a>"; }).join("");
+  document.getElementById("links-bib").innerHTML = el.filter(function (e) { return e[2] !== "Livre"; }).map(function (e) { return '<a class="small" href="biblioteca.html#' + e[1] + "-" + slug(e[2]) + '">' + e[0] + ": " + e[2] + " → biblioteca</a>"; }).join("");
+  function ano(i) { document.getElementById("ano-texto").textContent = h.anos[i] || ""; document.querySelectorAll("#anos-tabs [data-ano]").forEach(function (b) { b.setAttribute("aria-selected", String(+b.getAttribute("data-ano") === i)); }); }
+  document.getElementById("anos-tabs").addEventListener("click", function (e) { var b = e.target.closest("[data-ano]"); if (b) ano(+b.getAttribute("data-ano")); });
+  ano(0);
+  document.title = "365 Clicks — Dia " + h.dia + " · " + h.tema;
+});
+</script>
+</body></html>

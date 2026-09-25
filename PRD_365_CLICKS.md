@@ -388,4 +388,4 @@ Foto Criativa, IA, networking profissional, marketplace, app mobile e recursos p
 - Frequência padrão dos e-mails, para não virar excesso.
 - Razão social, CNPJ e revisão jurídica de todos os termos.
 
-Este pacote inclui uma página HTML para cada rota listada no PRD (66 telas), o design system em `design-system/` e um `index.html` que lista todas as telas por módulo, com pré-visualização em desktop e celular.
+Este pacote inclui uma página HTML para cada rota listada no PRD (68 telas), o design system em `design-system/` e um `index.html` que lista todas as telas por módulo, com pré-visualização em desktop e celular.

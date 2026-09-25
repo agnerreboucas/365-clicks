@@ -20,6 +20,7 @@
       ["blog", "Blog", "Conteúdo editorial"],
       ["artigo", "Artigo", "Conteúdo individual"],
       ["nunca-tirei", "A foto que eu nunca tirei", "Blog e livro colaborativo"],
+      ["radar", "Radar 365", "Newsletter semanal da fotografia"],
       ["sobre", "Sobre", "Manifesto e história"],
       ["contato", "Contato", "Fale com o 365 Clicks"],
       ["ajuda", "Central de Ajuda", "FAQ e suporte"]
@@ -53,6 +54,7 @@
     ]},
     { id: "educacao", name: "Educação", pages: [
       ["cursos", "Cursos", "Formação em fotografia"],
+      ["biblioteca", "Biblioteca", "Técnicas, enquadramentos, linguagens e equipamentos"],
       ["curso", "Curso", "Fotografia de Rua — do olhar à narrativa"],
       ["meus-cursos", "Meus Cursos", "Progresso educacional"],
       ["aula", "Aula", "Player e materiais da aula"],
