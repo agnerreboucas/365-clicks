@@ -60,10 +60,15 @@ O 365 Clicks não é uma agenda de 365 posts. É um sistema em que desafios, té
   **Tema × Técnica × Enquadramento × Linguagem × Equipamento × Elemento**
 - Cadastro atual (vindo da planilha):
   - **Técnicas (6):** Macro, Panning, Silhueta, Minimalismo, Dupla exposição, Livre
-  - **Enquadramentos (8):** Vista superior, Plano médio, Enquadramento fechado, Close, Plano geral, Vista inferior, Plano detalhe, Livre
+  - **Enquadramentos (8):** Vista superior, Plano médio, Enquadramento fechado, Close ou plano detalhe, Plano geral, Vista inferior, Plano detalhe, Livre
   - **Linguagens (10):** Narrativa, Experimental, Documental, Street, Poética, Abstrata, Conceitual, Fotojornalística, Minimalista, Livre
-  - **Equipamentos (10):** Celular, Câmera, Grande angular, Lente normal, Teleobjetiva, Macro, Tripé, Flash, Luz natural, Livre
+  - **Equipamentos e recursos (11):** Celular, Câmera, Grande angular, Lente normal, Teleobjetiva, Macro, Tripé, Flash, Luz natural, Foco e desfoque (recurso), Livre
   - **Elemento (livre):** reservado para um sexto eixo (ex.: cor, hora do dia, clima). Ainda sem valores na planilha.
+- **Regras de compatibilidade** (aplicadas pelo importador; a lista completa de dias alterados fica em `conteudo/ajustes_calendario.md`):
+  - **Close → “Close ou plano detalhe”:** close quando o assunto é uma pessoa, plano detalhe quando é um objeto (46 dias).
+  - **Fotojornalismo não usa flash:** quando a linguagem é Fotojornalística, o equipamento Flash é trocado pelo recurso **Foco e desfoque** (36 dias). “Recurso” ocupa o lugar do equipamento e conta como característica.
+  - **Para revisar:** Documental + Dupla exposição (12 dias). A dupla exposição altera a cena, e o documental pede registro fiel. Aguarda decisão da curadoria.
+  - Novas regras entram na lista `REGRAS` de `tools/importar_calendario.py`.
 - A combinação é uma **proposta**, não uma receita: o sistema pode gerar combinações novas (Gerador de Desafio, Foto Criativa) sem mudar o desafio oficial do dia.
 - Cada elemento pode aparecer em muitos desafios; a distribuição atual é equilibrada (ex.: cada técnica aparece cerca de 61 vezes no ano).
 

@@ -47,8 +47,13 @@
     if (m === 1 && dd === 29) dd = 28;
     return Math.round((new Date(2025, m, dd) - new Date(2025, 0, 1)) / 864e5) + 1;
   }
+  /* Recursos que ocupam o lugar do equipamento (regras de compatibilidade da curadoria) */
+  var RECURSOS = ["Foco e desfoque"];
+  function rotuloEquip(valor) { return RECURSOS.indexOf(valor) > -1 ? "Recurso" : "Equipamento"; }
   function caracteristica(rotulo, valor) {
-    return valor === "Livre" ? rotulo + " livre (sua escolha)" : rotulo + ": " + valor;
+    if (valor === "Livre") return rotulo + " livre (sua escolha)";
+    if (valor === "Close ou plano detalhe") return rotulo + ": close (pessoas) ou plano detalhe (objetos)";
+    return rotulo + ": " + valor;
   }
   function doCalendario(n) {
     var r = CAL.dias[n - 1], tema = r[0], tl = tema.toLowerCase();
@@ -58,7 +63,7 @@
       missao: "Crie uma fotografia a partir do tema '" + tema + "', buscando uma interpretação autoral.",
       tecnica: tec, enquadramento: enq, linguagem: ling, equipamento: eq,
       combinacao: [tema, tec, enq, ling, eq].join(" + "),
-      caracteristicas: [caracteristica("Técnica", tec), caracteristica("Enquadramento", enq), caracteristica("Linguagem", ling), caracteristica("Equipamento", eq)],
+      caracteristicas: [caracteristica("Técnica", tec), caracteristica("Enquadramento", enq), caracteristica("Linguagem", ling), caracteristica(rotuloEquip(eq), eq)],
       dicas: ["Observe onde '" + tl + "' aparece de maneira inesperada.", "Mude distância, altura ou ponto de vista antes de apertar o disparador.", "Procure uma relação entre o tema e algo que normalmente passaria despercebido."],
       anos: ["Explore " + tl + " com foco em observação e técnica.", "Interprete " + tl + " de uma maneira diferente da proposta do primeiro ano.", "Transforme " + tl + " em uma narrativa ou conceito autoral."],
       artigo: "Como fotografar '" + tl + "'",
@@ -121,7 +126,7 @@
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", preencher); else preencher();
 
   window.Desafios = {
-    MINIMO: MINIMO, PONTOS: PONTOS, banco: BANCO, calendario: CAL, comElemento: comElemento,
+    MINIMO: MINIMO, PONTOS: PONTOS, banco: BANCO, calendario: CAL, comElemento: comElemento, rotuloEquip: rotuloEquip,
     doDia: doDia, noInstante: noInstante, hoje: function () { return doDia(new Date()); },
     semana: semana, status: status, pontos: pontos, fmt: fmt, dataCurta: dataCurta
   };

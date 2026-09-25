@@ -52,9 +52,11 @@ document.addEventListener("DOMContentLoaded", function () {
   var D = window.Desafios; if (!D) return;
   var h = D.hoje();
   var slug = function (v) { return v.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-"); };
-  var el = [["Técnica", "tecnica", h.tecnica], ["Enquadramento", "enquadramento", h.enquadramento], ["Linguagem", "linguagem", h.linguagem], ["Equipamento", "equipamento", h.equipamento]];
+  var el = [["Técnica", "tecnica", h.tecnica], ["Enquadramento", "enquadramento", h.enquadramento], ["Linguagem", "linguagem", h.linguagem], [D.rotuloEquip(h.equipamento), "equipamento", h.equipamento]];
   document.getElementById("combo").innerHTML = '<span class="chip" style="cursor:default;background:var(--c-ink);color:var(--c-inverse);border-color:var(--c-ink)">' + h.tema + "</span>" +
     el.map(function (e) { return '<a class="chip" href="biblioteca.html#' + e[1] + "-" + slug(e[2]) + '"><span class="small muted">' + e[0] + "</span>&nbsp;" + e[2] + "</a>"; }).join("");
+  if (h.enquadramento === "Close ou plano detalhe") document.getElementById("combo").insertAdjacentHTML("afterend", '<p class="small" style="margin:0">Enquadramento: <strong>close</strong> se o assunto for uma pessoa, <strong>plano detalhe</strong> se for um objeto.</p>');
+  if (h.equipamento === "Foco e desfoque") document.getElementById("combo").insertAdjacentHTML("afterend", '<p class="small" style="margin:0">Fotojornalismo não usa flash: trabalhe com a luz disponível e use foco e desfoque para guiar o olhar.</p>');
   document.getElementById("links-bib").innerHTML = el.filter(function (e) { return e[2] !== "Livre"; }).map(function (e) { return '<a class="small" href="biblioteca.html#' + e[1] + "-" + slug(e[2]) + '">' + e[0] + ": " + e[2] + " → biblioteca</a>"; }).join("");
   function ano(i) { document.getElementById("ano-texto").textContent = h.anos[i] || ""; document.querySelectorAll("#anos-tabs [data-ano]").forEach(function (b) { b.setAttribute("aria-selected", String(+b.getAttribute("data-ano") === i)); }); }
   document.getElementById("anos-tabs").addEventListener("click", function (e) { var b = e.target.closest("[data-ano]"); if (b) ano(+b.getAttribute("data-ano")); });
