@@ -261,7 +261,7 @@
       '<p class="viewer-desc">' + esc(foto.descricao) + "</p>" +
       '<dl class="kv" style="grid-template-columns:auto 1fr;margin:16px 0"><dt>Câmera</dt><dd style="text-align:left" class="mono">' + esc(foto.exif) + '</dd><dt>Local</dt><dd style="text-align:left">' + esc(foto.local) + '</dd><dt>Publicada</dt><dd style="text-align:left">' + esc(foto.data) + "</dd></dl>" +
       '<div class="cluster"><button class="btn btn-secondary btn-sm" type="button" aria-pressed="false" data-toggle data-on="Curtida registrada">' + I("heart", "i-sm") + " " + foto.curtidas + '</button><button class="btn btn-secondary btn-sm" type="button" aria-pressed="false" data-toggle data-on="Salva em Coleções">' + I("bookmark", "i-sm") + " Salvar</button>" + '<button class="btn btn-secondary btn-sm" type="button" data-v="compartilhar">Compartilhar</button></div><div data-share hidden></div>' +
-      '<div class="viewer-cta"><strong>Quer usar esta foto?</strong><p class="small" style="margin:4px 0 12px">Esta foto não pode ser baixada. Para comprar, licenciar ou contratar um trabalho, fale direto com ' + esc(ph.nome.split(" ")[0]) + '.</p><button class="btn btn-accent btn-block" type="button" data-v="contato">Falar com o fotógrafo</button></div>' +
+      '<div class="viewer-cta"><strong>Quer usar esta foto?</strong><p class="small" style="margin:4px 0 12px">Esta foto não pode ser baixada. Para comprar, licenciar ou contratar um trabalho, fale direto com ' + esc(ph.nome.split(" ")[0]) + '.</p><button class="btn btn-primary btn-block" type="button" data-v="contato">Falar com o fotógrafo</button></div>' +
       (outras.length ? '<h3 class="viewer-more">Mais de ' + esc(ph.nome) + '</h3><div class="viewer-thumbs">' + outras.map(function (f) {
         return '<button type="button" class="viewer-thumb" data-v="abrir" data-id="' + f.id + '" aria-label="Abrir “' + esc(f.titulo) + '”" style="background-image:url(\'' + f.thumb + "'),linear-gradient(160deg," + f.tone2 + "," + f.tone + ')"></button>';
       }).join("") + "</div>" : "") +
@@ -439,7 +439,7 @@
         '<div class="field"><label class="label" for="ct-msg">Mensagem</label><textarea class="textarea" id="ct-msg" placeholder="Conte como pretende usar a foto: onde, por quanto tempo e em que tamanho."></textarea></div>' +
         (t ? '<details class="doc"><summary><span class="grow">' + t.titulo + '</span><span class="badge plain mono">v' + t.versao + "</span>" + I("chevron") + '</summary><div class="doc-body">' + termo + "</div></details>" : "") +
         '<label class="accept"><input type="checkbox" id="ct-termo" required><span>Li e aceito o <strong>Termo de Contato e Direitos Autorais</strong>. Sei que o 365 Clicks registra este contato e não interfere na negociação.</span></label>' +
-        '<button class="btn btn-accent btn-block btn-lg" type="submit">Enviar para ' + esc(ph.nome.split(" ")[0]) + "</button>" +
+        '<button class="btn btn-primary btn-block btn-lg" type="submit">Enviar para ' + esc(ph.nome.split(" ")[0]) + "</button>" +
       "</form>";
     V.querySelector('[data-panel="info"]').hidden = true;
     p.hidden = false;

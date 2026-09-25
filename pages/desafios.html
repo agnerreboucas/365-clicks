@@ -22,7 +22,7 @@
 <main>
 <div class="cluster" style="justify-content:space-between;align-items:flex-end">
   <div><h1>Desafios 365</h1><p style="margin:0">Um desafio por dia, de 00:00 a 23:59:59. Cada um tem 4 características; sua foto precisa cumprir pelo menos 2.</p></div>
-  <a class="btn btn-accent btn-lg" href="desafio-do-dia.html">Desafio de hoje</a>
+  <a class="btn btn-primary btn-lg" href="desafio-do-dia.html">Desafio de hoje</a>
 </div>
 <div class="row" style="margin:24px 0">
   <div class="panel stat"><span class="small">Hoje encerra em</span><div class="metric num" id="falta">—</div><span class="small" id="hoje-nome"></span></div>
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var s0 = D.semana(0), s1 = D.semana(1);
   document.getElementById("t-semana").textContent = "Esta semana · " + D.dataCurta(s0[0].inicio) + " a " + D.dataCurta(s0[6].inicio);
   document.getElementById("t-proxima").textContent = "Próxima semana · " + D.dataCurta(s1[0].inicio) + " a " + D.dataCurta(s1[6].inicio);
-  var acao = function (ds, st) { return st === "aberto" ? '<a class="btn btn-accent btn-sm" href="publicar.html">Participar</a>' : st === "encerrado" ? '<a class="btn btn-ghost btn-sm" href="desafio-do-dia.html">Ver fotos</a>' : ""; };
+  var acao = function (ds, st) { return st === "aberto" ? '<a class="btn btn-primary btn-sm" href="publicar.html">Participar</a>' : st === "encerrado" ? '<a class="btn btn-ghost btn-sm" href="desafio-do-dia.html">Ver fotos</a>' : ""; };
   document.getElementById("semana").innerHTML = s0.map(function (d) { return card(d, acao); }).join("");
   document.getElementById("proxima").innerHTML = s1.map(function (d) { return card(d); }).join("");
   var hoje = D.hoje();

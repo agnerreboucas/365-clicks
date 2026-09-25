@@ -1,163 +1,191 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
 /* 365 Clicks — Design tokens
-   Fonte única de cor, tipografia, espaçamento, raio, sombra e movimento.
-   Tema claro em :root; tema escuro por preferência do sistema ou data-theme="dark". */
-@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Schibsted+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap");
+   Base: "a fotografia vem primeiro". Canvas neutro, uma única cor de ação,
+   grade de 8px e tipografia com toque editorial. Ver design-system/index.html. */
 
 :root {
-  /* Neutros (levemente quentes, puxando para o âmbar da "golden hour") */
-  --bg: #f4f4f1;
-  --surface: #ffffff;
-  --surface-2: #ebebe6;
-  --surface-inverse: #141413;
-  --ink: #141413;
-  --ink-2: #55554f;
-  --ink-3: #85857d;
-  --ink-inverse: #f7f7f3;
-  --line: #e0e0da;
-  --line-strong: #c9c9c1;
-  --overlay: rgba(12, 12, 10, .55);
+  /* Cores — neutros */
+  --c-canvas: #fafaf8;        /* fundo da página */
+  --c-surface: #ffffff;       /* cards, header */
+  --c-surface-2: #f1f1ee;     /* inputs, chips, áreas secundárias */
+  --c-line: #e6e6e1;          /* bordas e divisores */
+  --c-ink: #121212;           /* texto principal (17.9:1 sobre canvas) */
+  --c-ink-2: #3d3d3a;         /* texto secundário forte */
+  --c-muted: #6b6b66;         /* legendas e metadados (5.1:1 sobre canvas) */
+  --c-inverse: #ffffff;
 
-  /* Acento: golden hour — reservado ao 365 Challenge (dia, sequência, progresso) */
-  --accent: #e39a14;
-  --accent-ink: #8a5300;
-  --accent-soft: #fbefd6;
-  --on-accent: #141413;
+  /* Cores — ação e marca (hora dourada) */
+  --c-accent: #c2410c;        /* CTA principal, desafio do dia (5.2:1 com branco) */
+  --c-accent-hover: #9a3412;
+  --c-accent-soft: #fff1e8;   /* fundo de destaque suave */
+  --c-accent-ink: #9a3412;    /* texto de destaque sobre fundo claro */
 
-  /* Semânticas */
-  --success: #1c8a57;
-  --success-soft: #dff3e8;
-  --warning: #b86e00;
-  --warning-soft: #fcebd0;
-  --danger: #c93b3b;
-  --danger-soft: #fbe3e1;
-  --info: #2c66d1;
-  --info-soft: #e1eafb;
+  /* Cores — estados */
+  --c-success: #15803d;
+  --c-warning: #a16207;
+  --c-danger: #b91c1c;
+  --c-focus: #2563eb;
+
+  /* Overlay para texto sobre foto */
+  --overlay-photo: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,.72) 100%);
+  --overlay-hero: linear-gradient(90deg, rgba(0,0,0,.66) 0%, rgba(0,0,0,.28) 55%, rgba(0,0,0,.05) 100%);
 
   /* Tipografia */
-  --font-display: "Bricolage Grotesque", "Schibsted Grotesk", system-ui, sans-serif;
-  --font-body: "Schibsted Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-display: "Instrument Serif", Georgia, "Times New Roman", serif; /* títulos editoriais */
 
-  --fs-xs: .75rem;    /* 12 — legendas, EXIF */
-  --fs-sm: .8125rem;  /* 13 — metadados */
-  --fs-md: .9375rem;  /* 15 — corpo */
-  --fs-lg: 1.0625rem; /* 17 — corpo destacado */
-  --fs-xl: 1.25rem;   /* 20 — h3 */
-  --fs-2xl: 1.5rem;   /* 24 — h2 */
-  --fs-3xl: 2rem;     /* 32 — números */
-  --fs-4xl: 2.75rem;  /* 44 — h1 */
-  --fs-5xl: 3.75rem;  /* 60 — hero */
+  --fs-12: 0.75rem;   /* legenda */
+  --fs-14: 0.875rem;  /* metadados, chips, botões */
+  --fs-16: 1rem;      /* corpo */
+  --fs-18: 1.125rem;  /* corpo grande */
+  --fs-20: 1.25rem;   /* h4 */
+  --fs-24: 1.5rem;    /* h3 */
+  --fs-32: 2rem;      /* h2 */
+  --fs-40: 2.5rem;    /* h2 destaque */
+  --fs-56: 3.5rem;    /* h1 */
+  --fs-72: 4.5rem;    /* h1 hero */
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
 
   --lh-tight: 1.05;
   --lh-snug: 1.25;
   --lh-body: 1.6;
+  --tracking-tight: -0.02em;
+  --tracking-caps: 0.08em;
 
-  /* Espaçamento (base 4) */
+  /* Espaçamento — grade de 8px (4px apenas para ajustes finos) */
   --sp-1: 4px;
   --sp-2: 8px;
   --sp-3: 12px;
   --sp-4: 16px;
-  --sp-5: 20px;
-  --sp-6: 24px;
-  --sp-7: 32px;
-  --sp-8: 48px;
-  --sp-9: 64px;
-  --sp-10: 96px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+  --sp-9: 96px;
 
-  /* Raio */
-  --r-sm: 6px;
-  --r-md: 10px;
-  --r-lg: 16px;
-  --r-xl: 22px;
-  --r-pill: 999px;
+  /* Forma */
+  --r-sm: 6px;       /* tags, inputs pequenos */
+  --r-md: 10px;      /* botões, inputs */
+  --r-lg: 16px;      /* cards */
+  --r-xl: 24px;      /* hero, painéis grandes */
+  --r-pill: 999px;   /* chips, avatares */
 
-  /* Sombras (só em elementos flutuantes: menus, modais, toasts) */
-  --shadow-float: 0 12px 32px rgba(20, 20, 19, .14), 0 2px 6px rgba(20, 20, 19, .06);
-  --shadow-soft: 0 1px 2px rgba(20, 20, 19, .06);
+  --shadow-1: 0 1px 2px rgba(18,18,18,.06);
+  --shadow-2: 0 4px 16px rgba(18,18,18,.08);
+  --shadow-3: 0 16px 40px rgba(18,18,18,.14);
 
   /* Layout */
-  --container: 1280px;
-  --gutter: 28px;
-  --header-h: 68px;
-  --tabbar-h: 64px;
-  --masonry-min: 240px;
-  --masonry-gap: 16px;
+  --container: 1320px;
+  --gutter: 16px;          /* mobile */
+  --gutter-lg: 32px;       /* desktop */
+  --header-h: 64px;
+  --gallery-gap: 12px;
 
   /* Movimento */
-  --ease: cubic-bezier(.2, .7, .2, 1);
+  --ease: cubic-bezier(.2,.7,.2,1);
   --dur-fast: 120ms;
   --dur: 220ms;
 
+  /* Breakpoints (referência — usar em media queries) */
+  /* sm 640 · md 900 · lg 1200 */
+}
+
+/* =====================================================================
+   Extensões do protótipo 365 Clicks (não alteram os valores acima)
+   ===================================================================== */
+:root {
+  /* Fonte mono só para dados técnicos (EXIF, contadores, códigos) */
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  /* Títulos da interface usam Inter; Instrument Serif (--font-display) fica para momentos editoriais */
+  --font-heading: var(--font-sans);
+
+  /* Complementos de cor usados pelos componentes do protótipo */
+  --c-line-strong: #cfcfc8;
+  --c-on-accent: #ffffff;
+  --c-overlay: rgba(12, 12, 10, .6);
+  --c-success-soft: #e3f3e8;
+  --c-warning-soft: #fbf0d9;
+  --c-danger-soft: #fbe4e2;
+  --c-info: #1d4ed8;
+  --c-info-soft: #e3ebfb;
+  --sp-10: 128px;
+  --tabbar-h: 64px;
   color-scheme: light;
 }
 
+/* Tema escuro derivado da mesma paleta (canvas escuro, accent levemente mais claro para manter contraste AA) */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0f0f0e;
-    --surface: #181817;
-    --surface-2: #232321;
-    --surface-inverse: #f2f2ee;
-    --ink: #f2f2ee;
-    --ink-2: #b3b3aa;
-    --ink-3: #7e7e76;
-    --ink-inverse: #141413;
-    --line: #2b2b28;
-    --line-strong: #3d3d39;
-    --overlay: rgba(0, 0, 0, .7);
-    --accent: #f2aa24;
-    --accent-ink: #f6bd52;
-    --accent-soft: #3a2a0c;
-    --on-accent: #141413;
-    --success: #45c08a;
-    --success-soft: #133325;
-    --warning: #f0a33a;
-    --warning-soft: #3a2a0f;
-    --danger: #ef6b6b;
-    --danger-soft: #3d1919;
-    --info: #6f9cf0;
-    --info-soft: #172642;
-    --shadow-float: 0 12px 32px rgba(0, 0, 0, .5), 0 2px 6px rgba(0, 0, 0, .3);
-    --shadow-soft: none;
+    --c-canvas: #0f0f0e; --c-surface: #181817; --c-surface-2: #232321; --c-line: #2d2d2a; --c-line-strong: #43433f;
+    --c-ink: #f3f3ef; --c-ink-2: #d6d6cf; --c-muted: #a4a49c; --c-inverse: #121212;
+    --c-accent: #e2682f; --c-accent-hover: #f07c45; --c-accent-soft: #3a1c0e; --c-accent-ink: #f8a878;
+    --c-success: #4ade80; --c-warning: #facc15; --c-danger: #f87171; --c-focus: #60a5fa; --c-info: #93b4f5;
+    --c-success-soft: #12301f; --c-warning-soft: #33290a; --c-danger-soft: #3b1616; --c-info-soft: #16233f;
+    --c-overlay: rgba(0, 0, 0, .72);
+    --shadow-1: none; --shadow-2: 0 4px 16px rgba(0,0,0,.4); --shadow-3: 0 16px 40px rgba(0,0,0,.55);
     color-scheme: dark;
   }
 }
-
 :root[data-theme="dark"] {
-  --bg: #0f0f0e;
-  --surface: #181817;
-  --surface-2: #232321;
-  --surface-inverse: #f2f2ee;
-  --ink: #f2f2ee;
-  --ink-2: #b3b3aa;
-  --ink-3: #7e7e76;
-  --ink-inverse: #141413;
-  --line: #2b2b28;
-  --line-strong: #3d3d39;
-  --overlay: rgba(0, 0, 0, .7);
-  --accent: #f2aa24;
-  --accent-ink: #f6bd52;
-  --accent-soft: #3a2a0c;
-  --on-accent: #141413;
-  --success: #45c08a;
-  --success-soft: #133325;
-  --warning: #f0a33a;
-  --warning-soft: #3a2a0f;
-  --danger: #ef6b6b;
-  --danger-soft: #3d1919;
-  --info: #6f9cf0;
-  --info-soft: #172642;
-  --shadow-float: 0 12px 32px rgba(0, 0, 0, .5), 0 2px 6px rgba(0, 0, 0, .3);
-  --shadow-soft: none;
+  --c-canvas: #0f0f0e; --c-surface: #181817; --c-surface-2: #232321; --c-line: #2d2d2a; --c-line-strong: #43433f;
+  --c-ink: #f3f3ef; --c-ink-2: #d6d6cf; --c-muted: #a4a49c; --c-inverse: #121212;
+  --c-accent: #e2682f; --c-accent-hover: #f07c45; --c-accent-soft: #3a1c0e; --c-accent-ink: #f8a878;
+  --c-success: #4ade80; --c-warning: #facc15; --c-danger: #f87171; --c-focus: #60a5fa; --c-info: #93b4f5;
+  --c-success-soft: #12301f; --c-warning-soft: #33290a; --c-danger-soft: #3b1616; --c-info-soft: #16233f;
+  --c-overlay: rgba(0, 0, 0, .72);
+  --shadow-1: none; --shadow-2: 0 4px 16px rgba(0,0,0,.4); --shadow-3: 0 16px 40px rgba(0,0,0,.55);
   color-scheme: dark;
 }
 
-@media (max-width: 800px) {
-  :root {
-    --gutter: 16px;
-    --header-h: 60px;
-    --fs-4xl: 2.125rem;
-    --fs-5xl: 2.625rem;
-    --masonry-gap: 10px;
-    --masonry-min: 150px;
-  }
+/* ---------------------------------------------------------------------
+   Apelidos: nomes usados pelas 66 telas do protótipo → tokens oficiais.
+   Novas telas devem usar os nomes oficiais (--c-*, --fs-NN).
+   --------------------------------------------------------------------- */
+:root {
+  --bg: var(--c-canvas);
+  --surface: var(--c-surface);
+  --surface-2: var(--c-surface-2);
+  --surface-inverse: var(--c-ink);
+  --ink: var(--c-ink);
+  --ink-2: var(--c-ink-2);
+  --ink-3: var(--c-muted);
+  --ink-inverse: var(--c-inverse);
+  --line: var(--c-line);
+  --line-strong: var(--c-line-strong);
+  --overlay: var(--c-overlay);
+  --accent: var(--c-accent);
+  --accent-ink: var(--c-accent-ink);
+  --accent-soft: var(--c-accent-soft);
+  --on-accent: var(--c-on-accent);
+  --success: var(--c-success);
+  --success-soft: var(--c-success-soft);
+  --warning: var(--c-warning);
+  --warning-soft: var(--c-warning-soft);
+  --danger: var(--c-danger);
+  --danger-soft: var(--c-danger-soft);
+  --info: var(--c-info);
+  --info-soft: var(--c-info-soft);
+  --font-body: var(--font-sans);
+
+  --fs-xs: var(--fs-12);
+  --fs-sm: var(--fs-14);
+  --fs-md: var(--fs-16);
+  --fs-lg: var(--fs-18);
+  --fs-xl: var(--fs-20);
+  --fs-2xl: var(--fs-24);
+  --fs-3xl: var(--fs-32);
+  --fs-4xl: var(--fs-40);
+  --fs-5xl: var(--fs-56);
+
+  --shadow-float: var(--shadow-3);
+  --shadow-soft: var(--shadow-1);
+  --masonry-gap: var(--gallery-gap);
+  --masonry-min: 240px;
 }
+@media (min-width: 901px) { :root { --gutter: var(--gutter-lg); } }
+@media (max-width: 800px) { :root { --masonry-min: 150px; --fs-5xl: var(--fs-40); --fs-4xl: var(--fs-32); } }

@@ -183,7 +183,7 @@
     el.className = "site-header";
     el.innerHTML =
       '<button class="btn btn-ghost btn-icon menu-toggle" type="button" data-drawer-open aria-label="Abrir menu">' + icon("menu") + "</button>" +
-      '<a class="logo" href="' + page("home") + '" aria-label="365 Clicks — início"><span class="logo-mark">365</span><span>Clicks</span></a>' +
+      '<a class="logo" href="' + page("home") + '" aria-label="365 Clicks — início">365<b>·</b>CLICKS</a>' +
       '<nav class="site-nav" aria-label="Principal">' +
         PRIMARY.map(function (l) { return '<a href="' + page(l[0]) + '"' + cur(l[0]) + ">" + l[1] + "</a>"; }).join("") +
         '<div class="more' + (currentModule && !inPrimary && current !== "home" ? " is-current" : "") + '"><button type="button" aria-expanded="false" aria-haspopup="true" data-more>Mais ' + icon("chevron", "i-sm") + '</button><div class="menu" hidden>' + moreMenu + "</div></div>" +
@@ -262,7 +262,7 @@
     d.setAttribute("aria-modal", "true");
     d.setAttribute("aria-label", "Menu");
     d.innerHTML = '<div class="modal-backdrop" data-drawer-close></div><div class="drawer-panel">' +
-      '<div class="drawer-head"><a class="logo" href="' + page("home") + '"><span class="logo-mark">365</span><span>Clicks</span></a>' +
+      '<div class="drawer-head"><a class="logo" href="' + page("home") + '">365<b>·</b>CLICKS</a>' +
       '<button class="btn btn-ghost btn-icon" type="button" data-drawer-close aria-label="Fechar menu">' + icon("close") + "</button></div>" +
       '<form class="search-field" role="search" data-search style="margin-bottom:16px">' + icon("search") + '<label class="sr-only" for="q-drawer">Pesquisar</label><input class="input" id="q-drawer" type="search" placeholder="Pesquisar"></form>' +
       SITEMAP.map(function (m) {
@@ -289,9 +289,12 @@
 
   function renderFooter(el) {
     el.className = "site-footer";
-    el.innerHTML = '<div class="inner"><a class="logo" href="' + page("home") + '"><span class="logo-mark">365</span><span>Clicks</span></a>' +
-      '<nav aria-label="Rodapé"><a href="' + page("sobre") + '">Sobre</a><a href="' + page("planos") + '">Planos</a><a href="' + page("blog") + '">Blog</a><a href="' + page("ajuda") + '">Ajuda</a><a href="' + page("contato") + '">Contato</a></nav>' +
-      "<span>Fotografe. Compartilhe. Evolua.</span></div>";
+    var col = function (titulo, itens) { return "<div><h4>" + titulo + "</h4>" + itens.map(function (i) { return '<a href="' + page(i[0]) + '">' + i[1] + "</a>"; }).join("") + "</div>"; };
+    el.innerHTML = '<div class="footer-grid"><div><a class="logo" href="' + page("home") + '">365<b>·</b>CLICKS</a><p>Fotografe. Compartilhe. Evolua.</p></div>' +
+      col("Descobrir", [["explorar", "Explorar"], ["colecoes", "Coleções"], ["fotografos", "Fotógrafos"], ["nunca-tirei", "A foto que eu nunca tirei"]]) +
+      col("Praticar", [["desafio-do-dia", "Desafio do dia"], ["desafios", "Semana de desafios"], ["foto-criativa", "Foto Criativa"], ["cursos", "Cursos"]]) +
+      col("Comunidade", [["eventos", "Eventos"], ["blog", "Blog"], ["ranking", "Ranking"], ["loja", "Loja"]]) +
+      col("365 Clicks", [["sobre", "Sobre"], ["planos", "Planos"], ["ajuda", "Ajuda"], ["termos", "Termos"]]) + "</div>";
   }
 
   /* ---------- Masonry por linha ---------- */
@@ -323,6 +326,31 @@
     colEls.forEach(function (c) { grid.appendChild(c); });
     grid.classList.add("is-masonry");
   }
+  /* "Carregar mais" nas galerias verticais (o rodapé continua acessível); o Feed horizontal segue infinito */
+  function carregarMais() {
+    document.querySelectorAll(".grid").forEach(function (g) {
+      if (g.hasAttribute("data-sem-mais") || g.querySelectorAll(".card").length < 8 || g.nextElementSibling && g.nextElementSibling.classList.contains("load-more")) return;
+      var box = document.createElement("div");
+      box.className = "load-more";
+      box.innerHTML = '<button class="btn btn-secondary" type="button">Carregar mais fotografias</button>';
+      g.parentNode.insertBefore(box, g.nextSibling);
+      var lote = 1;
+      box.firstChild.addEventListener("click", function () {
+        var base = g._items || Array.prototype.slice.call(g.querySelectorAll(".card"));
+        var novos = base.slice(0, 8).map(function (c) { var n = c.cloneNode(true); n.removeAttribute("data-photo"); var h = n.querySelector(".card-hit"); if (h) h.remove(); return n; });
+        var wrap = document.createElement("div");
+        novos.forEach(function (n) { wrap.appendChild(n); });
+        if (C365.viewer && window.Fotos) {
+          var l = window.Fotos.lista, desloc = (lote * 8) % l.length;
+          C365.viewer.hidratar(wrap, l.slice(desloc).concat(l.slice(0, desloc)));
+        }
+        novos.forEach(function (n) { g.appendChild(n); if (g._items) g._items.push(n); });
+        lote++;
+        C365.masonry();
+      });
+    });
+  }
+  C365.carregarMais = carregarMais;
   C365.masonry = function () { document.querySelectorAll(".grid").forEach(function (g) { layoutMasonry(g, true); }); };
   /* Chegadas por link compartilhado (UTM + ref): base do ranking de quem traz visitas */
   (function () {
@@ -453,6 +481,7 @@
         if (C365.viewer) C365.viewer.hidratar();
         markBrokenImages();
         initMasonry();
+        carregarMais();
         document.dispatchEvent(new CustomEvent("c365:fotos"));
       });
     } else {

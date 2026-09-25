@@ -124,7 +124,7 @@
         <div class="panel" style="margin-top:16px" data-pag="boleto" hidden>
           <p style="margin:0">O boleto vence em 2 dias úteis. A vaga fica reservada até a compensação; se o boleto não for pago, ela é liberada.</p>
         </div>
-        <div class="step-foot"><button class="btn btn-ghost btn-lg" type="button" data-prev>Voltar</button><button class="btn btn-accent btn-lg" type="button" id="pagar">Pagar</button></div>
+        <div class="step-foot"><button class="btn btn-ghost btn-lg" type="button" data-prev>Voltar</button><button class="btn btn-primary btn-lg" type="button" id="pagar">Pagar</button></div>
       </section>
 
       <!-- 5. Confirmação -->
@@ -238,7 +238,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (STEPS[atual][0] === "pagamento") payLabel();
     var last = STEPS[atual][0] === "termos" && gratis;
     $("#termos-next").textContent = last ? "Confirmar inscrição" : "Continuar";
-    $("#termos-next").classList.toggle("btn-accent", last);
+    $("#termos-next").classList.toggle("btn-primary", last);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 

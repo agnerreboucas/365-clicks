@@ -405,7 +405,7 @@
       '<section class="hero lp-hero" style="--img:url(\'' + o.img + '\');--tone:' + o.tone + ";--tone2:" + o.tone2 + '"><div>' +
         '<div class="eyebrow">' + esc(o.categoria) + " · " + esc(o.dataCurta) + " · " + esc(o.local) + "</div>" +
         "<h1>" + esc(h.promessa || o.titulo) + "</h1><p>" + esc(h.apoio || o.resumo) + "</p>" +
-        '<div class="cluster"><a class="btn btn-accent btn-lg" href="' + link + '">' + cta + '</a><a class="btn btn-lg lp-ghost" href="#detalhes">Ver detalhes</a></div>' +
+        '<div class="cluster"><a class="btn btn-primary btn-lg" href="' + link + '">' + cta + '</a><a class="btn btn-lg lp-ghost" href="#detalhes">Ver detalhes</a></div>' +
         '<div class="lp-facts"><span><strong>' + esc(o.titulo) + "</strong></span><span>" + esc(o.data) + "</span><span>" + esc(o.horario) + "</span><span>" + preco + "</span><span>" + vagas + "</span></div>" +
       "</div></section>" +
 
@@ -420,7 +420,7 @@
 
       /* 4. Plano em 3 passos + 5. Chamada */
       (h.plano ? '<section class="lp-sec"><span class="eyebrow">Como funciona</span><h2>Três passos</h2><ol class="lp-plan">' +
-        h.plano.map(function (p) { return "<li><strong>" + esc(p[0]) + "</strong><span>" + esc(p[1]) + "</span></li>"; }).join("") + '</ol><a class="btn btn-accent btn-lg" href="' + link + '">' + cta + "</a></section>" : "") +
+        h.plano.map(function (p) { return "<li><strong>" + esc(p[0]) + "</strong><span>" + esc(p[1]) + "</span></li>"; }).join("") + '</ol><a class="btn btn-primary btn-lg" href="' + link + '">' + cta + "</a></section>" : "") +
 
       /* 6. Fracasso x 7. Sucesso */
       (h.sucesso ? '<section class="lp-sec lp-stakes"><div class="panel"><span class="eyebrow">Sem isso</span><ul>' + li(h.fracasso) + '</ul></div><div class="panel inverse"><span class="eyebrow" style="color:var(--accent)">Depois ' + (o.tipo === "curso" ? "do curso" : "do evento") + "</span><ul>" + li(h.sucesso) + "</ul></div></section>" : "") +
@@ -447,17 +447,17 @@
           }).join("") + "</div>" +
           (o.descontoClube ? '<div class="notice"><span>Assinantes do plano Clube têm <strong>' + Math.round(o.descontoClube * 100) + "% de desconto</strong>, aplicado no pagamento.</span></div>" : "") +
           (o.parcelas && !gratis ? '<span class="small">Pix, boleto ou cartão' + (o.parcelas > 1 ? " em até " + o.parcelas + "x sem juros" : "") + ".</span>" : "") +
-          '<a class="btn btn-accent btn-lg btn-block" href="' + link + '">' + cta + "</a>" +
+          '<a class="btn btn-primary btn-lg btn-block" href="' + link + '">' + cta + "</a>" +
           '<span class="small" style="text-align:center">Leva cerca de 3 minutos.</span>' +
         "</aside>" +
       "</section>" +
 
       /* Chamada final */
-      '<section class="lp-final"><h2>' + esc(h.promessa || o.titulo) + '</h2><p>' + esc(o.dataCurta) + " · " + esc(o.local) + " · " + vagas + '</p><a class="btn btn-accent btn-lg" href="' + link + '">' + cta + "</a></section>";
+      '<section class="lp-final"><h2>' + esc(h.promessa || o.titulo) + '</h2><p>' + esc(o.dataCurta) + " · " + esc(o.local) + " · " + vagas + '</p><a class="btn btn-primary btn-lg" href="' + link + '">' + cta + "</a></section>";
 
     var bar = document.createElement("div");
     bar.className = "buy-bar";
-    bar.innerHTML = '<div class="grow"><strong>' + preco + '</strong><div class="small">' + esc(o.dataCurta) + (o.restantes != null ? " · " + o.restantes + " vagas" : "") + '</div></div><a class="btn btn-accent" href="' + link + '">Inscrever-se</a>';
+    bar.innerHTML = '<div class="grow"><strong>' + preco + '</strong><div class="small">' + esc(o.dataCurta) + (o.restantes != null ? " · " + o.restantes + " vagas" : "") + '</div></div><a class="btn btn-primary" href="' + link + '">Inscrever-se</a>';
     document.body.appendChild(bar);
     document.body.classList.add("has-buy-bar");
   }

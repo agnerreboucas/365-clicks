@@ -10,12 +10,12 @@
 .prod .vis { position: relative; aspect-ratio: 1; border-radius: var(--r-lg); display: grid; place-items: center; overflow: hidden; background: var(--surface-2); }
 .prod .vis .badge { position: absolute; top: var(--sp-3); left: var(--sp-3); }
 .prod h3 { margin: 0; font-size: var(--fs-lg); }
-.prod .preco { font-family: var(--font-display); font-weight: 800; font-size: var(--fs-xl); }
+.prod .preco { font-family: var(--font-heading); font-weight: 800; font-size: var(--fs-xl); }
 .prod .preco s { font-family: var(--font-body); font-weight: 400; font-size: var(--fs-sm); color: var(--ink-3); margin-left: 6px; }
 .prod .acts { display: flex; gap: var(--sp-2); align-items: center; margin-top: auto; flex-wrap: wrap; }
 .prod .select { width: auto; min-height: 34px; padding: 4px 10px; font-size: var(--fs-sm); }
 /* Capas e mockups desenhados em CSS */
-.book { width: 52%; aspect-ratio: 2 / 3; background: #161614; color: #f2f2ee; border-radius: 3px 8px 8px 3px; box-shadow: 6px 8px 0 rgba(0,0,0,.18); padding: 14% 10%; display: flex; flex-direction: column; justify-content: space-between; font-family: var(--font-display); }
+.book { width: 52%; aspect-ratio: 2 / 3; background: #161614; color: #f2f2ee; border-radius: 3px 8px 8px 3px; box-shadow: 6px 8px 0 rgba(0,0,0,.18); padding: 14% 10%; display: flex; flex-direction: column; justify-content: space-between; font-family: var(--font-heading); }
 .book b { font-size: clamp(14px, 2vw, 20px); line-height: 1.05; letter-spacing: -.02em; }
 .book i { font-style: normal; font-family: var(--font-mono); font-size: 9px; opacity: .7; }
 .book .fr { aspect-ratio: 3/2; border: 1.5px solid #f2f2ee; position: relative; }
@@ -49,7 +49,7 @@
   <ul id="itens"></ul>
   <label class="switch"><input type="checkbox" id="clube"> Sou assinante do Clube (−20%)</label>
   <dl class="kv" id="tot"></dl>
-  <button class="btn btn-accent btn-lg btn-block" type="button" id="finalizar">Finalizar compra</button>
+  <button class="btn btn-primary btn-lg btn-block" type="button" id="finalizar">Finalizar compra</button>
   <span class="small" style="text-align:center">Pix, cartão em até 6x ou boleto. Frete calculado no pagamento.</span>
 </aside>
 <footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>

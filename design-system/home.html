@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>365 Clicks — Fotografe todos os dias</title>
+<meta name="description" content="Desafio diário de fotografia, comunidade e portfólio. Fotografe todos os dias, desenvolva seu olhar e construa seu portfólio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components-v0.css">
+<style>
+  .hero { position: relative; margin-top: var(--sp-4); min-height: 560px; border-radius: var(--r-xl); overflow: hidden; display: flex; align-items: end;
+    background: var(--c-ink) url('https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=2000&q=80') center/cover; color: var(--c-inverse); }
+  .hero::before { content: ""; position: absolute; inset: 0; background: var(--overlay-hero); }
+  .hero-inner { position: relative; padding: var(--sp-7) var(--sp-5); width: 100%; max-width: 760px; display: flex; flex-direction: column; gap: var(--sp-4); }
+  @media (min-width: 900px) { .hero-inner { padding: var(--sp-8); } }
+  .hero .eyebrow { color: #e7e7e2; }
+  .hero .lead { color: #ededea; margin: 0; }
+  .hero .h1 em { font-family: var(--font-display); font-weight: 400; font-style: italic; }
+  .hero-trending { font-size: var(--fs-14); color: #e7e7e2; }
+  .hero-trending a { color: var(--c-inverse); font-weight: var(--fw-semibold); }
+  .hero-credit { position: absolute; right: var(--sp-4); bottom: var(--sp-4); font-size: var(--fs-12); color: #e7e7e2; }
+  .topics { margin-top: var(--sp-5); }
+  .interp { border-radius: var(--r-lg); overflow: hidden; position: relative; aspect-ratio: 4/5; background: var(--c-surface-2) center/cover; }
+  .interp .photo-meta { opacity: 1; }
+  .split { display: grid; gap: var(--sp-4); }
+  @media (min-width: 900px) { .split { grid-template-columns: 1fr 1fr; } }
+  .feature { padding: var(--sp-6); display: flex; flex-direction: column; gap: var(--sp-3); align-items: start; }
+  .feature .h2 { font-family: var(--font-display); font-weight: 400; font-size: var(--fs-40); }
+  .event-list { display: grid; gap: var(--sp-3); width: 100%; }
+  .event { display: grid; grid-template-columns: 56px 1fr; gap: var(--sp-3); align-items: center; padding: var(--sp-3); border: 1px solid var(--c-line); border-radius: var(--r-md); }
+  .event time { text-align: center; line-height: 1.1; font-weight: var(--fw-bold); font-size: var(--fs-20); }
+  .event time small { display: block; font-size: var(--fs-12); color: var(--c-muted); font-weight: var(--fw-semibold); text-transform: uppercase; }
+  .cta-band .h1 { font-family: var(--font-display); font-weight: 400; }
+  .cta-band .h1 em { color: #fdba74; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="logo" href="home.html">365<b>·</b>CLICKS</a>
+    <nav class="nav" aria-label="Principal">
+      <a href="#" aria-current="page">Explorar</a>
+      <a href="#">Desafios</a>
+      <a href="#">Fotógrafos</a>
+      <a href="#">Cursos</a>
+      <a href="#">Eventos</a>
+    </nav>
+    <label class="search header-search">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" placeholder="Pesquisar fotografias, fotógrafos, desafios…" aria-label="Pesquisar">
+    </label>
+    <div class="header-actions">
+      <a class="btn btn-ghost btn-sm" href="#">Entrar</a>
+      <a class="btn btn-primary btn-sm" href="#">Começar o 365</a>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- Hero fotográfico + busca central -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-inner">
+      <span class="eyebrow">Comunidade fotográfica · Dia 127 de 365</span>
+      <h1 class="h1" id="hero-title">Fotografe <em>todos</em> os dias.</h1>
+      <p class="lead">Desenvolva seu olhar. Compartilhe seu trabalho. Construa seu portfólio.</p>
+      <label class="search search-lg">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="search" placeholder="Pesquise fotografias, fotógrafos, desafios e lugares" aria-label="Pesquisar">
+      </label>
+      <p class="hero-trending">Em alta: <a href="#">reflexos</a>, <a href="#">rua</a>, <a href="#">retrato no celular</a>, <a href="#">preto e branco</a></p>
+    </div>
+    <span class="hero-credit">Foto de @fotografo_1 · Dia 126</span>
+  </section>
+
+  <!-- Navegação por temas -->
+  <nav class="chips topics" aria-label="Temas">
+    <a class="chip" aria-pressed="true" href="#">Destaques</a>
+    <a class="chip" href="#">Desafio de hoje</a>
+    <a class="chip" href="#">Natureza</a>
+    <a class="chip" href="#">Retratos</a>
+    <a class="chip" href="#">Rua</a>
+    <a class="chip" href="#">Arquitetura</a>
+    <a class="chip" href="#">Viagem</a>
+    <a class="chip" href="#">Preto e branco</a>
+    <a class="chip" href="#">Feito no celular</a>
+    <a class="chip" href="#">Noturna</a>
+  </nav>
+
+  <!-- Desafio do dia -->
+  <section class="section" aria-labelledby="desafio">
+    <article class="challenge">
+      <div class="challenge-photo" style="background-image:url('https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1400&q=80')" role="img" aria-label="Lago refletindo montanhas"></div>
+      <div class="challenge-body">
+        <span class="tag">Desafio do dia · 127/365</span>
+        <h2 class="h2" id="desafio"><span class="display" style="font-size:var(--fs-40)">Água</span> — Reflexos</h2>
+        <p class="muted" style="margin:0">Fotografe a água de um jeito que você normalmente não observaria. Procure o reflexo antes do objeto.</p>
+        <div>
+          <div class="progress" aria-label="Progresso: 127 de 365 dias"><span style="width:34.8%"></span></div>
+          <p class="small muted" style="margin:var(--sp-2) 0 0">Você está no dia 127 · sequência de 12 dias</p>
+        </div>
+        <div class="stats">
+          <div class="stat"><b>2.418</b><span>participantes hoje</span></div>
+          <div class="stat"><b>14h</b><span>até o próximo desafio</span></div>
+        </div>
+        <div style="display:flex;gap:var(--sp-2);flex-wrap:wrap">
+          <a class="btn btn-primary" href="#">Aceitar desafio</a>
+          <a class="btn btn-secondary" href="#">Ver dicas</a>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- Galeria da comunidade -->
+  <section class="section" aria-labelledby="galeria">
+    <div class="section-head">
+      <div><span class="eyebrow">Galeria viva</span><h2 class="h2" id="galeria">Fotografias da comunidade</h2></div>
+      <a href="#">Ver tudo →</a>
+    </div>
+    <div class="masonry" id="gallery"></div>
+    <div class="load-more"><button class="btn btn-secondary">Carregar mais fotografias</button></div>
+  </section>
+
+  <!-- Interpretações do desafio -->
+  <section class="section" aria-labelledby="interp">
+    <div class="section-head">
+      <div><span class="eyebrow">Mesmo tema, olhares diferentes</span><h2 class="h2" id="interp">Interpretações de “Reflexos”</h2></div>
+      <a href="#">Ver as 2.418 →</a>
+    </div>
+    <div class="rail" id="interpretations"></div>
+  </section>
+
+  <!-- Fotógrafos para conhecer -->
+  <section class="section" aria-labelledby="fotografos">
+    <div class="section-head">
+      <div><span class="eyebrow">Curadoria da semana</span><h2 class="h2" id="fotografos">Fotógrafos para conhecer</h2></div>
+      <a href="#">Diretório →</a>
+    </div>
+    <div class="rail" id="people"></div>
+  </section>
+
+  <!-- Coleções -->
+  <section class="section" aria-labelledby="colecoes">
+    <div class="section-head">
+      <div><span class="eyebrow">Editorial</span><h2 class="h2" id="colecoes">Coleções</h2></div>
+      <a href="#">Todas as coleções →</a>
+    </div>
+    <div class="collections">
+      <a class="collection" href="#" style="background-image:url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1400&q=80')">
+        <div><span class="eyebrow" style="color:#e7e7e2">Coleção · 86 fotos</span><h3 class="display" style="font-size:var(--fs-40);margin:var(--sp-1) 0 0;line-height:1">Silêncio das montanhas</h3></div>
+      </a>
+      <a class="collection" href="#" style="background-image:url('https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=900&q=80')">
+        <div><span class="eyebrow" style="color:#e7e7e2">42 fotos</span><h3 class="h3" style="margin:var(--sp-1) 0 0">Cidade à noite</h3></div>
+      </a>
+      <a class="collection" href="#" style="background-image:url('https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=900&q=80')">
+        <div><span class="eyebrow" style="color:#e7e7e2">57 fotos</span><h3 class="h3" style="margin:var(--sp-1) 0 0">Retratos com luz natural</h3></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Foto Criativa + Eventos -->
+  <section class="section">
+    <div class="split">
+      <article class="card feature">
+        <span class="tag">Foto Criativa</span>
+        <h2 class="h2">Está sem ideia?</h2>
+        <p class="muted" style="margin:0">Gere um exercício, um desafio ou um roteiro para o seu próximo click, de acordo com o seu equipamento e o lugar onde você está.</p>
+        <a class="btn btn-dark" href="#">Gerar uma ideia</a>
+      </article>
+      <article class="card feature">
+        <span class="eyebrow">Eventos e educação</span>
+        <h2 class="h2">Fotografe junto</h2>
+        <div class="event-list">
+          <div class="event"><time>12<small>out</small></time><div><b>Photowalk Centro Histórico</b><div class="small muted">São Paulo · 38 vagas</div></div></div>
+          <div class="event"><time>19<small>out</small></time><div><b>Oficina: luz natural no retrato</b><div class="small muted">Online · ao vivo</div></div></div>
+          <div class="event"><time>02<small>nov</small></time><div><b>Curso: composição em 30 dias</b><div class="small muted">Online · no seu ritmo</div></div></div>
+        </div>
+        <a class="btn btn-secondary" href="#">Ver agenda</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- CTA final -->
+  <section class="cta-band">
+    <span class="eyebrow" style="color:#c9c9c4">365 dias · 365 fotografias</span>
+    <h2 class="h1" style="margin:var(--sp-3) 0">Seu primeiro click é <em>hoje</em>.</h2>
+    <p class="lead" style="max-width:560px;margin:0 auto var(--sp-5)">Um desafio por dia, uma comunidade que responde e um portfólio que cresce sozinho.</p>
+    <a class="btn btn-primary btn-lg" href="#">Começar o 365 — é grátis</a>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div><a class="logo" href="#" style="color:var(--c-ink)">365<b>·</b>CLICKS</a><p>Fotografe. Compartilhe. Evolua.</p></div>
+    <div><h4>Descobrir</h4><a href="#">Explorar</a><a href="#">Coleções</a><a href="#">Fotógrafos</a></div>
+    <div><h4>Praticar</h4><a href="#">Desafio do dia</a><a href="#">Foto Criativa</a><a href="#">Cursos</a></div>
+    <div><h4>Comunidade</h4><a href="#">Eventos</a><a href="#">Blog</a><a href="#">Ranking</a></div>
+    <div><h4>365 Clicks</h4><a href="#">Sobre</a><a href="#">Planos</a><a href="#">Ajuda</a></div>
+  </div>
+</footer>
+
+<nav class="tabbar" aria-label="Navegação mobile">
+  <a href="#" aria-current="page">⌂<span>Início</span></a>
+  <a href="#">⌕<span>Explorar</span></a>
+  <a href="#" class="tab-main"><span>127</span></a>
+  <a href="#">♡<span>Atividade</span></a>
+  <a href="#">◯<span>Perfil</span></a>
+</nav>
+
+<script>
+  const u = (id, w = 800) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=80`;
+  const ids = ['1519681393784-d120267933ba','1493246507139-91e8fad9978e','1500530855697-b586d89ba3ee','1517841905240-472988babdf9',
+    '1470770841072-f978cf4d019e','1516035069371-29a1b244cc32','1492724441997-5dc865305da7','1500534623283-312aade485b7'];
+  const ratios = ['4/5','3/2','2/3','1/1','3/4','4/3','2/3','3/2','4/5','1/1','3/4','3/2'];
+  const cities = ['São Paulo','Recife','Curitiba','Belo Horizonte','Salvador','Porto Alegre'];
+
+  document.getElementById('gallery').innerHTML = ratios.map((r, i) => `
+    <figure class="photo" style="aspect-ratio:${r}">
+      <img src="${u(ids[i % ids.length])}" alt="Fotografia da comunidade ${i + 1}" loading="lazy">
+      <figcaption class="photo-meta"><span class="avatar"></span><span><b>@fotografo_${i + 1}</b> · ${cities[i % cities.length]}</span></figcaption>
+    </figure>`).join('');
+
+  document.getElementById('interpretations').innerHTML = ids.slice(0, 6).map((id, i) => `
+    <figure class="interp" style="margin:0;background-image:url('${u(id, 600)}')">
+      <figcaption class="photo-meta"><span class="avatar"></span><span><b>@olhar_${i + 1}</b></span></figcaption>
+    </figure>`).join('');
+
+  const styles = ['Rua · São Paulo','Retrato · Recife','Paisagem · Curitiba','Arquitetura · BH','Noturna · Salvador'];
+  document.getElementById('people').innerHTML = styles.map((s, i) => `
+    <article class="card person">
+      <div class="person-head"><span class="avatar avatar-lg" style="background-image:url('${u(ids[(i + 3) % ids.length], 200)}')"></span>
+        <div><b>Fotógrafo ${i + 1}</b><div class="small muted">${s}</div></div></div>
+      <div class="person-shots">${[0, 1, 2].map((k) => `<div style="background-image:url('${u(ids[(i + k) % ids.length], 300)}')"></div>`).join('')}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span class="small muted">Dia ${120 + i * 37 % 200}/365</span><button class="btn btn-secondary btn-sm">Seguir</button></div>
+    </article>`).join('');
+</script>
+</body>
+</html>

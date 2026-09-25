@@ -6,13 +6,16 @@ Plataforma visual para fotógrafos: descoberta, desafio diário de 365 dias, com
 
 - `PRD_365_CLICKS.md` — PRD v2.0 (Home como galeria viva, inspirada na lógica de descoberta visual).
 - `index.html` — índice do protótipo: as 66 telas por módulo, com pré-visualização em desktop ou celular.
-- `design-system/` — design system v1.0 do 365 Clicks:
-  - `tokens.css` — cor (tema claro e escuro), tipografia, espaço, raio, sombra e movimento.
-  - `components.css` — botões, formulários, chips, badges, avatares, foto e grid Masonry, 365 Challenge, métricas, tabela, listas, abas, estado vazio, modal, toast, cabeçalho e navegação mobile.
+- `design-system/` — design system v0.1 do 365 Clicks (benchmark de Unsplash, Pexels, Getty Images e Shutterstock). Guia de implementação em `design-system/README.md`.
+  - `tokens.css` — fonte da verdade: cores, tipografia, espaçamento, raios, sombras e layout, mais o tema escuro derivado e os apelidos usados pelas telas.
+  - `tailwind.preset.js` — os mesmos tokens para projetos com Tailwind.
+  - `decisoes.html` e `home.html` — guia visual do benchmark e a Home de referência (usam `components-v0.css`).
+  - `components.css` — componentes do protótipo, seguindo as regras do v0.1: botões, formulários, chips, badges, avatares, foto e grid Masonry, 365 Challenge, métricas, tabela, listas, abas, estado vazio, modal, toast, cabeçalho e navegação mobile.
   - `app.js` — mapa do site (fonte única das 66 telas) e shell compartilhado: cabeçalho, menu "Mais", gaveta e barra inferior mobile, abas do módulo, rodapé, Masonry por linha, tema, modais e toasts.
   - `viewer.js` — visualizador de fotos (descrição, EXIF, comentários, @menções, marcações), proteção contra cópia, contato com o fotógrafo e rastreio de visualizações, cliques e contatos.
   - `upload.js` — compressor: corta nos 3 formatos padrão e gera versões WebP leves (teto de 2 MB).
-  - `index.html` — guia visual com todos os tokens e componentes.
+  - `index.html` — biblioteca de componentes do protótipo.
+- `tools/site-analyzer/` — ferramenta que analisa sites (design system, estrutura, desempenho, acessibilidade) e gera um relatório comparativo.
 - `pages/` — 66 telas HTML (Portal, Comunidade, 365 Challenge, Portfólio, Educação, Experiências, Foto Criativa, Comercial, Administração). Home, Desafio do Dia, Fotografia, Meu Perfil, Admin Usuários e todo o fluxo de eventos e cursos (vitrines, páginas das ofertas, Inscrição, Meus Ingressos, Termos e Admin Eventos) já usam os componentes; as demais usam o sistema, mas ainda têm o conteúdo genérico do protótipo.
 
 ## Fotos e rastreio
