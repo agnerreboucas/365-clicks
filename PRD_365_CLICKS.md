@@ -143,20 +143,13 @@ Cada desafio possui:
 - nível;
 - imagem de referência.
 
-### Pontuação
-Até 10 pontos:
-- Tema: 2
-- Técnica obrigatória: 2
-- Técnica complementar: 2
-- Reflexão/legenda: 2
-- Publicação no prazo: 2
-
-### Janela de 24 horas
-- Cada desafio dura 24 horas: abre às 02:00 e fecha às 01:59:59 do dia seguinte (horário de Brasília).
-- Só vale foto **tirada** dentro da janela do desafio escolhido. A data vem do EXIF (`DateTimeOriginal`); sem EXIF, o autor informa a data e a hora.
-- Uma foto tirada ontem pode ser publicada hoje no desafio de ontem.
-- Pontos: desafio de hoje, até 10 pontos e destaque na página do desafio; desafio anterior (foto tirada na janela dele), metade dos pontos e entrada na galeria daquele desafio; foto livre, 2 pontos de participação.
-- A página de cada desafio mostra todas as fotos publicadas para ele.
+### Características, pontuação e janela
+- Cada desafio tem **tema, técnica e 4 características**. A foto precisa cumprir **pelo menos 2** delas; o autor marca quais cumpre ao publicar, e a comunidade e a curadoria podem revisar.
+- **Pontuação (até 10):** 2 pontos por característica cumprida (até 8) + 2 pontos se a foto for publicada no mesmo dia do desafio. Foto livre: 2 pontos de participação.
+- **Janela:** cada desafio vale de **00:00:00 a 23:59:59** (horário de Brasília). Só vale foto **tirada** dentro dessas 24 horas; a data vem do EXIF (`DateTimeOriginal`) ou é informada pelo autor. Uma foto tirada ontem pode ser publicada hoje no desafio de ontem, sem os 2 pontos de publicação no dia.
+- **Semana:** começa no **domingo (dia 1)** e termina no sábado (dia 7).
+- **Agendamento:** a semana atual e a próxima ficam sempre agendadas (Admin → Desafios). Desafios futuros podem ser editados até a véspera.
+- O desafio do dia aparece em destaque; os anteriores ficam na página de cada desafio, com todas as fotos publicadas para ele.
 
 ## 9. Publicação
 Fluxo: enviar a foto → leitura automática dos metadados → título, descrição e desafio → declaração de autoria → publicar.
@@ -242,7 +235,7 @@ Também é possível ordenar por mais recentes, mais curtidas e mais compartilha
 
 ### 11.5 Foto aberta, proteção e contato com o fotógrafo
 - Clicar em qualquer foto abre o visualizador em tela cheia com: a foto grande, o autor, o título, a descrição escrita pelo fotógrafo, o EXIF, o local e a data, curtir e salvar, comentários, marcações e “Mais de [fotógrafo]”.
-- **Proteção:** a foto não pode ser baixada. Não é exibida como `<img>` comum. O clique direito, o arrastar, o Ctrl/Cmd+S e o Ctrl/Cmd+P ficam bloqueados. A foto tem marca d’água com o nome do autor, a data e a hora da visualização. O visualizador serve no máximo a versão de 1600 px, a impressão sai sem as fotos, e a imagem fica borrada quando a janela perde o foco ou quando o sistema detecta a tecla Print Screen ou o atalho de captura. **Limite:** nenhuma tecnologia web impede totalmente uma captura de tela ou uma foto da tela. Essas medidas dificultam a cópia e identificam a origem.
+- **Proteção:** a foto não pode ser baixada. Não é exibida como `<img>` comum. O clique direito, o arrastar, o Ctrl/Cmd+S e o Ctrl/Cmd+P ficam bloqueados. A foto tem marca d’água com o nome do autor, a data e a hora da visualização. O visualizador serve no máximo a versão de 1600 px, a impressão sai sem as fotos, e a imagem fica borrada quando a janela perde o foco ou quando o sistema detecta a tecla Print Screen ou o atalho de captura. Copiar (Ctrl/Cmd+C, menu, selecionar tudo) também é bloqueado; compartilhar continua liberado. **Limite:** em página web, o iPhone e o Android não avisam o site quando alguém tira um print, e ninguém impede uma foto da tela. Para a tela ficar preta no print do celular, a versão funcional deve exibir as fotos como mídia protegida por DRM (Widevine no Android e FairPlay no iPhone e no Safari), a mesma técnica dos serviços de vídeo, ou usar o app nativo, que pode bloquear capturas no Android e detectar no iOS.
 - **Contato:** “Falar com o fotógrafo” abre um formulário com nome, telefone/WhatsApp, e-mail, interesse (comprar a foto, licenciar, contratar ou outro) e mensagem. O envio exige aceitar o *Termo de Contato e Direitos Autorais*: o 365 Clicks registra o contato e tem acesso ao processo de negociação, não interfere no preço nem nas condições e garante ao fotógrafo os direitos autorais sobre a obra (Lei 9.610/98).
 - **Rastreio:** cada abertura de foto (visualização), cada clique em “Falar com o fotógrafo” e cada contato enviado ficam registrados com foto, fotógrafo, data e hora. Os contatos guardam os dados informados.
 - **Gestão (Admin → Contatos e métricas):** visualizações, cliques, contatos e conversão por período, com variação sobre o período anterior. Inclui gráfico diário com projeção de 30 dias por tendência linear, fotos mais vistas, fotógrafos com mais contatos, lista de contatos com os dados e o termo aceito, e exportação em CSV. Filtros por período e fotógrafo.
