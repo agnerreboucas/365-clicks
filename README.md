@@ -7,6 +7,8 @@ Plataforma visual para fotógrafos: descoberta, desafio diário de 365 dias, com
 - `PRD_365_CLICKS.md` — PRD v2.0 (Home como galeria viva, inspirada na lógica de descoberta visual).
 - `index.html` — índice do protótipo com as 58 páginas em iframes.
 - `pages/` — 58 telas HTML independentes (Portal, Comunidade, 365 Challenge, Portfólio, Educação, Experiências, Foto Criativa, Comercial, Administração).
+- `design-system/` — design system v0.1 criado a partir do benchmark de Unsplash, Pexels, Getty Images e Shutterstock: `tokens.css`, `components.css`, guia visual (`index.html`) e a Home nova (`home.html`).
+- `tools/site-analyzer/` — ferramenta que analisa sites (design system, estrutura, desempenho, acessibilidade) e gera um relatório comparativo.
 
 ## Como visualizar
 

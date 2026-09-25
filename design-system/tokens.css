@@ -1,0 +1,94 @@
+/* 365 Clicks — Design tokens
+   Base: "a fotografia vem primeiro". Canvas neutro, uma única cor de ação,
+   grade de 8px e tipografia com toque editorial. Ver design-system/index.html. */
+
+:root {
+  /* Cores — neutros */
+  --c-canvas: #fafaf8;        /* fundo da página */
+  --c-surface: #ffffff;       /* cards, header */
+  --c-surface-2: #f1f1ee;     /* inputs, chips, áreas secundárias */
+  --c-line: #e6e6e1;          /* bordas e divisores */
+  --c-ink: #121212;           /* texto principal (17.9:1 sobre canvas) */
+  --c-ink-2: #3d3d3a;         /* texto secundário forte */
+  --c-muted: #6b6b66;         /* legendas e metadados (5.1:1 sobre canvas) */
+  --c-inverse: #ffffff;
+
+  /* Cores — ação e marca (hora dourada) */
+  --c-accent: #c2410c;        /* CTA principal, desafio do dia (5.2:1 com branco) */
+  --c-accent-hover: #9a3412;
+  --c-accent-soft: #fff1e8;   /* fundo de destaque suave */
+  --c-accent-ink: #9a3412;    /* texto de destaque sobre fundo claro */
+
+  /* Cores — estados */
+  --c-success: #15803d;
+  --c-warning: #a16207;
+  --c-danger: #b91c1c;
+  --c-focus: #2563eb;
+
+  /* Overlay para texto sobre foto */
+  --overlay-photo: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,.72) 100%);
+  --overlay-hero: linear-gradient(90deg, rgba(0,0,0,.66) 0%, rgba(0,0,0,.28) 55%, rgba(0,0,0,.05) 100%);
+
+  /* Tipografia */
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-display: "Instrument Serif", Georgia, "Times New Roman", serif; /* títulos editoriais */
+
+  --fs-12: 0.75rem;   /* legenda */
+  --fs-14: 0.875rem;  /* metadados, chips, botões */
+  --fs-16: 1rem;      /* corpo */
+  --fs-18: 1.125rem;  /* corpo grande */
+  --fs-20: 1.25rem;   /* h4 */
+  --fs-24: 1.5rem;    /* h3 */
+  --fs-32: 2rem;      /* h2 */
+  --fs-40: 2.5rem;    /* h2 destaque */
+  --fs-56: 3.5rem;    /* h1 */
+  --fs-72: 4.5rem;    /* h1 hero */
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  --lh-tight: 1.05;
+  --lh-snug: 1.25;
+  --lh-body: 1.6;
+  --tracking-tight: -0.02em;
+  --tracking-caps: 0.08em;
+
+  /* Espaçamento — grade de 8px (4px apenas para ajustes finos) */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+  --sp-9: 96px;
+
+  /* Forma */
+  --r-sm: 6px;       /* tags, inputs pequenos */
+  --r-md: 10px;      /* botões, inputs */
+  --r-lg: 16px;      /* cards */
+  --r-xl: 24px;      /* hero, painéis grandes */
+  --r-pill: 999px;   /* chips, avatares */
+
+  --shadow-1: 0 1px 2px rgba(18,18,18,.06);
+  --shadow-2: 0 4px 16px rgba(18,18,18,.08);
+  --shadow-3: 0 16px 40px rgba(18,18,18,.14);
+
+  /* Layout */
+  --container: 1320px;
+  --gutter: 16px;          /* mobile */
+  --gutter-lg: 32px;       /* desktop */
+  --header-h: 64px;
+  --gallery-gap: 12px;
+
+  /* Movimento */
+  --ease: cubic-bezier(.2,.7,.2,1);
+  --dur-fast: 120ms;
+  --dur: 220ms;
+
+  /* Breakpoints (referência — usar em media queries) */
+  /* sm 640 · md 900 · lg 1200 */
+}
