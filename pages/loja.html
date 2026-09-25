@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>365 Clicks — Loja</title>
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="../design-system/components.css">
+<script src="../design-system/app.js" defer></script>
+<style>
+.shop { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: var(--sp-5); }
+.prod { display: flex; flex-direction: column; gap: var(--sp-3); }
+.prod .vis { position: relative; aspect-ratio: 1; border-radius: var(--r-lg); display: grid; place-items: center; overflow: hidden; background: var(--surface-2); }
+.prod .vis .badge { position: absolute; top: var(--sp-3); left: var(--sp-3); }
+.prod h3 { margin: 0; font-size: var(--fs-lg); }
+.prod .preco { font-family: var(--font-display); font-weight: 800; font-size: var(--fs-xl); }
+.prod .preco s { font-family: var(--font-body); font-weight: 400; font-size: var(--fs-sm); color: var(--ink-3); margin-left: 6px; }
+.prod .acts { display: flex; gap: var(--sp-2); align-items: center; margin-top: auto; flex-wrap: wrap; }
+.prod .select { width: auto; min-height: 34px; padding: 4px 10px; font-size: var(--fs-sm); }
+/* Capas e mockups desenhados em CSS */
+.book { width: 52%; aspect-ratio: 2 / 3; background: #161614; color: #f2f2ee; border-radius: 3px 8px 8px 3px; box-shadow: 6px 8px 0 rgba(0,0,0,.18); padding: 14% 10%; display: flex; flex-direction: column; justify-content: space-between; font-family: var(--font-display); }
+.book b { font-size: clamp(14px, 2vw, 20px); line-height: 1.05; letter-spacing: -.02em; }
+.book i { font-style: normal; font-family: var(--font-mono); font-size: 9px; opacity: .7; }
+.book .fr { aspect-ratio: 3/2; border: 1.5px solid #f2f2ee; position: relative; }
+.book .fr::after { content: ""; position: absolute; right: -4px; bottom: -4px; width: 8px; height: 8px; border: solid #e39a14; border-width: 0 2px 2px 0; }
+.book.ebook { background: #e39a14; color: #141413; }
+.book.ebook .fr { border-color: #141413; }
+.phone { width: 38%; aspect-ratio: 9 / 19; border-radius: 18px; background: #141413; padding: 6px; }
+.phone div { height: 100%; border-radius: 13px; background: linear-gradient(160deg, #4b5f88, #18233a); display: grid; place-items: end start; padding: 10px; color: #fff; font: 700 11px var(--font-body); }
+.tee { width: 70%; }
+.cart-fab { position: fixed; right: var(--gutter); bottom: calc(var(--sp-6) + env(safe-area-inset-bottom, 0px)); z-index: 26; box-shadow: var(--shadow-float); }
+@media (max-width: 800px) { .cart-fab { bottom: calc(var(--tabbar-h) + var(--sp-3) + env(safe-area-inset-bottom, 0px)); } }
+.cart { position: fixed; top: 0; right: 0; bottom: 0; width: min(400px, 100%); z-index: 60; background: var(--surface); box-shadow: var(--shadow-float); padding: calc(var(--sp-5) + env(safe-area-inset-top, 0px)) var(--sp-5) var(--sp-5); display: flex; flex-direction: column; gap: var(--sp-4); animation: rise var(--dur) var(--ease); }
+.cart ul { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-3); overflow-y: auto; flex: 1; }
+.cart li { display: flex; gap: var(--sp-3); align-items: center; font-size: var(--fs-sm); }
+.cart li .grow { flex: 1; }
+</style>
+</head><body data-page="loja">
+<header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
+<main>
+<div class="cluster" style="justify-content:space-between;align-items:flex-end">
+  <div><h1>Loja</h1><p style="margin:0">Tudo que mantém o 365 Clicks de pé: aplicativo, livro, e-books, camisetas, cursos e eventos. Assinantes do Clube têm 20% de desconto.</p></div>
+</div>
+<div class="chips" id="cats"><button class="chip" type="button" aria-pressed="true" data-c="">Tudo</button><button class="chip" type="button" aria-pressed="false" data-c="app">Aplicativo</button><button class="chip" type="button" aria-pressed="false" data-c="livro">Livros</button><button class="chip" type="button" aria-pressed="false" data-c="ebook">E-books</button><button class="chip" type="button" aria-pressed="false" data-c="camiseta">Camisetas</button><button class="chip" type="button" aria-pressed="false" data-c="curso">Cursos e eventos</button></div>
+<div class="shop" id="shop"></div>
+<h2 id="ebooks" style="scroll-margin-top:90px">Por que comprar aqui</h2>
+<div class="row"><div class="panel"><h3>Direto para a comunidade</h3><p class="small" style="margin:0">A receita da loja paga servidores, curadoria e os encontros gratuitos.</p></div><div class="panel"><h3>Entrega digital na hora</h3><p class="small" style="margin:0">E-books e cursos ficam disponíveis logo após o pagamento, em Minhas compras.</p></div><div class="panel"><h3>Troca fácil</h3><p class="small" style="margin:0">Camisetas com troca de tamanho grátis em até 30 dias.</p></div></div>
+</main>
+<button class="btn btn-lg cart-fab" type="button" id="abrir-cart"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14l-1.5 11h-11z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg> Carrinho · <span id="n">0</span></button>
+<aside class="cart" id="cart" hidden aria-label="Carrinho">
+  <div class="cluster" style="justify-content:space-between"><h2 style="margin:0">Carrinho</h2><button class="btn btn-ghost btn-icon" type="button" id="fechar-cart" aria-label="Fechar carrinho"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <ul id="itens"></ul>
+  <label class="switch"><input type="checkbox" id="clube"> Sou assinante do Clube (−20%)</label>
+  <dl class="kv" id="tot"></dl>
+  <button class="btn btn-accent btn-lg btn-block" type="button" id="finalizar">Finalizar compra</button>
+  <span class="small" style="text-align:center">Pix, cartão em até 6x ou boleto. Frete calculado no pagamento.</span>
+</aside>
+<footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  "use strict";
+  var C = window.C365, $ = function (s) { return document.querySelector(s); };
+  var TEE = function (cor, print) { return '<svg class="tee" viewBox="0 0 200 200" aria-hidden="true"><path d="M60 30 30 48 16 90l30 12 8-22v100h92V80l8 22 30-12-14-42-30-18c-6 14-20 22-40 22S66 44 60 30z" fill="' + cor + '" stroke="rgba(0,0,0,.15)"/><text x="100" y="118" text-anchor="middle" font-family="monospace" font-size="22" font-weight="700" fill="' + print + '">365</text><text x="100" y="136" text-anchor="middle" font-family="sans-serif" font-size="9" fill="' + print + '">CLICKS</text></svg>'; };
+  var P = [
+    { id: "app", c: "app", nome: "App 365 Clicks · plano 365", desc: "Desafio diário, portfólio e comunidade no celular. Assinatura anual.", preco: 119.9, de: 179.9, tag: "Mais vendido", vis: '<div class="phone"><div>DIA 268<br>Água · Reflexos</div></div>', bg: "#e1eafb", link: "planos.html" },
+    { id: "livro", c: "livro", nome: "Livro “A foto que eu nunca tirei”", desc: "Pré-venda do livro colaborativo da comunidade. Impresso, 180 páginas.", preco: 69.9, tag: "Pré-venda", vis: '<div class="book"><div class="fr"></div><b>A foto que eu nunca tirei</b><i>365 CLICKS · COMUNIDADE</i></div>', bg: "#ebebe6", link: "nunca-tirei.html" },
+    { id: "livro-ebook", c: "livro", nome: "E-book “A foto que eu nunca tirei”", desc: "Versão digital do livro colaborativo. Grátis para quem tem história publicada.", preco: 29.9, vis: '<div class="book ebook"><div class="fr"></div><b>A foto que eu nunca tirei</b><i>E-BOOK</i></div>', bg: "#fbefd6", link: "nunca-tirei.html" },
+    { id: "ebook-exposicao", c: "ebook", nome: "Guia de Exposição sem Mistério", desc: "Abertura, velocidade e ISO explicados com 40 fotos da comunidade. PDF e ePub.", preco: 29, vis: '<div class="book ebook" style="background:#18233a;color:#f2f2ee"><div class="fr" style="border-color:#f2f2ee"></div><b>Exposição sem mistério</b><i>E-BOOK · 96 P.</i></div>', bg: "#d9e3f2" },
+    { id: "ebook-rua", c: "ebook", nome: "Manual da Fotografia de Rua", desc: "Ética, abordagem e composição na rua. PDF e ePub.", preco: 34, vis: '<div class="book" style="background:#4f4336"><div class="fr"></div><b>Manual da fotografia de rua</b><i>E-BOOK · 120 P.</i></div>', bg: "#f2e1cf" },
+    { id: "tee-preta", c: "camiseta", nome: "Camiseta 365 · preta", desc: "Algodão orgânico, estampa em serigrafia.", preco: 79, tamanhos: true, vis: TEE("#1c1c1a", "#e39a14"), bg: "#ebebe6" },
+    { id: "tee-off", c: "camiseta", nome: "Camiseta 365 · off-white", desc: "Algodão orgânico, estampa em serigrafia.", preco: 79, tamanhos: true, vis: TEE("#f4f1ea", "#141413"), bg: "#dcefe2" },
+    { id: "curso-rua", c: "curso", nome: "Curso Fotografia de Rua", desc: "8 semanas, 2 saídas presenciais.", preco: 297, vis: '<div class="book" style="width:70%;aspect-ratio:3/2;background:#26231f"><b>Fotografia de rua</b><i>CURSO · 8 SEMANAS</i></div>', bg: "#ebebe6", link: "curso.html" },
+    { id: "palestra", c: "curso", nome: "Palestra: Como vender suas fotos", desc: "14/10, ao vivo, com gravação.", preco: 49, vis: '<div class="book" style="width:70%;aspect-ratio:3/2;background:#e39a14;color:#141413"><b>Como vender suas fotos</b><i>PALESTRA · 14/10</i></div>', bg: "#fbefd6", link: "oferta.html#palestra-vender-fotos" }
+  ];
+  function brl(v) { return "R$ " + v.toFixed(2).replace(".", ","); }
+  var cart = [];
+  try { cart = JSON.parse(localStorage.getItem("c365-carrinho") || "[]"); } catch (e) {}
+  function salvar() { try { localStorage.setItem("c365-carrinho", JSON.stringify(cart)); } catch (e) {} }
+  function render(cat) {
+    $("#shop").innerHTML = P.filter(function (p) { return !cat || p.c === cat; }).map(function (p) {
+      var comprar = p.link && (p.c === "curso") ? '<a class="btn btn-sm" href="' + p.link + '">Inscrever-se</a>' : '<button class="btn btn-sm" type="button" data-add="' + p.id + '">Adicionar</button>';
+      return '<article class="prod"><div class="vis" style="background:' + p.bg + '">' + (p.tag ? '<span class="badge badge-accent plain">' + p.tag + "</span>" : "") + p.vis + "</div>" +
+        "<div><h3>" + p.nome + '</h3><p class="small" style="margin:4px 0 0">' + p.desc + "</p></div>" +
+        '<div class="preco">' + brl(p.preco) + (p.de ? "<s>" + brl(p.de) + "</s>" : "") + "</div>" +
+        '<div class="acts">' + (p.tamanhos ? '<label class="sr-only" for="t-' + p.id + '">Tamanho</label><select class="select" id="t-' + p.id + '"><option>P</option><option selected>M</option><option>G</option><option>GG</option></select>' : "") + comprar + (p.link && p.c !== "curso" ? '<a class="btn btn-ghost btn-sm" href="' + p.link + '">Saiba mais</a>' : "") + "</div></article>";
+    }).join("");
+  }
+  function renderCart() {
+    $("#n").textContent = cart.reduce(function (a, i) { return a + i.q; }, 0);
+    $("#itens").innerHTML = cart.length ? cart.map(function (i, n) {
+      return '<li><div class="grow"><strong>' + i.nome + "</strong>" + (i.tam ? ' <span class="small">· ' + i.tam + "</span>" : "") + '<div class="small">' + i.q + " × " + brl(i.preco) + '</div></div><button class="btn btn-ghost btn-sm" type="button" data-rm="' + n + '">Remover</button></li>';
+    }).join("") : '<li class="small">Seu carrinho está vazio.</li>';
+    var sub = cart.reduce(function (a, i) { return a + i.q * i.preco; }, 0), d = $("#clube").checked ? sub * 0.2 : 0;
+    $("#tot").innerHTML = "<dt>Subtotal</dt><dd>" + brl(sub) + "</dd>" + (d ? "<dt>Desconto Clube</dt><dd>− " + brl(d) + "</dd>" : "") + '<dt style="align-self:end">Total</dt><dd class="total">' + brl(sub - d) + "</dd>";
+    $("#finalizar").disabled = !cart.length;
+  }
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest("[data-add]"), r = e.target.closest("[data-rm]"), c = e.target.closest("#cats [data-c]");
+    if (a) {
+      var p = P.filter(function (x) { return x.id === a.getAttribute("data-add"); })[0], t = document.getElementById("t-" + p.id), tam = t ? t.value : "";
+      var ja = cart.filter(function (i) { return i.id === p.id && i.tam === tam; })[0];
+      if (ja) ja.q++; else cart.push({ id: p.id, nome: p.nome, preco: p.preco, tam: tam, q: 1 });
+      salvar(); renderCart(); C.toast(p.nome + " no carrinho");
+    }
+    if (r) { cart.splice(+r.getAttribute("data-rm"), 1); salvar(); renderCart(); }
+    if (c) render(c.getAttribute("data-c"));
+  });
+  $("#abrir-cart").addEventListener("click", function () { $("#cart").hidden = false; $("#fechar-cart").focus(); });
+  $("#fechar-cart").addEventListener("click", function () { $("#cart").hidden = true; $("#abrir-cart").focus(); });
+  $("#clube").addEventListener("change", renderCart);
+  $("#finalizar").addEventListener("click", function () { C.toast("Pagamento da loja: Pix, cartão e boleto, igual à inscrição (próxima etapa do protótipo)"); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("#cart").hidden) $("#cart").hidden = true; });
+  render(""); renderCart();
+});
+</script>
+</body></html>

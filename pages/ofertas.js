@@ -75,6 +75,38 @@
       requisitos: ["Qualquer câmera, inclusive celular", "Menores de 18 anos com autorização do responsável"],
       termos: ["imagem", "participacao", "privacidade"]
     },
+    "palestra-vender-fotos": {
+      sigla: "PVF",
+      tipo: "evento",
+      titulo: "Como vender suas fotos",
+      subtitulo: "Palestra online ao vivo",
+      resumo: "Noventa minutos sobre preço, licença de uso, bancos de imagem e como responder quando alguém pede para comprar uma foto sua.",
+      categoria: "Palestra online",
+      dia: { d: "14", m: "out", w: "ter" },
+      data: "Terça, 14 de outubro de 2026",
+      dataCurta: "14/10/2026",
+      horario: "20:00 às 21:30",
+      local: "Online, ao vivo",
+      endereco: "Link enviado por e-mail 1 hora antes",
+      vagas: 300,
+      restantes: 112,
+      img: U + "photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1600&h=900&q=80",
+      tone: "#26231f", tone2: "#6d6054",
+      organizador: "365 Clicks · Rafael Borges (palestrante)",
+      ingressos: [
+        { id: "ao-vivo", nome: "Ao vivo + gravação", preco: 49, desc: "Assista ao vivo, faça perguntas e reveja por 30 dias" }
+      ],
+      parcelas: 1,
+      descontoClube: 0.2,
+      programacao: [
+        ["20:00", "Quanto vale uma foto", "Três formas de chegar ao preço"],
+        ["20:30", "Licença de uso", "O que você vende quando vende uma foto"],
+        ["21:00", "Perguntas ao vivo", "Casos reais enviados pelo público"]
+      ],
+      inclui: ["Modelo de licença de uso", "Planilha de preços", "Gravação por 30 dias"],
+      requisitos: ["Computador ou celular com internet"],
+      termos: ["contrato", "participacao", "privacidade"]
+    },
     "curso-fotografia-de-rua": {
       sigla: "CFR",
       tipo: "curso",
@@ -193,6 +225,59 @@
         ["7. Clima e segurança", "Atividades ao ar livre podem ser adiadas por chuva forte ou risco à segurança. Nesses casos, vale o item 7 do contrato."]
       ]
     },
+    fotografo: {
+      titulo: "Termo de Adesão do Fotógrafo",
+      curto: "Termo do fotógrafo",
+      versao: "1.0",
+      secoes: [
+        ["1. Autoria e direitos", "Você continua sendo o único autor e titular dos direitos autorais de todas as fotografias que publicar (Lei 9.610/98). O 365 Clicks recebe apenas uma licença gratuita, não exclusiva e revogável para exibir as fotos dentro da plataforma, com o seu crédito."],
+        ["2. Proteção das fotos", "O 365 Clicks exibe as fotos em resolução limitada, com marca d'água e bloqueio de download, clique direito e impressão, e escurece a imagem quando detecta tentativa de captura de tela. Essas medidas dificultam cópias, mas nenhuma tecnologia impede totalmente uma captura de tela ou uma foto da tela."],
+        ["3. Métricas e rastreio", "Registramos cada visualização das suas fotos, cada clique em “Falar com o fotógrafo” e cada contato enviado, com data e hora. Usamos esses dados para mostrar seu desempenho, montar rankings, entender o crescimento da plataforma e para gestão interna."],
+        ["4. Contatos de interessados", "Quem quiser comprar, licenciar ou contratar você preenche nome, telefone e mensagem. Você recebe esses dados para responder. O 365 Clicks também guarda uma cópia do contato e tem acesso ao registro dessa negociação."],
+        ["5. Negociação", "Preço, prazo, forma de entrega e licença de uso são combinados diretamente entre você e o interessado. O 365 Clicks não interfere na negociação e não é parte do acordo, mas pode apresentar o registro do contato para comprovar a sua autoria e o seu direito sobre a obra."],
+        ["6. Uso indevido", "Se alguém usar uma foto sua sem autorização, avise pelo e-mail direitos@365clicks.com.br. Ajudamos com o registro de autoria, data de publicação e histórico de contatos."],
+        ["7. Remoção", "Você pode apagar suas fotos a qualquer momento. A licença de exibição termina na remoção; as métricas já registradas continuam nos relatórios de forma agregada."]
+      ]
+    },
+    autoria: {
+      titulo: "Declaração de Autoria e Responsabilidade",
+      curto: "Declaração de autoria",
+      versao: "1.0",
+      secoes: [
+        ["1. Autoria", "Ao publicar, declaro que sou o autor ou coautor desta fotografia e que tenho todos os direitos para publicá-la. O meu perfil aparece como autor. Se houver coautores, eu os informo na publicação."],
+        ["2. Responsabilidade", "Assumo toda a responsabilidade por essa declaração. Se a foto for de outra pessoa, respondo por qualquer dano causado ao verdadeiro autor e ao 365 Clicks, e a publicação pode ser removida e minha conta suspensa."],
+        ["3. Pessoas na foto", "Se houver pessoas identificáveis, declaro ter a autorização delas para publicar a imagem, especialmente em caso de crianças e adolescentes."],
+        ["4. Dados da foto", "Autorizo o 365 Clicks a ler e exibir os metadados da foto (câmera ou celular, lente, abertura, velocidade, ISO, data e local) para validar os desafios e mostrar as informações técnicas."],
+        ["5. Direitos preservados", "Continuo titular dos direitos autorais. A publicação segue o Termo de Adesão do Fotógrafo."]
+      ]
+    },
+    cessao: {
+      titulo: "Termo de Cessão de Direitos · A foto que eu nunca tirei",
+      curto: "Cessão de direitos do livro",
+      versao: "1.0",
+      secoes: [
+        ["1. O projeto", "“A foto que eu nunca tirei” reúne histórias de fotos que fotógrafos viram, mas não fizeram. As histórias são publicadas no blog e nas redes sociais do 365 Clicks e depois reunidas num livro colaborativo, digital e impresso, que será vendido."],
+        ["2. Cessão gratuita", "Ao enviar sua história, você cede ao 365 Clicks, sem ônus e sem exclusividade, os direitos patrimoniais sobre o texto para publicação no blog, em redes sociais, no livro (todas as edições, formatos e idiomas) e em materiais de divulgação, conforme os arts. 49 e 50 da Lei 9.610/98."],
+        ["3. Crédito", "Você sempre será citado como autor da sua história, com nome e perfil. Os direitos morais de autoria continuam sendo seus."],
+        ["4. Veracidade", "Você declara que a história é verdadeira, que foi vivida por você e que o texto é original. Se citar pessoas, não expõe dados que as identifiquem sem autorização."],
+        ["5. Edição", "O texto pode passar por revisão e edição para caber no livro, sem mudar o sentido da história. Você pode ver a versão final antes da impressão."],
+        ["6. Custos e receitas", "Todos os custos de revisão, diagramação, publicação, impressão e venda são do 365 Clicks. A receita das vendas é do 365 Clicks."],
+        ["7. Benefícios para quem participa", "Quem tiver a história publicada no livro recebe o selo “Coautor do livro” no perfil, o e-book gratuito e desconto no livro impresso. Benefícios adicionais serão informados antes do lançamento."],
+        ["8. Retirada", "Você pode pedir a retirada da sua história do blog a qualquer momento. Depois que o livro entra em produção, a história permanece naquela edição."]
+      ]
+    },
+    contato: {
+      titulo: "Termo de Contato e Direitos Autorais",
+      curto: "Termo de contato",
+      versao: "1.0",
+      secoes: [
+        ["1. Seu contato", "Seu nome, telefone, e-mail e mensagem são enviados para {FOTOGRAFO}, autor(a) da fotografia “{FOTO}”, para que vocês conversem diretamente."],
+        ["2. Registro pelo 365 Clicks", "O 365 Clicks registra este contato (data, hora, fotografia e dados informados) e tem acesso ao processo de negociação, para fins de gestão, métricas e garantia dos direitos do fotógrafo."],
+        ["3. Não intervenção", "O 365 Clicks não interfere no preço, nas condições nem na entrega. O acordo é feito somente entre você e o fotógrafo."],
+        ["4. Direitos autorais", "A fotografia pertence ao seu autor (Lei 9.610/98). Nenhum uso é permitido sem licença por escrito do fotógrafo: download, captura de tela, reprodução, publicação, edição ou uso comercial sem autorização violam a lei e podem gerar indenização."],
+        ["5. Privacidade", "Seus dados são tratados conforme a Política de Privacidade do 365 Clicks (LGPD) e não são vendidos a terceiros."]
+      ]
+    },
     privacidade: {
       titulo: "Política de Privacidade (LGPD)",
       curto: "Política de privacidade",
@@ -205,6 +290,83 @@
         ["5. Retenção", "Pelo tempo necessário para cumprir obrigações legais e fiscais, em geral 5 anos após a atividade."],
         ["6. Seus direitos", "Acessar, corrigir, excluir ou levar seus dados para outro serviço, pelo e-mail privacidade@365clicks.com.br."]
       ]
+    }
+  };
+
+
+  /* ---------- Narrativa StoryBrand (SB7) de cada página de oferta ----------
+     1. Personagem: quem é o cliente e o que ele quer
+     2. Problema: externo, interno e filosófico
+     3. Guia: empatia + autoridade
+     4. Plano: três passos simples
+     5. Chamada para ação
+     6. O que evitar (fracasso)
+     7. Sucesso (transformação) */
+  var HISTORIA = {
+    "foto-na-paulista": {
+      promessa: "Volte da Paulista com as melhores fotos de rua que você já fez.",
+      apoio: "Uma manhã de prática guiada, com a luz certa e alguém do seu lado para ajustar o olhar e a câmera.",
+      personagem: "Você gosta de fotografia de rua, já tentou sair para fotografar sozinho e voltou com um cartão cheio e nenhuma foto que te orgulhe.",
+      problemas: [["Fora", "Muita gente, muito movimento e a luz mudando rápido."], ["Dentro", "Vergonha de apontar a câmera para desconhecidos e a sensação de estar sempre atrasado para a cena."], ["O que é justo", "Boa fotografia de rua não deveria depender de sorte. Dá para aprender a antecipar."]],
+      empatia: "A Ana também travava na rua. Levou anos para perder o medo de fotografar pessoas e hoje ensina o caminho mais curto.",
+      autoridade: [["312", "dias seguidos no 365"], ["1.200+", "alunos em saídas"], ["4,9", "nota média dos workshops"]],
+      depoimentos: [["Em quatro horas aprendi mais do que em um ano de tentativa sozinho.", "Bruno Almeida"], ["Perdi a vergonha de fotografar gente. A revisão no final valeu o workshop.", "Lívia Martins"]],
+      plano: [["Inscreva-se", "Escolha o ingresso e garanta sua vaga. São só 30."], ["Venha às 7h", "Traga qualquer câmera ou o celular. O resto a gente leva."], ["Saia com um portfólio", "Revisamos suas fotos juntos e as melhores vão para o seu perfil."]],
+      sucesso: ["Fotos de rua com intenção, não por acaso", "Segurança para fotografar pessoas com respeito", "Três fotos escolhidas para o portfólio", "Uma turma para sair fotografando depois"],
+      fracasso: ["Mais um cartão cheio de fotos parecidas", "Continuar esperando “o dia certo” para começar", "Ver a luz da manhã passar sem saber usar"],
+      faq: [["Preciso de câmera profissional?", "Não. Celular funciona muito bem para fotografia de rua."], ["E se chover?", "Com chuva forte, o workshop muda de data e você escolhe entre a nova data, crédito ou reembolso integral."], ["Posso levar um acompanhante?", "Cada pessoa precisa da própria inscrição, porque a turma é pequena."]]
+    },
+    "foto-no-parque": {
+      promessa: "Um domingo fotografando com gente que ama fotografia como você.",
+      apoio: "Encontro gratuito, sem pressão e sem exigência de equipamento. Só apareça.",
+      personagem: "Você fotografa sozinho e sente falta de trocar ideia, mostrar suas fotos e ver como outras pessoas enxergam o mesmo lugar.",
+      problemas: [["Fora", "Pouco tempo e nenhuma turma para sair fotografando."], ["Dentro", "Medo de parecer iniciante no meio de fotógrafos."], ["O que é justo", "Aprender fotografia deveria ser acessível e coletivo."]],
+      empatia: "A comunidade 365 Clicks nasceu exatamente disso: gente que queria fotografar junto.",
+      autoridade: [["18", "encontros realizados"], ["900+", "participantes"], ["Grátis", "sempre"]],
+      depoimentos: [["Fui sozinha e saí com cinco amigos fotógrafos.", "Rafaela Dias"], ["Clima leve, ninguém julga equipamento.", "João Pedro Lima"]],
+      plano: [["Inscreva-se grátis", "Leva 2 minutos."], ["Encontre a turma", "Portão 3 do Ibirapuera, às 9h."], ["Fotografe e compartilhe", "Publique suas fotos no desafio do dia."]],
+      sucesso: ["Novos amigos fotógrafos", "Fotos do desafio do dia feitas em grupo", "Dicas práticas de quem está no mesmo caminho"],
+      fracasso: ["Continuar fotografando sozinho e sem retorno", "Guardar as fotos no celular sem mostrar para ninguém"],
+      faq: [["É mesmo gratuito?", "Sim. Pedimos só que cancele se não puder ir, para liberar a vaga."], ["Menores podem participar?", "Sim, com autorização do responsável na inscrição."]]
+    },
+    "curso-fotografia-de-rua": {
+      promessa: "Em 8 semanas, saia do clique solto para uma série autoral de fotografia de rua.",
+      apoio: "Aulas online, exercícios semanais e duas saídas presenciais com revisão individual do seu portfólio.",
+      personagem: "Você já fotografa a cidade, mas suas fotos ainda parecem soltas e você quer construir um trabalho com a sua cara.",
+      problemas: [["Fora", "Conteúdo espalhado na internet e nenhum método."], ["Dentro", "A sensação de que suas fotos são “só bonitas” e não dizem nada."], ["O que é justo", "Todo fotógrafo merece desenvolver uma voz própria."]],
+      empatia: "A Ana levou anos para transformar fotos avulsas em projetos. O curso é o atalho que ela queria ter tido.",
+      autoridade: [["8", "semanas"], ["2", "saídas presenciais"], ["96%", "concluem o curso"]],
+      depoimentos: [["Terminei com uma série de 12 fotos que virou minha primeira exposição.", "Theo Nunes"], ["A revisão individual mudou meu jeito de editar.", "Camila Rocha"]],
+      plano: [["Inscreva-se", "Escolha completo ou só online."], ["Pratique toda semana", "Uma aula, um exercício, retorno da turma."], ["Apresente sua série", "Revisão individual e publicação como projeto no seu perfil."]],
+      sucesso: ["Uma série autoral pronta para o portfólio", "Método para planejar saídas fotográficas", "Olhar mais atento para luz, pessoas e composição"],
+      fracasso: ["Mais um ano de fotos soltas", "Um HD cheio e nenhum projeto"],
+      faq: [["As aulas ficam gravadas?", "Sim, por 12 meses."], ["Moro fora de São Paulo.", "Escolha a opção somente online."]]
+    },
+    "curso-celular": {
+      promessa: "Tire fotos melhores com o celular que você já tem.",
+      apoio: "Cinco aulas curtas e gratuitas. Em menos de duas horas, você já vê a diferença.",
+      personagem: "Você fotografa com o celular e as fotos não ficam como a cena que você viu.",
+      problemas: [["Fora", "Foco errado, foto escura, horizonte torto."], ["Dentro", "A ideia de que só dá para fotografar bem com câmera cara."], ["O que é justo", "A melhor câmera é a que está com você."]],
+      empatia: "Metade da comunidade 365 Clicks fotografa só com celular.",
+      autoridade: [["5", "aulas curtas"], ["1h40", "no total"], ["Grátis", "para sempre"]],
+      depoimentos: [["Aprendi a travar foco e exposição. Parece outro celular.", "Bia Castro"]],
+      plano: [["Inscreva-se grátis", "Acesso na hora."], ["Assista no seu ritmo", "Aulas de 12 a 25 minutos."], ["Faça os exercícios", "E publique no desafio do dia."]],
+      sucesso: ["Fotos nítidas e bem expostas", "Composição mais intencional", "Edição rápida no próprio celular"],
+      fracasso: ["Continuar achando que o problema é o celular"],
+      faq: [["Serve para Android e iPhone?", "Sim, as dicas valem para os dois."]]
+    },
+    "palestra-vender-fotos": {
+      promessa: "Saiba quanto cobrar e o que responder quando alguém quiser comprar uma foto sua.",
+      apoio: "Noventa minutos ao vivo sobre preço, licença de uso e negociação, com modelos prontos para usar.",
+      personagem: "Suas fotos começaram a chamar atenção e já apareceu gente perguntando quanto custa.",
+      problemas: [["Fora", "Ninguém ensina a precificar fotografia."], ["Dentro", "Medo de cobrar demais e perder a venda, ou de menos e se desvalorizar."], ["O que é justo", "Quem cria merece ser pago de forma justa."]],
+      empatia: "O Rafael vendeu a primeira foto por um valor que hoje ele acha absurdo de tão baixo.",
+      autoridade: [["10 anos", "vendendo fotografia"], ["300+", "licenças negociadas"], ["Ao vivo", "com perguntas"]],
+      depoimentos: [["Fechei minha primeira licença comercial uma semana depois.", "Pedro Costa"]],
+      plano: [["Garanta a vaga", "R$ 49, com gravação."], ["Assista ao vivo", "E mande suas perguntas."], ["Use os modelos", "Licença e planilha de preços."]],
+      sucesso: ["Um preço justo e fácil de explicar", "Uma licença de uso pronta", "Segurança para negociar pelo 365 Clicks"],
+      fracasso: ["Dar sua foto “pela divulgação”", "Perder vendas por não saber responder"],
+      faq: [["Vai ter gravação?", "Sim, por 30 dias."]]
     }
   };
 
@@ -225,58 +387,77 @@
       '<p class="mono" style="margin-top:12px">Versão ' + t.versao + " · modelo sujeito a validação jurídica</p>";
   }
 
-  /* ---------- Página da oferta (evento ou curso) ---------- */
+  /* ---------- Página da oferta: landing page com narrativa StoryBrand ---------- */
   function renderOferta(main, slug) {
     var o = OFERTAS[slug];
     if (!o) return;
+    var h = HISTORIA[slug] || {};
     var I = window.C365 ? window.C365.icon : function () { return ""; };
     var gratis = isGratuito(o);
     var link = "inscricao.html#" + slug;
-    var restantes = o.restantes != null
-      ? '<span class="badge ' + (o.restantes < 10 ? "badge-warning" : "badge-success") + '">' + o.restantes + " de " + o.vagas + " vagas</span>"
-      : '<span class="badge badge-success">Vagas ilimitadas</span>';
+    var cta = gratis ? "Inscrever-se grátis" : "Garantir minha vaga";
+    var preco = gratis ? "Gratuito" : "A partir de " + brl(menorPreco(o));
+    var vagas = o.restantes != null ? o.restantes + " de " + o.vagas + " vagas" : "Vagas ilimitadas";
+    var li = function (arr) { return arr.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join(""); };
 
     main.innerHTML =
-      '<div class="cover" role="img" aria-label="Imagem de ' + esc(o.titulo) + '" style="--img:url(\'' + o.img + '\');--tone:' + o.tone + ";--tone2:" + o.tone2 + '"></div>' +
-      '<div class="split">' +
-        '<article class="stack" style="gap:28px">' +
-          '<header class="cluster" style="align-items:flex-start;gap:16px">' +
-            '<div class="date-block"><span class="m">' + o.dia.m + '</span><span class="d">' + o.dia.d + '</span><span class="w">' + o.dia.w + "</span></div>" +
-            '<div style="flex:1;min-width:220px"><span class="eyebrow">' + esc(o.categoria) + "</span><h1 style=\"margin:4px 0 6px\">" + esc(o.titulo) + '</h1><p style="margin:0">' + esc(o.subtitulo) + "</p></div>" +
-          "</header>" +
+      /* Hero: promessa + chamada direta */
+      '<section class="hero lp-hero" style="--img:url(\'' + o.img + '\');--tone:' + o.tone + ";--tone2:" + o.tone2 + '"><div>' +
+        '<div class="eyebrow">' + esc(o.categoria) + " · " + esc(o.dataCurta) + " · " + esc(o.local) + "</div>" +
+        "<h1>" + esc(h.promessa || o.titulo) + "</h1><p>" + esc(h.apoio || o.resumo) + "</p>" +
+        '<div class="cluster"><a class="btn btn-accent btn-lg" href="' + link + '">' + cta + '</a><a class="btn btn-lg lp-ghost" href="#detalhes">Ver detalhes</a></div>' +
+        '<div class="lp-facts"><span><strong>' + esc(o.titulo) + "</strong></span><span>" + esc(o.data) + "</span><span>" + esc(o.horario) + "</span><span>" + preco + "</span><span>" + vagas + "</span></div>" +
+      "</div></section>" +
+
+      /* 1. Personagem + 2. Problema */
+      (h.personagem ? '<section class="lp-sec"><span class="eyebrow">Para você</span><h2>' + esc(h.personagem) + '</h2>' +
+        '<div class="lp-problems">' + h.problemas.map(function (p) { return '<div><span class="eyebrow">' + esc(p[0]) + "</span><p>" + esc(p[1]) + "</p></div>"; }).join("") + "</div></section>" : "") +
+
+      /* 3. Guia: empatia + autoridade */
+      (h.empatia ? '<section class="lp-sec lp-guide"><div><span class="eyebrow">Quem vai com você</span><h2>' + esc(o.organizador.split(" · ").pop()) + '</h2><p>' + esc(h.empatia) + '</p>' +
+        '<div class="lp-stats">' + h.autoridade.map(function (a) { return '<div><div class="metric">' + esc(a[0]) + '</div><span class="small">' + esc(a[1]) + "</span></div>"; }).join("") + "</div></div>" +
+        '<div class="stack">' + h.depoimentos.map(function (d) { return '<figure class="lp-quote"><blockquote>“' + esc(d[0]) + '”</blockquote><figcaption class="small">' + esc(d[1]) + "</figcaption></figure>"; }).join("") + "</div></section>" : "") +
+
+      /* 4. Plano em 3 passos + 5. Chamada */
+      (h.plano ? '<section class="lp-sec"><span class="eyebrow">Como funciona</span><h2>Três passos</h2><ol class="lp-plan">' +
+        h.plano.map(function (p) { return "<li><strong>" + esc(p[0]) + "</strong><span>" + esc(p[1]) + "</span></li>"; }).join("") + '</ol><a class="btn btn-accent btn-lg" href="' + link + '">' + cta + "</a></section>" : "") +
+
+      /* 6. Fracasso x 7. Sucesso */
+      (h.sucesso ? '<section class="lp-sec lp-stakes"><div class="panel"><span class="eyebrow">Sem isso</span><ul>' + li(h.fracasso) + '</ul></div><div class="panel inverse"><span class="eyebrow" style="color:var(--accent)">Depois ' + (o.tipo === "curso" ? "do curso" : "do evento") + "</span><ul>" + li(h.sucesso) + "</ul></div></section>" : "") +
+
+      /* Detalhes práticos + ingressos */
+      '<section class="lp-sec split" id="detalhes" style="scroll-margin-top:90px">' +
+        '<div class="stack" style="gap:28px">' +
+          '<div><span class="eyebrow">Detalhes</span><h2>' + esc(o.titulo) + "</h2>" +
           '<dl class="kv" style="grid-template-columns:auto 1fr;max-width:560px">' +
-            "<dt>Quando</dt><dd style=\"text-align:left\">" + esc(o.data) + " · " + esc(o.horario) + "</dd>" +
-            "<dt>Onde</dt><dd style=\"text-align:left\">" + esc(o.local) + '<br><span class="small">' + esc(o.endereco) + "</span>" + (o.mapa ? ' · <a class="small" href="' + o.mapa + '" target="_blank" rel="noopener">Como chegar</a>' : "") + "</dd>" +
-            "<dt>Vagas</dt><dd style=\"text-align:left\">" + restantes + "</dd>" +
-            "<dt>Organização</dt><dd style=\"text-align:left\">" + esc(o.organizador) + "</dd>" +
-          "</dl>" +
-          "<section><h2 style=\"margin-top:0\">Sobre " + (o.tipo === "curso" ? "o curso" : "o evento") + "</h2><p>" + esc(o.resumo) + "</p></section>" +
-          "<section><h2 style=\"margin-top:0\">" + (o.tipo === "curso" ? "Conteúdo" : "Programação") + '</h2><ol class="timeline">' +
-            o.programacao.map(function (p) { return '<li><span class="t">' + p[0] + "</span><div><strong>" + esc(p[1]) + '</strong><span class="small">' + esc(p[2]) + "</span></div></li>"; }).join("") +
-          "</ol></section>" +
-          '<section class="row" style="align-items:start">' +
-            '<div><h3>O que está incluído</h3><ul class="small" style="padding-left:18px;margin:0">' + o.inclui.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></div>" +
-            '<div><h3>Antes de se inscrever</h3><ul class="small" style="padding-left:18px;margin:0">' + o.requisitos.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></div>" +
-          "</section>" +
-          "<section><h2 style=\"margin-top:0\">Termos desta inscrição</h2><p>Na inscrição você lê e aceita:</p><div class=\"cluster\">" +
-            o.termos.map(function (t) { return '<a class="chip" href="termos.html#' + t + '">' + TERMOS[t].curto + "</a>"; }).join("") +
-          "</div></section>" +
-        "</article>" +
+            '<dt>Quando</dt><dd style="text-align:left">' + esc(o.data) + " · " + esc(o.horario) + "</dd>" +
+            '<dt>Onde</dt><dd style="text-align:left">' + esc(o.local) + '<br><span class="small">' + esc(o.endereco) + "</span>" + (o.mapa ? ' · <a class="small" href="' + o.mapa + '" target="_blank" rel="noopener">Como chegar</a>' : "") + "</dd>" +
+            '<dt>Vagas</dt><dd style="text-align:left"><span class="badge ' + (o.restantes != null && o.restantes < 10 ? "badge-warning" : "badge-success") + '">' + vagas + "</span></dd>" +
+            '<dt>Organização</dt><dd style="text-align:left">' + esc(o.organizador) + "</dd></dl></div>" +
+          "<div><h3>" + (o.tipo === "curso" ? "Conteúdo" : "Programação") + '</h3><ol class="timeline">' +
+            o.programacao.map(function (p) { return '<li><span class="t">' + p[0] + "</span><div><strong>" + esc(p[1]) + '</strong><span class="small">' + esc(p[2]) + "</span></div></li>"; }).join("") + "</ol></div>" +
+          '<div class="row" style="align-items:start"><div><h3>Está incluído</h3><ul class="small" style="padding-left:18px;margin:0">' + li(o.inclui) + '</ul></div><div><h3>Antes de se inscrever</h3><ul class="small" style="padding-left:18px;margin:0">' + li(o.requisitos) + "</ul></div></div>" +
+          (h.faq ? '<div><h3>Perguntas frequentes</h3>' + h.faq.map(function (f, n) { return '<details class="doc"' + (n ? "" : " open") + '><summary><span class="grow">' + esc(f[0]) + "</span>" + I("chevron") + '</summary><div class="doc-body" style="max-height:none"><p style="margin-top:12px">' + esc(f[1]) + "</p></div></details>"; }).join('<div style="height:8px"></div>') + "</div>" : "") +
+          '<div><h3>Termos desta inscrição</h3><div class="cluster">' + o.termos.map(function (t) { return '<a class="chip" href="termos.html#' + t + '">' + TERMOS[t].curto + "</a>"; }).join("") + "</div></div>" +
+        "</div>" +
         '<aside class="panel stack sticky" id="ingressos" aria-label="Ingressos">' +
           '<span class="eyebrow">' + (gratis ? "Inscrição" : "Ingressos") + "</span>" +
           '<div class="options">' + o.ingressos.map(function (i) {
             return '<div class="option" style="cursor:default"><div class="grow"><strong>' + esc(i.nome) + '</strong><span class="small">' + esc(i.desc) + '</span></div><span class="price">' + brl(i.preco) + "</span></div>";
           }).join("") + "</div>" +
-          (o.descontoClube ? '<div class="notice"><span>' + I("bookmark", "i-sm") + '</span><span>Assinantes do plano Clube têm <strong>' + Math.round(o.descontoClube * 100) + "% de desconto</strong>, aplicado no pagamento.</span></div>" : "") +
-          (o.parcelas ? '<span class="small">Pix, boleto ou cartão em até ' + o.parcelas + "x sem juros.</span>" : "") +
-          '<a class="btn btn-accent btn-lg btn-block" href="' + link + '">' + (gratis ? "Inscrever-se grátis" : "Inscrever-se") + "</a>" +
+          (o.descontoClube ? '<div class="notice"><span>Assinantes do plano Clube têm <strong>' + Math.round(o.descontoClube * 100) + "% de desconto</strong>, aplicado no pagamento.</span></div>" : "") +
+          (o.parcelas && !gratis ? '<span class="small">Pix, boleto ou cartão' + (o.parcelas > 1 ? " em até " + o.parcelas + "x sem juros" : "") + ".</span>" : "") +
+          '<a class="btn btn-accent btn-lg btn-block" href="' + link + '">' + cta + "</a>" +
           '<span class="small" style="text-align:center">Leva cerca de 3 minutos.</span>' +
         "</aside>" +
-      "</div>";
+      "</section>" +
+
+      /* Chamada final */
+      '<section class="lp-final"><h2>' + esc(h.promessa || o.titulo) + '</h2><p>' + esc(o.dataCurta) + " · " + esc(o.local) + " · " + vagas + '</p><a class="btn btn-accent btn-lg" href="' + link + '">' + cta + "</a></section>";
 
     var bar = document.createElement("div");
     bar.className = "buy-bar";
-    bar.innerHTML = '<div class="grow"><strong>' + (gratis ? "Gratuito" : "A partir de " + brl(menorPreco(o))) + '</strong><div class="small">' + esc(o.dataCurta) + (o.restantes != null ? " · " + o.restantes + " vagas" : "") + '</div></div><a class="btn btn-accent" href="' + link + '">Inscrever-se</a>';
+    bar.innerHTML = '<div class="grow"><strong>' + preco + '</strong><div class="small">' + esc(o.dataCurta) + (o.restantes != null ? " · " + o.restantes + " vagas" : "") + '</div></div><a class="btn btn-accent" href="' + link + '">Inscrever-se</a>';
     document.body.appendChild(bar);
     document.body.classList.add("has-buy-bar");
   }
@@ -298,11 +479,12 @@
     "foto-na-paulista": "foto-na-paulista.html",
     "foto-no-parque": "foto-no-parque.html",
     "curso-fotografia-de-rua": "curso.html",
-    "curso-celular": "curso.html#curso-celular"
+    "curso-celular": "curso.html#curso-celular",
+    "palestra-vender-fotos": "oferta.html#palestra-vender-fotos"
   };
 
   window.Ofertas = {
-    lista: OFERTAS, termos: TERMOS, pagina: PAGINA,
+    lista: OFERTAS, termos: TERMOS, pagina: PAGINA, historia: HISTORIA,
     brl: brl, isGratuito: isGratuito, esc: esc, termoHTML: termoHTML,
     renderOferta: renderOferta, renderVitrine: renderVitrine
   };

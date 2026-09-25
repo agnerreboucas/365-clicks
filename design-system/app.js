@@ -19,11 +19,13 @@
       ["fotografos", "Fotógrafos", "Diretório de fotógrafos"],
       ["blog", "Blog", "Conteúdo editorial"],
       ["artigo", "Artigo", "Conteúdo individual"],
+      ["nunca-tirei", "A foto que eu nunca tirei", "Blog e livro colaborativo"],
       ["sobre", "Sobre", "Manifesto e história"],
       ["contato", "Contato", "Fale com o 365 Clicks"],
       ["ajuda", "Central de Ajuda", "FAQ e suporte"]
     ]},
     { id: "comunidade", name: "Comunidade", pages: [
+      ["cadastro", "Criar conta", "Cadastro e termo do fotógrafo"],
       ["feed", "Feed", "Fotografias de quem você segue"],
       ["perfil", "Meu Perfil", "Rede social + portfólio"],
       ["editar-perfil", "Editar Perfil", "Configuração do perfil público"],
@@ -61,6 +63,7 @@
       ["eventos", "Eventos", "Experiências presenciais"],
       ["foto-na-paulista", "Foto na Paulista", "Workshop fotográfico"],
       ["foto-no-parque", "Foto no Parque", "Encontro gratuito"],
+      ["oferta", "Palestra online", "Como vender suas fotos"],
       ["inscricao", "Inscrição", "Ingresso, dados, termos e pagamento"],
       ["meus-ingressos", "Meus Ingressos", "Inscrições, status e cancelamento"],
       ["termos", "Termos e contratos", "Uso de imagem, contrato e cancelamento"]
@@ -73,6 +76,7 @@
       ["inspiracao", "Inspiração", "Referências visuais"]
     ]},
     { id: "comercial", name: "Comercial", pages: [
+      ["loja", "Loja", "App, livros, e-books e camisetas"],
       ["planos", "Planos", "Free + 365 + Clube"],
       ["assinatura", "Assinatura", "Escolha e gerencie seu plano"],
       ["checkout", "Checkout", "Pagamento"],
@@ -81,6 +85,7 @@
     ]},
     { id: "admin", name: "Administração", pages: [
       ["admin", "Dashboard", "Visão operacional"],
+      ["admin-contatos", "Contatos e métricas", "Visualizações, cliques e contatos"],
       ["admin-usuarios", "Usuários", "Gestão de usuários"],
       ["admin-fotos", "Fotografias", "Moderação e destaque"],
       ["admin-desafios", "Desafios", "Criador dos 365 desafios"],
@@ -98,7 +103,8 @@
     ["desafios", "Desafios", "challenge"],
     ["fotografos", "Fotógrafos", null],
     ["cursos", "Cursos", "educacao"],
-    ["eventos", "Eventos", "experiencias"]
+    ["eventos", "Eventos", "experiencias"],
+    ["loja", "Loja", "comercial"]
   ];
 
   /* ---------- Ícones (traço 1.8, grade de 24) ---------- */
@@ -198,6 +204,43 @@
         "</div>" +
         '<a class="btn hide-mobile" href="' + page("publicar") + '">' + icon("camera", "i-sm") + "Publicar</a>" +
       "</div>";
+  }
+
+
+  /* ---------- Faixa de ofertas (receita: cursos, e-books, palestras, eventos, loja) ---------- */
+  var PROMOS = [
+    ["Curso", "Fotografia de Rua: inscrições abertas, início em 3/11", "curso.html", "Ver curso"],
+    ["Palestra", "Como vender suas fotos · 14/10, ao vivo · R$ 49", "oferta.html#palestra-vender-fotos", "Garantir vaga"],
+    ["Evento", "Foto na Paulista · 18/10 · últimas 9 vagas", "foto-na-paulista.html", "Inscrever-se"],
+    ["E-book", "Guia de Exposição sem Mistério · R$ 29", "loja.html#ebooks", "Comprar"],
+    ["Loja", "Livro “A foto que eu nunca tirei” em pré-venda", "loja.html", "Ver na loja"]
+  ];
+  function renderPromo(header) {
+    var hoje = new Date().toDateString();
+    try { if (localStorage.getItem("c365-promo-off") === hoje) return; } catch (e) {}
+    var bar = document.createElement("div");
+    bar.className = "promo";
+    bar.setAttribute("role", "region");
+    bar.setAttribute("aria-label", "Ofertas");
+    var i = 0;
+    function show() {
+      var p = PROMOS[i % PROMOS.length];
+      bar.querySelector(".promo-item").innerHTML = '<span class="promo-tag">' + p[0] + '</span><span class="promo-text">' + p[1] + '</span><a href="' + ROOT + "pages/" + p[2] + '">' + p[3] + " →</a>";
+    }
+    bar.innerHTML = '<div class="promo-item" aria-live="off"></div><button type="button" class="promo-close" aria-label="Fechar ofertas até amanhã">' + icon("close", "i-sm") + "</button>";
+    header.parentNode.insertBefore(bar, header);
+    show();
+    var pausa = false;
+    bar.addEventListener("mouseenter", function () { pausa = true; });
+    bar.addEventListener("mouseleave", function () { pausa = false; });
+    bar.addEventListener("focusin", function () { pausa = true; });
+    if (!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) {
+      setInterval(function () { if (!pausa && !document.hidden) { i++; show(); } }, 6000);
+    }
+    bar.querySelector(".promo-close").addEventListener("click", function () {
+      bar.remove();
+      try { localStorage.setItem("c365-promo-off", hoje); } catch (e) {}
+    });
   }
 
   function renderTabbar() {
@@ -379,6 +422,7 @@
     if (header) {
       document.body.classList.add("has-shell");
       renderHeader(header);
+      renderPromo(header);
       renderTabbar();
       var drawer = renderDrawer();
       bind(drawer);
@@ -391,8 +435,30 @@
     syncThemeButtons();
     if (window.matchMedia) matchMedia("(prefers-color-scheme: dark)").addEventListener("change", syncThemeButtons);
     markBrokenImages();
-    initMasonry();
+    /* Páginas com fotos carregam o catálogo e o visualizador antes de montar o Masonry */
+    if (document.querySelector(".card, [data-feed], [data-photos], [data-open-photo]")) {
+      carregar([ROOT + "pages/fotos.js", window.Ofertas ? null : ROOT + "pages/ofertas.js", ROOT + "design-system/viewer.js"], function () {
+        if (C365.viewer) C365.viewer.hidratar();
+        markBrokenImages();
+        initMasonry();
+        document.dispatchEvent(new CustomEvent("c365:fotos"));
+      });
+    } else {
+      initMasonry();
+    }
   }
+
+  function carregar(urls, done) {
+    urls = urls.filter(Boolean);
+    (function next(i) {
+      if (i >= urls.length) return done();
+      var s = document.createElement("script");
+      s.src = urls[i];
+      s.onload = s.onerror = function () { next(i + 1); };
+      document.head.appendChild(s);
+    })(0);
+  }
+  C365.carregar = carregar;
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();

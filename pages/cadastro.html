@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>365 Clicks — Criar conta</title>
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="../design-system/components.css">
+<script src="../design-system/app.js" defer></script>
+<script src="ofertas.js" defer></script>
+</head><body data-page="cadastro">
+<header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
+<main>
+<div class="split">
+  <form class="stack" id="form" novalidate style="gap:24px">
+    <div><h1>Criar conta</h1><p style="margin:0">Fotografe todos os dias, publique seu trabalho e seja encontrado por quem quer comprar ou contratar.</p></div>
+    <fieldset class="fieldset" style="margin:0">
+      <legend>Seus dados</legend>
+      <div class="form-grid">
+        <div class="field col-3"><label class="label" for="c-nome">Nome<span class="req">*</span></label><input class="input" id="c-nome" autocomplete="name" required></div>
+        <div class="field col-3"><label class="label" for="c-user">Usuário<span class="req">*</span></label><div class="at" style="position:relative"><input class="input" id="c-user" required placeholder="seuperfil" style="padding-left:30px"><span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--ink-3)">@</span></div><span class="hint">Aparece como autor em todas as suas fotos.</span></div>
+        <div class="field col-3"><label class="label" for="c-email">E-mail<span class="req">*</span></label><input class="input" id="c-email" type="email" autocomplete="email" required><span class="hint">Avisos de curtidas, comentários, marcações e contatos chegam aqui.</span></div>
+        <div class="field col-3"><label class="label" for="c-senha">Senha<span class="req">*</span></label><input class="input" id="c-senha" type="password" autocomplete="new-password" minlength="8" required><span class="hint">Mínimo de 8 caracteres.</span></div>
+        <div class="field col-3"><label class="label" for="c-cidade">Cidade</label><input class="input" id="c-cidade" placeholder="São Paulo, SP"></div>
+        <div class="field col-3"><label class="label" for="c-tel">WhatsApp</label><input class="input" id="c-tel" type="tel" inputmode="numeric" placeholder="(11) 98765-4321"><span class="hint">Para receber contatos de interessados nas suas fotos.</span></div>
+      </div>
+    </fieldset>
+    <fieldset class="fieldset" style="margin:0">
+      <legend>Termos</legend>
+      <div id="docs"></div>
+      <label class="check" style="margin-top:16px"><input type="checkbox" id="c-news" checked> Quero receber o desafio do dia e novidades por e-mail</label>
+    </fieldset>
+    <button class="btn btn-accent btn-lg" type="submit">Criar conta</button>
+  </form>
+  <aside class="panel stack sticky">
+    <span class="eyebrow">O que você precisa saber</span>
+    <ul class="accepted" style="list-style:none;padding:0;margin:0;display:grid;gap:12px;font-size:var(--fs-sm)">
+      <li><strong>Suas fotos continuam suas.</strong> Você é o autor e dono dos direitos. O 365 Clicks só exibe as fotos na plataforma.</li>
+      <li><strong>As fotos ficam protegidas.</strong> Sem download, com marca d’água e bloqueios contra cópia.</li>
+      <li><strong>Medimos o interesse no seu trabalho.</strong> Registramos visualizações, cliques e contatos de quem quer comprar ou contratar você.</li>
+      <li><strong>A negociação é sua.</strong> Você combina preço e licença direto com o interessado. Nós guardamos o registro, sem interferir.</li>
+      <li><strong>Tudo chega por e-mail.</strong> Curtidas, comentários, marcações e contatos.</li>
+    </ul>
+  </aside>
+</div>
+</main>
+<footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  "use strict";
+  var C = window.C365, O = window.Ofertas, $ = function (s) { return document.querySelector(s); };
+  var DOCS = [["fotografo", "Li e aceito o <strong>Termo de Adesão do Fotógrafo</strong>, inclusive o rastreio de visualizações, cliques e contatos e o registro das negociações pelo 365 Clicks."], ["privacidade", "Li e aceito a <strong>Política de Privacidade (LGPD)</strong>."]];
+  $("#docs").innerHTML = DOCS.map(function (d, n) {
+    var t = O.termos[d[0]];
+    return '<details class="doc"' + (n ? "" : " open") + '><summary><span class="grow">' + t.titulo + '</span><span class="badge plain mono">v' + t.versao + "</span>" + C.icon("chevron") + '</summary><div class="doc-body">' + O.termoHTML(d[0], {}) + "</div></details>" +
+      '<label class="accept"><input type="checkbox" required data-termo="' + d[0] + '"><span>' + d[1] + "</span></label>";
+  }).join('<div style="height:12px"></div>');
+  $("#c-user").addEventListener("input", function () { this.value = this.value.replace(/^@+/, "").replace(/[^\w.]/g, "").toLowerCase().slice(0, 30); });
+  $("#form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var bad = [];
+    document.querySelectorAll("#form [aria-invalid]").forEach(function (x) { x.removeAttribute("aria-invalid"); });
+    ["c-nome", "c-user", "c-email"].forEach(function (id) { var el = document.getElementById(id); if (!el.value.trim()) { el.setAttribute("aria-invalid", "true"); bad.push(el); } });
+    var em = $("#c-email"); if (em.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em.value)) { em.setAttribute("aria-invalid", "true"); bad.push(em); }
+    var s = $("#c-senha"); if (s.value.length < 8) { s.setAttribute("aria-invalid", "true"); bad.push(s); }
+    document.querySelectorAll("[data-termo]").forEach(function (t) { if (!t.checked) { t.closest(".accept").setAttribute("aria-invalid", "true"); bad.push(t); } });
+    if (bad.length) { bad[0].focus(); C.toast("Confira os campos destacados e aceite os termos"); return; }
+    $("#form").innerHTML = '<div class="notice success"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span>Conta criada. Enviamos um e-mail de confirmação para <strong>' + em.value.replace(/[<>&"]/g, "") + "</strong>. Termos aceitos em " + new Date().toLocaleString("pt-BR") + ' (Termo do Fotógrafo v1.0, Privacidade v1.0).</span></div><div class="cluster"><a class="btn btn-accent btn-lg" href="publicar.html">Publicar minha primeira foto</a><a class="btn btn-secondary btn-lg" href="desafio-do-dia.html">Ver o desafio de hoje</a></div>';
+    C.toast("Conta criada");
+  });
+});
+</script>
+</body></html>

@@ -5,13 +5,19 @@ Plataforma visual para fotógrafos: descoberta, desafio diário de 365 dias, com
 ## Conteúdo
 
 - `PRD_365_CLICKS.md` — PRD v2.0 (Home como galeria viva, inspirada na lógica de descoberta visual).
-- `index.html` — índice do protótipo: as 61 telas por módulo, com pré-visualização em desktop ou celular.
+- `index.html` — índice do protótipo: as 66 telas por módulo, com pré-visualização em desktop ou celular.
 - `design-system/` — design system v1.0 do 365 Clicks:
   - `tokens.css` — cor (tema claro e escuro), tipografia, espaço, raio, sombra e movimento.
   - `components.css` — botões, formulários, chips, badges, avatares, foto e grid Masonry, 365 Challenge, métricas, tabela, listas, abas, estado vazio, modal, toast, cabeçalho e navegação mobile.
-  - `app.js` — mapa do site (fonte única das 61 telas) e shell compartilhado: cabeçalho, menu "Mais", gaveta e barra inferior mobile, abas do módulo, rodapé, Masonry por linha, tema, modais e toasts.
+  - `app.js` — mapa do site (fonte única das 66 telas) e shell compartilhado: cabeçalho, menu "Mais", gaveta e barra inferior mobile, abas do módulo, rodapé, Masonry por linha, tema, modais e toasts.
+  - `viewer.js` — visualizador de fotos (descrição, EXIF, comentários, @menções, marcações), proteção contra cópia, contato com o fotógrafo e rastreio de visualizações, cliques e contatos.
+  - `upload.js` — compressor: corta nos 3 formatos padrão e gera versões WebP leves (teto de 2 MB).
   - `index.html` — guia visual com todos os tokens e componentes.
-- `pages/` — 61 telas HTML (Portal, Comunidade, 365 Challenge, Portfólio, Educação, Experiências, Foto Criativa, Comercial, Administração). Home, Desafio do Dia, Fotografia, Meu Perfil, Admin Usuários e todo o fluxo de eventos e cursos (vitrines, páginas das ofertas, Inscrição, Meus Ingressos, Termos e Admin Eventos) já usam os componentes; as demais usam o sistema, mas ainda têm o conteúdo genérico do protótipo.
+- `pages/` — 66 telas HTML (Portal, Comunidade, 365 Challenge, Portfólio, Educação, Experiências, Foto Criativa, Comercial, Administração). Home, Desafio do Dia, Fotografia, Meu Perfil, Admin Usuários e todo o fluxo de eventos e cursos (vitrines, páginas das ofertas, Inscrição, Meus Ingressos, Termos e Admin Eventos) já usam os componentes; as demais usam o sistema, mas ainda têm o conteúdo genérico do protótipo.
+
+## Fotos e rastreio
+
+`pages/fotos.js` é o catálogo de fotos e fotógrafos do protótipo. Na página publicada, o rastreio grava no banco compartilhado do artifact (`stats/` agregados por dia e `leads/`, visíveis só para administradores); abrindo os arquivos localmente, grava no navegador. O painel fica em `pages/admin-contatos.html`.
 
 ## Eventos e cursos
 

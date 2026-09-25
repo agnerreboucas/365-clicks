@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>365 Clicks — Admin Contatos e métricas</title>
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="../design-system/components.css">
+<script src="../design-system/app.js" defer></script>
+<style>
+.filters { display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: center; margin: var(--sp-5) 0; }
+.filters .select { width: auto; }
+.chart { position: relative; }
+.chart svg { width: 100%; height: auto; display: block; overflow: visible; }
+.chart .axis { font-family: var(--font-mono); font-size: 11px; fill: var(--ink-3); }
+.chart .grid-l { stroke: var(--line); stroke-width: 1; }
+.chart .tip { position: absolute; pointer-events: none; background: var(--surface-inverse); color: var(--ink-inverse); font-size: var(--fs-xs); padding: 6px 10px; border-radius: var(--r-sm); white-space: nowrap; transform: translate(-50%, -115%); box-shadow: var(--shadow-float); }
+.legend { display: flex; gap: var(--sp-4); font-size: var(--fs-xs); color: var(--ink-2); margin-top: var(--sp-2); }
+.legend i { display: inline-block; width: 18px; height: 0; border-top: 2px solid var(--ink); vertical-align: middle; margin-right: 6px; }
+.legend i.dash { border-top-style: dashed; border-color: var(--ink-3); }
+.hbar { display: grid; grid-template-columns: 150px minmax(0, 1fr) 48px; gap: var(--sp-3); align-items: center; font-size: var(--fs-sm); padding: 6px 0; }
+.hbar .b { height: 10px; border-radius: 0 4px 4px 0; background: var(--ink); min-width: 2px; }
+.thumb { width: 44px; height: 44px; border-radius: var(--r-sm); background-size: cover; background-position: center; flex: none; }
+.src-badge { margin-left: auto; }
+@media (max-width: 640px) { .hbar { grid-template-columns: 110px minmax(0, 1fr) 40px; } }
+</style>
+</head><body data-page="admin-contatos">
+<header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
+<main data-photos>
+<div class="cluster" style="justify-content:space-between;align-items:flex-end">
+  <div><h1>Contatos e métricas</h1><p style="margin:0">Visualizações de fotos, cliques em “Falar com o fotógrafo” e contatos enviados. Dados de uso interno.</p></div>
+  <button class="btn" type="button" id="csv">Exportar contatos (CSV)</button>
+</div>
+<div class="filters">
+  <label class="sr-only" for="f-periodo">Período</label><select class="select" id="f-periodo"><option value="7">Últimos 7 dias</option><option value="30" selected>Últimos 30 dias</option><option value="90">Últimos 90 dias</option></select>
+  <label class="sr-only" for="f-foto">Fotógrafo</label><select class="select" id="f-foto"><option value="">Todos os fotógrafos</option></select>
+  <label class="switch"><input type="checkbox" id="f-exemplo" checked> Incluir dados de exemplo</label>
+  <span class="badge src-badge" id="fonte">Carregando…</span>
+</div>
+
+<div class="row" id="kpis"></div>
+
+<div class="split" style="margin-top:24px">
+  <section class="panel">
+    <h3 style="margin-top:0">Visualizações por dia</h3>
+    <div class="chart" id="ch-views"></div>
+    <div class="legend"><span><i></i>Realizado</span><span><i class="dash"></i>Projeção 30 dias (tendência linear)</span></div>
+    <p class="small" id="proj" style="margin:12px 0 0"></p>
+  </section>
+  <section class="panel">
+    <h3 style="margin-top:0">Contatos enviados por dia</h3>
+    <div class="chart" id="ch-leads"></div>
+    <p class="small" id="funil" style="margin:12px 0 0"></p>
+  </section>
+</div>
+
+<div class="split" style="margin-top:24px">
+  <section>
+    <h2 style="margin-top:0">Fotos mais vistas</h2>
+    <div class="table-wrap"><table class="table"><thead><tr><th>Foto</th><th class="r">Visualizações</th><th class="r">Cliques</th><th class="r">Contatos</th><th class="r">Conversão</th></tr></thead><tbody id="t-fotos"></tbody></table></div>
+  </section>
+  <section>
+    <h2 style="margin-top:0">Fotógrafos com mais contatos</h2>
+    <div class="panel" id="t-fotografos"></div>
+  </section>
+</div>
+
+<h2>Contatos recebidos</h2>
+<p class="small" style="margin-top:-8px">Cada contato aceitou o Termo de Contato e Direitos Autorais. O 365 Clicks registra, mas não interfere na negociação.</p>
+<div class="table-wrap"><table class="table"><thead><tr><th>Data</th><th>Nome</th><th>Telefone</th><th>E-mail</th><th>Interesse</th><th>Foto</th><th>Fotógrafo</th><th>Termo</th></tr></thead><tbody id="t-leads"></tbody></table></div>
+</main>
+<footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
+<script>
+document.addEventListener("c365:fotos", async function () {
+  "use strict";
+  var C = window.C365, F = window.Fotos, $ = function (s) { return document.querySelector(s); };
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function n(v) { return Math.round(v).toLocaleString("pt-BR"); }
+  function iso(d) { return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
+  var HOJE = new Date(); HOJE.setHours(12, 0, 0, 0);
+  var DIAS = []; for (var i = 179; i >= 0; i--) { var d = new Date(HOJE); d.setDate(d.getDate() - i); DIAS.push(iso(d)); }
+
+  F.fotografos.forEach(function (f) { $("#f-foto").insertAdjacentHTML("beforeend", '<option value="' + f.id + '">' + esc(f.nome) + "</option>"); });
+
+  /* ---------- Dados de exemplo (determinísticos, marcados como exemplo) ---------- */
+  var semente = 7;
+  function rnd() { semente = (semente * 16807) % 2147483647; return semente / 2147483647; }
+  var EX_STATS = [], EX_LEADS = [];
+  F.lista.forEach(function (foto, k) {
+    var pop = 18 + (foto.curtidas % 60);
+    DIAS.forEach(function (dia, t) {
+      var tend = 0.55 + t / DIAS.length * 0.9, sem = [0.85, 1, 1, 1.05, 1.1, 1.3, 1.25][new Date(dia + "T12:00").getDay()];
+      var v = Math.round(pop * tend * sem * (0.7 + rnd() * 0.6));
+      var c = Math.round(v * (0.03 + rnd() * 0.03)), l = Math.round(c * (0.2 + rnd() * 0.15));
+      EX_STATS.push({ foto: foto.id, fotografo: foto.fotografo, dia: dia, views: v, clicks: c, leads: l, exemplo: true });
+    });
+  });
+  var NOMES = [["Carla Menezes", "Agência Horizonte"], ["Diego Prado", ""], ["Fernanda Alves", "Revista Viagem Sul"], ["Gustavo Lins", ""], ["Helena Duarte", "Café Duarte"], ["Igor Tavares", ""], ["Joana Ribeiro", "Hotel Serra Azul"], ["Lucas Moreira", ""], ["Paula Nogueira", "Editora Trilha"], ["Renato Faria", ""]];
+  var INTER = ["Comprar esta foto", "Licenciar para uso comercial", "Contratar um trabalho", "Comprar esta foto", "Licenciar para uso comercial"];
+  NOMES.forEach(function (p, k) {
+    var foto = F.lista[(k * 5 + 3) % F.lista.length], ph = F.fotografo(foto.fotografo), d = new Date(HOJE); d.setDate(d.getDate() - k * 2 - 1); d.setHours(9 + k, 12 * k % 60);
+    EX_LEADS.push({ nome: p[0] + (p[1] ? " (" + p[1] + ")" : ""), telefone: "(11) 9" + (8100 + k * 137) + "-" + (2200 + k * 311), email: p[0].toLowerCase().split(" ")[0] + "@exemplo.com", interesse: INTER[k % INTER.length], foto: foto.id, fotoTitulo: foto.titulo, fotografo: ph.id, fotografoNome: ph.nome, termo: "contato v1.0", em: d.getTime(), exemplo: true });
+  });
+
+  var real = await C.track.ler();
+  $("#fonte").textContent = real.fonte === "db" ? "Dados reais: banco compartilhado" : "Dados reais: só neste navegador";
+  $("#fonte").className = "badge src-badge " + (real.fonte === "db" ? "badge-success" : "badge-info");
+
+  /* ---------- Gráficos ---------- */
+  function linha(host, serie, proj, rotulo) {
+    var W = 640, H = 220, P = { l: 44, r: 12, t: 12, b: 26 };
+    var todos = serie.concat(proj.map(function (p) { return p.v; }).length ? proj : []);
+    var max = Math.max(1, Math.max.apply(null, todos.map(function (p) { return p.v; })));
+    var passo = Math.pow(10, Math.floor(Math.log10(max))), topo = Math.ceil(max / passo) * passo;
+    var N = serie.length + proj.length, x = function (i) { return P.l + (W - P.l - P.r) * (N <= 1 ? 0 : i / (N - 1)); }, y = function (v) { return P.t + (H - P.t - P.b) * (1 - v / topo); };
+    var g = "";
+    for (var k = 0; k <= 4; k++) { var vv = topo * k / 4; g += '<line class="grid-l" x1="' + P.l + '" x2="' + (W - P.r) + '" y1="' + y(vv) + '" y2="' + y(vv) + '"/><text class="axis" x="' + (P.l - 8) + '" y="' + (y(vv) + 4) + '" text-anchor="end">' + n(vv) + "</text>"; }
+    var lab = function (i, d) { return '<text class="axis" x="' + x(i) + '" y="' + (H - 6) + '" text-anchor="middle">' + d.slice(8, 10) + "/" + d.slice(5, 7) + "</text>"; };
+    g += lab(0, serie[0].d) + lab(serie.length - 1, serie[serie.length - 1].d) + (proj.length ? lab(N - 1, proj[proj.length - 1].d) : "");
+    var pts = serie.map(function (p, i) { return x(i) + "," + y(p.v); }).join(" ");
+    var area = "M" + x(0) + "," + y(0) + " L" + pts.replace(/ /g, " L") + " L" + x(serie.length - 1) + "," + y(0) + "Z";
+    var pj = proj.length ? [x(serie.length - 1) + "," + y(serie[serie.length - 1].v)].concat(proj.map(function (p, i) { return x(serie.length + i) + "," + y(p.v); })).join(" ") : "";
+    host.innerHTML = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' + esc(rotulo) + '">' + g +
+      '<path d="' + area + '" fill="var(--ink)" fill-opacity=".06"/>' +
+      '<polyline points="' + pts + '" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/>' +
+      (pj ? '<polyline points="' + pj + '" fill="none" stroke="var(--ink-3)" stroke-width="2" stroke-dasharray="5 5"/>' : "") +
+      '<circle cx="' + x(serie.length - 1) + '" cy="' + y(serie[serie.length - 1].v) + '" r="4.5" fill="var(--ink)" stroke="var(--surface)" stroke-width="2"/>' +
+      '<line class="hover-l" x1="0" x2="0" y1="' + P.t + '" y2="' + (H - P.b) + '" stroke="var(--ink-3)" stroke-width="1" visibility="hidden"/>' +
+      '<circle class="hover-d" r="5" fill="var(--ink)" stroke="var(--surface)" stroke-width="2" visibility="hidden"/>' +
+      '<rect x="' + P.l + '" y="' + P.t + '" width="' + (W - P.l - P.r) + '" height="' + (H - P.t - P.b) + '" fill="transparent" class="hit"/></svg><div class="tip" hidden></div>';
+    var svg = host.querySelector("svg"), tip = host.querySelector(".tip"), all = serie.concat(proj);
+    host.querySelector(".hit").addEventListener("mousemove", function (e) {
+      var r = svg.getBoundingClientRect(), px = (e.clientX - r.left) / r.width * W;
+      var i = Math.max(0, Math.min(N - 1, Math.round((px - P.l) / (W - P.l - P.r) * (N - 1)))), p = all[i];
+      var hl = svg.querySelector(".hover-l"), hd = svg.querySelector(".hover-d");
+      hl.setAttribute("x1", x(i)); hl.setAttribute("x2", x(i)); hl.setAttribute("visibility", "visible");
+      hd.setAttribute("cx", x(i)); hd.setAttribute("cy", y(p.v)); hd.setAttribute("visibility", "visible");
+      tip.hidden = false; tip.style.left = (x(i) / W * r.width) + "px"; tip.style.top = (y(p.v) / H * r.height) + "px";
+      tip.textContent = p.d.slice(8, 10) + "/" + p.d.slice(5, 7) + " · " + n(p.v) + (i >= serie.length ? " (projeção)" : "");
+    });
+    host.querySelector(".hit").addEventListener("mouseleave", function () { tip.hidden = true; svg.querySelector(".hover-l").setAttribute("visibility", "hidden"); svg.querySelector(".hover-d").setAttribute("visibility", "hidden"); });
+  }
+  function barras(host, serie, rotulo) {
+    var W = 640, H = 220, P = { l: 44, r: 12, t: 12, b: 26 };
+    var max = Math.max(1, Math.max.apply(null, serie.map(function (p) { return p.v; })));
+    var topo = max <= 5 ? 5 : Math.ceil(max / 5) * 5, bw = (W - P.l - P.r) / serie.length;
+    var y = function (v) { return P.t + (H - P.t - P.b) * (1 - v / topo); };
+    var g = "";
+    for (var k = 0; k <= 4; k++) { var vv = topo * k / 4; g += '<line class="grid-l" x1="' + P.l + '" x2="' + (W - P.r) + '" y1="' + y(vv) + '" y2="' + y(vv) + '"/><text class="axis" x="' + (P.l - 8) + '" y="' + (y(vv) + 4) + '" text-anchor="end">' + n(vv) + "</text>"; }
+    serie.forEach(function (p, i) {
+      var h = y(0) - y(p.v), bx = P.l + i * bw + 1;
+      g += '<rect x="' + bx + '" y="' + y(p.v) + '" width="' + Math.max(1, bw - 2) + '" height="' + Math.max(0, h) + '" rx="' + Math.min(4, bw / 3) + '" fill="var(--ink)"><title>' + p.d.slice(8, 10) + "/" + p.d.slice(5, 7) + ": " + p.v + " contatos</title></rect>";
+    });
+    g += '<text class="axis" x="' + (P.l + bw / 2) + '" y="' + (H - 6) + '" text-anchor="middle">' + serie[0].d.slice(8, 10) + "/" + serie[0].d.slice(5, 7) + '</text><text class="axis" x="' + (W - P.r - bw / 2) + '" y="' + (H - 6) + '" text-anchor="middle">' + serie[serie.length - 1].d.slice(8, 10) + "/" + serie[serie.length - 1].d.slice(5, 7) + "</text>";
+    host.innerHTML = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' + esc(rotulo) + '">' + g + "</svg>";
+  }
+
+  /* ---------- Montagem ---------- */
+  function render() {
+    var dias = +$("#f-periodo").value, quem = $("#f-foto").value, ex = $("#f-exemplo").checked;
+    var janela = DIAS.slice(-dias), anterior = DIAS.slice(-dias * 2, -dias);
+    var stats = real.stats.concat(ex ? EX_STATS : []).filter(function (s) { return !quem || s.fotografo === quem; });
+    var leads = real.leads.concat(ex ? EX_LEADS : []).filter(function (l) { return !quem || l.fotografo === quem; }).sort(function (a, b) { return b.em - a.em; });
+    function soma(lista, campo, dset) { return lista.reduce(function (a, s) { return dset.indexOf(s.dia) > -1 ? a + (s[campo] || 0) : a; }, 0); }
+    var V = soma(stats, "views", janela), K = soma(stats, "clicks", janela), L = soma(stats, "leads", janela);
+    var V0 = soma(stats, "views", anterior), K0 = soma(stats, "clicks", anterior), L0 = soma(stats, "leads", anterior);
+    function delta(a, b) { if (!b) return '<span class="small">sem período anterior</span>'; var p = (a - b) / b * 100; return '<span class="delta ' + (p >= 0 ? "up" : "down") + '">' + (p >= 0 ? "+" : "") + p.toFixed(1).replace(".", ",") + "% vs. período anterior</span>"; }
+    $("#kpis").innerHTML =
+      '<div class="panel stat"><span class="small">Visualizações</span><div class="metric">' + n(V) + "</div>" + delta(V, V0) + "</div>" +
+      '<div class="panel stat"><span class="small">Cliques em “Falar com o fotógrafo”</span><div class="metric">' + n(K) + "</div>" + delta(K, K0) + "</div>" +
+      '<div class="panel stat"><span class="small">Contatos enviados</span><div class="metric">' + n(L) + "</div>" + delta(L, L0) + "</div>" +
+      '<div class="panel stat"><span class="small">Conversão (contatos ÷ visualizações)</span><div class="metric">' + (V ? (L / V * 100).toFixed(2).replace(".", ",") : "0") + '%</div><span class="small">' + (K ? (L / K * 100).toFixed(0) : 0) + "% de quem clica envia o contato</span></div>";
+
+    var porDia = {}; stats.forEach(function (s) { var p = porDia[s.dia] || (porDia[s.dia] = { v: 0, c: 0, l: 0 }); p.v += s.views || 0; p.c += s.clicks || 0; p.l += s.leads || 0; });
+    var sv = janela.map(function (d) { return { d: d, v: (porDia[d] || {}).v || 0 }; });
+    var sl = janela.map(function (d) { return { d: d, v: (porDia[d] || {}).l || 0 }; });
+    /* Projeção: regressão linear simples sobre o período, estendida por 30 dias */
+    var nn = sv.length, mx = (nn - 1) / 2, my = sv.reduce(function (a, p) { return a + p.v; }, 0) / nn, num = 0, den = 0;
+    sv.forEach(function (p, i) { num += (i - mx) * (p.v - my); den += (i - mx) * (i - mx); });
+    var b = den ? num / den : 0, a0 = my - b * mx, proj = [];
+    for (var k = 1; k <= 30; k++) { var dd = new Date(HOJE); dd.setDate(dd.getDate() + k); proj.push({ d: iso(dd), v: Math.max(0, a0 + b * (nn - 1 + k)) }); }
+    linha($("#ch-views"), sv, dias >= 7 ? proj : [], "Visualizações por dia, com projeção de 30 dias");
+    barras($("#ch-leads"), sl, "Contatos enviados por dia");
+    var p30 = proj.reduce(function (a, p) { return a + p.v; }, 0), ult30 = sv.slice(-30).reduce(function (a, p) { return a + p.v; }, 0) * (30 / Math.min(30, nn));
+    $("#proj").textContent = "Mantida a tendência, os próximos 30 dias devem somar cerca de " + n(p30) + " visualizações (" + (ult30 ? ((p30 - ult30) / ult30 * 100 >= 0 ? "+" : "") + ((p30 - ult30) / ult30 * 100).toFixed(0) + "%" : "—") + " em relação aos últimos 30 dias). É uma estimativa, não uma meta.";
+    $("#funil").textContent = "Funil do período: " + n(V) + " visualizações → " + n(K) + " cliques → " + n(L) + " contatos.";
+
+    var porFoto = {}; stats.forEach(function (s) { if (janela.indexOf(s.dia) < 0) return; var p = porFoto[s.foto] || (porFoto[s.foto] = { v: 0, c: 0, l: 0 }); p.v += s.views || 0; p.c += s.clicks || 0; p.l += s.leads || 0; });
+    $("#t-fotos").innerHTML = Object.keys(porFoto).sort(function (a, b2) { return porFoto[b2].v - porFoto[a].v; }).slice(0, 8).map(function (id) {
+      var f = F.foto(id), p = porFoto[id]; if (!f) return "";
+      var ph = F.fotografo(f.fotografo);
+      return '<tr><td><div class="who"><span class="thumb" style="background-image:url(\'' + f.thumb + "'),linear-gradient(160deg," + f.tone2 + "," + f.tone + ')"></span><div><strong>' + esc(f.titulo) + '</strong><div class="small">' + esc(ph.nome) + '</div></div></div></td><td class="r">' + n(p.v) + '</td><td class="r">' + n(p.c) + '</td><td class="r">' + n(p.l) + '</td><td class="r">' + (p.v ? (p.l / p.v * 100).toFixed(2).replace(".", ",") : "0") + "%</td></tr>";
+    }).join("") || '<tr><td colspan="5" class="small">Sem dados no período.</td></tr>';
+
+    var porPh = {}; Object.keys(porFoto).forEach(function (id) { var f = F.foto(id); if (!f) return; porPh[f.fotografo] = (porPh[f.fotografo] || 0) + porFoto[id].l; });
+    var maxPh = Math.max(1, Math.max.apply(null, Object.keys(porPh).map(function (k) { return porPh[k]; }).concat([0])));
+    $("#t-fotografos").innerHTML = Object.keys(porPh).sort(function (a, b2) { return porPh[b2] - porPh[a]; }).map(function (id) {
+      var ph = F.fotografo(id);
+      return '<div class="hbar"><span>' + esc(ph.nome) + '</span><span class="b" style="width:' + (porPh[id] / maxPh * 100) + '%"></span><span class="num" style="text-align:right">' + n(porPh[id]) + "</span></div>";
+    }).join("") || '<p class="small" style="margin:0">Sem contatos no período.</p>';
+
+    var desde = new Date(HOJE); desde.setDate(desde.getDate() - dias);
+    var lv = leads.filter(function (l) { return l.em >= desde.getTime(); });
+    $("#t-leads").innerHTML = lv.map(function (l) {
+      var d = new Date(l.em);
+      return "<tr><td class=\"num\">" + d.toLocaleDateString("pt-BR") + " " + d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }) + "</td><td><strong>" + esc(l.nome) + "</strong>" + (l.exemplo ? ' <span class="badge plain">exemplo</span>' : "") + (l.mensagem ? '<div class="small" style="white-space:normal;max-width:260px">' + esc(l.mensagem.slice(0, 120)) + "</div>" : "") + "</td><td>" + esc(l.telefone) + "</td><td>" + esc(l.email || "—") + "</td><td>" + esc(l.interesse) + "</td><td>" + esc(l.fotoTitulo) + "</td><td>" + esc(l.fotografoNome) + '</td><td><span class="badge badge-success plain">' + esc(l.termo) + "</span></td></tr>";
+    }).join("") || '<tr><td colspan="8" class="small">Nenhum contato no período. Abra uma foto e clique em “Falar com o fotógrafo” para testar.</td></tr>';
+    render.leads = lv;
+  }
+  ["f-periodo", "f-foto", "f-exemplo"].forEach(function (id) { document.getElementById(id).addEventListener("change", render); });
+
+  $("#csv").addEventListener("click", async function () {
+    var lv = render.leads || [];
+    var linhas = [["data", "nome", "telefone", "email", "interesse", "foto", "fotografo", "termo", "mensagem"]].concat(lv.map(function (l) { return [new Date(l.em).toISOString(), l.nome, l.telefone, l.email, l.interesse, l.fotoTitulo, l.fotografoNome, l.termo, (l.mensagem || "").replace(/\s+/g, " ")]; }));
+    var csv = linhas.map(function (r) { return r.map(function (c) { return '"' + String(c == null ? "" : c).replace(/"/g, '""') + '"'; }).join(";"); }).join("\n");
+    var nome = "contatos-365clicks-" + iso(HOJE) + ".csv";
+    try {
+      var dl = window.claude && window.claude.use ? await window.claude.use("downloads") : null;
+      if (dl) { await dl.save({ filename: nome, data: "﻿" + csv }); return; }
+    } catch (e) { if (e && e.code) { C.toast("Download cancelado"); return; } }
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob(["﻿" + csv], { type: "text/csv" }));
+    a.download = nome; document.body.appendChild(a); a.click(); a.remove();
+    C.toast(lv.length + " contatos exportados");
+  });
+
+  render();
+});
+</script>
+</body></html>

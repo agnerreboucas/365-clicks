@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>365 Clicks — A foto que eu nunca tirei</title>
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="../design-system/components.css">
+<script src="../design-system/app.js" defer></script>
+<script src="ofertas.js" defer></script>
+<style>
+.nt-hero { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: var(--sp-8); align-items: center; padding: var(--sp-8) 0 var(--sp-7); }
+.nt-hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); letter-spacing: -.045em; max-width: 11ch; }
+.nt-frame { position: relative; aspect-ratio: 3 / 2; border: 2px solid var(--ink); border-radius: var(--r-sm); display: grid; place-items: center; background: repeating-linear-gradient(135deg, transparent 0 14px, color-mix(in srgb, var(--ink) 5%, transparent) 14px 15px); }
+.nt-frame::before, .nt-frame::after { content: ""; position: absolute; width: 28px; height: 28px; border: solid var(--accent); }
+.nt-frame::before { top: -10px; left: -10px; border-width: 4px 0 0 4px; }
+.nt-frame::after { bottom: -10px; right: -10px; border-width: 0 4px 4px 0; }
+.nt-frame span { font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--ink-3); text-align: center; padding: var(--sp-4); }
+.destaque { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: var(--sp-7); padding: var(--sp-7); border-radius: var(--r-xl); background: var(--surface-inverse); color: var(--ink-inverse); }
+.destaque blockquote { margin: 0; font-family: var(--font-display); font-size: clamp(1.4rem, 2.6vw, 2rem); line-height: 1.25; letter-spacing: -.02em; }
+.destaque p { color: color-mix(in srgb, var(--ink-inverse) 75%, transparent); }
+.destaque .mono { color: color-mix(in srgb, var(--ink-inverse) 60%, transparent); }
+.historias { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: var(--sp-4); }
+.historia { display: flex; flex-direction: column; gap: var(--sp-3); padding: var(--sp-6); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); }
+.historia h3 { margin: 0; }
+.historia p { margin: 0; font-size: var(--fs-sm); }
+.historia .foot { margin-top: auto; display: flex; align-items: center; gap: var(--sp-3); padding-top: var(--sp-3); border-top: 1px solid var(--line); }
+@media (max-width: 860px) { .nt-hero, .destaque { grid-template-columns: 1fr; } .destaque { padding: var(--sp-6); } }
+</style>
+</head><body data-page="nunca-tirei">
+<header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
+<main>
+<section class="nt-hero">
+  <div>
+    <span class="eyebrow">Blog e livro colaborativo</span>
+    <h1>A foto que eu nunca tirei.</h1>
+    <p style="font-size:var(--fs-lg)">Todo fotógrafo tem uma cena que viu, quis fotografar e deixou passar. Conte a sua. As melhores histórias saem no blog e nas redes do 365 Clicks e vão virar um livro escrito por toda a comunidade.</p>
+    <div class="cluster"><a class="btn btn-accent btn-lg" href="#enviar">Contar minha história</a><a class="btn btn-secondary btn-lg" href="#historias">Ler as histórias</a></div>
+  </div>
+  <div class="stack" style="gap:16px">
+    <div class="nt-frame" aria-hidden="true"><span>sem foto<br>35mm · f/2 · 1/250s · ISO 400<br>só na memória</span></div>
+    <div class="stack" style="gap:6px"><div class="cluster" style="justify-content:space-between"><span class="small"><strong>43</strong> de 100 histórias para o livro</span><span class="small">Lançamento previsto: 1º semestre de 2027</span></div><div class="progress" style="--value:43%"><span></span></div></div>
+  </div>
+</section>
+
+<section class="destaque" aria-label="História em destaque">
+  <div class="stack">
+    <span class="eyebrow" style="color:var(--accent)">História da semana</span>
+    <blockquote>“Um senhor dançava sozinho na plataforma do metrô Sé, às 23h, com um radinho no ombro. Eu estava com a câmera na mochila e fiquei só olhando.”</blockquote>
+    <p>Eu tinha acabado de sair de um ensaio, cansada, e pensei que ia parecer invasivo. Ele dançou por três estações de espera. Quando o trem chegou, ele desligou o rádio, ajeitou o chapéu e entrou como se nada tivesse acontecido. Até hoje sei exatamente onde eu me colocaria, a luz amarela que vinha do teto e o reflexo dele no vidro do trem.</p>
+    <span class="mono">O que eu teria usado: 35mm · f/1.4 · 1/60s · ISO 3200</span>
+  </div>
+  <div class="stack">
+    <div class="cluster"><span class="avatar avatar-lg" style="--av:#d9e3f2">AL</span><div><strong>Ana Lima</strong><div class="small" style="color:inherit;opacity:.7">@analima · São Paulo</div></div></div>
+    <span class="small" style="color:inherit;opacity:.7">Estação Sé, São Paulo · março de 2019</span>
+    <span class="badge badge-accent plain">Coautora do livro</span>
+    <button class="btn" type="button" data-toast="Compartilhamento: disponível na versão funcional">Compartilhar</button>
+  </div>
+</section>
+
+<h2 id="historias">Histórias da comunidade</h2>
+<div class="chips" style="margin-top:0"><button class="chip" type="button" aria-pressed="true">Mais recentes</button><button class="chip" type="button" aria-pressed="false">Selecionadas para o livro</button><button class="chip" type="button" aria-pressed="false">Mais lidas</button></div>
+<div class="historias" id="lista"></div>
+
+<h2 id="enviar">Conte a sua</h2>
+<div class="split">
+  <form class="panel stack" id="form" novalidate>
+    <div class="field"><label class="label" for="h-titulo">Título<span class="req">*</span></label><input class="input" id="h-titulo" maxlength="80" required placeholder="Ex.: O senhor que dançava no metrô"></div>
+    <div class="field"><label class="label" for="h-texto">A história<span class="req">*</span></label><textarea class="textarea" id="h-texto" rows="8" maxlength="3000" required placeholder="O que você viu, onde estava, por que não fotografou e como seria a foto."></textarea><span class="hint"><span id="h-cont">0</span> de 300 a 3.000 caracteres</span></div>
+    <div class="form-grid">
+      <div class="field col-3"><label class="label" for="h-onde">Onde<span class="req">*</span></label><input class="input" id="h-onde" required placeholder="Cidade, lugar"></div>
+      <div class="field col-3"><label class="label" for="h-quando">Quando</label><input class="input" id="h-quando" placeholder="Mês e ano, aproximado"></div>
+      <div class="field col-3"><label class="label" for="h-porque">Por que não fotografou?</label><select class="select" id="h-porque"><option>Estava sem câmera</option><option>Não deu tempo</option><option>Não tive coragem</option><option>Por respeito às pessoas</option><option>Outro motivo</option></select></div>
+      <div class="field col-3"><label class="label" for="h-config">O que você teria usado</label><input class="input" id="h-config" placeholder="Ex.: 35mm · f/2 · 1/250s"></div>
+    </div>
+    <label class="check"><input type="checkbox" id="h-redes" checked> Pode divulgar minha história nas redes sociais com o meu @</label>
+    <details class="doc"><summary><span class="grow" id="cessao-t">Termo de Cessão de Direitos</span><span class="badge plain mono">v1.0</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><div class="doc-body" id="cessao-b"></div></details>
+    <label class="accept"><input type="checkbox" id="h-cessao" required><span>Li e aceito o <strong>Termo de Cessão de Direitos</strong>. Declaro que a história é verdadeira e que cedo os direitos do texto, sem custo, para o blog, as redes e o livro do 365 Clicks, sempre com o meu crédito.</span></label>
+    <button class="btn btn-accent btn-lg" type="submit">Enviar história</button>
+  </form>
+  <aside class="panel stack sticky">
+    <span class="eyebrow">Como funciona</span>
+    <ol class="timeline">
+      <li><span class="t">1</span><div><strong>Você envia</strong><span class="small">Uma história real, escrita por você.</span></div></li>
+      <li><span class="t">2</span><div><strong>A curadoria lê</strong><span class="small">Todas as histórias são lidas. Você recebe um e-mail com a resposta.</span></div></li>
+      <li><span class="t">3</span><div><strong>Blog e redes</strong><span class="small">As selecionadas são publicadas com o seu nome e @.</span></div></li>
+      <li><span class="t">4</span><div><strong>O livro</strong><span class="small">As melhores entram no livro, digital e impresso, vendido pelo 365 Clicks.</span></div></li>
+    </ol>
+    <hr class="divider" style="margin:4px 0">
+    <span class="eyebrow">Quem entra no livro recebe</span>
+    <ul class="small" style="margin:0;padding-left:18px"><li>Crédito como autor da história</li><li>Selo “Coautor do livro” no perfil</li><li>E-book gratuito</li><li>Desconto no livro impresso</li></ul>
+    <span class="small">Revisão, publicação e venda são por conta do 365 Clicks.</span>
+  </aside>
+</div>
+</main>
+<footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  "use strict";
+  var C = window.C365, O = window.Ofertas, $ = function (s) { return document.querySelector(s); };
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  var HIST = [
+    { t: "A menina e o guarda-chuva vermelho", x: "Chovia forte na Paulista e uma menina de uns seis anos pulava em todas as poças com um guarda-chuva vermelho maior que ela. A mãe desistiu de brigar e começou a pular também. Meu celular estava sem bateria.", a: "Rafael Borges", h: "rafaborges", av: "#f2e1cf", onde: "Av. Paulista, São Paulo", q: "jan 2024", livro: true, lidas: 1204 },
+    { t: "O pescador e a névoa", x: "Às 5h, a lagoa estava coberta de névoa e só dava para ver a silhueta de um pescador em pé no barco, jogando a rede. Eu estava com a lente errada e, quando troquei, a névoa tinha ido embora.", a: "Júlia Santos", h: "juliasantos", av: "#dcefe2", onde: "Lagoa da Conceição, SC", q: "jul 2023", livro: true, lidas: 986 },
+    { t: "Meu avô no último dia da oficina", x: "Ele fechou a oficina depois de 52 anos. Passou a mão na bancada, apagou a luz e ficou parado na porta. Eu estava ali, com a câmera no pescoço, e não consegui levantar.", a: "Pedro Costa", h: "pedrocosta", av: "#ece0f2", onde: "Ponta Grossa, PR", q: "nov 2021", livro: true, lidas: 2310 },
+    { t: "Dois estranhos e um pôr do sol", x: "No mirante, duas pessoas que não se conheciam dividiram o mesmo banco e, sem combinar, levantaram o celular ao mesmo tempo para fotografar o sol. Eu fotografei o sol também. Deveria ter fotografado eles.", a: "Marina Faria", h: "marinafaria", av: "#f2dada", onde: "Arpoador, Rio de Janeiro", q: "fev 2025", livro: false, lidas: 431 }
+  ];
+  function render() {
+    var meus = []; try { meus = JSON.parse(localStorage.getItem("c365-historias") || "[]"); } catch (e) {}
+    $("#lista").innerHTML = meus.concat(HIST).map(function (h) {
+      return '<article class="historia"><span class="eyebrow">' + esc(h.onde) + (h.q ? " · " + esc(h.q) : "") + "</span><h3>" + esc(h.t) + "</h3><p>" + esc(h.x.length > 260 ? h.x.slice(0, 260) + "…" : h.x) + "</p>" +
+        '<div class="foot"><span class="avatar avatar-sm" style="--av:' + h.av + '">' + h.a.split(" ").map(function (p) { return p[0]; }).slice(0, 2).join("") + '</span><span class="small" style="flex:1"><strong style="color:var(--ink)">' + esc(h.a) + "</strong> @" + h.h + "</span>" +
+        (h.pendente ? '<span class="badge badge-warning">Em curadoria</span>' : h.livro ? '<span class="badge badge-accent plain">No livro</span>' : '<span class="small num">' + h.lidas + " leituras</span>") + "</div></article>";
+    }).join("");
+  }
+  render();
+  if (O && O.termos.cessao) { $("#cessao-t").textContent = O.termos.cessao.titulo; $("#cessao-b").innerHTML = O.termoHTML("cessao", {}); }
+  $("#h-texto").addEventListener("input", function () { $("#h-cont").textContent = this.value.length; });
+  $("#form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var bad = [];
+    ["h-titulo", "h-onde"].forEach(function (id) { var el = document.getElementById(id); el.removeAttribute("aria-invalid"); if (!el.value.trim()) { el.setAttribute("aria-invalid", "true"); bad.push(el); } });
+    var tx = $("#h-texto"); tx.removeAttribute("aria-invalid");
+    if (tx.value.trim().length < 300) { tx.setAttribute("aria-invalid", "true"); bad.push(tx); }
+    var ac = $("#h-cessao"); ac.closest(".accept").removeAttribute("aria-invalid");
+    if (!ac.checked) { ac.closest(".accept").setAttribute("aria-invalid", "true"); bad.push(ac); }
+    if (bad.length) { bad[0].focus(); C.toast(bad[0] === tx ? "A história precisa ter pelo menos 300 caracteres" : bad[0] === ac ? "Aceite o termo para enviar" : "Confira os campos destacados"); return; }
+    var meus = []; try { meus = JSON.parse(localStorage.getItem("c365-historias") || "[]"); } catch (x) {}
+    meus.unshift({ t: $("#h-titulo").value.trim(), x: tx.value.trim(), a: "Marcos Andrade", h: "marcosandrade", av: "#fbefd6", onde: $("#h-onde").value.trim(), q: $("#h-quando").value.trim(), pendente: true });
+    try { localStorage.setItem("c365-historias", JSON.stringify(meus.slice(0, 10))); } catch (x) {}
+    $("#form").reset(); $("#h-cont").textContent = "0"; render();
+    document.getElementById("historias").scrollIntoView({ behavior: "smooth" });
+    C.toast("História enviada. Você recebe um e-mail quando a curadoria responder.");
+  });
+});
+</script>
+</body></html>

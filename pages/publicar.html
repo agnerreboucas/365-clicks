@@ -1,8 +1,363 @@
 <!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>365 Clicks — Publicar</title>
 <link rel="stylesheet" href="../design-system/tokens.css">
 <link rel="stylesheet" href="../design-system/components.css">
-<script src="../design-system/app.js" defer></script></head><body data-page="publicar">
+<script src="../design-system/app.js" defer></script>
+<script src="../design-system/upload.js" defer></script>
+<script src="ofertas.js" defer></script>
+<style>
+.drop { display: grid; place-items: center; gap: var(--sp-3); min-height: 320px; padding: var(--sp-7); text-align: center; border: 1.5px dashed var(--line-strong); border-radius: var(--r-lg); background: var(--surface); cursor: pointer; transition: border-color var(--dur-fast), background var(--dur-fast); }
+.drop:hover, .drop.is-over { border-color: var(--ink); background: var(--surface-2); }
+.drop input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.preview { position: relative; border-radius: var(--r-lg); overflow: hidden; background: var(--surface-2); }
+.preview .ph { width: 100%; aspect-ratio: var(--ratio, 3 / 2); background-size: cover; background-repeat: no-repeat; background-position: center; background-color: #0c0c0b; max-height: 70vh; margin: 0 auto; }
+.formato .option { padding: var(--sp-3); }
+.formato .shape { width: 28px; border: 2px solid currentColor; border-radius: 3px; flex: none; }
+.preview .troca { position: absolute; top: var(--sp-3); right: var(--sp-3); }
+.src { font-size: var(--fs-xs); font-weight: 700; margin-left: 6px; }
+.src.auto { color: var(--success); }
+.src.manual { color: var(--warning); }
+.rule { display: flex; gap: var(--sp-3); padding: var(--sp-4); border-radius: var(--r-md); font-size: var(--fs-sm); }
+.rule.ok { background: var(--success-soft); }
+.rule.bad { background: var(--danger-soft); }
+.rule.info { background: var(--surface-2); }
+.rule .i { flex: none; margin-top: 1px; }
+.rule > span:last-child { display: grid; gap: 4px; }
+.rule.ok .i { color: var(--success); }
+.rule.bad .i { color: var(--danger); }
+.pontos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-2); font-size: var(--fs-xs); }
+.pontos div { padding: var(--sp-3); border-radius: var(--r-sm); background: var(--surface-2); }
+.pontos div.on { background: var(--accent-soft); box-shadow: inset 0 0 0 1.5px var(--accent); }
+.pontos strong { display: block; font-size: var(--fs-md); }
+@media (max-width: 640px) { .pontos { grid-template-columns: 1fr; } }
+</style>
+</head><body data-page="publicar">
 <header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
-<main><h1>Publicar</h1><p>Envie uma nova fotografia</p><div class="row"><div class="panel stat"><span class="small">Principal</span><div class="metric">127</div></div><div class="panel stat"><span class="small">Ativos</span><div class="metric">2.480</div></div><div class="panel stat"><span class="small">Progresso</span><div class="metric">68%</div></div></div><h2>Conteúdo</h2><div class="panel"><h2>Envie uma nova fotografia</h2><p>Esta tela faz parte do ecossistema 365 Clicks. O protótipo demonstra a hierarquia visual, navegação e componentes principais da página.</p><button class="btn" type="button" data-toast="“Continuar” será ligado na versão funcional">Continuar</button></div><h2>Conteúdo relacionado</h2><div class="grid"><figure class="card"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&h=1000&q=80" alt="Fotografia de @fotografo_1" loading="lazy" style="--ratio:4/5;--tone:#18233a;--tone2:#4b5f88"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #127</b><span class="small">@fotografo_1 · São Paulo</span><span class="exif">35mm · f/2 · 1/500s · ISO 200</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_2" loading="lazy" style="--ratio:3/2;--tone:#37433a;--tone2:#8b9a84"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #128</b><span class="small">@fotografo_2 · São Paulo</span><span class="exif">50mm · f/1.8 · 1/250s · ISO 400</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=800&h=800&q=80" alt="Fotografia de @fotografo_3" loading="lazy" style="--ratio:1/1;--tone:#4f4336;--tone2:#c09a6c"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #129</b><span class="small">@fotografo_3 · São Paulo</span><span class="exif">24mm · f/8 · 1/125s · ISO 100</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&h=1200&q=80" alt="Fotografia de @fotografo_4" loading="lazy" style="--ratio:2/3;--tone:#26231f;--tone2:#6d6054"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #130</b><span class="small">@fotografo_4 · São Paulo</span><span class="exif">85mm · f/1.4 · 1/1000s · ISO 100</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_5" loading="lazy" style="--ratio:3/2;--tone:#35402f;--tone2:#7f8c6c"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #131</b><span class="small">@fotografo_5 · São Paulo</span><span class="exif">16mm · f/2.8 · 20s · ISO 3200</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=800&h=1000&q=80" alt="Fotografia de @fotografo_6" loading="lazy" style="--ratio:4/5;--tone:#2c464e;--tone2:#a3bab2"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #132</b><span class="small">@fotografo_6 · São Paulo</span><span class="exif">28mm · f/5.6 · 1/320s · ISO 160</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&h=1067&q=80" alt="Fotografia de @fotografo_7" loading="lazy" style="--ratio:3/4;--tone:#304131;--tone2:#a2b298"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #133</b><span class="small">@fotografo_7 · São Paulo</span><span class="exif">35mm · f/4 · 1/60s · ISO 800</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_8" loading="lazy" style="--ratio:3/2;--tone:#382c28;--tone2:#8e7061"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #134</b><span class="small">@fotografo_8 · São Paulo</span><span class="exif">70mm · f/2.8 · 1/400s · ISO 250</span></figcaption></figure></div></main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer></body></html>
+<main>
+<h1>Publicar</h1>
+<p>Envie uma foto sua. Os dados da câmera e o local são lidos da própria foto; o que faltar, você preenche.</p>
+
+<form id="pub" class="split" novalidate style="margin-top:24px">
+  <section class="stack" style="gap:20px">
+    <label class="drop" id="drop" for="arquivo">
+      <input type="file" id="arquivo" accept="image/jpeg,image/png,image/heic,image/heif">
+      <div class="empty" style="border:0;padding:0"><div class="frame"></div></div>
+      <strong>Arraste a foto aqui ou clique para escolher</strong>
+      <span class="small">JPG com dados EXIF funciona melhor. Até 25 MB. Ela é convertida para WebP em 3 formatos padrão e carrega leve no site.</span>
+      <span class="cluster" style="justify-content:center"><button class="btn btn-secondary btn-sm" type="button" data-exemplo="hoje">Usar exemplo: foto de hoje</button><button class="btn btn-ghost btn-sm" type="button" data-exemplo="antiga">Exemplo: foto antiga, sem GPS</button></span>
+    </label>
+    <div class="preview protected" id="preview" hidden><div class="ph" id="ph"></div><button class="btn btn-secondary btn-sm troca" type="button" id="trocar">Trocar foto</button></div>
+    <div class="stack" id="formato-wrap" hidden style="gap:10px">
+      <span class="label">Formato</span>
+      <div class="options inline formato" role="radiogroup" aria-label="Formato da foto">
+        <label class="option"><input type="radio" name="formato" value="horizontal"><span class="shape" style="aspect-ratio:3/2"></span><div class="grow"><strong>Horizontal</strong><span class="small mono">3:2 · 2048 × 1365</span></div></label>
+        <label class="option"><input type="radio" name="formato" value="vertical"><span class="shape" style="aspect-ratio:4/5;width:22px"></span><div class="grow"><strong>Vertical</strong><span class="small mono">4:5 · 1638 × 2048</span></div></label>
+        <label class="option"><input type="radio" name="formato" value="quadrada"><span class="shape" style="aspect-ratio:1"></span><div class="grow"><strong>Quadrada</strong><span class="small mono">1:1 · 2048 × 2048</span></div></label>
+      </div>
+      <div class="rule info" id="peso"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><span>Preparando a foto…</span></div>
+    </div>
+
+    <fieldset class="fieldset" id="meta" disabled style="margin:0">
+      <legend>Dados da foto <span class="small" id="meta-status" style="font-weight:400;font-family:var(--font-body)"></span></legend>
+      <div class="form-grid">
+        <div class="field col-3"><label class="label" for="camera">Câmera ou celular<span class="req">*</span><span class="src" data-src="camera"></span></label><input class="input" id="camera" placeholder="Ex.: iPhone 15 Pro" required></div>
+        <div class="field col-3"><label class="label" for="lente">Lente<span class="src" data-src="lente"></span></label><input class="input" id="lente" placeholder="Ex.: 24mm f/1.78"></div>
+        <div class="field col-2"><label class="label" for="focal">Distância focal<span class="src" data-src="focal"></span></label><input class="input" id="focal" placeholder="35mm"></div>
+        <div class="field col-2"><label class="label" for="abertura">Abertura<span class="req">*</span><span class="src" data-src="abertura"></span></label><input class="input" id="abertura" placeholder="f/2.8" required></div>
+        <div class="field col-2"><label class="label" for="velocidade">Velocidade<span class="req">*</span><span class="src" data-src="velocidade"></span></label><input class="input" id="velocidade" placeholder="1/250s" required></div>
+        <div class="field col-2"><label class="label" for="iso">ISO<span class="req">*</span><span class="src" data-src="iso"></span></label><input class="input" id="iso" inputmode="numeric" placeholder="400" required></div>
+        <div class="field col-4"><label class="label" for="captura">Data e hora da foto<span class="req">*</span><span class="src" data-src="captura"></span></label><input class="input" id="captura" type="datetime-local" step="1" required><span class="hint">É a data em que a foto foi tirada, não a de publicação.</span></div>
+        <div class="field col-6"><label class="label" for="local">Local<span class="req">*</span><span class="src" data-src="local"></span></label><input class="input" id="local" placeholder="Ex.: Parque Ibirapuera, São Paulo, SP" required><span class="hint" id="gps-hint">Sem localização na foto. Informe onde foi tirada.</span></div>
+      </div>
+    </fieldset>
+  </section>
+
+  <aside class="stack" style="gap:20px">
+    <div class="panel stack">
+      <div class="field"><label class="label" for="titulo">Título<span class="req">*</span></label><input class="input" id="titulo" maxlength="80" required placeholder="Ex.: Reflexo na poça"></div>
+      <div class="field"><label class="label" for="descricao">Descrição<span class="req">*</span></label><textarea class="textarea" id="descricao" maxlength="600" required placeholder="Conte o que você viu, como fez a foto e o que quis mostrar."></textarea><span class="hint">Aparece quando alguém abre a foto.</span></div>
+      <div class="field"><label class="label" for="coautores">Coautores</label><input class="input" id="coautores" placeholder="@usuario, @outro (opcional)"><span class="hint">Você aparece como autor. Coautores recebem um e-mail.</span></div>
+    </div>
+
+    <div class="panel stack">
+      <span class="eyebrow">Desafio</span>
+      <div class="options inline" role="radiogroup" aria-label="Faz parte de um desafio?">
+        <label class="option"><input type="radio" name="tipo" value="desafio" checked><div class="grow"><strong>#desafio</strong><span class="small">Faz parte de um desafio</span></div></label>
+        <label class="option"><input type="radio" name="tipo" value="livre"><div class="grow"><strong>Foto livre</strong><span class="small">Vai para a galeria</span></div></label>
+      </div>
+      <div class="field" id="desafio-wrap"><label class="label" for="desafio">Qual desafio?</label><select class="select" id="desafio"></select><span class="hint" id="janela"></span></div>
+      <div class="rule info" id="regra"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v5l3 2"/></svg><span>Cada desafio dura 24 horas: abre às 02:00 e fecha às 01:59:59 do dia seguinte. Só vale foto tirada dentro dessas 24 horas.</span></div>
+      <div class="pontos" id="pontos">
+        <div data-p="hoje"><strong>+10 pontos</strong>Desafio de hoje · destaque na página do desafio</div>
+        <div data-p="anterior"><strong>+5 pontos</strong>Desafio anterior · entra na galeria do desafio</div>
+        <div data-p="livre"><strong>+2 pontos</strong>Foto livre · galeria geral e perfil</div>
+      </div>
+    </div>
+
+    <div class="panel stack">
+      <details class="doc"><summary><span class="grow" id="aut-titulo">Declaração de Autoria e Responsabilidade</span><span class="badge plain mono" id="aut-v">v1.0</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><div class="doc-body" id="aut-body"></div></details>
+      <label class="accept"><input type="checkbox" id="autoria" required><span>Declaro que sou <strong>autor ou coautor desta fotografia</strong> e assumo a responsabilidade por esta declaração.</span></label>
+      <button class="btn btn-accent btn-lg btn-block" type="submit" id="publicar">Publicar foto</button>
+    </div>
+  </aside>
+</form>
+
+<section id="ok" hidden>
+  <div class="notice success" style="margin-bottom:20px"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span id="ok-msg"></span></div>
+  <div class="split">
+    <div class="preview protected"><div class="ph" id="ok-ph"></div></div>
+    <div class="panel stack"><span class="eyebrow" id="ok-eyebrow"></span><h2 style="margin:0" id="ok-titulo"></h2><p id="ok-desc" style="margin:0"></p><dl class="kv" id="ok-kv" style="grid-template-columns:auto 1fr"></dl><div class="cluster"><a class="btn" href="perfil.html">Ver no meu perfil</a><button class="btn btn-secondary" type="button" onclick="location.reload()">Publicar outra</button></div></div>
+  </div>
+</section>
+</main>
+<footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  "use strict";
+  var C = window.C365, O = window.Ofertas;
+  var $ = function (s) { return document.querySelector(s); };
+
+  /* ---------- Desafios: um por dia, janela de 02:00 até 01:59:59 do dia seguinte ---------- */
+  var TEMAS = [["Água", "Reflexos"], ["Sombras", "Contraluz"], ["Janelas", "Enquadramento"], ["Movimento", "Velocidade baixa"], ["Cores", "Complementares"], ["Retrato", "Luz natural"], ["Geometria", "Linhas"]];
+  var ABRE = 2; /* hora de abertura */
+  function diaDoAno(d) { var ini = new Date(d.getFullYear(), 0, 1); return Math.round((new Date(d.getFullYear(), d.getMonth(), d.getDate()) - ini) / 864e5) + 1; }
+  function desafioDe(dataCalendario) {
+    var inicio = new Date(dataCalendario.getFullYear(), dataCalendario.getMonth(), dataCalendario.getDate(), ABRE, 0, 0);
+    var fim = new Date(inicio.getTime() + 864e5 - 1000);
+    var n = diaDoAno(inicio), t = TEMAS[n % TEMAS.length];
+    return { id: inicio.toISOString(), dia: n, tema: t[0], tecnica: t[1], inicio: inicio, fim: fim };
+  }
+  /* Desafio em que um instante cai (antes das 02:00 ainda é o desafio de ontem) */
+  function desafioNoInstante(d) { var base = new Date(d); if (base.getHours() < ABRE) base.setDate(base.getDate() - 1); return desafioDe(base); }
+  var agora = new Date(), atual = desafioNoInstante(agora), DESAFIOS = [];
+  for (var i = 0; i < 7; i++) { var d = new Date(atual.inicio); d.setDate(d.getDate() - i); DESAFIOS.push(desafioDe(d)); }
+  function fmt(d) { return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" }) + " " + d.toLocaleTimeString("pt-BR"); }
+  $("#desafio").innerHTML = DESAFIOS.map(function (x, n) {
+    return '<option value="' + n + '">Dia ' + x.dia + " · " + x.tema + " + " + x.tecnica + (n === 0 ? " (hoje)" : n === 1 ? " (ontem)" : " (" + x.inicio.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" }) + ")") + "</option>";
+  }).join("");
+
+  /* ---------- Leitor de EXIF (JPEG) ---------- */
+  function lerExif(buf) {
+    try {
+      var v = new DataView(buf);
+      if (v.getUint16(0) !== 0xFFD8) return null;
+      var o = 2;
+      while (o < v.byteLength - 4) {
+        var m = v.getUint16(o);
+        if (m === 0xFFE1 && v.getUint32(o + 4) === 0x45786966) return tiff(v, o + 10);
+        if ((m & 0xFF00) !== 0xFF00 || m === 0xFFDA) break;
+        o += 2 + v.getUint16(o + 2);
+      }
+    } catch (e) {}
+    return null;
+  }
+  function tiff(v, t) {
+    var le = v.getUint16(t) === 0x4949;
+    var u16 = function (p) { return v.getUint16(p, le); }, u32 = function (p) { return v.getUint32(p, le); };
+    var TAM = { 1: 1, 2: 1, 3: 2, 4: 4, 5: 8, 7: 1, 9: 4, 10: 8 };
+    function val(type, cnt, p) {
+      if (type === 2) { var s = ""; for (var i = 0; i < cnt; i++) { var c = v.getUint8(p + i); if (!c) break; s += String.fromCharCode(c); } return s.trim(); }
+      if (type === 3) return u16(p);
+      if (type === 4) return u32(p);
+      if (type === 5 || type === 10) {
+        var arr = [];
+        for (var k = 0; k < cnt; k++) { var a = type === 5 ? u32(p + k * 8) : v.getInt32(p + k * 8, le), b = type === 5 ? u32(p + k * 8 + 4) : v.getInt32(p + k * 8 + 4, le); arr.push(b ? a / b : 0); }
+        return cnt === 1 ? arr[0] : arr;
+      }
+      return null;
+    }
+    function ifd(off) {
+      var out = {}, n = u16(t + off);
+      for (var i = 0; i < n; i++) {
+        var e = t + off + 2 + i * 12, tag = u16(e), type = u16(e + 2), cnt = u32(e + 4);
+        var p = (TAM[type] || 1) * cnt > 4 ? t + u32(e + 8) : e + 8;
+        try { out[tag] = val(type, cnt, p); } catch (x) {}
+      }
+      return out;
+    }
+    var i0 = ifd(u32(t + 4)), ex = i0[0x8769] ? ifd(i0[0x8769]) : {}, gps = i0[0x8825] ? ifd(i0[0x8825]) : {};
+    var r = { make: i0[0x010F], model: i0[0x0110], lens: ex[0xA434], f: ex[0x829D], exp: ex[0x829A], iso: ex[0x8827], focal: ex[0x920A], focal35: ex[0xA405], data: ex[0x9003] || i0[0x0132] };
+    if (gps[2] && gps[4]) {
+      var dms = function (a) { return a[0] + a[1] / 60 + a[2] / 3600; };
+      r.lat = dms(gps[2]) * (gps[1] === "S" ? -1 : 1);
+      r.lon = dms(gps[4]) * (gps[3] === "W" ? -1 : 1);
+    }
+    return r;
+  }
+
+  /* ---------- Preenchimento a partir dos metadados ---------- */
+  function pad(n) { return String(n).padStart(2, "0"); }
+  function paraInput(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()) + "T" + pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds()); }
+  function marcar(campo, auto) { var s = document.querySelector('[data-src="' + campo + '"]'); s.textContent = auto ? "· lido da foto" : "· preencha"; s.className = "src " + (auto ? "auto" : "manual"); }
+  function preencher(x) {
+    $("#meta").disabled = false;
+    var campos = {
+      camera: x.model ? ((x.make && x.model.indexOf(x.make) !== 0 ? x.make + " " : "") + x.model) : "",
+      lente: x.lens || "",
+      focal: x.focal ? Math.round(x.focal) + "mm" + (x.focal35 && x.focal35 !== Math.round(x.focal) ? " (" + x.focal35 + "mm equiv.)" : "") : "",
+      abertura: x.f ? "f/" + (+x.f.toFixed(1)) : "",
+      velocidade: x.exp ? (x.exp >= 1 ? x.exp + "s" : "1/" + Math.round(1 / x.exp) + "s") : "",
+      iso: x.iso ? String(x.iso) : "",
+      captura: "", local: ""
+    };
+    if (x.data) { var m = String(x.data).match(/(\d{4}):(\d{2}):(\d{2}) (\d{2}):(\d{2}):(\d{2})/); if (m) campos.captura = m[1] + "-" + m[2] + "-" + m[3] + "T" + m[4] + ":" + m[5] + ":" + m[6]; }
+    if (x.dataObj) campos.captura = paraInput(x.dataObj);
+    if (x.lat != null) {
+      campos.local = x.localNome || ("Coordenadas " + x.lat.toFixed(5) + ", " + x.lon.toFixed(5));
+      $("#gps-hint").innerHTML = 'Local lido do GPS da foto. <a href="https://www.google.com/maps/search/?api=1&query=' + x.lat + "," + x.lon + '" target="_blank" rel="noopener">Ver no mapa</a> · você pode trocar pelo nome do lugar.';
+    } else {
+      $("#gps-hint").textContent = "Sem localização na foto. Informe onde foi tirada.";
+    }
+    var lidos = 0;
+    Object.keys(campos).forEach(function (k) { var el = document.getElementById(k); el.value = campos[k]; el.removeAttribute("aria-invalid"); marcar(k, !!campos[k]); if (campos[k]) lidos++; });
+    $("#meta-status").textContent = x.vazio ? "· a foto não tem dados EXIF, preencha abaixo" : "· " + lidos + " de 8 campos lidos da foto";
+    sugerirDesafio();
+    validarRegra();
+  }
+
+  /* ---------- Envio do arquivo ---------- */
+  var previewURL = null, original = null, U = C.upload;
+  function mostrarPreview(url, bytes, simulado) {
+    previewURL = url;
+    original = { url: url, bytes: bytes || 0, simulado: !!simulado };
+    $("#ph").style.backgroundImage = "url('" + url + "')";
+    $("#preview").hidden = false;
+    $("#drop").hidden = true;
+    $("#formato-wrap").hidden = false;
+    U.carregarImagem(url).then(function (img) {
+      var f = U.sugerir(img.naturalWidth, img.naturalHeight);
+      document.querySelector('input[name="formato"][value="' + f + '"]').checked = true;
+      original.w = img.naturalWidth; original.h = img.naturalHeight;
+      ajustarFormato();
+    }).catch(function () {
+      document.querySelector('input[name="formato"][value="horizontal"]').checked = true;
+      ajustarFormato();
+    });
+  }
+  function formato() { var r = document.querySelector('input[name="formato"]:checked'); return r ? r.value : "horizontal"; }
+  var processado = null;
+  function ajustarFormato() {
+    var f = U.FORMATOS[formato()], peso = $("#peso");
+    $("#ph").style.setProperty("--ratio", f.ratio.replace("/", " / "));
+    peso.className = "rule info"; peso.lastElementChild.textContent = "Ajustando para " + f.nome.toLowerCase() + " " + f.w + " × " + f.h + "…";
+    U.processar(original.url, formato()).catch(function () { return U.estimar(formato()); }).then(function (r) {
+      processado = r;
+      var grade = r.versoes[2];
+      peso.className = "rule " + (r.pequena ? "bad" : "ok");
+      peso.lastElementChild.innerHTML =
+        "<span><strong>" + (original.bytes ? "Original " + U.mb(original.bytes) + " → " : "") + "galeria carrega " + U.mb(grade.bytes) + "</strong>" + (r.estimado ? " (estimado nesta demonstração)" : "") + ". " +
+        "O original fica guardado só para você; o site mostra versões em " + r.tipo + ":</span>" +
+        '<span class="mono" style="display:block;margin-top:6px">' + r.versoes.map(function (v) { return v.nome + ": " + v.w + "×" + v.h + " · " + U.mb(v.bytes); }).join("<br>") + "</span>" +
+        (r.pequena ? "<span>A foto é pequena: abaixo de " + U.MIN_LADO + " px no lado menor ela perde nitidez em telas grandes.</span>" : "");
+    });
+  }
+  document.addEventListener("change", function (e) { if (e.target.name === "formato") ajustarFormato(); });
+  function arquivo(file) {
+    if (!file) return;
+    if (!/^image\//.test(file.type)) { C.toast("Escolha um arquivo de imagem (JPG, PNG ou HEIC)"); return; }
+    if (file.size > U.LIMITE_ORIGINAL) { C.toast("A foto passa de 25 MB. Exporte uma versão menor."); return; }
+    mostrarPreview(URL.createObjectURL(file), file.size);
+    file.slice(0, 512 * 1024).arrayBuffer().then(function (buf) {
+      var x = lerExif(buf);
+      preencher(x || { vazio: true });
+      if (!x) C.toast("Não encontramos dados EXIF. Preencha os dados da foto.");
+      else C.toast("Dados da foto lidos automaticamente");
+    });
+    if (!$("#titulo").value) $("#titulo").value = "";
+  }
+  $("#arquivo").addEventListener("change", function () { arquivo(this.files[0]); });
+  var drop = $("#drop");
+  ["dragenter", "dragover"].forEach(function (t) { drop.addEventListener(t, function (e) { e.preventDefault(); drop.classList.add("is-over"); }); });
+  ["dragleave", "drop"].forEach(function (t) { drop.addEventListener(t, function (e) { e.preventDefault(); drop.classList.remove("is-over"); }); });
+  drop.addEventListener("drop", function (e) { arquivo(e.dataTransfer.files[0]); });
+  $("#trocar").addEventListener("click", function () { $("#preview").hidden = true; $("#formato-wrap").hidden = true; $("#drop").hidden = false; $("#arquivo").value = ""; $("#arquivo").click(); });
+
+  /* Exemplos para testar sem uma foto no aparelho */
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-exemplo]");
+    if (!b) return;
+    e.preventDefault();
+    var hoje = b.getAttribute("data-exemplo") === "hoje";
+    var quando = new Date(); quando.setMinutes(quando.getMinutes() - 40); quando.setMilliseconds(0);
+    if (!hoje) { quando = new Date(); quando.setDate(quando.getDate() - 4); quando.setHours(17, 12, 5, 0); }
+    mostrarPreview(hoje ? "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=2400&q=85" : "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=2400&q=85", hoje ? 6.8 * 1048576 : 11.2 * 1048576, true);
+    $("#ph").style.backgroundColor = hoje ? "#2c464e" : "#4f4336";
+    preencher(hoje
+      ? { make: "Apple", model: "iPhone 15 Pro", lens: "iPhone 15 Pro back camera 6.86mm f/1.78", f: 1.78, exp: 1 / 500, iso: 80, focal: 6.86, focal35: 24, dataObj: quando, lat: -23.587416, lon: -46.657634, localNome: "Parque Ibirapuera, São Paulo, SP" }
+      : { make: "FUJIFILM", model: "X-T4", f: 8, exp: 1 / 125, iso: 160, focal: 16, dataObj: quando });
+    $("#titulo").value = hoje ? "Reflexo no lago" : "Vale ao entardecer";
+    $("#descricao").value = hoje ? "O vento parou por alguns segundos e o lago virou espelho. Abaixei o celular quase na água para pegar o reflexo inteiro." : "Luz rasante no fim da tarde, depois de um dia inteiro de nuvens.";
+    C.toast("Exemplo carregado com dados EXIF simulados");
+  });
+
+  /* ---------- Regra do desafio ---------- */
+  function captura() { var v = $("#captura").value; return v ? new Date(v) : null; }
+  function tipo() { return document.querySelector('input[name="tipo"]:checked').value; }
+  function escolhido() { return DESAFIOS[+$("#desafio").value]; }
+  function sugerirDesafio() {
+    var c = captura(); if (!c) return;
+    var d = desafioNoInstante(c);
+    var idx = DESAFIOS.map(function (x) { return x.id; }).indexOf(d.id);
+    if (idx > -1) $("#desafio").value = idx;
+  }
+  var ICON_OK = '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>';
+  var ICON_X = '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>';
+  function validarRegra() {
+    var r = $("#regra"), ds = escolhido(), c = captura();
+    $("#desafio-wrap").hidden = tipo() !== "desafio";
+    $("#janela").textContent = "Janela: " + fmt(ds.inicio) + " até " + fmt(ds.fim);
+    var nivel = "livre", ok = true;
+    if (tipo() === "desafio") {
+      if (!c) { r.className = "rule info"; r.lastElementChild.textContent = "Envie a foto ou informe a data e a hora em que ela foi tirada para validar o desafio."; nivel = null; }
+      else if (c >= ds.inicio && c <= ds.fim) {
+        nivel = ds === DESAFIOS[0] ? "hoje" : "anterior";
+        r.className = "rule ok"; r.innerHTML = ICON_OK + "<span>Foto tirada em " + fmt(c) + ", dentro das 24 horas do desafio <strong>Dia " + ds.dia + " · " + ds.tema + "</strong>. Vale para o desafio.</span>";
+      } else {
+        ok = false; nivel = null;
+        var certo = desafioNoInstante(c), existe = DESAFIOS.some(function (x) { return x.id === certo.id; });
+        r.className = "rule bad"; r.innerHTML = ICON_X + "<span>Não vale para este desafio: a foto foi tirada em " + fmt(c) + ", fora da janela de " + fmt(ds.inicio) + " a " + fmt(ds.fim) + ". " +
+          (existe ? "Ela vale para o <strong>Dia " + certo.dia + " · " + certo.tema + "</strong>." : "Nenhum desafio aberto corresponde a essa data. Publique como foto livre.") + "</span>";
+      }
+    } else {
+      r.className = "rule info"; r.innerHTML = '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v5l3 2"/></svg><span>Foto livre: aparece no seu perfil e na galeria geral, sem pontos de desafio.</span>';
+    }
+    document.querySelectorAll("#pontos [data-p]").forEach(function (p) { p.classList.toggle("on", p.getAttribute("data-p") === nivel); });
+    return ok;
+  }
+  document.addEventListener("change", function (e) { if (e.target.name === "tipo" || e.target.id === "desafio" || e.target.id === "captura") validarRegra(); });
+  document.addEventListener("input", function (e) { if (e.target.id === "captura") { sugerirDesafio(); validarRegra(); } var s = e.target.id && document.querySelector('[data-src="' + e.target.id + '"]'); if (s && s.classList.contains("manual") && e.target.value) { s.textContent = "· informado por você"; } });
+
+  /* Declaração de autoria */
+  var aut = O && O.termos.autoria;
+  if (aut) { $("#aut-titulo").textContent = aut.titulo; $("#aut-v").textContent = "v" + aut.versao; $("#aut-body").innerHTML = O.termoHTML("autoria", {}); }
+
+  /* ---------- Publicar ---------- */
+  $("#pub").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var bad = [];
+    document.querySelectorAll("#pub [aria-invalid]").forEach(function (x) { x.removeAttribute("aria-invalid"); });
+    if (!previewURL) { C.toast("Escolha a foto primeiro"); $("#drop").focus(); return; }
+    ["camera", "abertura", "velocidade", "iso", "captura", "local", "titulo", "descricao"].forEach(function (id) { var el = document.getElementById(id); if (!el.value.trim()) { el.setAttribute("aria-invalid", "true"); bad.push(el); } });
+    if (!$("#autoria").checked) { $("#autoria").closest(".accept").setAttribute("aria-invalid", "true"); bad.push($("#autoria")); }
+    if (bad.length) { bad[0].focus(); C.toast(bad.length === 1 ? "Falta 1 item para publicar" : "Faltam " + bad.length + " itens para publicar"); return; }
+    if (!validarRegra()) { $("#regra").scrollIntoView({ behavior: "smooth", block: "center" }); C.toast("A data da foto não vale para o desafio escolhido"); return; }
+    var ds = escolhido(), t = tipo(), hoje = t === "desafio" && ds === DESAFIOS[0];
+    var pts = t === "livre" ? 2 : hoje ? 10 : 5;
+    $("#pub").hidden = true; $("#ok").hidden = false;
+    $("#ok-ph").style.backgroundImage = "url('" + (processado && processado.url || previewURL) + "')";
+    $("#ok-ph").style.setProperty("--ratio", U.FORMATOS[formato()].ratio.replace("/", " / "));
+    $("#ok-eyebrow").textContent = t === "livre" ? "Foto livre" : "#desafio · Dia " + ds.dia + " · " + ds.tema;
+    $("#ok-titulo").textContent = $("#titulo").value;
+    $("#ok-desc").textContent = $("#descricao").value;
+    $("#ok-msg").innerHTML = "Publicada. Você ganhou <strong>+" + pts + " pontos</strong>" + (hoje ? " e a foto está em destaque no desafio de hoje." : t === "desafio" ? " e a foto entrou na galeria do desafio." : ".");
+    var kv = [["Autor", "Marcos Andrade (@marcosandrade)" + ($("#coautores").value ? " · coautores: " + $("#coautores").value : "")], ["Câmera", $("#camera").value + ($("#lente").value ? " · " + $("#lente").value : "")], ["Exposição", [$("#focal").value, $("#abertura").value, $("#velocidade").value, "ISO " + $("#iso").value].filter(Boolean).join(" · ")], ["Tirada em", fmt(captura())], ["Local", $("#local").value], ["Arquivo", U.FORMATOS[formato()].nome + " · " + (processado ? processado.w + " × " + processado.h + " px · " + processado.tipo + " " + U.mb(processado.bytes) + " · galeria " + U.mb(processado.versoes[2].bytes) : "")], ["Autoria", "Declaração v" + (aut ? aut.versao : "1.0") + " aceita em " + fmt(new Date())]];
+    $("#ok-kv").innerHTML = kv.map(function (p) { return "<dt>" + p[0] + '</dt><dd style="text-align:left">' + p[1].replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; }) + "</dd>"; }).join("");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    C.toast("Foto publicada · seus seguidores receberam um e-mail");
+  });
+
+  validarRegra();
+});
+</script>
+</body></html>
