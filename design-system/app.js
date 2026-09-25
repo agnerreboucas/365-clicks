@@ -329,26 +329,79 @@
     grid.classList.add("is-masonry");
   }
   /* "Carregar mais" nas galerias verticais (o rodapé continua acessível); o Feed horizontal segue infinito */
+  /* "Carregar mais" → rolagem infinita pelos desafios anteriores.
+     O primeiro clique carrega o bloco do desafio de ontem; a partir daí, cada vez que a pessoa chega
+     perto do fim, entra o bloco do desafio anterior (anteontem, e assim por diante), com o nome do desafio.
+     Para não prender o rodapé para sempre, depois de 30 desafios aparece o link para o arquivo. */
+  var MAX_BLOCOS = 30;
   function carregarMais() {
     document.querySelectorAll(".grid").forEach(function (g) {
-      if (g.hasAttribute("data-sem-mais") || g.querySelectorAll(".card").length < 8 || g.nextElementSibling && g.nextElementSibling.classList.contains("load-more")) return;
+      if (g.hasAttribute("data-sem-mais") || g.hasAttribute("data-bloco") || g.querySelectorAll(".card").length < 8 || g._maisPronto) return;
+      g._maisPronto = true;
+      var modelo = (g._items || g.querySelectorAll(".card"))[0];
       var box = document.createElement("div");
       box.className = "load-more";
       box.innerHTML = '<button class="btn btn-secondary" type="button">Carregar mais fotografias</button>';
       g.parentNode.insertBefore(box, g.nextSibling);
-      var lote = 1;
-      box.firstChild.addEventListener("click", function () {
-        var base = g._items || Array.prototype.slice.call(g.querySelectorAll(".card"));
-        var novos = base.slice(0, 8).map(function (c) { var n = c.cloneNode(true); n.removeAttribute("data-photo"); var h = n.querySelector(".card-hit"); if (h) h.remove(); return n; });
-        var wrap = document.createElement("div");
-        novos.forEach(function (n) { wrap.appendChild(n); });
-        if (C365.viewer && window.Fotos) {
-          var l = window.Fotos.lista, desloc = (lote * 8) % l.length;
-          C365.viewer.hidratar(wrap, l.slice(desloc).concat(l.slice(0, desloc)));
+      var fim = document.createElement("div");
+      fim.className = "infinite-sentinel";
+      fim.setAttribute("aria-hidden", "true");
+      var bloco = 0, ativo = false, carregando = false, obs = null, ancora = box;
+
+      function desafioAnterior(k) {
+        if (!window.Desafios) return null;
+        var d = new Date(); d.setDate(d.getDate() - k);
+        return window.Desafios.doDia(d);
+      }
+      function novoBloco() {
+        if (carregando || bloco >= MAX_BLOCOS) return;
+        carregando = true;
+        bloco++;
+        var ds = desafioAnterior(bloco);
+        var sec = document.createElement("section");
+        sec.className = "infinite-block";
+        sec.innerHTML = '<div class="infinite-head"><span class="eyebrow">' + (bloco === 1 ? "Desafio de ontem" : ds ? ds.nomeDia.charAt(0).toUpperCase() + ds.nomeDia.slice(1) + ", " + window.Desafios.dataCurta(ds.inicio) : "Mais fotografias") + "</span>" +
+          (ds ? '<h3>Dia ' + ds.dia + " · " + ds.tema + ' <span class="small muted">· ' + ds.tecnica + "</span></h3>" : "") + "</div>";
+        var grid = document.createElement("div");
+        grid.className = "grid";
+        grid.setAttribute("data-bloco", String(bloco));
+        for (var i = 0; i < 8; i++) {
+          var n = modelo.cloneNode(true);
+          n.removeAttribute("data-photo");
+          var h = n.querySelector(".card-hit"); if (h) h.remove();
+          n.querySelectorAll("[aria-pressed]").forEach(function (x) { x.setAttribute("aria-pressed", "false"); });
+          grid.appendChild(n);
         }
-        novos.forEach(function (n) { g.appendChild(n); if (g._items) g._items.push(n); });
-        lote++;
-        C365.masonry();
+        sec.appendChild(grid);
+        ancora.parentNode.insertBefore(sec, ancora.nextSibling);
+        ancora = sec;
+        if (C365.viewer && window.Fotos) {
+          var l = window.Fotos.lista, desloc = (bloco * 5) % l.length;
+          C365.viewer.hidratar(grid, l.slice(desloc).concat(l.slice(0, desloc)));
+        }
+        layoutMasonry(grid, true);
+        sec.parentNode.insertBefore(fim, sec.nextSibling);
+        if (bloco >= MAX_BLOCOS) {
+          if (obs) obs.disconnect();
+          var arq = document.createElement("div");
+          arq.className = "load-more";
+          arq.innerHTML = '<a class="btn btn-secondary" href="' + page("desafios") + '">Ver o arquivo de desafios</a>';
+          fim.replaceWith(arq);
+        }
+        carregando = false;
+      }
+      box.firstChild.addEventListener("click", function () {
+        if (ativo) return;
+        ativo = true;
+        box.remove();
+        ancora = g;
+        novoBloco();
+        if ("IntersectionObserver" in window) {
+          obs = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) novoBloco(); }); }, { rootMargin: "600px 0px" });
+          obs.observe(fim);
+        } else {
+          window.addEventListener("scroll", function () { if (fim.getBoundingClientRect().top < window.innerHeight + 600) novoBloco(); }, { passive: true });
+        }
       });
     });
   }
@@ -372,7 +425,7 @@
     var t;
     window.addEventListener("resize", function () {
       clearTimeout(t);
-      t = setTimeout(function () { grids.forEach(function (g) { layoutMasonry(g, false); }); }, 120);
+      t = setTimeout(function () { document.querySelectorAll(".grid").forEach(function (g) { layoutMasonry(g, false); }); }, 120);
     });
   }
 
@@ -479,7 +532,7 @@
     markBrokenImages();
     /* Páginas com fotos carregam o catálogo e o visualizador antes de montar o Masonry */
     if (document.querySelector(".card, [data-feed], [data-photos], [data-open-photo]")) {
-      carregar([ROOT + "pages/fotos.js", window.Ofertas ? null : ROOT + "pages/ofertas.js", ROOT + "design-system/viewer.js"], function () {
+      carregar([ROOT + "pages/fotos.js", window.Ofertas ? null : ROOT + "pages/ofertas.js", window.CALENDARIO_365 ? null : ROOT + "pages/calendario-365.js", window.Desafios ? null : ROOT + "pages/desafios.js", ROOT + "design-system/viewer.js"], function () {
         if (C365.viewer) C365.viewer.hidratar();
         markBrokenImages();
         initMasonry();

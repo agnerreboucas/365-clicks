@@ -74,5 +74,5 @@ O protótipo navegável (`../pages/`) usa estes tokens e segue as regras acima. 
 | `SiteHeader`, `SiteFooter`, `MobileTabBar` | gerados por `app.js` (`header[data-shell]`, `footer[data-shell]`, `.tabbar`) |
 | `CtaBand` | `.cta-band` |
 
-- **Carregar mais:** as galerias verticais usam o botão “Carregar mais fotografias”. O Feed é a exceção pedida: rolagem horizontal infinita, que não esconde o rodapé.
+- **Carregar mais → rolagem infinita:** nas galerias verticais, o botão “Carregar mais fotografias” carrega o bloco do desafio de ontem e liga a rolagem infinita: cada novo bloco traz as fotos de um desafio anterior, com o nome do desafio. Depois de 30 desafios aparece o link para o arquivo, e o rodapé volta a ficar acessível. O Feed continua com rolagem horizontal infinita.
 - **A galeria não corta:** cada foto é guardada num dos três formatos padrão (3:2, 4:5, 1:1) e aparece na galeria nesse formato, sem novo corte.

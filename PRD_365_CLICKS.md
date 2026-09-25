@@ -203,6 +203,9 @@ Recursos:
 - notificações;
 - mensagens.
 
+### 11.0 Galerias: carregar mais e rolagem infinita
+Nas galerias verticais (Home, Explorar, Desafio do Dia, perfis), o botão “Carregar mais fotografias” carrega o bloco do desafio de ontem e ativa a rolagem infinita. Cada bloco novo traz as fotos de um desafio anterior, com o título “Dia N · Tema · Técnica”. Depois de 30 desafios, a rolagem para e aparece o link para o arquivo de desafios.
+
 ### 11.1 Feed
 Rolagem horizontal infinita com as fotos de quem a pessoa segue. Enquanto a comunidade for pequena, as fotos se repetem em outra ordem. A roda do mouse rola para o lado; no celular, deslizar.
 
