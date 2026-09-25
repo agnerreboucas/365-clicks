@@ -126,6 +126,27 @@
       try { navigator.clipboard.writeText("Imagem protegida · 365 Clicks").catch(function () {}); } catch (x) {}
     }
   });
+  /* Copiar (Ctrl/Cmd+C, menu, arrastar para outro app) fica bloqueado em fotos e no visualizador.
+     Compartilhar continua liberado: o link é copiado pelo botão Compartilhar. */
+  function dentroDeFoto() {
+    var sel = window.getSelection && getSelection();
+    var no = sel && sel.anchorNode && (sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentNode);
+    return (document.body.classList.contains("viewer-open") && !(no && no.closest && no.closest("input, textarea, [data-share-url], .share-box"))) || protegido(no) || protegido(document.activeElement);
+  }
+  ["copy", "cut"].forEach(function (t) {
+    document.addEventListener(t, function (e) {
+      if (!dentroDeFoto()) return;
+      e.preventDefault();
+      try { e.clipboardData.setData("text/plain", "Foto protegida · 365 Clicks. Use o botão Compartilhar."); } catch (x) {}
+      avisar();
+    });
+  });
+  document.addEventListener("keydown", function (e) {
+    var k = (e.key || "").toLowerCase();
+    if ((e.ctrlKey || e.metaKey) && (k === "c" || k === "x" || k === "a") && dentroDeFoto()) { e.preventDefault(); avisar(); }
+  });
+  window.addEventListener("beforeprint", function () { escudo(0); });
+  window.addEventListener("afterprint", function () { if (document.hasFocus()) document.body.classList.remove("is-shielded"); });
   window.addEventListener("blur", function () { escudo(0); });
   window.addEventListener("focus", function () { document.body.classList.remove("is-shielded"); });
   document.addEventListener("visibilitychange", function () { if (document.hidden) escudo(0); });

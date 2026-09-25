@@ -6,6 +6,7 @@
 <script src="../design-system/app.js" defer></script>
 <script src="../design-system/upload.js" defer></script>
 <script src="ofertas.js" defer></script>
+<script src="desafios.js" defer></script>
 <style>
 .drop { display: grid; place-items: center; gap: var(--sp-3); min-height: 320px; padding: var(--sp-7); text-align: center; border: 1.5px dashed var(--line-strong); border-radius: var(--r-lg); background: var(--surface); cursor: pointer; transition: border-color var(--dur-fast), background var(--dur-fast); }
 .drop:hover, .drop.is-over { border-color: var(--ink); background: var(--surface-2); }
@@ -87,10 +88,11 @@
         <label class="option"><input type="radio" name="tipo" value="livre"><div class="grow"><strong>Foto livre</strong><span class="small">Vai para a galeria</span></div></label>
       </div>
       <div class="field" id="desafio-wrap"><label class="label" for="desafio">Qual desafio?</label><select class="select" id="desafio"></select><span class="hint" id="janela"></span></div>
-      <div class="rule info" id="regra"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v5l3 2"/></svg><span>Cada desafio dura 24 horas: abre às 02:00 e fecha às 01:59:59 do dia seguinte. Só vale foto tirada dentro dessas 24 horas.</span></div>
+      <fieldset class="fieldset" id="caract-wrap" style="margin:0"><legend style="font-size:var(--fs-md);margin-bottom:8px">Características que a foto cumpre <span class="small" id="caract-cont" style="font-family:var(--font-body);font-weight:400"></span></legend><div class="stack" id="caract" style="gap:6px"></div><span class="hint">A foto precisa cumprir pelo menos 2 das 4 características do desafio. A comunidade e a curadoria podem revisar.</span></fieldset>
+      <div class="rule info" id="regra"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v5l3 2"/></svg><span>Cada desafio dura 24 horas: de 00:00:00 a 23:59:59. Só vale foto tirada dentro dessas 24 horas.</span></div>
       <div class="pontos" id="pontos">
-        <div data-p="hoje"><strong>+10 pontos</strong>Desafio de hoje · destaque na página do desafio</div>
-        <div data-p="anterior"><strong>+5 pontos</strong>Desafio anterior · entra na galeria do desafio</div>
+        <div data-p="hoje"><strong>Até 10 pontos</strong>Desafio de hoje: 2 por característica + 2 por publicar no dia · destaque</div>
+        <div data-p="anterior"><strong>Até 8 pontos</strong>Desafio anterior: 2 por característica · galeria do desafio</div>
         <div data-p="livre"><strong>+2 pontos</strong>Foto livre · galeria geral e perfil</div>
       </div>
     </div>
@@ -118,24 +120,25 @@ document.addEventListener("DOMContentLoaded", function () {
   var C = window.C365, O = window.Ofertas;
   var $ = function (s) { return document.querySelector(s); };
 
-  /* ---------- Desafios: um por dia, janela de 02:00 até 01:59:59 do dia seguinte ---------- */
-  var TEMAS = [["Água", "Reflexos"], ["Sombras", "Contraluz"], ["Janelas", "Enquadramento"], ["Movimento", "Velocidade baixa"], ["Cores", "Complementares"], ["Retrato", "Luz natural"], ["Geometria", "Linhas"]];
-  var ABRE = 2; /* hora de abertura */
-  function diaDoAno(d) { var ini = new Date(d.getFullYear(), 0, 1); return Math.round((new Date(d.getFullYear(), d.getMonth(), d.getDate()) - ini) / 864e5) + 1; }
-  function desafioDe(dataCalendario) {
-    var inicio = new Date(dataCalendario.getFullYear(), dataCalendario.getMonth(), dataCalendario.getDate(), ABRE, 0, 0);
-    var fim = new Date(inicio.getTime() + 864e5 - 1000);
-    var n = diaDoAno(inicio), t = TEMAS[n % TEMAS.length];
-    return { id: inicio.toISOString(), dia: n, tema: t[0], tecnica: t[1], inicio: inicio, fim: fim };
-  }
-  /* Desafio em que um instante cai (antes das 02:00 ainda é o desafio de ontem) */
-  function desafioNoInstante(d) { var base = new Date(d); if (base.getHours() < ABRE) base.setDate(base.getDate() - 1); return desafioDe(base); }
-  var agora = new Date(), atual = desafioNoInstante(agora), DESAFIOS = [];
-  for (var i = 0; i < 7; i++) { var d = new Date(atual.inicio); d.setDate(d.getDate() - i); DESAFIOS.push(desafioDe(d)); }
-  function fmt(d) { return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" }) + " " + d.toLocaleTimeString("pt-BR"); }
+  /* ---------- Desafios (pages/desafios.js): um por dia, de 00:00:00 a 23:59:59; semana começa no domingo ---------- */
+  var D = window.Desafios, fmt = D.fmt, DESAFIOS = [];
+  for (var i = 0; i < 7; i++) { var d = new Date(); d.setDate(d.getDate() - i); DESAFIOS.push(D.doDia(d)); }
+  function desafioNoInstante(x) { return D.noInstante(x); }
   $("#desafio").innerHTML = DESAFIOS.map(function (x, n) {
-    return '<option value="' + n + '">Dia ' + x.dia + " · " + x.tema + " + " + x.tecnica + (n === 0 ? " (hoje)" : n === 1 ? " (ontem)" : " (" + x.inicio.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" }) + ")") + "</option>";
+    return '<option value="' + n + '">' + (n === 0 ? "Hoje" : n === 1 ? "Ontem" : x.nomeDia.charAt(0).toUpperCase() + x.nomeDia.slice(1) + " " + D.dataCurta(x.inicio)) + " · Dia " + x.dia + " · " + x.tema + " + " + x.tecnica + "</option>";
   }).join("");
+  function renderCaract() {
+    var ds = DESAFIOS[+$("#desafio").value];
+    $("#caract").innerHTML = ds.caracteristicas.map(function (c, k) { return '<label class="check"><input type="checkbox" data-car="' + k + '"> ' + c + "</label>"; }).join("");
+    contarCaract();
+  }
+  function marcadas() { return document.querySelectorAll("#caract input:checked").length; }
+  function contarCaract() {
+    var n = marcadas();
+    $("#caract-cont").textContent = "· " + n + " de 4" + (n < D.MINIMO ? " (mínimo " + D.MINIMO + ")" : "");
+    $("#caract-cont").style.color = n < D.MINIMO ? "var(--danger)" : "var(--success)";
+  }
+  renderCaract();
 
   /* ---------- Leitor de EXIF (JPEG) ---------- */
   function lerExif(buf) {
@@ -299,20 +302,21 @@ document.addEventListener("DOMContentLoaded", function () {
     var c = captura(); if (!c) return;
     var d = desafioNoInstante(c);
     var idx = DESAFIOS.map(function (x) { return x.id; }).indexOf(d.id);
-    if (idx > -1) $("#desafio").value = idx;
+    if (idx > -1 && +$("#desafio").value !== idx) { $("#desafio").value = idx; renderCaract(); }
   }
   var ICON_OK = '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>';
   var ICON_X = '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>';
   function validarRegra() {
     var r = $("#regra"), ds = escolhido(), c = captura();
     $("#desafio-wrap").hidden = tipo() !== "desafio";
+    $("#caract-wrap").hidden = tipo() !== "desafio";
     $("#janela").textContent = "Janela: " + fmt(ds.inicio) + " até " + fmt(ds.fim);
     var nivel = "livre", ok = true;
     if (tipo() === "desafio") {
       if (!c) { r.className = "rule info"; r.lastElementChild.textContent = "Envie a foto ou informe a data e a hora em que ela foi tirada para validar o desafio."; nivel = null; }
       else if (c >= ds.inicio && c <= ds.fim) {
         nivel = ds === DESAFIOS[0] ? "hoje" : "anterior";
-        r.className = "rule ok"; r.innerHTML = ICON_OK + "<span>Foto tirada em " + fmt(c) + ", dentro das 24 horas do desafio <strong>Dia " + ds.dia + " · " + ds.tema + "</strong>. Vale para o desafio.</span>";
+        r.className = "rule ok"; r.innerHTML = ICON_OK + "<span>Foto tirada em " + fmt(c) + ", dentro das 24 horas do desafio <strong>Dia " + ds.dia + " · " + ds.tema + "</strong> (" + ds.nomeDia + ", dia " + ds.diaSemana + " da semana). A data vale.</span>";
       } else {
         ok = false; nivel = null;
         var certo = desafioNoInstante(c), existe = DESAFIOS.some(function (x) { return x.id === certo.id; });
@@ -325,7 +329,11 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("#pontos [data-p]").forEach(function (p) { p.classList.toggle("on", p.getAttribute("data-p") === nivel); });
     return ok;
   }
-  document.addEventListener("change", function (e) { if (e.target.name === "tipo" || e.target.id === "desafio" || e.target.id === "captura") validarRegra(); });
+  document.addEventListener("change", function (e) {
+    if (e.target.id === "desafio") renderCaract();
+    if (e.target.hasAttribute && e.target.hasAttribute("data-car")) { contarCaract(); $("#caract-wrap").removeAttribute("aria-invalid"); }
+    if (e.target.name === "tipo" || e.target.id === "desafio" || e.target.id === "captura") validarRegra();
+  });
   document.addEventListener("input", function (e) { if (e.target.id === "captura") { sugerirDesafio(); validarRegra(); } var s = e.target.id && document.querySelector('[data-src="' + e.target.id + '"]'); if (s && s.classList.contains("manual") && e.target.value) { s.textContent = "· informado por você"; } });
 
   /* Declaração de autoria */
@@ -342,16 +350,17 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!$("#autoria").checked) { $("#autoria").closest(".accept").setAttribute("aria-invalid", "true"); bad.push($("#autoria")); }
     if (bad.length) { bad[0].focus(); C.toast(bad.length === 1 ? "Falta 1 item para publicar" : "Faltam " + bad.length + " itens para publicar"); return; }
     if (!validarRegra()) { $("#regra").scrollIntoView({ behavior: "smooth", block: "center" }); C.toast("A data da foto não vale para o desafio escolhido"); return; }
+    if (tipo() === "desafio" && marcadas() < D.MINIMO) { $("#caract-wrap").scrollIntoView({ behavior: "smooth", block: "center" }); C.toast("Marque pelo menos " + D.MINIMO + " das 4 características do desafio"); return; }
     var ds = escolhido(), t = tipo(), hoje = t === "desafio" && ds === DESAFIOS[0];
-    var pts = t === "livre" ? 2 : hoje ? 10 : 5;
+    var pts = t === "livre" ? 2 : D.pontos(marcadas(), hoje);
     $("#pub").hidden = true; $("#ok").hidden = false;
     $("#ok-ph").style.backgroundImage = "url('" + (processado && processado.url || previewURL) + "')";
     $("#ok-ph").style.setProperty("--ratio", U.FORMATOS[formato()].ratio.replace("/", " / "));
     $("#ok-eyebrow").textContent = t === "livre" ? "Foto livre" : "#desafio · Dia " + ds.dia + " · " + ds.tema;
     $("#ok-titulo").textContent = $("#titulo").value;
     $("#ok-desc").textContent = $("#descricao").value;
-    $("#ok-msg").innerHTML = "Publicada. Você ganhou <strong>+" + pts + " pontos</strong>" + (hoje ? " e a foto está em destaque no desafio de hoje." : t === "desafio" ? " e a foto entrou na galeria do desafio." : ".");
-    var kv = [["Autor", "Marcos Andrade (@marcosandrade)" + ($("#coautores").value ? " · coautores: " + $("#coautores").value : "")], ["Câmera", $("#camera").value + ($("#lente").value ? " · " + $("#lente").value : "")], ["Exposição", [$("#focal").value, $("#abertura").value, $("#velocidade").value, "ISO " + $("#iso").value].filter(Boolean).join(" · ")], ["Tirada em", fmt(captura())], ["Local", $("#local").value], ["Arquivo", U.FORMATOS[formato()].nome + " · " + (processado ? processado.w + " × " + processado.h + " px · " + processado.tipo + " " + U.mb(processado.bytes) + " · galeria " + U.mb(processado.versoes[2].bytes) : "")], ["Autoria", "Declaração v" + (aut ? aut.versao : "1.0") + " aceita em " + fmt(new Date())]];
+    $("#ok-msg").innerHTML = "Publicada. Você ganhou <strong>+" + pts + " pontos</strong>" + (t === "desafio" ? " (" + marcadas() + " de 4 características" + (hoje ? " + publicação no dia" : "") + ")" : "") + (hoje ? " e a foto está em destaque no desafio de hoje." : t === "desafio" ? " e a foto entrou na galeria do desafio." : ".");
+    var kv = [["Autor", "Marcos Andrade (@marcosandrade)" + ($("#coautores").value ? " · coautores: " + $("#coautores").value : "")], ["Câmera", $("#camera").value + ($("#lente").value ? " · " + $("#lente").value : "")], ["Exposição", [$("#focal").value, $("#abertura").value, $("#velocidade").value, "ISO " + $("#iso").value].filter(Boolean).join(" · ")], ["Tirada em", fmt(captura())], ["Local", $("#local").value], ["Desafio", t === "livre" ? "Foto livre" : ds.tema + " + " + ds.tecnica + ": " + Array.prototype.map.call(document.querySelectorAll("#caract input:checked"), function (x) { return ds.caracteristicas[+x.getAttribute("data-car")]; }).join("; ")], ["Arquivo", U.FORMATOS[formato()].nome + " · " + (processado ? processado.w + " × " + processado.h + " px · " + processado.tipo + " " + U.mb(processado.bytes) + " · galeria " + U.mb(processado.versoes[2].bytes) : "")], ["Autoria", "Declaração v" + (aut ? aut.versao : "1.0") + " aceita em " + fmt(new Date())]];
     $("#ok-kv").innerHTML = kv.map(function (p) { return "<dt>" + p[0] + '</dt><dd style="text-align:left">' + p[1].replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; }) + "</dd>"; }).join("");
     window.scrollTo({ top: 0, behavior: "smooth" });
     C.toast("Foto publicada · seus seguidores receberam um e-mail");

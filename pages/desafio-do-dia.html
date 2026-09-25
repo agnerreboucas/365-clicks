@@ -3,21 +3,23 @@
 <title>365 Clicks — Desafio do Dia</title>
 <link rel="stylesheet" href="../design-system/tokens.css">
 <link rel="stylesheet" href="../design-system/components.css">
-<script src="../design-system/app.js" defer></script></head><body data-page="desafio-do-dia">
+<script src="../design-system/app.js" defer></script>
+<script src="desafios.js" defer></script></head><body data-page="desafio-do-dia">
 <header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
 <main>
 <div class="cover" role="img" aria-label="Superfície de lago com reflexos" style="--img:url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1800&h=600&q=80');--tone:#2c464e;--tone2:#a3bab2"></div>
 <div class="split">
   <section class="stack">
-    <span class="day" style="align-self:flex-start">DIA <b>127</b>/365</span>
-    <h1>Água</h1>
-    <p>Fotografe a água de um jeito que você normalmente não observaria. Procure a cidade, o céu ou uma pessoa refletidos numa poça, numa vitrine molhada ou num lago.</p>
+    <span class="day" style="align-self:flex-start">DIA <b data-desafio="dia">127</b>/365</span>
+    <h1 data-desafio="tema">Água</h1>
+    <p style="margin:0">Hoje é <strong data-desafio="nomeDia"></strong>, dia <span data-desafio="diaSemana"></span> da semana. O desafio vale de 00:00:00 a 23:59:59 e só conta foto tirada hoje.</p>
+    <div class="panel"><span class="eyebrow">As 4 características · cumpra pelo menos 2</span><ol data-desafio="caracteristicas" style="margin:8px 0 0;padding-left:20px;display:grid;gap:4px"></ol></div>
     <div class="row">
-      <div class="panel stat"><span class="small">Técnica obrigatória</span><div class="metric" style="font-size:var(--fs-xl)">Reflexos</div></div>
-      <div class="panel stat"><span class="small">Objetivo</span><div class="metric" style="font-size:var(--fs-xl)">Composição</div></div>
-      <div class="panel stat"><span class="small">Prazo</span><div class="metric num" style="font-size:var(--fs-xl)">23:59 de hoje</div></div>
+      <div class="panel stat"><span class="small">Técnica obrigatória</span><div class="metric" style="font-size:var(--fs-xl)" data-desafio="tecnica">Reflexos</div></div>
+      <div class="panel stat"><span class="small">Pontos</span><div class="metric" style="font-size:var(--fs-xl)">até 10</div></div>
+      <div class="panel stat"><span class="small">Prazo</span><div class="metric num" style="font-size:var(--fs-xl)" data-desafio="prazo">23:59:59 de hoje</div><span class="small" data-desafio="contagem"></span></div>
     </div>
-    <div class="cluster"><button class="btn btn-accent btn-lg" type="button" data-modal-open="enviar">Enviar meu click</button><a class="btn btn-secondary btn-lg" href="calendario.html">Ver calendário</a></div>
+    <div class="cluster"><a class="btn btn-accent btn-lg" href="publicar.html">Enviar meu click</a><a class="btn btn-secondary btn-lg" href="desafios.html">Ver a semana</a></div>
   </section>
   <aside class="panel stack">
     <div class="streak"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c-4 0-6.5-2.7-6.5-6.2 0-3.4 2.5-5.3 3.5-8.3 1.6 1.2 2.4 2.7 2.5 4.2 1-1 1.6-2.4 1.6-4.2 3 2.2 5.4 5.3 5.4 8.5 0 3.4-2.5 6-6.5 6z"/></svg> Sequência de 12 dias</div>
@@ -34,7 +36,7 @@
   <div class="modal-backdrop" data-modal-close></div>
   <div class="modal-dialog">
     <button class="btn btn-ghost btn-icon modal-close" type="button" data-modal-close aria-label="Fechar"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
-    <span class="day">DIA <b>127</b>/365</span>
+    <span class="day">DIA <b data-desafio="dia">127</b>/365</span>
     <h3 id="enviar-t" style="margin-top:12px">Enviar para “Água”</h3>
     <div class="stack">
       <div class="empty" style="padding:32px 16px"><div class="frame"></div><strong>Arraste sua fotografia</strong><span class="small">JPG ou HEIC, até 25 MB. Os dados EXIF são lidos automaticamente.</span></div>

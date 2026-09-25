@@ -1,8 +1,88 @@
 <!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>365 Clicks — Admin Desafios</title>
 <link rel="stylesheet" href="../design-system/tokens.css">
 <link rel="stylesheet" href="../design-system/components.css">
-<script src="../design-system/app.js" defer></script></head><body data-page="admin-desafios">
+<script src="../design-system/app.js" defer></script>
+<script src="desafios.js" defer></script>
+<style>
+.semana { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: var(--sp-3); }
+.dia-card { display: flex; flex-direction: column; gap: var(--sp-2); padding: var(--sp-4); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); min-height: 100%; }
+.dia-card.aberto { border-color: var(--accent); box-shadow: inset 0 0 0 1.5px var(--accent); }
+.dia-card.encerrado { opacity: .72; }
+.dia-card .top { display: flex; justify-content: space-between; align-items: baseline; gap: var(--sp-2); }
+.dia-card .nd { font-size: var(--fs-xs); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+.dia-card h3 { margin: 0; font-size: var(--fs-lg); }
+.dia-card ol { margin: 0; padding-left: 18px; font-size: var(--fs-xs); color: var(--ink-2); display: grid; gap: 2px; }
+.dia-card .foot { margin-top: auto; }
+@media (max-width: 1100px) { .semana { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); } }
+</style>
+</head><body data-page="admin-desafios">
 <header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
-<main><h1>Admin Desafios</h1><p>Criador dos 365 desafios</p><div class="row"><div class="panel stat"><span class="small">Usuários</span><div class="metric">12.480</div></div><div class="panel stat"><span class="small">Fotografias</span><div class="metric">84.210</div></div><div class="panel stat"><span class="small">Receita</span><div class="metric">R$ 48.900</div></div></div><h2>Atividade</h2><div class="panel">Tabela operacional, filtros, busca, ações de moderação e relatórios.</div></main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer></body></html>
+<main>
+<div class="cluster" style="justify-content:space-between;align-items:flex-end">
+  <div><h1>Desafios</h1><p style="margin:0">Agende os desafios da semana. A semana vai de domingo (dia 1) a sábado (dia 7); cada desafio vale de 00:00:00 a 23:59:59.</p></div>
+  <div class="cluster"><button class="btn btn-secondary" type="button" id="prev">← Semana anterior</button><button class="btn btn-secondary" type="button" id="next">Próxima semana →</button></div>
+</div>
+<div class="notice" style="margin:20px 0"><span>Regra: 4 características por desafio. A foto precisa cumprir pelo menos 2. Mantenha sempre a semana atual e a próxima agendadas.</span></div>
+<h2 id="titulo" style="margin-top:8px"></h2>
+<div class="stack" id="lista" style="gap:12px"></div>
+</main>
+<div class="modal" id="editar" hidden role="dialog" aria-modal="true" aria-labelledby="ed-t">
+  <div class="modal-backdrop" data-modal-close></div>
+  <form class="modal-dialog" id="ed-form" novalidate>
+    <h3 id="ed-t">Editar desafio</h3>
+    <div class="form-grid">
+      <div class="field col-3"><label class="label" for="ed-tema">Tema</label><input class="input" id="ed-tema" required></div>
+      <div class="field col-3"><label class="label" for="ed-tec">Técnica</label><input class="input" id="ed-tec" required></div>
+      <div class="field col-6"><label class="label" for="ed-c0">Característica 1</label><input class="input" id="ed-c0" required></div>
+      <div class="field col-6"><label class="label" for="ed-c1">Característica 2</label><input class="input" id="ed-c1" required></div>
+      <div class="field col-6"><label class="label" for="ed-c2">Característica 3</label><input class="input" id="ed-c2" required></div>
+      <div class="field col-6"><label class="label" for="ed-c3">Característica 4</label><input class="input" id="ed-c3" required></div>
+    </div>
+    <div class="modal-foot"><button class="btn btn-ghost" type="button" data-modal-close>Cancelar</button><button class="btn" type="submit">Salvar agendamento</button></div>
+  </form>
+</div>
+<footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var D = window.Desafios, C = window.C365, desloc = 0, atual = null;
+  function editados() { try { return JSON.parse(localStorage.getItem("c365-desafios-edit") || "{}"); } catch (e) { return {}; } }
+  function aplicar(ds) { var e = editados()[ds.id]; if (e) { ds.tema = e.tema; ds.tecnica = e.tecnica; ds.caracteristicas = e.car; ds.editado = true; } return ds; }
+  function render() {
+    var s = D.semana(desloc).map(aplicar);
+    document.getElementById("titulo").textContent = (desloc === 0 ? "Esta semana" : desloc === 1 ? "Próxima semana" : desloc > 1 ? "Daqui a " + desloc + " semanas" : "Semana passada") + " · " + D.dataCurta(s[0].inicio) + " a " + D.dataCurta(s[6].inicio);
+    document.getElementById("lista").innerHTML = s.map(function (ds, i) {
+      var st = D.status(ds), rot = { aberto: ["badge-accent", "Aberto agora"], encerrado: ["", "Encerrado"], agendado: ["badge-info", "Agendado"] }[st];
+      return '<div class="list-item" style="background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);align-items:flex-start">' +
+        '<div class="date-block"><span class="m">' + ds.nomeDia.slice(0, 3) + '</span><span class="d">' + ds.inicio.getDate() + '</span><span class="w">dia ' + ds.diaSemana + "</span></div>" +
+        '<div class="grow"><strong>' + ds.tema + " + " + ds.tecnica + '</strong> <span class="mono">' + ds.dia + "/365</span> " + (ds.editado ? '<span class="badge badge-warning plain">Editado</span>' : "") +
+        '<ol class="small" style="margin:6px 0 0;padding-left:18px">' + ds.caracteristicas.map(function (c) { return "<li>" + c + "</li>"; }).join("") + "</ol>" +
+        '<span class="small">00:00:00 a 23:59:59 de ' + ds.inicio.toLocaleDateString("pt-BR") + "</span></div>" +
+        '<div class="stack" style="align-items:flex-end;gap:8px"><span class="badge ' + rot[0] + ' plain">' + rot[1] + "</span>" + (st === "agendado" ? '<button class="btn btn-secondary btn-sm" type="button" data-ed="' + i + '">Editar</button>' : "") + "</div></div>";
+    }).join("");
+    render.semana = s;
+  }
+  document.getElementById("lista").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-ed]"); if (!b) return;
+    atual = render.semana[+b.getAttribute("data-ed")];
+    document.getElementById("ed-t").textContent = "Editar " + atual.nomeDia + ", " + D.dataCurta(atual.inicio);
+    document.getElementById("ed-tema").value = atual.tema; document.getElementById("ed-tec").value = atual.tecnica;
+    atual.caracteristicas.forEach(function (c, k) { document.getElementById("ed-c" + k).value = c; });
+    document.getElementById("editar").hidden = false;
+  });
+  document.getElementById("ed-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var campos = ["ed-tema", "ed-tec", "ed-c0", "ed-c1", "ed-c2", "ed-c3"].map(function (id) { return document.getElementById(id); });
+    var vazio = campos.filter(function (el) { el.removeAttribute("aria-invalid"); return !el.value.trim(); });
+    if (vazio.length) { vazio.forEach(function (el) { el.setAttribute("aria-invalid", "true"); }); vazio[0].focus(); C.toast("Preencha tema, técnica e as 4 características"); return; }
+    var ed = editados(); ed[atual.id] = { tema: campos[0].value.trim(), tecnica: campos[1].value.trim(), car: campos.slice(2).map(function (el) { return el.value.trim(); }) };
+    try { localStorage.setItem("c365-desafios-edit", JSON.stringify(ed)); } catch (x) {}
+    document.getElementById("editar").hidden = true; render(); C.toast("Desafio agendado");
+  });
+  document.getElementById("prev").addEventListener("click", function () { desloc--; render(); });
+  document.getElementById("next").addEventListener("click", function () { desloc++; render(); });
+  render();
+});
+</script>
+</body></html>

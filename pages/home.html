@@ -3,7 +3,8 @@
 <title>365 Clicks — Home</title>
 <link rel="stylesheet" href="../design-system/tokens.css">
 <link rel="stylesheet" href="../design-system/components.css">
-<script src="../design-system/app.js" defer></script></head><body data-page="home">
+<script src="../design-system/app.js" defer></script>
+<script src="desafios.js" defer></script></head><body data-page="home">
 <header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
 <main>
 <section class="hero" style="--img:url('https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1800&q=80');--tone:#18233a;--tone2:#4b5f88">
@@ -12,7 +13,7 @@
     <h1>Fotografe todos os dias.</h1>
     <p>Desenvolva seu olhar. Compartilhe seu trabalho. Construa seu portfólio.</p>
     <form class="search-field lg" role="search" data-search><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><label class="sr-only" for="q-hero">Pesquisar</label><input class="input" id="q-hero" type="search" placeholder="Pesquise fotografias, fotógrafos, desafios e lugares"></form>
-    <a class="btn btn-accent" href="desafio-do-dia.html">Desafio de hoje · Dia 127</a>
+    <a class="btn btn-accent" href="desafio-do-dia.html">Desafio de hoje · Dia <span data-desafio="dia">127</span></a>
   </div>
   <span class="credit">Foto do dia · @fotografo_1 · 16mm f/2.8 20s ISO 3200</span>
 </section>
@@ -20,17 +21,18 @@
 <h2>Desafio de hoje</h2>
 <section class="challenge">
   <div>
-    <span class="day">DIA <b>127</b>/365</span>
-    <div class="theme">Água</div>
-    <div class="technique">Técnica obrigatória: reflexos</div>
-    <p style="margin-top:12px">Fotografe a água de um jeito que você normalmente não observaria. Objetivo: desenvolver percepção de composição.</p>
+    <span class="day">DIA <b data-desafio="dia">127</b>/365</span>
+    <div class="theme" data-desafio="tema">Água</div>
+    <div class="technique">Técnica: <span data-desafio="tecnica"></span> · <span data-desafio="contagem"></span></div>
+    <ol data-desafio="caracteristicas" class="small" style="margin:12px 0;padding-left:18px"></ol>
+    <p class="small" style="margin:0 0 12px">Cumpra pelo menos 2 das 4 características com uma foto tirada hoje.</p>
     <div class="cluster"><div class="avatar-stack"><span class="avatar avatar-sm" style="--av:#d9e3f2">AL</span><span class="avatar avatar-sm" style="--av:#f2e1cf">RB</span><span class="avatar avatar-sm" style="--av:#dcefe2">JS</span></div><span class="small">1.284 fotógrafos já enviaram hoje</span></div>
   </div>
   <div class="stack" style="min-width:220px">
     <div class="streak"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21c-4 0-6.5-2.7-6.5-6.2 0-3.4 2.5-5.3 3.5-8.3 1.6 1.2 2.4 2.7 2.5 4.2 1-1 1.6-2.4 1.6-4.2 3 2.2 5.4 5.3 5.4 8.5 0 3.4-2.5 6-6.5 6z"/></svg> 12 dias seguidos</div>
     <div class="progress" role="progressbar" aria-label="Progresso no ano" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100" style="--value:35%"><span></span></div>
     <span class="small num">127 de 365 dias · 35%</span>
-    <button class="btn btn-accent" type="button" data-toast="Desafio aceito · Dia 127">Aceitar desafio</button>
+    <a class="btn btn-accent" href="publicar.html">Participar do desafio</a>
   </div>
 </section>
 <h2>Fotografias da comunidade</h2>
