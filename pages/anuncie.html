@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>365 Clicks — Anuncie</title>
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="../design-system/components.css">
+<script src="../design-system/app.js" defer></script>
+<script src="anuncios.js" defer></script>
+<script src="ofertas.js" defer></script>
+</head><body data-page="anuncie">
+<header data-shell><a class="logo" href="home.html">365·CLICKS</a></header>
+<main>
+<section class="home-hero-lite">
+  <span class="eyebrow">Mídia 365</span>
+  <h1 class="h1" style="max-width:16ch">Sua marca onde os fotógrafos estão <em>todos</em> os dias.</h1>
+  <p class="lead" style="max-width:60ch">Marcas de câmeras, mochilas e acessórios, laboratórios, escolas, serviços, agências e qualquer negócio que queira falar com quem fotografa. Você escolhe o espaço e paga por mês.</p>
+  <div class="cluster"><a class="btn btn-primary btn-lg" href="#contratar">Contratar um espaço</a><a class="btn btn-secondary btn-lg" href="minhas-campanhas.html">Minhas campanhas</a></div>
+</section>
+<div class="row" style="margin:32px 0">
+  <div class="panel stat"><span class="small">Fotógrafos na comunidade</span><div class="metric">12.480</div><span class="small">exemplo · atualizado no lançamento</span></div>
+  <div class="panel stat"><span class="small">Visitas por mês</span><div class="metric">180 mil</div><span class="small">exemplo</span></div>
+  <div class="panel stat"><span class="small">Assinantes do Radar 365</span><div class="metric">6.900</div><span class="small">exemplo</span></div>
+  <div class="panel stat"><span class="small">Tempo médio no site</span><div class="metric">7 min</div><span class="small">exemplo</span></div>
+</div>
+<div class="section-head"><div><span class="eyebrow">Espaços</span><h2 class="h2">Escolha onde aparecer</h2></div></div>
+<div class="offers" id="espacos"></div>
+<div class="notice" style="margin-top:20px"><span>Todo anúncio aparece com o selo <strong>Patrocinado</strong>, passa por aprovação e nunca entra no meio das galerias de fotos.</span></div>
+
+<section class="section" id="contratar" style="scroll-margin-top:90px">
+<div class="split">
+<form class="stack" id="form" novalidate style="gap:20px">
+  <h2 class="h2" style="margin:0">Contratar</h2>
+  <fieldset class="fieldset" style="margin:0"><legend>Espaço e período</legend>
+    <div class="form-grid">
+      <div class="field col-6"><label class="label" for="a-espaco">Espaço<span class="req">*</span></label><select class="select" id="a-espaco"></select><span class="hint" id="a-vagas"></span></div>
+      <div class="field col-3"><label class="label" for="a-inicio">Início</label><input class="input" id="a-inicio" type="month"></div>
+      <div class="field col-3"><label class="label" for="a-meses">Fidelidade</label><select class="select" id="a-meses"><option value="1">Mês a mês</option><option value="3">3 meses (−5%)</option><option value="6">6 meses (−10%)</option><option value="12">12 meses (−15%)</option></select></div>
+    </div>
+  </fieldset>
+  <fieldset class="fieldset" style="margin:0"><legend>Sua empresa</legend>
+    <div class="form-grid">
+      <div class="field col-3"><label class="label" for="a-empresa">Nome da marca ou empresa<span class="req">*</span></label><input class="input" id="a-empresa" required></div>
+      <div class="field col-3"><label class="label" for="a-doc">CNPJ ou CPF<span class="req">*</span></label><input class="input" id="a-doc" inputmode="numeric" required placeholder="Para a nota fiscal"></div>
+      <div class="field col-3"><label class="label" for="a-cat">Segmento</label><select class="select" id="a-cat"><option>Câmeras e lentes</option><option>Mochilas, bolsas e acessórios</option><option>Laboratório e impressão</option><option>Educação e cursos</option><option>Serviços (contabilidade, jurídico, seguros…)</option><option>Viagem e turismo</option><option>Software e aplicativos</option><option>Outro</option></select></div>
+      <div class="field col-3"><label class="label" for="a-resp">Responsável<span class="req">*</span></label><input class="input" id="a-resp" required></div>
+      <div class="field col-3"><label class="label" for="a-email">E-mail<span class="req">*</span></label><input class="input" id="a-email" type="email" required></div>
+      <div class="field col-3"><label class="label" for="a-tel">Telefone / WhatsApp</label><input class="input" id="a-tel" type="tel"></div>
+    </div>
+  </fieldset>
+  <fieldset class="fieldset" style="margin:0"><legend>Anúncio</legend>
+    <div class="form-grid">
+      <div class="field col-6"><label class="label" for="a-texto">Texto do anúncio<span class="req">*</span></label><input class="input" id="a-texto" required maxlength="200"><span class="hint" id="a-limite"></span></div>
+      <div class="field col-3"><label class="label" for="a-link">Link de destino<span class="req">*</span></label><input class="input" id="a-link" type="url" required placeholder="https://"></div>
+      <div class="field col-3"><label class="label" for="a-logo">Logo ou imagem</label><input class="input" id="a-logo" type="file" accept="image/*"></div>
+    </div>
+  </fieldset>
+  <fieldset class="fieldset" style="margin:0"><legend>Pagamento mensal</legend>
+    <div class="options inline"><label class="option"><input type="radio" name="a-pag" value="cartao" checked><div class="grow"><strong>Cartão</strong><span class="small">cobrança automática</span></div></label><label class="option"><input type="radio" name="a-pag" value="boleto"><div class="grow"><strong>Boleto</strong><span class="small">enviado todo mês</span></div></label><label class="option"><input type="radio" name="a-pag" value="pix"><div class="grow"><strong>Pix</strong><span class="small">cobrança mensal</span></div></label></div>
+  </fieldset>
+  <details class="doc"><summary><span class="grow" id="t-tit">Termo de Veiculação</span><span class="badge plain mono">v1.0</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><div class="doc-body" id="t-body"></div></details>
+  <label class="accept"><input type="checkbox" id="a-termo" required><span>Li e aceito o <strong>Termo de Veiculação Publicitária</strong>, inclusive a cobrança mensal recorrente e a aprovação do anúncio.</span></label>
+  <button class="btn btn-primary btn-lg" type="submit">Enviar para aprovação</button>
+</form>
+<aside class="panel stack sticky" style="gap:10px">
+  <span class="eyebrow">Resumo</span>
+  <h3 style="margin:0" id="r-nome"></h3>
+  <span class="small muted" id="r-onde"></span>
+  <dl class="kv" id="r-kv"></dl>
+  <span class="small muted">A primeira cobrança acontece quando o anúncio for aprovado e entrar no ar.</span>
+</aside>
+</div>
+</section>
+</main>
+<footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
+<style>.home-hero-lite { padding: var(--sp-7) 0 0; display: grid; gap: var(--sp-4); }</style>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  "use strict";
+  var A = window.Anuncios, C = window.C365, O = window.Ofertas, $ = function (s) { return document.querySelector(s); };
+  var LIMITE = { desafio: 80, faixa: 70, home: 120, radar: 200, biblioteca: 80, fotografo: 160 };
+  $("#espacos").innerHTML = A.espacos.map(function (e) {
+    var l = A.livres(e.id);
+    return '<article class="panel stack" style="gap:8px"><div class="cluster" style="justify-content:space-between"><span class="tag">' + e.para + '</span><span class="badge ' + (l > 0 ? "badge-success" : "badge-danger") + ' plain">' + (l > 0 ? l + (l === 1 ? " vaga" : " vagas") : "Esgotado") + '</span></div><h3 style="margin:0">' + e.nome + '</h3><p class="small" style="margin:0">' + e.onde + '</p><span class="small muted">' + e.formato + '</span><div class="cluster" style="justify-content:space-between;margin-top:auto"><span class="metric" style="font-size:var(--fs-24)">' + A.brl(e.preco) + '<span class="small muted" style="font-weight:400"> /mês</span></span>' + (l > 0 ? '<button class="btn btn-secondary btn-sm" type="button" data-escolher="' + e.id + '">Escolher</button>' : "") + "</div></article>";
+  }).join("");
+  $("#a-espaco").innerHTML = A.espacos.map(function (e) { return '<option value="' + e.id + '"' + (A.livres(e.id) < 1 ? " disabled" : "") + ">" + e.nome + " · " + A.brl(e.preco) + "/mês" + (A.livres(e.id) < 1 ? " (esgotado)" : "") + "</option>"; }).join("");
+  var d = new Date(); d.setMonth(d.getMonth() + 1); $("#a-inicio").value = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
+  if (O && O.termos.veiculacao) { $("#t-tit").textContent = O.termos.veiculacao.titulo; $("#t-body").innerHTML = O.termoHTML("veiculacao", {}); }
+  function desconto(m) { return { 1: 0, 3: 0.05, 6: 0.1, 12: 0.15 }[m] || 0; }
+  function resumo() {
+    var e = A.espaco($("#a-espaco").value), m = +$("#a-meses").value, ds = desconto(m), mensal = e.preco * (1 - ds);
+    $("#r-nome").textContent = e.nome; $("#r-onde").textContent = e.onde;
+    $("#a-vagas").textContent = A.livres(e.id) + " de " + e.vagas + " vagas livres";
+    $("#a-limite").textContent = "Até " + LIMITE[e.id] + " caracteres neste espaço";
+    $("#a-texto").maxLength = LIMITE[e.id];
+    $("#r-kv").innerHTML = "<dt>Tabela</dt><dd>" + A.brl(e.preco) + "/mês</dd>" + (ds ? "<dt>Fidelidade " + m + " meses</dt><dd>−" + Math.round(ds * 100) + "%</dd>" : "") + '<dt style="align-self:end">Mensalidade</dt><dd class="total">' + A.brl(mensal) + "</dd>" + (m > 1 ? "<dt>Total no período</dt><dd>" + A.brl(mensal * m) + "</dd>" : "");
+  }
+  document.addEventListener("change", function (e) { if (e.target.id === "a-espaco" || e.target.id === "a-meses") resumo(); });
+  $("#espacos").addEventListener("click", function (e) { var b = e.target.closest("[data-escolher]"); if (!b) return; $("#a-espaco").value = b.getAttribute("data-escolher"); resumo(); document.getElementById("contratar").scrollIntoView({ behavior: "smooth" }); });
+  $("#form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var bad = [];
+    $("#form").querySelectorAll("[aria-invalid]").forEach(function (x) { x.removeAttribute("aria-invalid"); });
+    ["a-empresa", "a-doc", "a-resp", "a-email", "a-texto", "a-link"].forEach(function (id) { var el = document.getElementById(id); if (!el.value.trim()) { el.setAttribute("aria-invalid", "true"); bad.push(el); } });
+    if ($("#a-email").value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($("#a-email").value)) { $("#a-email").setAttribute("aria-invalid", "true"); bad.push($("#a-email")); }
+    if ($("#a-link").value && !/^https?:\/\//.test($("#a-link").value)) { $("#a-link").setAttribute("aria-invalid", "true"); bad.push($("#a-link")); }
+    var d2 = $("#a-doc").value.replace(/\D/g, ""); if ($("#a-doc").value && d2.length !== 11 && d2.length !== 14) { $("#a-doc").setAttribute("aria-invalid", "true"); bad.push($("#a-doc")); }
+    if (!$("#a-termo").checked) { $("#a-termo").closest(".accept").setAttribute("aria-invalid", "true"); bad.push($("#a-termo")); }
+    if (bad.length) { bad[0].focus(); C.toast("Confira os campos destacados"); return; }
+    var e2 = A.espaco($("#a-espaco").value), m = +$("#a-meses").value, ini = $("#a-inicio").value.split("-");
+    var lista = A.ler("c365-campanhas", []);
+    lista.unshift({ id: "c" + Date.now(), espaco: e2.id, anunciante: $("#a-empresa").value.trim(), segmento: $("#a-cat").value, texto: $("#a-texto").value.trim(), titulo: $("#a-empresa").value.trim(), link: $("#a-link").value.trim(), inicio: new Date(+ini[0], +ini[1] - 1, 1).getTime(), meses: m, mensal: e2.preco * (1 - desconto(m)), pagamento: document.querySelector("input[name=a-pag]:checked").value, status: "em análise", impressoes: 0, cliques: 0, minha: true, termo: "veiculacao v1.0 · " + new Date().toLocaleString("pt-BR") });
+    A.gravar("c365-campanhas", lista.slice(0, 50));
+    C.toast("Anúncio enviado para aprovação. Resposta em até 2 dias úteis por e-mail.");
+    setTimeout(function () { location.href = "minhas-campanhas.html"; }, 1400);
+  });
+  resumo();
+});
+</script>
+</body></html>

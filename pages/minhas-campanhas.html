@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>365 Clicks — Minhas campanhas</title>
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="../design-system/components.css">
+<script src="../design-system/app.js" defer></script>
+<script src="anuncios.js" defer></script>
+</head><body data-page="minhas-campanhas">
+<header data-shell><a class="logo" href="home.html">365·CLICKS</a></header>
+<main>
+<div class="cluster" style="justify-content:space-between;align-items:flex-end"><div><span class="eyebrow">Painel do anunciante</span><h1 style="margin-top:4px">Minhas campanhas</h1><p style="margin:0">Status, entrega e cobrança de cada espaço contratado.</p></div><a class="btn btn-primary" href="anuncie.html#contratar">Contratar outro espaço</a></div>
+<div class="row" style="margin:24px 0" id="kpis"></div>
+<div class="stack" id="lista" style="gap:12px"></div>
+</main>
+<footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var A = window.Anuncios, C = window.C365, esc = A.esc;
+  function render() {
+    var minhas = A.campanhas().filter(function (c) { return c.minha || c.exemplo; });
+    var ativas = minhas.filter(function (c) { return c.status === "ativa"; }), imp = 0, cli = 0, mensal = 0;
+    ativas.forEach(function (c) { var m = A.metricas(c); imp += m.impressoes; cli += m.cliques; mensal += c.mensal || A.espaco(c.espaco).preco; });
+    document.getElementById("kpis").innerHTML = '<div class="panel stat"><span class="small">Campanhas no ar</span><div class="metric">' + ativas.length + '</div></div><div class="panel stat"><span class="small">Impressões no mês</span><div class="metric">' + imp.toLocaleString("pt-BR") + '</div></div><div class="panel stat"><span class="small">Cliques</span><div class="metric">' + cli.toLocaleString("pt-BR") + '</div><span class="small">CTR ' + (imp ? (cli / imp * 100).toFixed(2).replace(".", ",") : "0") + '%</span></div><div class="panel stat"><span class="small">Mensalidade total</span><div class="metric">' + A.brl(mensal) + "</div></div>";
+    document.getElementById("lista").innerHTML = minhas.map(function (c) {
+      var e = A.espaco(c.espaco), m = A.metricas(c), prox = new Date(); prox.setMonth(prox.getMonth() + 1, 1);
+      var st = { "ativa": ["badge-success", "No ar"], "em análise": ["badge-warning", "Em análise"], "pausada": ["", "Pausada"], "cancelada": ["badge-danger", "Cancelamento agendado"], "recusada": ["badge-danger", "Recusada"] }[c.status] || ["", c.status];
+      return '<article class="panel stack" style="gap:10px"><div class="cluster" style="justify-content:space-between"><div class="cluster"><span class="badge ' + st[0] + '">' + st[1] + '</span><strong>' + esc(c.anunciante) + '</strong><span class="small muted">' + esc(e.nome) + "</span>" + (c.exemplo ? ' <span class="badge plain">exemplo</span>' : "") + '</div><span class="small">' + A.brl(c.mensal || e.preco) + "/mês · " + (c.meses > 1 ? c.meses + " meses" : "mês a mês") + "</span></div>" +
+        '<p class="small" style="margin:0">“' + esc(c.texto) + "”</p>" +
+        '<div class="cluster" style="gap:24px"><span class="small"><strong>' + m.impressoes.toLocaleString("pt-BR") + '</strong> impressões</span><span class="small"><strong>' + m.cliques.toLocaleString("pt-BR") + "</strong> cliques</span>" + (c.status === "ativa" ? '<span class="small muted">Próxima cobrança: ' + prox.toLocaleDateString("pt-BR") + "</span>" : "") + "</div>" +
+        (c.status === "ativa" || c.status === "em análise" ? '<div class="cluster"><button class="btn btn-secondary btn-sm" type="button" data-toast="Edição do criativo: o novo texto passa por aprovação">Editar anúncio</button>' + (c.status === "ativa" ? '<button class="btn btn-ghost btn-sm" type="button" data-acao="pausada" data-id="' + c.id + '">Pausar</button>' : "") + '<button class="btn btn-ghost btn-sm" type="button" data-acao="cancelada" data-id="' + c.id + '">Cancelar</button></div>' : "") + "</article>";
+    }).join("") || '<div class="empty"><div class="frame"></div><h3>Nenhuma campanha ainda</h3><p>Escolha um espaço e envie seu anúncio para aprovação.</p><a class="btn btn-primary" href="anuncie.html">Ver espaços</a></div>';
+  }
+  document.getElementById("lista").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-acao]"); if (!b) return;
+    var dec = A.ler("c365-ads-decisoes", {}); dec[b.getAttribute("data-id")] = { status: b.getAttribute("data-acao") }; A.gravar("c365-ads-decisoes", dec);
+    render(); C.toast(b.getAttribute("data-acao") === "cancelada" ? "Cancelamento agendado: o anúncio sai do ar em 30 dias" : "Campanha pausada; a cobrança continua até o fim do mês");
+  });
+  render();
+});
+</script>
+</body></html>

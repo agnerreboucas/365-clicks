@@ -79,6 +79,8 @@
     ]},
     { id: "comercial", name: "Comercial", pages: [
       ["loja", "Loja", "App, livros, e-books e camisetas"],
+      ["anuncie", "Anuncie", "Espaços de mídia com mensalidade"],
+      ["minhas-campanhas", "Minhas campanhas", "Painel do anunciante"],
       ["planos", "Planos", "Free + 365 + Clube"],
       ["assinatura", "Assinatura", "Escolha e gerencie seu plano"],
       ["checkout", "Checkout", "Pagamento"],
@@ -88,6 +90,7 @@
     { id: "admin", name: "Administração", pages: [
       ["admin", "Dashboard", "Visão operacional"],
       ["admin-contatos", "Contatos e métricas", "Visualizações, cliques e contatos"],
+      ["admin-anuncios", "Mídia e anunciantes", "Espaços, campanhas e receita mensal"],
       ["admin-usuarios", "Usuários", "Gestão de usuários"],
       ["admin-fotos", "Moderação", "Denúncias de comentários e fotos"],
       ["admin-desafios", "Desafios", "Criador dos 365 desafios"],
@@ -217,6 +220,7 @@
     ["E-book", "Guia de Exposição sem Mistério · R$ 29", "loja.html#ebooks", "Comprar"],
     ["Loja", "Livro “A foto que eu nunca tirei” em pré-venda", "loja.html", "Ver na loja"]
   ];
+  C365.promos = PROMOS;
   function renderPromo(header) {
     var hoje = new Date().toDateString();
     try { if (localStorage.getItem("c365-promo-off") === hoje) return; } catch (e) {}
@@ -227,7 +231,7 @@
     var i = 0;
     function show() {
       var p = PROMOS[i % PROMOS.length];
-      bar.querySelector(".promo-item").innerHTML = '<span class="promo-tag">' + p[0] + '</span><span class="promo-text">' + p[1] + '</span><a href="' + ROOT + "pages/" + p[2] + '">' + p[3] + " →</a>";
+      bar.querySelector(".promo-item").innerHTML = '<span class="promo-tag' + (p[4] ? " is-ad" : "") + '">' + p[0] + '</span><span class="promo-text">' + p[1] + '</span><a href="' + ROOT + "pages/" + p[2] + '"' + (p[4] ? ' data-ad="' + p[4] + '"' : "") + ">" + p[3] + " →</a>";
     }
     bar.innerHTML = '<div class="promo-item" aria-live="off"></div><button type="button" class="promo-close" aria-label="Fechar ofertas até amanhã">' + icon("close", "i-sm") + "</button>";
     header.parentNode.insertBefore(bar, header);
@@ -296,7 +300,7 @@
       col("Descobrir", [["explorar", "Explorar"], ["colecoes", "Coleções"], ["fotografos", "Fotógrafos"], ["nunca-tirei", "A foto que eu nunca tirei"]]) +
       col("Praticar", [["desafio-do-dia", "Desafio do dia"], ["desafios", "Semana de desafios"], ["foto-criativa", "Foto Criativa"], ["cursos", "Cursos"]]) +
       col("Comunidade", [["eventos", "Eventos"], ["blog", "Blog"], ["ranking", "Ranking"], ["loja", "Loja"]]) +
-      col("365 Clicks", [["sobre", "Sobre"], ["planos", "Planos"], ["ajuda", "Ajuda"], ["termos", "Termos"]]) + "</div>";
+      col("365 Clicks", [["sobre", "Sobre"], ["planos", "Planos"], ["anuncie", "Anuncie"], ["ajuda", "Ajuda"], ["termos", "Termos"]]) + "</div>";
   }
 
   /* ---------- Masonry por linha ---------- */
@@ -525,6 +529,8 @@
     } else {
       bind(document.createElement("div"));
     }
+    /* Espaços patrocinados (Mídia 365) em todas as páginas */
+    if (!window.Anuncios) carregar([ROOT + "pages/anuncios.js"], function () {});
     var footer = document.querySelector("footer[data-shell]");
     if (footer) renderFooter(footer);
     syncThemeButtons();

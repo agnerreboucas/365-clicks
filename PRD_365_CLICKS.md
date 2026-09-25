@@ -392,6 +392,28 @@ Foto Criativa, IA, networking profissional, marketplace, app mobile e recursos p
 - Conclusão de cursos.
 
 ## 22. Protótipo
+### 15.2 Mídia 365: espaços pagos por mês
+Qualquer empresa pode comprar espaço na mídia do 365 Clicks e pagar uma mensalidade: marcas de câmeras e lentes, mochilas e acessórios, laboratórios, escolas, prestadores de serviço (contabilidade, jurídico, seguros), turismo, software. Fotógrafos também podem comprar destaque do próprio perfil.
+
+| Espaço | Onde aparece | Vagas | Referência/mês |
+|---|---|---|---|
+| Patrocínio dos desafios do mês | Desafio do Dia e card do desafio na Home | 1 | R$ 3.000 |
+| Faixa no topo | Barra no topo de todas as páginas, em rodízio com as ofertas próprias | 3 | R$ 1.200 |
+| Card patrocinado na Home | Entre Coleções e Eventos, fora da galeria | 2 | R$ 900 |
+| Apoio no Radar 365 | 4 edições do mês da newsletter e página do Radar | 2 | R$ 800 |
+| Apresentação de elemento da Biblioteca | “Macro, apresentado por…” | 1 por elemento | R$ 500 |
+| Destaque de fotógrafo | Topo do diretório e “Fotógrafos para conhecer” | 10 | R$ 49 |
+
+- **Fidelidade:** mês a mês ou 3, 6 e 12 meses, com 5%, 10% e 15% de desconto.
+- **Pagamento:** cartão com cobrança automática, boleto mensal ou Pix mensal. A renovação é automática, e o cancelamento exige 30 dias de aviso.
+- **Contratação (Anuncie):** espaço, início, fidelidade, empresa (CNPJ ou CPF para a nota), segmento, responsável, texto do anúncio (limite de caracteres por espaço), link, logo e aceite do *Termo de Veiculação Publicitária*.
+- **Aprovação:** todo anúncio passa por aprovação em até 2 dias úteis (Admin → Mídia e anunciantes). A primeira cobrança acontece quando o anúncio entra no ar.
+- **Identificação e limites:** todo espaço leva o selo “Patrocinado”. Não há anúncio dentro das galerias de fotos nem pop-up. Anúncios enganosos, de apostas, de produtos proibidos ou que usem fotos da comunidade sem licença são recusados.
+- **Painel do anunciante (Minhas campanhas):** status, impressões, cliques, CTR, próxima cobrança, editar, pausar e cancelar.
+- **Admin:** receita recorrente mensal, ocupação de cada espaço, fila de aprovação e desempenho das campanhas.
+- **Dados:** relatórios agregados; nenhum dado pessoal dos usuários vai para o anunciante.
+- **Valores:** são referência e precisam ser validados com a audiência real.
+
 ### Pontos em aberto
 - Desafio da semana: além do desafio diário, haverá um desafio semanal? Como ele pontua?
 - Como exibir as fotos que não são do desafio do dia (galeria geral, por tema, por local).
@@ -399,4 +421,4 @@ Foto Criativa, IA, networking profissional, marketplace, app mobile e recursos p
 - Frequência padrão dos e-mails, para não virar excesso.
 - Razão social, CNPJ e revisão jurídica de todos os termos.
 
-Este pacote inclui uma página HTML para cada rota listada no PRD (68 telas), o design system em `design-system/` e um `index.html` que lista todas as telas por módulo, com pré-visualização em desktop e celular.
+Este pacote inclui uma página HTML para cada rota listada no PRD (71 telas), o design system em `design-system/` e um `index.html` que lista todas as telas por módulo, com pré-visualização em desktop e celular.

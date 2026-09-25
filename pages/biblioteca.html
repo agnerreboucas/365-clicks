@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("#indice [data-ref]").forEach(function (a) { a.setAttribute("aria-pressed", String(a.getAttribute("data-ref") === g[0] + "-" + slug(v))); });
     document.getElementById("detalhe").innerHTML =
       '<div><span class="tag">' + (g[0] === "equipamento" ? D.rotuloEquip(v) : g[1].slice(0, -1)) + '</span><h2 class="h1" style="margin-top:8px;font-size:var(--fs-56)">' + esc(v) + '</h2><p class="lead">' + esc((DEF[g[0]] || {})[v] || "") + "</p></div>" +
+      '<div data-anuncio="biblioteca" data-elemento="' + g[0] + "-" + slug(v) + '"></div>' +
       '<div class="row"><div class="panel stat"><span class="small">Aparece em</span><div class="metric">' + total + ' dias</div><span class="small">do calendário de 365</span></div><div class="panel stat"><span class="small">Próxima vez</span><div class="metric">' + (proximos[0] ? "Dia " + proximos[0].dia : "—") + '</div><span class="small">' + (proximos[0] ? esc(proximos[0].tema) : "") + "</span></div></div>" +
       '<section><h3>Conteúdo relacionado</h3><div class="list">' +
         [["Artigo", "O que é " + v.toLowerCase() + " e como praticar"], ["Fotógrafo de referência", "A definir pela curadoria"], ["Livro ou fotolivro", "A definir pela curadoria"], ["Filme ou documentário", "A definir pela curadoria"], ["Exercício", "Pratique " + v.toLowerCase() + " em 3 fotos antes do próximo desafio"]].map(function (i) {
@@ -45,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
       '<section><h3>Próximos desafios com ' + esc(v) + '</h3><div class="list">' + proximos.map(function (d) {
         return '<div class="list-item"><div class="date-block"><span class="m">' + d.data.toLocaleDateString("pt-BR", { month: "short" }).replace(".", "") + '</span><span class="d">' + d.data.getDate() + '</span><span class="w">dia ' + d.dia + '</span></div><div class="grow"><strong>' + esc(d.tema) + '</strong><div class="small muted">' + esc(d.combinacao) + "</div></div></div>";
       }).join("") + (proximos.length ? "" : '<p class="small">Nenhum dia restante neste ano.</p>') + "</div></section>";
+    if (window.Anuncios) window.Anuncios.render();
     window.scrollTo({ top: 0 });
   }
   window.addEventListener("hashchange", mostrar);

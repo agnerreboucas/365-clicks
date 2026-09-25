@@ -736,3 +736,18 @@ body.is-shielded .card img, body.is-shielded .viewer-img, body.is-shielded .feed
 .comment-extra:empty { display: none; }
 .comment-extra { margin-top: 6px; }
 .report { display: grid; gap: 8px; padding: var(--sp-3); border-radius: var(--r-md); background: var(--c-surface-2); }
+
+/* ---------- Mídia 365: espaços patrocinados ---------- */
+.ad-badge { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; }
+.promo-tag.is-ad { background: var(--c-surface-2); color: var(--c-ink); }
+.ad-line { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); padding: var(--sp-3) var(--sp-4); border: 1px dashed var(--c-line-strong); border-radius: var(--r-md); text-decoration: none; color: var(--c-ink); background: var(--c-surface); }
+.ad-line:hover { border-color: var(--c-ink); }
+.ad-line .ad-badge { margin-left: auto; }
+.ad-card { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: var(--sp-5); align-items: center; padding: var(--sp-4); border: 1px solid var(--c-line); border-radius: var(--r-lg); background: var(--c-surface); text-decoration: none; color: var(--c-ink); }
+.ad-card:hover { border-color: var(--c-ink); }
+.ad-img { aspect-ratio: 16 / 9; border-radius: var(--r-md); background: linear-gradient(160deg, var(--tone2), var(--tone)); }
+.ad-body { display: grid; gap: var(--sp-1); justify-items: start; }
+.ad-body strong { font-size: var(--fs-20); }
+.ad-vaga { display: block; padding: var(--sp-3) var(--sp-4); border: 1px dashed var(--c-line-strong); border-radius: var(--r-md); font-size: var(--fs-14); color: var(--c-muted); text-decoration: none; text-align: center; }
+.ad-vaga:hover { color: var(--c-ink); border-color: var(--c-ink); }
+@media (max-width: 640px) { .ad-card { grid-template-columns: 1fr; } }

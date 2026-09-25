@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>365 Clicks — Admin Mídia</title>
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="../design-system/components.css">
+<script src="../design-system/app.js" defer></script>
+<script src="anuncios.js" defer></script>
+</head><body data-page="admin-anuncios">
+<header data-shell><a class="logo" href="home.html">365·CLICKS</a></header>
+<main>
+<h1>Mídia e anunciantes</h1>
+<p>Espaços vendidos, receita recorrente e aprovação de anúncios.</p>
+<div class="row" style="margin:24px 0" id="kpis"></div>
+<div class="split">
+  <section><h2 style="margin-top:0">Aguardando aprovação</h2><div class="stack" id="fila" style="gap:12px"></div>
+  <h2>Campanhas no ar</h2><div class="table-wrap"><table class="table"><thead><tr><th>Anunciante</th><th>Espaço</th><th class="r">Mensalidade</th><th class="r">Impressões</th><th class="r">Cliques</th><th class="r">CTR</th></tr></thead><tbody id="ativas"></tbody></table></div></section>
+  <aside class="panel stack sticky" style="gap:12px"><span class="eyebrow">Ocupação dos espaços</span><div id="ocup" class="stack" style="gap:10px"></div></aside>
+</div>
+</main>
+<footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var A = window.Anuncios, C = window.C365, esc = A.esc;
+  function render() {
+    var todas = A.campanhas(), ativas = todas.filter(function (c) { return c.status === "ativa"; });
+    var mrr = ativas.reduce(function (a, c) { return a + (c.mensal || A.espaco(c.espaco).preco); }, 0);
+    var totalVagas = A.espacos.reduce(function (a, e) { return a + (e.id === "biblioteca" || e.id === "fotografo" ? 0 : e.vagas); }, 0);
+    var usadas = ativas.filter(function (c) { return c.espaco !== "biblioteca" && c.espaco !== "fotografo"; }).length;
+    document.getElementById("kpis").innerHTML = '<div class="panel stat"><span class="small">Receita recorrente mensal</span><div class="metric">' + A.brl(mrr) + '</div></div><div class="panel stat"><span class="small">Campanhas no ar</span><div class="metric">' + ativas.length + '</div></div><div class="panel stat"><span class="small">Ocupação dos espaços principais</span><div class="metric">' + Math.round(usadas / totalVagas * 100) + '%</div><span class="small">' + usadas + " de " + totalVagas + ' vagas</span></div><div class="panel stat"><span class="small">Em análise</span><div class="metric">' + todas.filter(function (c) { return c.status === "em análise"; }).length + "</div></div>";
+    document.getElementById("fila").innerHTML = todas.filter(function (c) { return c.status === "em análise"; }).map(function (c) {
+      var e = A.espaco(c.espaco);
+      return '<article class="panel stack" style="gap:8px"><div class="cluster" style="justify-content:space-between"><strong>' + esc(c.anunciante) + '</strong><span class="small muted">' + esc(e.nome) + " · " + A.brl(c.mensal || e.preco) + '/mês</span></div><span class="small muted">' + esc(c.segmento || "") + '</span><p style="margin:0">“' + esc(c.texto) + '”</p><span class="small">Destino: ' + esc(c.link) + '</span><div class="cluster"><button class="btn btn-primary btn-sm" type="button" data-dec="ativa" data-id="' + c.id + '">Aprovar e colocar no ar</button><button class="btn btn-secondary btn-sm" type="button" data-dec="recusada" data-id="' + c.id + '">Recusar</button></div></article>';
+    }).join("") || '<p class="small muted">Nenhum anúncio aguardando.</p>';
+    document.getElementById("ativas").innerHTML = ativas.map(function (c) { var m = A.metricas(c), e = A.espaco(c.espaco); return "<tr><td><strong>" + esc(c.anunciante) + "</strong>" + (c.exemplo ? ' <span class="badge plain">exemplo</span>' : "") + "</td><td>" + esc(e.nome) + '</td><td class="r">' + A.brl(c.mensal || e.preco) + '</td><td class="r">' + m.impressoes.toLocaleString("pt-BR") + '</td><td class="r">' + m.cliques.toLocaleString("pt-BR") + '</td><td class="r">' + (m.impressoes ? (m.cliques / m.impressoes * 100).toFixed(2).replace(".", ",") : "0") + "%</td></tr>"; }).join("");
+    document.getElementById("ocup").innerHTML = A.espacos.map(function (e) { var u = e.vagas - A.livres(e.id); return '<div><div class="cluster" style="justify-content:space-between"><span class="small">' + e.nome + '</span><span class="small num">' + u + "/" + e.vagas + '</span></div><div class="progress ink"><span style="width:' + (u / e.vagas * 100) + '%"></span></div></div>'; }).join("");
+  }
+  document.getElementById("fila").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-dec]"); if (!b) return;
+    var id = b.getAttribute("data-id"), st = b.getAttribute("data-dec"), lista = A.ler("c365-campanhas", []), achou = false;
+    lista.forEach(function (c) { if (c.id === id) { c.status = st; achou = true; } }); A.gravar("c365-campanhas", lista);
+    if (!achou) { var dec = A.ler("c365-ads-decisoes", {}); dec[id] = { status: st }; A.gravar("c365-ads-decisoes", dec); }
+    render(); C.toast(st === "ativa" ? "Anúncio no ar. Primeira cobrança gerada e e-mail enviado ao anunciante." : "Anúncio recusado. O anunciante recebe o motivo por e-mail.");
+  });
+  render();
+});
+</script>
+</body></html>

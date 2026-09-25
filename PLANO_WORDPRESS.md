@@ -1,12 +1,12 @@
 # 365 Clicks — do protótipo ao WordPress funcionando
 
 **Data:** 25/09/2026
-**Situação:** o protótipo HTML navegável (68 telas) está pronto para validar a experiência e o visual. Nada ainda grava em servidor: contas, fotos, contatos e pagamentos são simulados no navegador.
+**Situação:** o protótipo HTML navegável (71 telas) está pronto para validar a experiência e o visual. Nada ainda grava em servidor: contas, fotos, contatos e pagamentos são simulados no navegador.
 
 ## 1. Diagnóstico das telas
 
-### 1.1 Prontas como protótipo (interativas, conteúdo e regras definidos) — 32
-Home · Explorar · Fotografia · Feed · Meu Perfil · Editar Perfil · Publicar · Seguidores · Criar conta · Desafios 365 · Desafio do Dia · Projetos · Projeto · Eventos · Foto na Paulista · Foto no Parque · Palestra · Inscrição · Meus Ingressos · Termos e contratos · Cursos · Curso · Loja · A foto que eu nunca tirei · Blog · Biblioteca · Radar 365 · Admin Usuários · Admin Eventos · Admin Contatos e métricas · Admin Desafios · Admin Moderação
+### 1.1 Prontas como protótipo (interativas, conteúdo e regras definidos) — 35
+Home · Explorar · Fotografia · Feed · Meu Perfil · Editar Perfil · Publicar · Seguidores · Criar conta · Desafios 365 · Desafio do Dia · Projetos · Projeto · Eventos · Foto na Paulista · Foto no Parque · Palestra · Inscrição · Meus Ingressos · Termos e contratos · Cursos · Curso · Loja · A foto que eu nunca tirei · Blog · Biblioteca · Radar 365 · Admin Usuários · Admin Eventos · Admin Contatos e métricas · Admin Desafios · Admin Moderação · Anuncie · Minhas campanhas · Admin Mídia
 
 ### 1.2 Parciais (visual pronto, conteúdo de exemplo) — 4
 Fotografias · Coleções · Inspiração · Portfólio
@@ -89,7 +89,7 @@ Trocar o tema um dia não apaga os dados; atualizar o plugin não quebra o visua
 ### 3.3 Plugins de apoio sugeridos
 | Necessidade | Opção sugerida | Observação |
 |---|---|---|
-| Loja, checkout, ingressos, assinaturas | WooCommerce (+ Subscriptions) | Inscrições de eventos como produto; o fluxo de 5 etapas vira um checkout personalizado |
+| Loja, checkout, ingressos, assinaturas e mensalidade de anunciantes | WooCommerce (+ Subscriptions) | Inscrições de eventos como produto; o fluxo de 5 etapas vira um checkout personalizado |
 | Pix, cartão e boleto | Mercado Pago, Pagar.me ou Asaas | Escolher pelo custo e pela emissão de nota |
 | Cursos | Tutor LMS ou LearnDash | Aulas, progresso e certificados |
 | E-mail transacional | WP Mail SMTP + Amazon SES ou Brevo | Obrigatório para as notificações |

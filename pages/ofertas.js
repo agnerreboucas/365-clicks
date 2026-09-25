@@ -266,6 +266,21 @@
         ["8. Retirada", "Você pode pedir a retirada da sua história do blog a qualquer momento. Depois que o livro entra em produção, a história permanece naquela edição."]
       ]
     },
+    veiculacao: {
+      titulo: "Termo de Veiculação Publicitária · Mídia 365",
+      curto: "Termo de veiculação",
+      versao: "1.0",
+      secoes: [
+        ["1. Objeto", "Contratação de espaço publicitário na mídia do 365 Clicks (site, newsletter Radar 365 e espaços descritos na página Anuncie), pelo período e no espaço escolhidos."],
+        ["2. Mensalidade", "O valor é cobrado todo mês, de forma recorrente, no cartão, no boleto ou no Pix, a partir da data de início. A renovação é automática até o cancelamento."],
+        ["3. Aprovação do criativo", "Todo anúncio passa por aprovação antes de ir ao ar, em até 2 dias úteis. O 365 Clicks pode pedir ajustes ou recusar anúncios enganosos, ofensivos, ilegais, de apostas, de produtos proibidos ou que usem fotos da comunidade sem licença do autor."],
+        ["4. Identificação", "Todo espaço aparece com o selo “Patrocinado”. Anúncios não são exibidos dentro das galerias de fotos nem em pop-ups."],
+        ["5. Métricas", "O painel do anunciante mostra impressões (vezes que o espaço foi exibido) e cliques. Não há garantia de número mínimo de cliques ou vendas."],
+        ["6. Cancelamento", "O anunciante pode cancelar com 30 dias de aviso; o mês em curso não é reembolsado. O 365 Clicks pode suspender o anúncio que violar este termo."],
+        ["7. Dados", "O 365 Clicks não compartilha dados pessoais dos usuários com o anunciante. Os relatórios são agregados."],
+        ["8. Nota fiscal", "Emitida mensalmente em nome da empresa ou da pessoa informada na contratação."]
+      ]
+    },
     contato: {
       titulo: "Termo de Contato e Direitos Autorais",
       curto: "Termo de contato",
