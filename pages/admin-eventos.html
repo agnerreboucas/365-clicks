@@ -1,8 +1,45 @@
 <!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>365 Clicks — Admin Eventos</title>
 <link rel="stylesheet" href="../design-system/tokens.css">
 <link rel="stylesheet" href="../design-system/components.css">
-<script src="../design-system/app.js" defer></script></head><body data-page="admin-eventos">
+<script src="../design-system/app.js" defer></script>
+<script src="ofertas.js" defer></script>
+</head><body data-page="admin-eventos">
 <header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
-<main><h1>Admin Eventos</h1><p>Gestão de experiências</p><div class="row"><div class="panel stat"><span class="small">Usuários</span><div class="metric">12.480</div></div><div class="panel stat"><span class="small">Fotografias</span><div class="metric">84.210</div></div><div class="panel stat"><span class="small">Receita</span><div class="metric">R$ 48.900</div></div></div><h2>Atividade</h2><div class="panel">Tabela operacional, filtros, busca, ações de moderação e relatórios.</div></main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer></body></html>
+<main>
+<div class="cluster" style="justify-content:space-between"><div><h1>Eventos</h1><p style="margin:0">Inscrições, pagamentos e termos aceitos</p></div><div class="cluster"><button class="btn btn-secondary" type="button" data-toast="Lista de presença gerada (demonstração)">Lista de presença</button><button class="btn" type="button" data-toast="Exportação iniciada (demonstração)">Exportar CSV</button></div></div>
+<div class="row" style="margin-top:24px">
+  <div class="panel stat"><span class="small">Foto na Paulista · vagas</span><div class="metric">21/30</div><div class="progress ink" style="--value:70%;margin-top:8px"><span></span></div></div>
+  <div class="panel stat"><span class="small">Foto no Parque · vagas</span><div class="metric">37/60</div><div class="progress ink" style="--value:62%;margin-top:8px"><span></span></div></div>
+  <div class="panel stat"><span class="small">Receita confirmada</span><div class="metric">R$ 3.564</div><span class="delta up">+R$ 420 hoje</span></div>
+  <div class="panel stat"><span class="small">Boletos pendentes</span><div class="metric">3</div><span class="small">R$ 540,00</span></div>
+</div>
+<div class="cluster" style="margin:24px 0 12px"><form class="search-field" role="search" data-search style="flex:1;min-width:220px"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><label class="sr-only" for="q-insc">Buscar inscrito</label><input class="input" id="q-insc" type="search" placeholder="Buscar por nome, CPF, e-mail ou código"></form>
+<label class="sr-only" for="f-evento">Evento</label><select class="select" id="f-evento" style="width:auto"><option>Todos os eventos</option><option>Foto na Paulista</option><option>Foto no Parque</option><option>Curso Fotografia de Rua</option></select>
+<label class="sr-only" for="f-status">Status</label><select class="select" id="f-status" style="width:auto"><option>Todos os status</option><option>Pago</option><option>Aguardando</option><option>Cancelado</option></select></div>
+<div class="table-wrap"><table class="table"><thead><tr><th>Participante</th><th>Evento</th><th>Ingresso</th><th class="r">Valor</th><th>Pagamento</th><th>Uso de imagem</th><th>Contrato</th><th></th></tr></thead><tbody><tr><td><div class="who"><span class="avatar avatar-sm" style="--av:#f2e1cf">CR</span><div><strong>Camila Rocha</strong><div class="small">@camilarocha.foto</div></div></div></td><td>Foto na Paulista</td><td>Workshop + kit</td><td class="r">R$ 240,00</td><td><span class="badge badge-success">Pago · Pix</span></td><td><span class="badge badge-success plain">Aceito</span></td><td><span class="badge badge-success plain">Aceito</span></td><td class="r"><button class="btn btn-ghost btn-sm" type="button" data-modal-open="ficha">Ficha</button></td></tr><tr><td><div class="who"><span class="avatar avatar-sm" style="--av:#d9e3f2">BA</span><div><strong>Bruno Almeida</strong><div class="small">@brunoalm</div></div></div></td><td>Foto na Paulista</td><td>Workshop</td><td class="r">R$ 180,00</td><td><span class="badge badge-success">Pago · Cartão 3x</span></td><td><span class="badge badge-success plain">Aceito</span></td><td><span class="badge badge-success plain">Aceito</span></td><td class="r"><button class="btn btn-ghost btn-sm" type="button" data-modal-open="ficha">Ficha</button></td></tr><tr><td><div class="who"><span class="avatar avatar-sm" style="--av:#dcefe2">LM</span><div><strong>Lívia Martins</strong><div class="small">@livia.m</div></div></div></td><td>Foto na Paulista</td><td>Workshop</td><td class="r">R$ 180,00</td><td><span class="badge badge-warning">Aguardando boleto</span></td><td><span class="badge badge-success plain">Aceito</span></td><td><span class="badge badge-success plain">Aceito</span></td><td class="r"><button class="btn btn-ghost btn-sm" type="button" data-modal-open="ficha">Ficha</button></td></tr><tr><td><div class="who"><span class="avatar avatar-sm" style="--av:#ece0f2">TN</span><div><strong>Theo Nunes (16)</strong><div class="small">@theonunes</div></div></div></td><td>Foto na Paulista</td><td>Workshop</td><td class="r">R$ 144,00</td><td><span class="badge badge-success">Pago · Pix · Clube</span></td><td><span class="badge badge-success plain">Aceito</span></td><td><span class="badge badge-success plain">Aceito</span></td><td class="r"><button class="btn btn-ghost btn-sm" type="button" data-modal-open="ficha">Ficha</button></td></tr><tr><td><div class="who"><span class="avatar avatar-sm" style="--av:#f2dada">RD</span><div><strong>Rafaela Dias</strong><div class="small">@rafadias</div></div></div></td><td>Foto no Parque</td><td>Gratuita</td><td class="r">—</td><td><span class="badge badge-success">Confirmada</span></td><td><span class="badge badge-success plain">Aceito</span></td><td><span class="small">Não se aplica</span></td><td class="r"><button class="btn btn-ghost btn-sm" type="button" data-modal-open="ficha">Ficha</button></td></tr><tr><td><div class="who"><span class="avatar avatar-sm" style="--av:#e3e3dc">JL</span><div><strong>João Pedro Lima</strong><div class="small">sem Instagram</div></div></div></td><td>Foto no Parque</td><td>Gratuita</td><td class="r">—</td><td><span class="badge badge-danger">Cancelada</span></td><td><span class="badge badge-success plain">Aceito</span></td><td><span class="small">Não se aplica</span></td><td class="r"><button class="btn btn-ghost btn-sm" type="button" data-modal-open="ficha">Ficha</button></td></tr></tbody></table></div>
+<div class="modal" id="ficha" hidden role="dialog" aria-modal="true" aria-labelledby="ficha-t">
+  <div class="modal-backdrop" data-modal-close></div>
+  <div class="modal-dialog">
+    <button class="btn btn-ghost btn-icon modal-close" type="button" data-modal-close aria-label="Fechar"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <span class="mono">365-FNP-4821</span>
+    <h3 id="ficha-t" style="margin-top:6px">Camila Rocha</h3>
+    <dl class="kv" style="grid-template-columns:auto 1fr">
+      <dt>Nascimento</dt><dd style="text-align:left">12/03/1994 · 32 anos</dd>
+      <dt>CPF</dt><dd style="text-align:left">529.982.247-25</dd>
+      <dt>E-mail</dt><dd style="text-align:left">camila.rocha@email.com</dd>
+      <dt>Instagram</dt><dd style="text-align:left">@camilarocha.foto</dd>
+      <dt>Celular</dt><dd style="text-align:left">(11) 98765-4321</dd>
+      <dt>Recado</dt><dd style="text-align:left">(11) 3456-7890 · Sônia Rocha (mãe)</dd>
+      <dt>Endereço</dt><dd style="text-align:left">Av. Paulista, 900, apto 42 · Bela Vista · São Paulo, SP · 01310-200</dd>
+      <dt>Ingresso</dt><dd style="text-align:left">Workshop + kit · R$ 240,00 · Pix</dd>
+    </dl>
+    <h4 style="margin:20px 0 8px;font-family:var(--font-body)">Termos aceitos</h4>
+    <ul class="accepted small" style="list-style:none;padding:0;margin:0;display:grid;gap:4px"><li>Uso de imagem v1.0 · 25/09/2026 14:32</li><li>Contrato v1.0 · 25/09/2026 14:32</li><li>Participação v1.0 · 25/09/2026 14:32</li><li>Privacidade v1.0 · 25/09/2026 14:32</li></ul>
+    <div class="modal-foot"><button class="btn btn-secondary" type="button" data-modal-close data-toast="Check-in registrado">Fazer check-in</button><button class="btn" type="button" data-modal-close data-toast="Termos enviados por e-mail (demonstração)">Enviar cópia dos termos</button></div>
+  </div>
+</div>
+</main>
+<footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
+</body></html>

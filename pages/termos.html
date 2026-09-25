@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>365 Clicks — Termos e contratos</title>
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="../design-system/components.css">
+<script src="../design-system/app.js" defer></script>
+<script src="ofertas.js" defer></script>
+</head><body data-page="termos">
+<header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
+<main>
+<h1>Termos e contratos</h1>
+<p>Documentos aceitos na inscrição em eventos e cursos. Os campos entre colchetes são preenchidos com os dados de cada participante no momento da inscrição.</p>
+<div class="notice warning" style="margin:16px 0 24px;max-width:720px"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.5 20h19z"/><path d="M12 10v4M12 17h.01"/></svg><span>Modelos para o protótipo. Precisam de revisão jurídica, razão social e CNPJ antes do uso real.</span></div>
+<div class="split"><div id="termos-docs" class="stack" style="gap:40px"></div>
+<nav class="panel stack sticky" aria-label="Documentos" id="termos-toc" style="gap:6px"><span class="eyebrow">Documentos</span></nav></div>
+</main>
+<footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var O = window.Ofertas, host = document.getElementById("termos-docs"), toc = document.getElementById("termos-toc");
+  Object.keys(O.termos).forEach(function (id) {
+    var t = O.termos[id];
+    host.insertAdjacentHTML("beforeend", '<section id="' + id + '" style="scroll-margin-top:90px"><span class="eyebrow">Versão ' + t.versao + '</span><h2 style="margin-top:4px">' + t.titulo + '</h2><div class="doc-body" style="max-height:none;border:0;padding:0">' + O.termoHTML(id) + "</div></section>");
+    toc.insertAdjacentHTML("beforeend", '<a href="#' + id + '" class="small" style="text-decoration:none;padding:4px 0">' + t.titulo + "</a>");
+  });
+  if (location.hash) { var el = document.getElementById(location.hash.slice(1)); if (el) el.scrollIntoView(); }
+});
+</script>
+</body></html>

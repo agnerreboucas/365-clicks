@@ -195,6 +195,32 @@ Cursos gravados, aulas ao vivo, e-books, exercícios, materiais e certificados.
 - Foto no Parque — encontro gratuito.
 - Futuras saídas fotográficas e experiências.
 
+### 13.1 Inscrições em eventos e cursos
+Fluxo único para eventos e cursos, pagos ou gratuitos, no modelo de plataformas de ingressos (ex.: Sympla).
+
+**Página da oferta:** capa, data, horário, local com link "Como chegar", vagas restantes, organização, descrição, programação ou conteúdo, o que está incluído, requisitos, termos aplicáveis e ingressos com preço. No celular, uma barra fixa mostra o preço e o botão Inscrever-se.
+
+**Etapas:**
+1. **Ingresso** — escolha da modalidade (ex.: Workshop, Workshop + kit). Desconto automático para assinantes do plano Clube.
+2. **Seus dados** — nome completo, data de nascimento (com idade calculada), CPF (obrigatório quando há contrato), e-mail, Instagram, celular/WhatsApp, telefone de recado com nome e relação da pessoa, e endereço completo (CEP, rua, número, complemento, bairro, cidade, UF). Com menos de 18 anos, passam a ser obrigatórios nome, CPF e telefone do responsável legal.
+3. **Termos** — leitura e aceite individual de cada documento, já preenchido com os dados da inscrição:
+   - Termo de Autorização de Uso de Imagem e Voz;
+   - Contrato de Prestação de Serviços (somente ofertas pagas);
+   - Termos de Participação e Política de Cancelamento;
+   - Política de Privacidade (LGPD);
+   - opcional: aceite para receber novidades.
+4. **Pagamento** (somente ofertas pagas) — Pix (QR code e copia e cola, 30 min), cartão (parcelado sem juros) ou boleto (vaga reservada até a compensação).
+5. **Confirmação** — ingresso com código e QR code, status do pagamento, envio por e-mail e WhatsApp e registro de aceite de cada termo (versão, data e hora, e responsável quando houver).
+
+**Regras:**
+- Validação de CPF, e-mail, telefone (DDD + número) e CEP, com máscaras.
+- Cada aceite guarda a versão do documento, a data e a hora e o IP. Uma nova versão do termo não altera aceites anteriores.
+- Cancelamento: arrependimento em 7 dias (CDC, art. 49); reembolso integral até 7 dias antes; crédito entre 6 dias e 48 h; sem reembolso com menos de 48 h. Transferência para outra pessoa até 48 h antes.
+- Atividades gratuitas: três ausências sem aviso bloqueiam novas inscrições gratuitas por 60 dias.
+- Os textos legais do protótipo são modelos e precisam de revisão jurídica, razão social e CNPJ.
+
+**Telas:** Eventos, Cursos, página da oferta (Foto na Paulista, Foto no Parque, Curso), Inscrição, Meus Ingressos, Termos e contratos e, na administração, a lista de inscritos com status de pagamento, termos aceitos, ficha do participante, check-in, lista de presença e exportação.
+
 ## 14. Foto Criativa
 Ferramentas:
 - gerar ideia;
@@ -279,4 +305,4 @@ Foto Criativa, IA, networking profissional, marketplace, app mobile e recursos p
 - Conclusão de cursos.
 
 ## 22. Protótipo
-Este pacote inclui uma página HTML para cada rota listada no PRD e um `index.html` que apresenta todas as telas em iframes para inspeção visual.
+Este pacote inclui uma página HTML para cada rota listada no PRD (61 telas), o design system em `design-system/` e um `index.html` que lista todas as telas por módulo, com pré-visualização em desktop e celular.

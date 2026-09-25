@@ -5,13 +5,17 @@ Plataforma visual para fotógrafos: descoberta, desafio diário de 365 dias, com
 ## Conteúdo
 
 - `PRD_365_CLICKS.md` — PRD v2.0 (Home como galeria viva, inspirada na lógica de descoberta visual).
-- `index.html` — índice do protótipo: as 58 telas por módulo, com pré-visualização em desktop ou celular.
+- `index.html` — índice do protótipo: as 61 telas por módulo, com pré-visualização em desktop ou celular.
 - `design-system/` — design system v1.0 do 365 Clicks:
   - `tokens.css` — cor (tema claro e escuro), tipografia, espaço, raio, sombra e movimento.
   - `components.css` — botões, formulários, chips, badges, avatares, foto e grid Masonry, 365 Challenge, métricas, tabela, listas, abas, estado vazio, modal, toast, cabeçalho e navegação mobile.
-  - `app.js` — mapa do site (fonte única das 58 telas) e shell compartilhado: cabeçalho, menu "Mais", gaveta e barra inferior mobile, abas do módulo, rodapé, Masonry por linha, tema, modais e toasts.
+  - `app.js` — mapa do site (fonte única das 61 telas) e shell compartilhado: cabeçalho, menu "Mais", gaveta e barra inferior mobile, abas do módulo, rodapé, Masonry por linha, tema, modais e toasts.
   - `index.html` — guia visual com todos os tokens e componentes.
-- `pages/` — 58 telas HTML (Portal, Comunidade, 365 Challenge, Portfólio, Educação, Experiências, Foto Criativa, Comercial, Administração). Home, Desafio do Dia, Fotografia, Meu Perfil e Admin Usuários já foram refeitas com os componentes; as demais usam o sistema, mas ainda têm o conteúdo genérico do protótipo.
+- `pages/` — 61 telas HTML (Portal, Comunidade, 365 Challenge, Portfólio, Educação, Experiências, Foto Criativa, Comercial, Administração). Home, Desafio do Dia, Fotografia, Meu Perfil, Admin Usuários e todo o fluxo de eventos e cursos (vitrines, páginas das ofertas, Inscrição, Meus Ingressos, Termos e Admin Eventos) já usam os componentes; as demais usam o sistema, mas ainda têm o conteúdo genérico do protótipo.
+
+## Eventos e cursos
+
+`pages/ofertas.js` guarda os eventos, os cursos e os textos dos termos (uso de imagem, contrato, participação e privacidade). Para criar uma oferta nova, adicione um item em `OFERTAS` e uma página com `<div data-oferta="slug"></div>`. A inscrição fica em `inscricao.html#slug`.
 
 ## Nova tela
 
@@ -42,4 +46,4 @@ python3 -m http.server 8000
 
 ## Próxima etapa
 
-Refazer as 53 telas restantes com os componentes do design system, módulo por módulo.
+Refazer as telas restantes com os componentes do design system, módulo por módulo.

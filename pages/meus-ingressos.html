@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>365 Clicks — Meus ingressos</title>
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="../design-system/components.css">
+<script src="../design-system/app.js" defer></script>
+<script src="ofertas.js" defer></script>
+</head><body data-page="meus-ingressos">
+<header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
+<main>
+<h1>Meus ingressos</h1><p>Inscrições em eventos e cursos, com status de pagamento e os termos que você aceitou.</p>
+<div class="tabs" role="tablist"><button role="tab" type="button" aria-selected="true">Próximos</button><button role="tab" type="button" aria-selected="false">Anteriores</button><button role="tab" type="button" aria-selected="false">Cancelados</button></div>
+<div class="stack" id="lista"></div>
+</main>
+<footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var O = window.Ofertas, host = document.getElementById("lista"), salvos = [];
+  try { salvos = JSON.parse(localStorage.getItem("c365-inscricoes") || "[]"); } catch (e) {}
+  var exemplos = [
+    { codigo: "365-FNP-4821", slug: "foto-na-paulista", ingresso: "Workshop", total: 180, status: "Pago · Pix", ok: true, exemplo: true },
+    { codigo: "365-FPQ-0973", slug: "foto-no-parque", ingresso: "Inscrição gratuita", total: 0, status: "Inscrição confirmada", ok: true, exemplo: true }
+  ];
+  var itens = salvos.concat(exemplos);
+  host.innerHTML = itens.map(function (r) {
+    var o = O.lista[r.slug]; if (!o) return "";
+    return '<article class="panel"><div class="cluster" style="align-items:flex-start;gap:16px">' +
+      '<div class="date-block"><span class="m">' + o.dia.m + '</span><span class="d">' + o.dia.d + '</span><span class="w">' + o.dia.w + "</span></div>" +
+      '<div style="flex:1;min-width:200px"><span class="eyebrow">' + O.esc(o.categoria) + (r.exemplo ? " · exemplo" : "") + '</span><h3 style="margin:2px 0">' + O.esc(o.titulo) + '</h3><div class="small">' + O.esc(o.horario) + " · " + O.esc(o.local) + "</div>" +
+      '<div class="cluster" style="margin-top:10px"><span class="badge ' + (r.ok ? "badge-success" : "badge-warning") + '">' + O.esc(r.status) + '</span><span class="mono">' + r.codigo + '</span><span class="small">' + O.esc(r.ingresso) + " · " + O.brl(r.total) + "</span></div></div>" +
+      '<div class="cluster"><button class="btn btn-secondary btn-sm" type="button" data-toast="Transferência: disponível até 48 h antes">Transferir</button><button class="btn btn-ghost btn-sm" type="button" data-modal-open="cancelar">Cancelar</button><a class="btn btn-sm" href="' + (O.pagina[r.slug] || "eventos.html") + '">Ver página</a></div>' +
+      "</div></article>";
+  }).join("");
+});
+</script>
+<div class="modal" id="cancelar" hidden role="dialog" aria-modal="true" aria-labelledby="cancelar-t">
+  <div class="modal-backdrop" data-modal-close></div>
+  <div class="modal-dialog">
+    <h3 id="cancelar-t">Cancelar inscrição?</h3>
+    <p>Faltando mais de 7 dias, o reembolso é integral. Entre 6 dias e 48 horas antes, o valor vira crédito para outra atividade. A vaga é liberada para a lista de espera.</p>
+    <a class="small" href="termos.html#participacao">Ler a política de cancelamento</a>
+    <div class="modal-foot"><button class="btn btn-ghost" type="button" data-modal-close>Manter inscrição</button><button class="btn btn-danger" type="button" data-modal-close data-toast="Inscrição cancelada. O reembolso aparece em até 5 dias úteis.">Cancelar inscrição</button></div>
+  </div>
+</div>
+</body></html>

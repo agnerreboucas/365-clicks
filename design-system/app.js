@@ -60,7 +60,10 @@
     { id: "experiencias", name: "Experiências", pages: [
       ["eventos", "Eventos", "Experiências presenciais"],
       ["foto-na-paulista", "Foto na Paulista", "Workshop fotográfico"],
-      ["foto-no-parque", "Foto no Parque", "Encontro gratuito"]
+      ["foto-no-parque", "Foto no Parque", "Encontro gratuito"],
+      ["inscricao", "Inscrição", "Ingresso, dados, termos e pagamento"],
+      ["meus-ingressos", "Meus Ingressos", "Inscrições, status e cancelamento"],
+      ["termos", "Termos e contratos", "Uso de imagem, contrato e cancelamento"]
     ]},
     { id: "criativa", name: "Foto Criativa", pages: [
       ["foto-criativa", "Foto Criativa", "Ferramentas para desbloquear ideias"],

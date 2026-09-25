@@ -112,7 +112,7 @@ main {
 .chips { display: flex; gap: var(--sp-2); overflow-x: auto; padding: 2px 2px var(--sp-3); margin: var(--sp-5) 0 var(--sp-2); scrollbar-width: none; }
 .chips::-webkit-scrollbar { display: none; }
 .chip {
-  display: inline-flex; align-items: center; gap: 6px; flex: none;
+  display: inline-flex; align-items: center; gap: 6px; flex: none; text-decoration: none;
   min-height: 36px; padding: 0 var(--sp-4);
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-pill);
   font-size: var(--fs-sm); font-weight: 500; color: var(--ink-2); white-space: nowrap; cursor: pointer;
@@ -440,3 +440,120 @@ main {
 .btn-secondary[aria-pressed="true"] { background: var(--ink); color: var(--ink-inverse); border-color: var(--ink); }
 .btn:not(.btn-secondary)[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
 .panel .cluster h3 { margin: 0; }
+
+/* ---------- Eventos, cursos e inscrição ---------- */
+/* Etapas do fluxo (inscrição, checkout) */
+.steps { display: flex; gap: var(--sp-2); list-style: none; margin: var(--sp-5) 0 var(--sp-6); padding: 0; counter-reset: step; overflow-x: auto; scrollbar-width: none; }
+.steps::-webkit-scrollbar { display: none; }
+.steps li { flex: 1 0 auto; display: flex; align-items: center; gap: var(--sp-2); padding-top: var(--sp-3); border-top: 3px solid var(--line); font-size: var(--fs-sm); color: var(--ink-3); white-space: nowrap; counter-increment: step; }
+.steps li::before { content: counter(step); display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--surface-2); font-family: var(--font-mono); font-size: var(--fs-xs); color: var(--ink-2); flex: none; }
+.steps li.done { border-top-color: var(--ink); color: var(--ink-2); }
+.steps li.done::before { content: "✓"; background: var(--ink); color: var(--ink-inverse); }
+.steps li[aria-current="step"] { border-top-color: var(--accent); color: var(--ink); font-weight: 700; }
+.steps li[aria-current="step"]::before { background: var(--accent); color: var(--on-accent); }
+
+/* Opção selecionável (ingresso, forma de pagamento) */
+.options { display: grid; gap: var(--sp-3); }
+.option { position: relative; display: flex; align-items: flex-start; gap: var(--sp-3); padding: var(--sp-4); background: var(--surface); border: 1.5px solid var(--line); border-radius: var(--r-md); cursor: pointer; transition: border-color var(--dur-fast), background var(--dur-fast); }
+.option:hover { border-color: var(--line-strong); }
+.option input { margin: 3px 0 0; width: 18px; height: 18px; accent-color: var(--ink); flex: none; }
+.option:has(input:checked) { border-color: var(--ink); background: color-mix(in srgb, var(--surface-2) 45%, var(--surface)); }
+.option:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 2px; }
+.option .grow { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.option .price { font-family: var(--font-display); font-weight: 800; font-size: var(--fs-xl); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.option.is-disabled { opacity: .5; pointer-events: none; }
+.options.inline { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+.options.inline .option { align-items: center; }
+
+/* Grade de campos do formulário */
+.form-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--sp-4); }
+.form-grid > .col-6 { grid-column: span 6; }
+.form-grid > .col-4 { grid-column: span 4; }
+.form-grid > .col-3 { grid-column: span 3; }
+.form-grid > .col-2 { grid-column: span 2; }
+@media (max-width: 640px) { .form-grid > [class*="col-"] { grid-column: span 6; } }
+.fieldset { border: 0; padding: 0; margin: 0 0 var(--sp-7); }
+.fieldset legend { font-family: var(--font-display); font-weight: 800; font-size: var(--fs-lg); padding: 0; margin-bottom: var(--sp-4); }
+.req { color: var(--danger); margin-left: 2px; }
+
+/* Documento com rolagem (termos, contratos) */
+.doc { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); }
+.doc > summary { list-style: none; display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-4); cursor: pointer; font-weight: 700; }
+.doc > summary::-webkit-details-marker { display: none; }
+.doc > summary .grow { flex: 1; }
+.doc > summary .i { transition: transform var(--dur); color: var(--ink-3); }
+.doc[open] > summary .i { transform: rotate(180deg); }
+.doc-body { max-height: 280px; overflow-y: auto; padding: 0 var(--sp-5) var(--sp-5); font-size: var(--fs-sm); line-height: 1.7; color: var(--ink-2); border-top: 1px solid var(--line); }
+.doc-body h4 { font-family: var(--font-body); font-size: var(--fs-sm); font-weight: 700; color: var(--ink); margin: var(--sp-4) 0 var(--sp-1); }
+.doc-body p { font-size: var(--fs-sm); margin: 0 0 var(--sp-2); max-width: none; }
+.doc + .doc { margin-top: var(--sp-3); }
+.accept { display: flex; align-items: flex-start; gap: var(--sp-3); padding: var(--sp-3) var(--sp-4); margin-top: var(--sp-2); border-radius: var(--r-md); background: var(--surface-2); font-size: var(--fs-sm); cursor: pointer; }
+.accept input { width: 18px; height: 18px; margin-top: 1px; accent-color: var(--ink); flex: none; }
+.accept[aria-invalid="true"] { box-shadow: inset 0 0 0 1.5px var(--danger); }
+
+/* Pares rótulo / valor */
+.kv { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--sp-2) var(--sp-4); margin: 0; font-size: var(--fs-sm); }
+.kv dt { color: var(--ink-3); }
+.kv dd { margin: 0; text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+.kv .total { font-family: var(--font-display); font-weight: 800; font-size: var(--fs-xl); color: var(--ink); }
+
+/* Aviso em linha */
+.notice { display: flex; gap: var(--sp-3); padding: var(--sp-3) var(--sp-4); border-radius: var(--r-md); background: var(--info-soft); color: var(--ink); font-size: var(--fs-sm); }
+.notice .i { color: var(--info); margin-top: 2px; }
+.notice.warning { background: var(--warning-soft); }
+.notice.warning .i { color: var(--warning); }
+.notice.success { background: var(--success-soft); }
+.notice.success .i { color: var(--success); }
+
+/* Bloco de data (calendário de mesa) */
+.date-block { display: grid; place-items: center; width: 64px; padding: var(--sp-2) 0; border-radius: var(--r-md); background: var(--surface); border: 1px solid var(--line); line-height: 1.1; flex: none; }
+.date-block .m { font-size: var(--fs-xs); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent-ink); }
+.date-block .d { font-family: var(--font-display); font-size: var(--fs-2xl); font-weight: 800; }
+.date-block .w { font-size: var(--fs-xs); color: var(--ink-3); }
+
+/* Card de evento / curso */
+.offers { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: var(--sp-5); }
+.offer { display: flex; flex-direction: column; gap: var(--sp-3); text-decoration: none; color: inherit; }
+.offer .cover { height: auto; aspect-ratio: 16 / 9; margin: 0; border-radius: var(--r-md); position: relative; transition: transform var(--dur) var(--ease); }
+.offer:hover .cover { transform: scale(1.01); }
+.offer .cover .badge { position: absolute; top: var(--sp-3); left: var(--sp-3); }
+.offer .body { display: flex; gap: var(--sp-3); }
+.offer h3 { margin: 0 0 2px; font-size: var(--fs-lg); }
+.offer .price-line { font-weight: 700; margin-top: var(--sp-1); }
+
+/* Barra de inscrição fixa (mobile) */
+.buy-bar { display: none; }
+@media (max-width: 900px) {
+  .buy-bar { display: flex; align-items: center; gap: var(--sp-3); position: fixed; left: 0; right: 0; z-index: 24; bottom: 0; padding: var(--sp-3) var(--gutter) calc(var(--sp-3) + env(safe-area-inset-bottom, 0px)); background: var(--surface); border-top: 1px solid var(--line); }
+  body.has-shell .buy-bar { bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px)); padding-bottom: var(--sp-3); }
+  .buy-bar .grow { flex: 1; min-width: 0; }
+  body.has-buy-bar main { padding-bottom: 120px; }
+}
+@media (min-width: 801px) and (max-width: 900px) { body.has-shell .buy-bar { bottom: 0; } }
+
+/* Painel lateral fixo (resumo da compra, ingressos) */
+.sticky { position: sticky; top: calc(var(--header-h) + var(--sp-5)); }
+
+/* Ingresso */
+.ticket { display: grid; grid-template-columns: minmax(0, 1fr) auto; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; }
+.ticket-main { padding: var(--sp-6); display: grid; gap: var(--sp-3); }
+.ticket-stub { position: relative; display: grid; place-items: center; gap: var(--sp-2); padding: var(--sp-6); border-left: 2px dashed var(--line-strong); background: var(--surface-2); text-align: center; }
+.ticket-stub::before, .ticket-stub::after { content: ""; position: absolute; left: -12px; width: 22px; height: 22px; border-radius: 50%; background: var(--bg); }
+.ticket-stub::before { top: -12px; }
+.ticket-stub::after { bottom: -12px; }
+.ticket .code { font-family: var(--font-mono); font-size: var(--fs-md); font-weight: 500; letter-spacing: .06em; }
+.qr { width: 132px; height: 132px; image-rendering: pixelated; background: #fff; padding: 8px; border-radius: var(--r-sm); }
+@media (max-width: 640px) {
+  .ticket { grid-template-columns: 1fr; }
+  .ticket-stub { border-left: 0; border-top: 2px dashed var(--line-strong); }
+  .ticket-stub::before, .ticket-stub::after { top: -12px; left: auto; bottom: auto; }
+  .ticket-stub::before { left: -12px; }
+  .ticket-stub::after { right: -12px; }
+}
+
+/* Linha do tempo (programação, módulos) */
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; }
+.timeline li { display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: var(--sp-4); padding: var(--sp-3) 0; border-bottom: 1px solid var(--line); }
+.timeline li:last-child { border-bottom: 0; }
+.timeline .t { font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--accent-ink); font-variant-numeric: tabular-nums; }
+.timeline strong { display: block; }

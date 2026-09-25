@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>365 Clicks — Inscrição</title>
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="../design-system/components.css">
+<script src="../design-system/app.js" defer></script>
+<script src="ofertas.js" defer></script>
+<style>
+.flow-demo { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); margin-bottom: var(--sp-5); padding: var(--sp-3) var(--sp-4); border: 1px dashed var(--line-strong); border-radius: var(--r-md); }
+.flow-demo .chips { margin: 0; padding: 0; }
+.step[hidden] { display: none; }
+.step h2 { margin-top: 0; }
+.step-foot { display: flex; justify-content: space-between; gap: var(--sp-3); margin-top: var(--sp-6); flex-wrap: wrap; }
+.summary .thumb { height: 120px; margin: 0; border-radius: var(--r-md); }
+.summary h3 { margin: 0; font-size: var(--fs-lg); }
+.at { position: relative; }
+.at::before { content: "@"; position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--ink-3); }
+.at .input { padding-left: 30px; }
+.pix { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--sp-5); align-items: center; }
+.pix code { display: block; font-family: var(--font-mono); font-size: var(--fs-xs); word-break: break-all; padding: var(--sp-3); background: var(--surface-2); border-radius: var(--r-sm); color: var(--ink-2); }
+@media (max-width: 640px) { .pix { grid-template-columns: 1fr; justify-items: start; } }
+.spinner { width: 18px; height: 18px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.accepted { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sp-2); font-size: var(--fs-sm); }
+.accepted li { display: flex; gap: var(--sp-2); align-items: flex-start; }
+.accepted .i { color: var(--success); margin-top: 2px; }
+</style>
+</head><body data-page="inscricao">
+<header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
+<main>
+<div id="app">
+  <div class="flow-demo"><span class="eyebrow">Demonstração do fluxo</span><div class="chips" id="flow-switch"></div></div>
+  <a class="small" id="back" href="eventos.html">← Voltar</a>
+  <h1 style="margin-top:8px">Inscrição</h1>
+  <ol class="steps" id="steps"></ol>
+
+  <div class="split">
+    <form id="form" novalidate>
+      <!-- 1. Ingresso -->
+      <section class="step" data-step="ingresso">
+        <h2>Escolha o ingresso</h2>
+        <div class="options" id="tickets"></div>
+        <label class="switch" id="clube-wrap" style="margin-top:16px"><input type="checkbox" id="clube"> Sou assinante do plano Clube</label>
+        <div class="step-foot"><span></span><button class="btn btn-lg" type="button" data-next>Continuar</button></div>
+      </section>
+
+      <!-- 2. Dados -->
+      <section class="step" data-step="dados" hidden>
+        <div class="cluster" style="justify-content:space-between;margin-bottom:16px"><h2 style="margin:0">Seus dados</h2><button class="btn btn-ghost btn-sm" type="button" id="exemplo">Preencher com exemplo</button></div>
+        <fieldset class="fieldset">
+          <legend>Participante</legend>
+          <div class="form-grid">
+            <div class="field col-4"><label class="label" for="nome">Nome completo<span class="req">*</span></label><input class="input" id="nome" name="nome" autocomplete="name" required><span class="hint">Como deve aparecer no certificado.</span></div>
+            <div class="field col-2"><label class="label" for="nasc">Data de nascimento<span class="req">*</span></label><input class="input" id="nasc" name="nasc" type="date" required><span class="hint" id="idade">&nbsp;</span></div>
+            <div class="field col-3"><label class="label" for="cpf">CPF<span class="req" data-cpf-req>*</span></label><input class="input" id="cpf" name="cpf" inputmode="numeric" placeholder="000.000.000-00" data-mask="cpf" required><span class="hint" data-cpf-hint>Necessário para o contrato e a nota fiscal.</span></div>
+            <div class="field col-3"><label class="label" for="email">E-mail<span class="req">*</span></label><input class="input" id="email" name="email" type="email" autocomplete="email" required><span class="hint">O ingresso é enviado para este e-mail.</span></div>
+            <div class="field col-3"><label class="label" for="insta">Instagram</label><div class="at"><input class="input" id="insta" name="insta" placeholder="seuperfil" data-mask="insta"></div><span class="hint">Para marcar você nas fotos do evento.</span></div>
+          </div>
+        </fieldset>
+        <fieldset class="fieldset">
+          <legend>Telefones</legend>
+          <div class="form-grid">
+            <div class="field col-3"><label class="label" for="tel">Celular / WhatsApp<span class="req">*</span></label><input class="input" id="tel" name="tel" type="tel" inputmode="numeric" autocomplete="tel" placeholder="(11) 98765-4321" data-mask="tel" required></div>
+            <div class="field col-3"><label class="label" for="tel2">Telefone de recado<span class="req">*</span></label><input class="input" id="tel2" name="tel2" type="tel" inputmode="numeric" placeholder="(11) 3456-7890" data-mask="tel" required><span class="hint">Usado só em emergência durante a atividade.</span></div>
+            <div class="field col-3"><label class="label" for="recado">Falar com<span class="req">*</span></label><input class="input" id="recado" name="recado" placeholder="Nome da pessoa" required></div>
+            <div class="field col-3"><label class="label" for="relacao">Relação com você</label><select class="select" id="relacao" name="relacao"><option>Mãe / pai</option><option>Cônjuge</option><option>Irmão / irmã</option><option>Amigo / amiga</option><option>Outro</option></select></div>
+          </div>
+        </fieldset>
+        <fieldset class="fieldset">
+          <legend>Endereço</legend>
+          <div class="form-grid">
+            <div class="field col-2"><label class="label" for="cep">CEP<span class="req">*</span></label><input class="input" id="cep" name="cep" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" data-mask="cep" required></div>
+            <div class="field col-4"><label class="label" for="rua">Rua<span class="req">*</span></label><input class="input" id="rua" name="rua" autocomplete="address-line1" required></div>
+            <div class="field col-2"><label class="label" for="num">Número<span class="req">*</span></label><input class="input" id="num" name="num" required></div>
+            <div class="field col-4"><label class="label" for="compl">Complemento</label><input class="input" id="compl" name="compl"></div>
+            <div class="field col-2"><label class="label" for="bairro">Bairro<span class="req">*</span></label><input class="input" id="bairro" name="bairro" required></div>
+            <div class="field col-2"><label class="label" for="cidade">Cidade<span class="req">*</span></label><input class="input" id="cidade" name="cidade" autocomplete="address-level2" required></div>
+            <div class="field col-2"><label class="label" for="uf">UF<span class="req">*</span></label><select class="select" id="uf" name="uf" required><option value="">—</option><option>AC</option><option>AL</option><option>AM</option><option>AP</option><option>BA</option><option>CE</option><option>DF</option><option>ES</option><option>GO</option><option>MA</option><option>MG</option><option>MS</option><option>MT</option><option>PA</option><option>PB</option><option>PE</option><option>PI</option><option>PR</option><option>RJ</option><option>RN</option><option>RO</option><option>RR</option><option>RS</option><option>SC</option><option>SE</option><option selected>SP</option><option>TO</option></select></div>
+          </div>
+        </fieldset>
+        <fieldset class="fieldset" id="responsavel" hidden>
+          <legend>Responsável legal</legend>
+          <div class="notice warning" style="margin-bottom:16px"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.5 20h19z"/><path d="M12 10v4M12 17h.01"/></svg><span>Participantes com menos de 18 anos precisam de um responsável. Ele assina os termos e a autorização de uso de imagem.</span></div>
+          <div class="form-grid">
+            <div class="field col-3"><label class="label" for="resp-nome">Nome do responsável<span class="req">*</span></label><input class="input" id="resp-nome" name="resp-nome" data-resp></div>
+            <div class="field col-3"><label class="label" for="resp-cpf">CPF do responsável<span class="req">*</span></label><input class="input" id="resp-cpf" name="resp-cpf" inputmode="numeric" placeholder="000.000.000-00" data-mask="cpf" data-resp></div>
+            <div class="field col-3"><label class="label" for="resp-tel">Telefone do responsável<span class="req">*</span></label><input class="input" id="resp-tel" name="resp-tel" type="tel" inputmode="numeric" data-mask="tel" data-resp></div>
+          </div>
+        </fieldset>
+        <div class="step-foot"><button class="btn btn-ghost btn-lg" type="button" data-prev>Voltar</button><button class="btn btn-lg" type="button" data-next>Continuar</button></div>
+      </section>
+
+      <!-- 3. Termos -->
+      <section class="step" data-step="termos" hidden>
+        <h2>Termos e autorização</h2>
+        <p>Leia cada documento. Os campos em colchetes já estão preenchidos com os seus dados.</p>
+        <div id="docs"></div>
+        <label class="check" style="margin-top:20px"><input type="checkbox" id="news"> Quero receber novidades de eventos e cursos por e-mail e WhatsApp (opcional)</label>
+        <div class="step-foot"><button class="btn btn-ghost btn-lg" type="button" data-prev>Voltar</button><button class="btn btn-lg" type="button" data-next id="termos-next">Continuar</button></div>
+      </section>
+
+      <!-- 4. Pagamento -->
+      <section class="step" data-step="pagamento" hidden>
+        <h2>Pagamento</h2>
+        <div class="options inline" role="radiogroup" aria-label="Forma de pagamento">
+          <label class="option"><input type="radio" name="pag" value="pix" checked><div class="grow"><strong>Pix</strong><span class="small">Aprovação na hora</span></div></label>
+          <label class="option"><input type="radio" name="pag" value="cartao"><div class="grow"><strong>Cartão</strong><span class="small" id="parc-hint">Em até 3x</span></div></label>
+          <label class="option"><input type="radio" name="pag" value="boleto"><div class="grow"><strong>Boleto</strong><span class="small">Até 2 dias úteis</span></div></label>
+        </div>
+        <div class="panel" style="margin-top:16px" data-pag="pix">
+          <div id="pix-before"><p style="margin:0">O código Pix vale por 30 minutos. A vaga fica reservada durante esse tempo.</p></div>
+          <div class="pix" id="pix-after" hidden><canvas class="qr" id="pix-qr" width="29" height="29" aria-label="QR code Pix ilustrativo"></canvas><div class="stack" style="gap:8px"><strong>Escaneie ou copie o código</strong><code id="pix-code"></code><div class="cluster"><button class="btn btn-secondary btn-sm" type="button" id="pix-copy">Copiar código</button><span class="small">Expira em <span class="mono" id="pix-timer">30:00</span></span></div></div></div>
+        </div>
+        <div class="panel" style="margin-top:16px" data-pag="cartao" hidden>
+          <div class="form-grid">
+            <div class="field col-6"><label class="label" for="cc-num">Número do cartão</label><input class="input" id="cc-num" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000" data-mask="card" data-cc></div>
+            <div class="field col-6"><label class="label" for="cc-nome">Nome impresso no cartão</label><input class="input" id="cc-nome" autocomplete="cc-name" data-cc></div>
+            <div class="field col-2"><label class="label" for="cc-val">Validade</label><input class="input" id="cc-val" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/AA" data-mask="val" data-cc></div>
+            <div class="field col-2"><label class="label" for="cc-cvv">CVV</label><input class="input" id="cc-cvv" inputmode="numeric" autocomplete="cc-csc" maxlength="4" placeholder="123" data-cc></div>
+            <div class="field col-2"><label class="label" for="cc-parc">Parcelas</label><select class="select" id="cc-parc"></select></div>
+          </div>
+          <p class="small" style="margin:12px 0 0">Protótipo: nenhum dado de cartão é enviado ou guardado.</p>
+        </div>
+        <div class="panel" style="margin-top:16px" data-pag="boleto" hidden>
+          <p style="margin:0">O boleto vence em 2 dias úteis. A vaga fica reservada até a compensação; se o boleto não for pago, ela é liberada.</p>
+        </div>
+        <div class="step-foot"><button class="btn btn-ghost btn-lg" type="button" data-prev>Voltar</button><button class="btn btn-accent btn-lg" type="button" id="pagar">Pagar</button></div>
+      </section>
+
+      <!-- 5. Confirmação -->
+      <section class="step" data-step="confirmacao" hidden>
+        <div class="notice success" id="ok-notice" style="margin-bottom:20px"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg><span id="ok-msg"></span></div>
+        <div class="ticket">
+          <div class="ticket-main">
+            <span class="eyebrow" id="tk-tipo"></span>
+            <h2 style="margin:0" id="tk-titulo"></h2>
+            <dl class="kv" style="grid-template-columns:auto 1fr">
+              <dt>Participante</dt><dd style="text-align:left" id="tk-nome"></dd>
+              <dt>Quando</dt><dd style="text-align:left" id="tk-data"></dd>
+              <dt>Onde</dt><dd style="text-align:left" id="tk-local"></dd>
+              <dt>Ingresso</dt><dd style="text-align:left" id="tk-ingresso"></dd>
+              <dt>Status</dt><dd style="text-align:left" id="tk-status"></dd>
+            </dl>
+          </div>
+          <div class="ticket-stub"><canvas class="qr" id="tk-qr" width="29" height="29" aria-label="QR code do ingresso (ilustrativo)"></canvas><span class="code" id="tk-code"></span><span class="small">Apresente na entrada</span></div>
+        </div>
+        <h3 style="margin-top:28px">Registro de aceite</h3>
+        <ul class="accepted" id="accepted"></ul>
+        <div class="step-foot"><a class="btn btn-secondary btn-lg" href="meus-ingressos.html">Ver meus ingressos</a><a class="btn btn-lg" id="back2" href="eventos.html">Voltar para a página</a></div>
+      </section>
+    </form>
+
+    <aside class="panel stack sticky summary" aria-label="Resumo da inscrição">
+      <div class="cover thumb" id="sum-img"></div>
+      <span class="eyebrow" id="sum-cat"></span>
+      <h3 id="sum-titulo"></h3>
+      <span class="small" id="sum-data"></span>
+      <hr class="divider" style="margin:4px 0">
+      <dl class="kv" id="sum-kv"></dl>
+    </aside>
+  </div>
+</div>
+</main>
+<footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  "use strict";
+  var O = window.Ofertas, C = window.C365;
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+
+  var slug = location.hash.slice(1);
+  if (!O.lista[slug]) slug = "foto-na-paulista";
+  var o = O.lista[slug];
+  var gratis = O.isGratuito(o);
+  var precisaContrato = o.termos.indexOf("contrato") > -1;
+  var STEPS = [["ingresso", "Ingresso"], ["dados", "Seus dados"], ["termos", "Termos"], ["pagamento", "Pagamento"], ["confirmacao", "Confirmação"]]
+    .filter(function (s) { return !(gratis && s[0] === "pagamento"); });
+  var atual = 0;
+  var pago = false;
+
+  /* Troca de fluxo (demonstração) */
+  $("#flow-switch").innerHTML = Object.keys(O.lista).map(function (k) {
+    var x = O.lista[k];
+    return '<a class="chip" href="#' + k + '" aria-pressed="' + (k === slug) + '">' + x.titulo.split(" — ")[0] + " · " + (O.isGratuito(x) ? "grátis" : "pago") + "</a>";
+  }).join("");
+  window.addEventListener("hashchange", function () { location.reload(); });
+
+  var pagina = O.pagina[slug] || "eventos.html";
+  $("#back").href = pagina; $("#back").textContent = "← " + o.titulo;
+  $("#back2").href = pagina;
+  $("h1").textContent = "Inscrição · " + o.titulo.split(" — ")[0];
+  document.title = "365 Clicks — Inscrição · " + o.titulo;
+
+  /* Resumo */
+  $("#sum-img").setAttribute("style", "--img:url('" + o.img + "');--tone:" + o.tone + ";--tone2:" + o.tone2);
+  $("#sum-cat").textContent = o.categoria;
+  $("#sum-titulo").textContent = o.titulo;
+  $("#sum-data").textContent = o.data + " · " + o.horario;
+
+  /* Ingressos */
+  $("#tickets").innerHTML = o.ingressos.map(function (i, n) {
+    return '<label class="option"><input type="radio" name="ingresso" value="' + i.id + '"' + (n === 0 ? " checked" : "") + '><div class="grow"><strong>' + O.esc(i.nome) + '</strong><span class="small">' + O.esc(i.desc) + '</span></div><span class="price">' + O.brl(i.preco) + "</span></label>";
+  }).join("");
+  if (!o.descontoClube) $("#clube-wrap").hidden = true;
+  if (!precisaContrato) { $("#cpf").required = false; $("[data-cpf-req]").hidden = true; $("[data-cpf-hint]").textContent = "Opcional. Usado para emitir o certificado."; }
+
+  function ingresso() { var v = $('input[name="ingresso"]:checked').value; return o.ingressos.filter(function (i) { return i.id === v; })[0]; }
+  function total() {
+    var i = ingresso(), d = ($("#clube").checked && o.descontoClube) ? i.preco * o.descontoClube : 0;
+    return { base: i.preco, desconto: d, total: i.preco - d };
+  }
+  function renderResumo() {
+    var t = total(), i = ingresso();
+    $("#sum-kv").innerHTML = "<dt>" + O.esc(i.nome) + "</dt><dd>" + O.brl(i.preco) + "</dd>" +
+      (t.desconto ? "<dt>Desconto Clube</dt><dd>− " + O.brl(t.desconto) + "</dd>" : "") +
+      '<dt style="align-self:end">Total</dt><dd class="total">' + O.brl(t.total) + "</dd>";
+    var parc = $("#cc-parc"), n = o.parcelas || 1, html = "";
+    for (var k = 1; k <= n; k++) html += "<option value=\"" + k + "\">" + k + "x de " + O.brl(t.total / k) + " sem juros</option>";
+    parc.innerHTML = html;
+    $("#parc-hint").textContent = "Em até " + n + "x sem juros";
+  }
+  document.addEventListener("change", function (e) {
+    if (e.target.name === "ingresso" || e.target.id === "clube") renderResumo();
+    if (e.target.name === "pag") {
+      $$("[data-pag]").forEach(function (p) { p.hidden = p.getAttribute("data-pag") !== e.target.value; });
+      payLabel();
+    }
+  });
+
+  /* Etapas */
+  function renderSteps() {
+    $("#steps").innerHTML = STEPS.map(function (s, n) {
+      return "<li" + (n < atual ? ' class="done"' : "") + (n === atual ? ' aria-current="step"' : "") + ">" + s[1] + "</li>";
+    }).join("");
+    $$(".step").forEach(function (sec) { sec.hidden = sec.getAttribute("data-step") !== STEPS[atual][0]; });
+    if (STEPS[atual][0] === "termos") renderDocs();
+    if (STEPS[atual][0] === "pagamento") payLabel();
+    var last = STEPS[atual][0] === "termos" && gratis;
+    $("#termos-next").textContent = last ? "Confirmar inscrição" : "Continuar";
+    $("#termos-next").classList.toggle("btn-accent", last);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  /* Máscaras */
+  function digits(v) { return v.replace(/\D/g, ""); }
+  var MASKS = {
+    cpf: function (v) { v = digits(v).slice(0, 11); return v.replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d)/, "$1.$2").replace(/(\d{3})(\d{1,2})$/, "$1-$2"); },
+    tel: function (v) { v = digits(v).slice(0, 11); if (v.length <= 2) return v.length ? "(" + v : v; var ddd = "(" + v.slice(0, 2) + ") ", r = v.slice(2); return ddd + (r.length > 8 ? r.slice(0, 5) + "-" + r.slice(5) : r.length > 4 ? r.slice(0, 4) + "-" + r.slice(4) : r); },
+    cep: function (v) { v = digits(v).slice(0, 8); return v.length > 5 ? v.slice(0, 5) + "-" + v.slice(5) : v; },
+    card: function (v) { return digits(v).slice(0, 16).replace(/(\d{4})(?=\d)/g, "$1 "); },
+    val: function (v) { v = digits(v).slice(0, 4); return v.length > 2 ? v.slice(0, 2) + "/" + v.slice(2) : v; },
+    insta: function (v) { return v.replace(/^@+/, "").replace(/[^\w.]/g, "").toLowerCase().slice(0, 30); }
+  };
+  document.addEventListener("input", function (e) {
+    var m = e.target.getAttribute && e.target.getAttribute("data-mask");
+    if (m && MASKS[m]) e.target.value = MASKS[m](e.target.value);
+    if (e.target.getAttribute("aria-invalid") === "true") limparErro(e.target);
+    if (e.target.id === "nasc") atualizarIdade();
+  });
+
+  function cpfValido(v) {
+    v = digits(v);
+    if (v.length !== 11 || /^(\d)\1+$/.test(v)) return false;
+    for (var t = 9; t < 11; t++) {
+      var s = 0;
+      for (var i = 0; i < t; i++) s += +v[i] * (t + 1 - i);
+      if (((s * 10) % 11) % 10 !== +v[t]) return false;
+    }
+    return true;
+  }
+  function idade() {
+    var v = $("#nasc").value; if (!v) return null;
+    var n = new Date(v + "T12:00:00"), h = new Date(), a = h.getFullYear() - n.getFullYear();
+    if (h.getMonth() < n.getMonth() || (h.getMonth() === n.getMonth() && h.getDate() < n.getDate())) a--;
+    return a;
+  }
+  function menor() { var a = idade(); return a != null && a < 18; }
+  function payLabel() {
+    var m = $('input[name="pag"]:checked').value;
+    $("#pagar").textContent = m === "pix" ? ($("#pix-after").hidden ? "Gerar Pix" : "Simular pagamento aprovado") : m === "boleto" ? "Gerar boleto" : "Pagar " + O.brl(total().total);
+  }
+  function atualizarIdade() {
+    var a = idade(), menor = a != null && a < 18;
+    $("#idade").textContent = a == null || a < 0 || a > 120 ? " " : a + " anos" + (menor ? " · precisa de responsável" : "");
+    $("#responsavel").hidden = !menor;
+    $$("[data-resp]").forEach(function (i) { i.required = menor; });
+  }
+
+  function erro(el, msg) {
+    el.setAttribute("aria-invalid", "true");
+    var f = el.closest(".field") || el.closest(".accept");
+    if (!f) return;
+    var h = f.querySelector(".hint.error");
+    if (!h) { h = document.createElement("span"); h.className = "hint error"; f.appendChild(h); }
+    h.textContent = msg;
+  }
+  function limparErro(el) {
+    el.removeAttribute("aria-invalid");
+    var f = el.closest(".field") || el.closest(".accept");
+    var h = f && f.querySelector(".hint.error"); if (h) h.remove();
+    if (el.closest(".accept")) el.closest(".accept").removeAttribute("aria-invalid");
+  }
+
+  function validar(sec) {
+    var bad = [];
+    $$("input, select", sec).forEach(function (el) {
+      if (el.closest("[hidden]") || el.type === "radio") return;
+      limparErro(el);
+      var v = el.value.trim();
+      if (el.type === "checkbox") {
+        if (el.required && !el.checked) { el.closest(".accept").setAttribute("aria-invalid", "true"); bad.push(el); }
+        return;
+      }
+      if (el.required && !v) { erro(el, "Preencha este campo."); bad.push(el); return; }
+      if (!v) return;
+      var m = el.getAttribute("data-mask");
+      if (el.type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) { erro(el, "Confira o e-mail. Exemplo: nome@email.com"); bad.push(el); }
+      else if (m === "cpf" && !cpfValido(v)) { erro(el, "CPF inválido. Confira os 11 números."); bad.push(el); }
+      else if (m === "tel" && digits(v).length < 10) { erro(el, "Informe DDD e número."); bad.push(el); }
+      else if (m === "cep" && digits(v).length !== 8) { erro(el, "O CEP tem 8 números."); bad.push(el); }
+      else if (el.id === "nasc" && (idade() < 5 || idade() > 110)) { erro(el, "Confira a data de nascimento."); bad.push(el); }
+    });
+    if (bad.length) { bad[0].focus(); C.toast(bad.length === 1 ? "Falta 1 campo para continuar" : "Faltam " + bad.length + " campos para continuar"); }
+    return !bad.length;
+  }
+
+  /* Dados para preencher os documentos */
+  function ctx() {
+    var i = ingresso(), a = idade();
+    return {
+      NOME: $("#nome").value.trim() + (menor() && $("#resp-nome").value ? ", representado(a) por " + $("#resp-nome").value.trim() : ""),
+      CPF: $("#cpf").value, EVENTO: o.titulo, DATA: o.data, LOCAL: o.local + " (" + o.endereco + ")",
+      VALOR: O.brl(total().total), INGRESSO: i.nome, TIPO: o.tipo === "curso" ? "curso" : "evento"
+    };
+  }
+  function renderDocs() {
+    var c = ctx(), I = C.icon;
+    $("#docs").innerHTML = o.termos.map(function (id, n) {
+      var t = O.termos[id];
+      return '<details class="doc"' + (n === 0 ? " open" : "") + '><summary><span class="grow">' + t.titulo + '</span><span class="badge plain mono">v' + t.versao + "</span>" + I("chevron") + '</summary><div class="doc-body">' + O.termoHTML(id, c) +
+        '<p><a href="termos.html#' + id + '" target="_blank" rel="noopener">Abrir em página inteira</a></p></div></details>' +
+        '<label class="accept"><input type="checkbox" required data-termo="' + id + '"' + (($("#docs").dataset.ok || "").indexOf(id) > -1 ? " checked" : "") + "><span>Li e aceito o <strong>" + t.titulo + "</strong>" + (id === "imagem" && menor() ? " em nome do participante menor de idade" : "") + ".</span></label>";
+    }).join('<div style="height:12px"></div>');
+  }
+  document.addEventListener("change", function (e) {
+    if (e.target.hasAttribute && e.target.hasAttribute("data-termo")) {
+      var ok = $$("[data-termo]").filter(function (x) { return x.checked; }).map(function (x) { return x.getAttribute("data-termo"); });
+      $("#docs").dataset.ok = ok.join(",");
+      limparErro(e.target);
+    }
+  });
+
+  /* Pagamento */
+  function drawQR(canvas, seed) {
+    var ctx2 = canvas.getContext("2d"), N = 29, h = 0;
+    for (var i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
+    function rnd() { h ^= h << 13; h ^= h >>> 17; h ^= h << 5; return (h >>> 0) / 4294967296; }
+    ctx2.fillStyle = "#fff"; ctx2.fillRect(0, 0, N, N); ctx2.fillStyle = "#141413";
+    for (var y = 0; y < N; y++) for (var x = 0; x < N; x++) if (rnd() > 0.52) ctx2.fillRect(x, y, 1, 1);
+    [[0, 0], [N - 7, 0], [0, N - 7]].forEach(function (p) {
+      ctx2.fillStyle = "#fff"; ctx2.fillRect(p[0], p[1], 8, 8);
+      ctx2.fillStyle = "#141413"; ctx2.fillRect(p[0], p[1], 7, 7);
+      ctx2.fillStyle = "#fff"; ctx2.fillRect(p[0] + 1, p[1] + 1, 5, 5);
+      ctx2.fillStyle = "#141413"; ctx2.fillRect(p[0] + 2, p[1] + 2, 3, 3);
+    });
+  }
+  var codigo = "365-" + o.sigla + "-" + String(Math.floor(1000 + Math.random() * 9000));
+  var timer;
+  $("#pagar").addEventListener("click", function () {
+    var metodo = $('input[name="pag"]:checked').value, btn = this;
+    if (metodo === "pix" && $("#pix-after").hidden) {
+      $("#pix-before").hidden = true; $("#pix-after").hidden = false;
+      drawQR($("#pix-qr"), codigo + "pix");
+      $("#pix-code").textContent = "00020126580014BR.GOV.BCB.PIX0136" + codigo.toLowerCase() + "-365clicks520400005303986540" + total().total.toFixed(2) + "5802BR5909365CLICKS6009SAO PAULO";
+      var s = 1800; clearInterval(timer);
+      timer = setInterval(function () { s--; $("#pix-timer").textContent = String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0"); if (s <= 0) clearInterval(timer); }, 1000);
+      btn.textContent = "Simular pagamento aprovado";
+      return;
+    }
+    if (metodo === "cartao" && !validarCartao()) return;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner" aria-hidden="true"></span> Processando…';
+    setTimeout(function () {
+      btn.disabled = false; clearInterval(timer); payLabel();
+      pago = metodo !== "boleto";
+      concluir(metodo);
+    }, 1200);
+  });
+  function validarCartao() {
+    var bad = [];
+    $$("[data-cc]").forEach(function (el) { limparErro(el); if (!el.value.trim()) { erro(el, "Preencha este campo."); bad.push(el); } });
+    if (!bad.length && digits($("#cc-num").value).length < 16) { erro($("#cc-num"), "O número tem 16 dígitos."); bad.push($("#cc-num")); }
+    if (bad.length) { bad[0].focus(); C.toast("Confira os dados do cartão"); }
+    return !bad.length;
+  }
+  $("#pix-copy").addEventListener("click", function () {
+    var t = $("#pix-code").textContent;
+    var done = function () { C.toast("Código Pix copiado"); };
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(done, function () { selecionar($("#pix-code")); });
+    else selecionar($("#pix-code"));
+  });
+  function selecionar(el) { var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); C.toast("Código selecionado. Copie com Ctrl+C"); }
+
+  /* Confirmação */
+  function concluir(metodo) {
+    var agora = new Date();
+    var quando = agora.toLocaleDateString("pt-BR") + " às " + agora.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+    var i = ingresso();
+    var status = gratis ? ["badge-success", "Inscrição confirmada"] : metodo === "boleto" ? ["badge-warning", "Aguardando pagamento do boleto"] : ["badge-success", "Pago · " + (metodo === "pix" ? "Pix" : "Cartão " + $("#cc-parc").value + "x")];
+    $("#ok-msg").innerHTML = metodo === "boleto"
+      ? "Boleto gerado e enviado para <strong>" + O.esc($("#email").value) + "</strong>. A vaga é confirmada quando o pagamento compensar."
+      : "Tudo certo. Enviamos o ingresso para <strong>" + O.esc($("#email").value) + "</strong> e uma mensagem no WhatsApp.";
+    $("#ok-notice").className = "notice " + (metodo === "boleto" ? "warning" : "success");
+    $("#tk-tipo").textContent = o.categoria;
+    $("#tk-titulo").textContent = o.titulo;
+    $("#tk-nome").textContent = $("#nome").value.trim() + ($("#insta").value ? " · @" + $("#insta").value : "");
+    $("#tk-data").textContent = o.data + " · " + o.horario;
+    $("#tk-local").textContent = o.local;
+    $("#tk-ingresso").textContent = i.nome + " · " + O.brl(total().total);
+    $("#tk-status").innerHTML = '<span class="badge ' + status[0] + '">' + status[1] + "</span>";
+    $("#tk-code").textContent = codigo;
+    drawQR($("#tk-qr"), codigo);
+    var aceites = o.termos.map(function (id) { return O.termos[id]; });
+    $("#accepted").innerHTML = aceites.map(function (t) {
+      return "<li>" + C.icon("check", "i-sm") + "<span><strong>" + t.titulo + "</strong> · versão " + t.versao + " · aceito em " + quando + (menor() ? " pelo responsável " + O.esc($("#resp-nome").value) : "") + "</span></li>";
+    }).join("") + ($("#news").checked ? "<li>" + C.icon("check", "i-sm") + "<span>Aceitou receber novidades · " + quando + "</span></li>" : "");
+    try {
+      var lista = JSON.parse(localStorage.getItem("c365-inscricoes") || "[]");
+      lista.unshift({ codigo: codigo, slug: slug, ingresso: i.nome, total: total().total, nome: $("#nome").value.trim(), status: status[1], ok: status[0] === "badge-success", em: quando });
+      localStorage.setItem("c365-inscricoes", JSON.stringify(lista.slice(0, 20)));
+    } catch (e) {}
+    atual = STEPS.length - 1;
+    renderSteps();
+    C.toast(gratis ? "Inscrição confirmada" : metodo === "boleto" ? "Boleto gerado" : "Pagamento aprovado");
+  }
+
+  /* Navegação entre etapas */
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest("[data-next], [data-prev]");
+    if (!t) return;
+    var sec = t.closest(".step");
+    if (t.hasAttribute("data-prev")) { atual = Math.max(0, atual - 1); renderSteps(); return; }
+    if (!validar(sec)) return;
+    if (sec.getAttribute("data-step") === "termos" && gratis) { concluir("gratis"); return; }
+    atual++; renderSteps();
+  });
+
+  $("#exemplo").addEventListener("click", function () {
+    var ex = { nome: "Camila Rocha", nasc: "1994-03-12", cpf: "529.982.247-25", email: "camila.rocha@email.com", insta: "camilarocha.foto", tel: "(11) 98765-4321", tel2: "(11) 3456-7890", recado: "Sônia Rocha", cep: "01310-200", rua: "Av. Paulista", num: "900", compl: "Apto 42", bairro: "Bela Vista", cidade: "São Paulo" };
+    Object.keys(ex).forEach(function (k) { var el = document.getElementById(k); if (el) { el.value = ex[k]; limparErro(el); } });
+    atualizarIdade();
+    C.toast("Exemplo preenchido");
+  });
+
+  renderResumo();
+  renderSteps();
+});
+</script>
+</body></html>
