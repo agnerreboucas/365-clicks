@@ -16,6 +16,8 @@
 <main>
 <h1>Seguidores</h1>
 <p>1.906 pessoas seguem você. Aqui aparecem primeiro as que mais interagem com o seu trabalho.</p>
+<div class="tabs" role="tablist" id="abas"><button role="tab" type="button" aria-selected="true" data-aba="seguidores">Seguidores · 1.906</button><button role="tab" type="button" aria-selected="false" data-aba="seguindo">Seguindo · 214</button></div>
+<section id="aba-seguidores">
 <div class="row" style="margin:24px 0">
   <div class="panel stat"><span class="small">Seguidores</span><div class="metric">1.906</div><span class="delta up">+48 este mês</span></div>
   <div class="panel stat"><span class="small">Engajados (30 dias)</span><div class="metric">312</div><span class="small">curtiram, comentaram ou marcaram você</span></div>
@@ -26,6 +28,11 @@
 </div>
 <p class="small" style="margin:0 0 12px">Engajamento (últimos 90 dias) = curtidas + 3 × comentários + 4 × marcações e citações + 5 × mensagens.</p>
 <div class="list" id="lista"></div>
+</section>
+<section id="aba-seguindo" hidden>
+<p class="small" style="margin:24px 0 12px">Quem você segue aparece no seu <a href="feed.html">Feed</a>. Ordenado pela última publicação.</p>
+<div class="list" id="seguindo"></div>
+</section>
 </main>
 <footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
 <script>
@@ -40,15 +47,27 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("lista").innerHTML = l.map(function (d, i) {
       var n = nivel(d.score);
       return '<div class="list-item"><span class="rank">' + (i + 1) + '</span><span class="avatar" style="--av:' + d.av + '">' + ini(d.nome) + '</span>' +
-        '<div class="grow"><strong>' + d.nome + '</strong> <span class="badge ' + n[0] + ' plain">' + n[1] + '</span><div class="small">@' + d.id + " · " + d.desde + '</div>' +
+        '<div class="grow"><a href="perfil.html#@' + d.id + '"><strong>' + d.nome + '</strong></a> <span class="badge ' + n[0] + ' plain">' + n[1] + '</span><div class="small">@' + d.id + " · " + d.desde + '</div>' +
         '<div class="mono" style="margin-top:2px">' + d.curtidas + " curtidas · " + d.comentarios + " comentários · " + d.marcacoes + " marcações · " + d.mensagens + " mensagens</div></div>" +
         '<div class="stack hide-sm nivel" style="gap:4px"><span class="small num">' + d.score + ' pts</span><div class="bar"><span style="width:' + Math.round(d.score / max * 100) + '%"></span></div></div>' +
         '<button class="btn btn-secondary btn-sm" type="button" aria-pressed="false" data-toggle data-on="Agora você segue ' + d.nome + '">Seguir de volta</button>' +
-        '<a class="btn btn-ghost btn-sm hide-sm" href="mensagens.html">Mensagem</a></div>';
+        '<a class="btn btn-ghost btn-sm hide-sm" href="mensagens.html#' + d.id + '">Mensagem</a></div>';
     }).join("");
   }
   document.getElementById("ordem").addEventListener("click", function (e) { var b = e.target.closest("[data-o]"); if (b) render(b.getAttribute("data-o")); });
   render("score");
+  var SEGUINDO = [["Ana Lima", "analima", "#d9e3f2", "Publicou hoje · Fotografia de rua"], ["Júlia Santos", "juliasantos", "#dcefe2", "Publicou hoje · Natureza"], ["Pedro Costa", "pedrocosta", "#ece0f2", "Publicou ontem · Arquitetura e noite"], ["Rafael Borges", "rafaborges", "#f2e1cf", "Há 2 dias · Retrato"], ["Marina Faria", "marinafaria", "#f2dada", "Há 4 dias · Viagem"], ["Wesley Oliveira", "wesleyoliveira", "#e1eafb", "Há 1 semana"]];
+  document.getElementById("seguindo").innerHTML = SEGUINDO.map(function (d) {
+    return '<div class="list-item"><span class="avatar" style="--av:' + d[2] + '">' + ini(d[0]) + '</span><div class="grow"><a href="perfil.html#@' + d[1] + '"><strong>' + d[0] + '</strong></a><div class="small">@' + d[1] + " · " + d[3] + '</div></div>' +
+      '<button class="btn btn-secondary btn-sm" type="button" aria-pressed="true" data-toggle data-on="Você voltou a seguir ' + d[0] + '" data-off="Você deixou de seguir ' + d[0] + '">Seguindo</button><a class="btn btn-ghost btn-sm hide-sm" href="mensagens.html#' + d[1] + '">Mensagem</a></div>';
+  }).join("");
+  function aba(a) {
+    document.querySelectorAll("#abas [data-aba]").forEach(function (b) { b.setAttribute("aria-selected", String(b.getAttribute("data-aba") === a)); });
+    document.getElementById("aba-seguidores").hidden = a !== "seguidores";
+    document.getElementById("aba-seguindo").hidden = a !== "seguindo";
+  }
+  document.getElementById("abas").addEventListener("click", function (e) { var b = e.target.closest("[data-aba]"); if (b) { aba(b.getAttribute("data-aba")); history.replaceState(null, "", "#" + b.getAttribute("data-aba")); } });
+  if (location.hash === "#seguindo") aba("seguindo");
 });
 </script>
 </body></html>

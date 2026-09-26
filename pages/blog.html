@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("lista-ed").innerHTML = CAL.editorias.map(function (e) { return '<div class="panel"><h3 style="margin-top:0">' + esc(e[0]) + '</h3><p class="small" style="margin:0">' + esc(e[1]) + "</p></div>"; }).join("");
   var prox = []; for (var i = 0; i < 6; i++) { var d = new Date(); d.setDate(d.getDate() + i); prox.push(D.doDia(d)); }
   document.getElementById("artigos").innerHTML = prox.map(function (d, i) {
-    return '<a class="offer" href="artigo.html"><div class="cover" style="--tone:#2c2c2a;--tone2:#6a6a64;display:grid;place-items:center"><span class="tag" style="position:absolute;top:12px;left:12px">' + (i ? d.nomeDia + " · dia " + d.dia : "Hoje · dia " + d.dia) + '</span><strong style="font-family:var(--font-display);font-weight:400;font-size:30px;color:#fff;text-align:center;padding:0 16px">' + esc(d.tema) + '</strong></div><div><h3>' + esc(d.artigo) + '</h3><div class="small muted">Fotografia na prática · ' + esc(d.tecnica) + " · " + esc(d.linguagem) + "</div></div></a>";
+    return '<a class="offer" href="artigo.html#dia-' + d.dia + '"><div class="cover" style="--tone:#2c2c2a;--tone2:#6a6a64;display:grid;place-items:center"><span class="tag" style="position:absolute;top:12px;left:12px">' + (i ? d.nomeDia + " · dia " + d.dia : "Hoje · dia " + d.dia) + '</span><strong style="font-family:var(--font-display);font-weight:400;font-size:30px;color:#fff;text-align:center;padding:0 16px">' + esc(d.tema) + '</strong></div><div><h3>' + esc(d.artigo) + '</h3><div class="small muted">Fotografia na prática · ' + esc(d.tecnica) + " · " + esc(d.linguagem) + "</div></div></a>";
   }).join("");
 });
 </script>

@@ -161,7 +161,7 @@ document.addEventListener("c365:fotos", function () {
   /* Fotógrafos */
   document.getElementById("pessoas").innerHTML = F.fotografos.slice(0, 5).map(function (ph) {
     var fs = F.doFotografo(ph.id);
-    return '<article class="person"><div class="person-head"><span class="avatar avatar-lg" style="--size:56px;--av:' + ph.av + '">' + F.iniciais(ph.nome) + '</span><div><b>' + esc(ph.nome) + '</b><div class="small muted">' + esc(ph.foco) + " · " + esc(ph.cidade.split(",")[0]) + "</div></div></div>" +
+    return '<article class="person"><div class="person-head"><span class="avatar avatar-lg" style="--size:56px;--av:' + ph.av + '">' + F.iniciais(ph.nome) + '</span><div><a href="perfil.html#@' + ph.id + '"><b>' + esc(ph.nome) + '</b></a><div class="small muted">' + esc(ph.foco) + " · " + esc(ph.cidade.split(",")[0]) + "</div></div></div>" +
       '<div class="person-shots">' + fs.slice(0, 3).map(function (f) { return '<button type="button" data-open-photo="' + f.id + '" aria-label="Abrir “' + esc(f.titulo) + '”" style="' + bg(f) + '"></button>'; }).join("") + "</div>" +
       '<div class="cluster" style="justify-content:space-between"><span class="small muted">' + ph.clicks + ' clicks no 365</span><button class="btn btn-secondary btn-sm" type="button" aria-pressed="false" data-toggle data-on="Agora você segue ' + esc(ph.nome) + '">Seguir</button></div></article>';
   }).join("");

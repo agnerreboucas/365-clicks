@@ -3,6 +3,106 @@
 <title>365 Clicks — Mensagens</title>
 <link rel="stylesheet" href="../design-system/tokens.css">
 <link rel="stylesheet" href="../design-system/components.css">
-<script src="../design-system/app.js" defer></script></head><body data-page="mensagens">
+<script src="../design-system/app.js" defer></script>
+<style>
+.inbox { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: var(--sp-4); margin-top: var(--sp-5); min-height: 480px; }
+.inbox .list-item { cursor: pointer; }
+.inbox .list-item[aria-current="true"] { border-color: var(--ink); }
+.thread { display: flex; flex-direction: column; gap: var(--sp-3); }
+.msgs { flex: 1; display: flex; flex-direction: column; gap: var(--sp-2); overflow: auto; max-height: 460px; padding: var(--sp-2) 0; }
+.msg { max-width: 75%; padding: var(--sp-2) var(--sp-3); border-radius: var(--r-md); background: var(--surface-2); }
+.msg.eu { align-self: flex-end; background: var(--ink); color: var(--bg); }
+.msg .small { display: block; opacity: .7; }
+.thread form { display: flex; gap: var(--sp-2); }
+.thread form .input { flex: 1; }
+.lead { display: grid; gap: 4px; }
+@media (max-width: 800px) { .inbox { grid-template-columns: 1fr; } }
+</style></head><body data-page="mensagens">
 <header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
-<main><h1>Mensagens</h1><p>Networking entre fotógrafos</p><div class="row"><div class="panel stat"><span class="small">Principal</span><div class="metric">127</div></div><div class="panel stat"><span class="small">Ativos</span><div class="metric">2.480</div></div><div class="panel stat"><span class="small">Progresso</span><div class="metric">68%</div></div></div><h2>Conteúdo</h2><div class="panel"><h2>Networking entre fotógrafos</h2><p>Esta tela faz parte do ecossistema 365 Clicks. O protótipo demonstra a hierarquia visual, navegação e componentes principais da página.</p><button class="btn" type="button" data-toast="“Continuar” será ligado na versão funcional">Continuar</button></div><h2>Conteúdo relacionado</h2><div class="grid"><figure class="card"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&h=1000&q=80" alt="Fotografia de @fotografo_1" loading="lazy" style="--ratio:4/5;--tone:#18233a;--tone2:#4b5f88"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #127</b><span class="small">@fotografo_1 · São Paulo</span><span class="exif">35mm · f/2 · 1/500s · ISO 200</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_2" loading="lazy" style="--ratio:3/2;--tone:#37433a;--tone2:#8b9a84"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #128</b><span class="small">@fotografo_2 · São Paulo</span><span class="exif">50mm · f/1.8 · 1/250s · ISO 400</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=800&h=800&q=80" alt="Fotografia de @fotografo_3" loading="lazy" style="--ratio:1/1;--tone:#4f4336;--tone2:#c09a6c"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #129</b><span class="small">@fotografo_3 · São Paulo</span><span class="exif">24mm · f/8 · 1/125s · ISO 100</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&h=1200&q=80" alt="Fotografia de @fotografo_4" loading="lazy" style="--ratio:2/3;--tone:#26231f;--tone2:#6d6054"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #130</b><span class="small">@fotografo_4 · São Paulo</span><span class="exif">85mm · f/1.4 · 1/1000s · ISO 100</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_5" loading="lazy" style="--ratio:3/2;--tone:#35402f;--tone2:#7f8c6c"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #131</b><span class="small">@fotografo_5 · São Paulo</span><span class="exif">16mm · f/2.8 · 20s · ISO 3200</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=800&h=1000&q=80" alt="Fotografia de @fotografo_6" loading="lazy" style="--ratio:4/5;--tone:#2c464e;--tone2:#a3bab2"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #132</b><span class="small">@fotografo_6 · São Paulo</span><span class="exif">28mm · f/5.6 · 1/320s · ISO 160</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&h=1067&q=80" alt="Fotografia de @fotografo_7" loading="lazy" style="--ratio:3/4;--tone:#304131;--tone2:#a2b298"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #133</b><span class="small">@fotografo_7 · São Paulo</span><span class="exif">35mm · f/4 · 1/60s · ISO 800</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_8" loading="lazy" style="--ratio:3/2;--tone:#382c28;--tone2:#8e7061"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #134</b><span class="small">@fotografo_8 · São Paulo</span><span class="exif">70mm · f/2.8 · 1/400s · ISO 250</span></figcaption></figure></div></main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer></body></html>
+<main>
+<h1>Mensagens</h1>
+<p>Converse com outros fotógrafos e responda a quem quer comprar, licenciar ou contratar o seu trabalho.</p>
+<div class="tabs" role="tablist" id="abas"><button role="tab" type="button" aria-selected="true" data-aba="conversas">Conversas</button><button role="tab" type="button" aria-selected="false" data-aba="interessados">Interessados nas suas fotos <span class="badge badge-accent plain num" id="n-leads"></span></button></div>
+<section id="aba-conversas"><div class="inbox"><div class="list" id="convs"></div><div class="panel thread" id="thread"></div></div></section>
+<section id="aba-interessados" hidden>
+  <p class="small" style="margin:24px 0 12px">Contatos enviados pelo botão “Falar com o fotógrafo” nas suas fotos. Quem enviou aceitou que a plataforma acompanhe a negociação, sem interferir nela. O 365 Clicks não cobra comissão.</p>
+  <div class="list" id="leads"></div>
+</section>
+</main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer><script>
+document.addEventListener("DOMContentLoaded", function () {
+  var EU = "marcosandrade";
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function ler(k, d) { try { return JSON.parse(localStorage.getItem(k) || "null") || d; } catch (e) { return d; } }
+  function gravar(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  function ini(n) { return n.split(" ").map(function (p) { return p[0]; }).slice(0, 2).join("").toUpperCase(); }
+  var PESSOAS = {
+    analima: ["Ana Lima", "#d9e3f2"], rafaborges: ["Rafael Borges", "#f2e1cf"], juliasantos: ["Júlia Santos", "#dcefe2"], pedrocosta: ["Pedro Costa", "#ece0f2"],
+    marinafaria: ["Marina Faria", "#f2dada"], wesleyoliveira: ["Wesley Oliveira", "#e1eafb"], lauramendes: ["Laura Mendes", "#fcebd0"], biacastro: ["Bia Castro", "#dff3e8"], thiagorocha: ["Thiago Rocha", "#ece0f2"]
+  };
+  var EXEMPLO = {
+    analima: [["analima", "Vi sua série de reflexos. Topa uma saída no centro no sábado cedo?", "08:12"], [EU, "Topo! 6h na Sé?", "08:30"], ["analima", "Combinado. Levo o 35mm.", "08:31"]],
+    wesleyoliveira: [["wesleyoliveira", "Obrigado por me marcar na foto do viaduto!", "Ontem"]],
+    juliasantos: [["juliasantos", "Qual configuração você usou no céu do dia 118?", "Seg"], [EU, "f/2.8, 20s, ISO 3200, tripé.", "Seg"]]
+  };
+  var msgs = ler("c365-msgs", EXEMPLO), atual = null;
+  function salvar() { gravar("c365-msgs", msgs); }
+
+  function lista() {
+    var ids = Object.keys(msgs);
+    if (atual && ids.indexOf(atual) < 0) ids.unshift(atual);
+    document.getElementById("convs").innerHTML = ids.map(function (id) {
+      var p = PESSOAS[id] || [id, "var(--surface-2)"], m = msgs[id] || [], u = m[m.length - 1];
+      return '<div class="list-item" role="button" tabindex="0" data-c="' + id + '" aria-current="' + (id === atual) + '"><span class="avatar" style="--av:' + p[1] + '">' + ini(p[0]) + '</span><div class="grow" style="min-width:0"><strong>' + esc(p[0]) + '</strong><div class="small" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + (u ? esc(u[1]) : "Nova conversa") + '</div></div><span class="small mono">' + (u ? u[2] : "") + "</span></div>";
+    }).join("") || '<p class="small muted">Nenhuma conversa ainda. Abra o perfil de um fotógrafo e toque em Mensagem.</p>';
+  }
+  function abrir(id) {
+    atual = id; lista();
+    var p = PESSOAS[id] || [id, "var(--surface-2)"], m = msgs[id] || [];
+    document.getElementById("thread").innerHTML = '<div class="cluster" style="justify-content:space-between"><div class="cluster"><span class="avatar" style="--av:' + p[1] + '">' + ini(p[0]) + '</span><div><strong>' + esc(p[0]) + '</strong><div class="small">@' + id + '</div></div></div><a class="btn btn-ghost btn-sm" href="perfil.html#@' + id + '">Ver perfil</a></div>' +
+      '<div class="msgs" id="msgs">' + (m.length ? m.map(function (x) { return '<div class="msg' + (x[0] === EU ? " eu" : "") + '">' + esc(x[1]) + '<span class="small">' + x[2] + "</span></div>"; }).join("") : '<p class="small muted">Escreva a primeira mensagem. ' + esc(p[0].split(" ")[0]) + " recebe um aviso por e-mail.</p>") + "</div>" +
+      '<form id="enviar"><label class="sr-only" for="txt">Mensagem</label><input class="input" id="txt" placeholder="Escreva uma mensagem" autocomplete="off" maxlength="1000"><button class="btn btn-primary" type="submit">Enviar</button></form>';
+    var box = document.getElementById("msgs"); box.scrollTop = box.scrollHeight;
+  }
+  document.getElementById("convs").addEventListener("click", function (e) { var c = e.target.closest("[data-c]"); if (c) { abrir(c.getAttribute("data-c")); history.replaceState(null, "", "#" + c.getAttribute("data-c")); } });
+  document.getElementById("convs").addEventListener("keydown", function (e) { if (e.key === "Enter") { var c = e.target.closest("[data-c]"); if (c) abrir(c.getAttribute("data-c")); } });
+  document.getElementById("thread").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var t = document.getElementById("txt"), v = t.value.trim(); if (!v) return;
+    var h = new Date(); (msgs[atual] = msgs[atual] || []).push([EU, v, ("0" + h.getHours()).slice(-2) + ":" + ("0" + h.getMinutes()).slice(-2)]);
+    salvar(); abrir(atual);
+    C365.toast((PESSOAS[atual] || [atual])[0].split(" ")[0] + " vai receber um aviso por e-mail");
+  });
+
+  /* Interessados (leads) nas fotos do usuário */
+  var leads = ler("c365-leads", []).filter(function (l) { return l.fotografo === EU; }).concat([
+    { nome: "Carla Nunes", email: "carla@agenciaolhar.com.br", telefone: "(11) 98877-1200", interesse: "Licenciar para uso comercial", mensagem: "Queremos usar a foto em uma campanha de outubro. Qual o valor para 6 meses?", fotoTitulo: "Primeiro click do mês", em: Date.now() - 864e5, exemplo: true },
+    { nome: "Rodrigo Leal", email: "rodrigo@gmail.com", telefone: "(11) 97000-4411", interesse: "Comprar impressão", mensagem: "Tem essa em 60×40 fine art?", fotoTitulo: "Quadrado", em: Date.now() - 3 * 864e5, exemplo: true }
+  ]);
+  var status = ler("c365-leads-status", {});
+  document.getElementById("n-leads").textContent = leads.length;
+  function renderLeads() {
+    document.getElementById("leads").innerHTML = leads.map(function (l, i) {
+      var k = String(l.em), s = status[k] || "novo";
+      return '<div class="list-item" style="align-items:flex-start"><span class="avatar">' + ini(l.nome) + '</span><div class="grow lead"><div><strong>' + esc(l.nome) + '</strong> <span class="badge plain ' + (s === "novo" ? "badge-accent" : s === "respondido" ? "badge-info" : "badge-success") + '">' + s + '</span></div><div class="small">' + esc(l.interesse) + " · “" + esc(l.fotoTitulo) + "” · " + new Date(l.em).toLocaleDateString("pt-BR") + "</div>" + (l.mensagem ? "<p style='margin:4px 0'>" + esc(l.mensagem) + "</p>" : "") + '<div class="small mono">' + esc(l.email) + " · " + esc(l.telefone) + "</div></div>" +
+        '<div class="stack" style="gap:6px"><a class="btn btn-sm" href="mailto:' + esc(l.email) + "?subject=" + encodeURIComponent("Sua mensagem sobre “" + l.fotoTitulo + "”") + '" data-st="' + k + '" data-v="respondido">Responder por e-mail</a><button class="btn btn-secondary btn-sm" type="button" data-st="' + k + '" data-v="negócio fechado">Negócio fechado</button></div></div>';
+    }).join("");
+  }
+  document.getElementById("leads").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-st]"); if (!b) return;
+    status[b.getAttribute("data-st")] = b.getAttribute("data-v"); gravar("c365-leads-status", status); renderLeads();
+    if (b.getAttribute("data-v") === "negócio fechado") C365.toast("Registrado. Isso entra nas métricas de contatos (sem valores).");
+  });
+  renderLeads();
+
+  function aba(a) {
+    document.querySelectorAll("#abas [data-aba]").forEach(function (b) { b.setAttribute("aria-selected", String(b.getAttribute("data-aba") === a)); });
+    document.getElementById("aba-conversas").hidden = a !== "conversas";
+    document.getElementById("aba-interessados").hidden = a !== "interessados";
+  }
+  document.getElementById("abas").addEventListener("click", function (e) { var b = e.target.closest("[data-aba]"); if (b) aba(b.getAttribute("data-aba")); });
+  var h = location.hash.slice(1);
+  if (h === "interessados") { aba("interessados"); abrir(Object.keys(msgs)[0]); }
+  else abrir(h && PESSOAS[h] ? h : Object.keys(msgs)[0]);
+});
+</script>
+</body></html>

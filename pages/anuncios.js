@@ -25,6 +25,7 @@
     { id: "ex-escola", espaco: "home", anunciante: "Escola Luz & Tempo", texto: "Curso de luz natural: turmas de novembro abertas.", titulo: "Aprenda a ler a luz", link: "cursos.html", inicio: ini.getTime(), meses: 2, status: "ativa", impressoes: 30120, cliques: 388, tone: "#4f4336", tone2: "#c09a6c", exemplo: true },
     { id: "ex-revista", espaco: "radar", anunciante: "Revista Olhar", texto: "Assine a revista impressa e receba 4 fotolivros por ano.", link: "radar.html", inicio: ini.getTime(), meses: 12, status: "ativa", impressoes: 12870, cliques: 301, exemplo: true },
     { id: "ex-tripe", espaco: "biblioteca", elemento: "equipamento-tripe", anunciante: "Tripés Serra", texto: "Estabilidade para as suas longas exposições.", link: "loja.html", inicio: ini.getTime(), meses: 3, status: "ativa", impressoes: 2140, cliques: 57, exemplo: true },
+    { id: "ex-destaque", espaco: "fotografo", fotografo: "rafaborges", anunciante: "Rafael Borges", texto: "Retratos com luz natural. Agenda aberta para ensaios.", link: "perfil.html#@rafaborges", inicio: ini.getTime(), meses: 1, status: "ativa", impressoes: 3480, cliques: 142, exemplo: true },
     { id: "ex-analise", espaco: "home", anunciante: "Estúdio Norte", texto: "Aluguel de estúdio por hora para ensaios.", titulo: "Estúdio Norte", link: "loja.html", inicio: ini.getTime(), meses: 1, status: "em análise", impressoes: 0, cliques: 0, exemplo: true }
   ];
 

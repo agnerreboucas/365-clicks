@@ -105,7 +105,15 @@ document.addEventListener("DOMContentLoaded", function () {
   $("#abrir-cart").addEventListener("click", function () { $("#cart").hidden = false; $("#fechar-cart").focus(); });
   $("#fechar-cart").addEventListener("click", function () { $("#cart").hidden = true; $("#abrir-cart").focus(); });
   $("#clube").addEventListener("change", renderCart);
-  $("#finalizar").addEventListener("click", function () { C.toast("Pagamento da loja: Pix, cartão e boleto, igual à inscrição (próxima etapa do protótipo)"); });
+  $("#finalizar").addEventListener("click", function () {
+    if (!cart.length) return;
+    var sub = cart.reduce(function (a, i) { return a + i.q * i.preco; }, 0), tot = $("#clube").checked ? sub * 0.8 : sub;
+    var ped; try { ped = JSON.parse(localStorage.getItem("c365-pedidos") || "[]"); } catch (e) { ped = []; }
+    ped.unshift({ codigo: "LJ-" + String(Date.now()).slice(-6), itens: cart, total: tot, em: Date.now(), status: "aguardando Pix" });
+    try { localStorage.setItem("c365-pedidos", JSON.stringify(ped.slice(0, 30))); } catch (e) {}
+    cart = []; salvar();
+    location.href = "minhas-compras.html#novo";
+  });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("#cart").hidden) $("#cart").hidden = true; });
   render(""); renderCart();
 });

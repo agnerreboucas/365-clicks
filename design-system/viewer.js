@@ -256,7 +256,7 @@
   function renderInfo(foto, ph) {
     var outras = F.doFotografo(ph.id).filter(function (f) { return f.id !== foto.id; });
     V.querySelector('[data-panel="info"]').innerHTML =
-      '<div class="cluster" style="gap:12px"><span class="avatar" style="--av:' + ph.av + '">' + F.iniciais(ph.nome) + '</span><div style="flex:1;min-width:0"><strong>' + esc(ph.nome) + '</strong><div class="small">@' + ph.id + " · " + esc(ph.cidade) + '</div></div><button class="btn btn-secondary btn-sm" type="button" aria-pressed="false" data-toggle data-on="Agora você segue ' + esc(ph.nome) + '">Seguir</button></div>' +
+      '<div class="cluster" style="gap:12px"><span class="avatar" style="--av:' + ph.av + '">' + F.iniciais(ph.nome) + '</span><div style="flex:1;min-width:0"><a href="' + C.page("perfil") + "#@" + ph.id + '"><strong>' + esc(ph.nome) + '</strong></a><div class="small">@' + ph.id + " · " + esc(ph.cidade) + '</div></div><button class="btn btn-secondary btn-sm" type="button" aria-pressed="false" data-toggle data-on="Agora você segue ' + esc(ph.nome) + '">Seguir</button></div>' +
       '<div class="cluster" style="margin-top:20px;gap:8px"><span class="day">DIA <b>' + foto.dia + "</b>/365</span></div>" +
       '<h2 id="viewer-title" class="viewer-title">' + esc(foto.titulo) + "</h2>" +
       '<p class="viewer-desc">' + esc(foto.descricao) + "</p>" +

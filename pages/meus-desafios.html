@@ -3,6 +3,81 @@
 <title>365 Clicks — Meus Desafios</title>
 <link rel="stylesheet" href="../design-system/tokens.css">
 <link rel="stylesheet" href="../design-system/components.css">
-<script src="../design-system/app.js" defer></script></head><body data-page="meus-desafios">
+<script src="../design-system/app.js" defer></script>
+<style>
+.ano { display: grid; grid-template-columns: repeat(auto-fill, 14px); gap: 3px; margin: var(--sp-3) 0; }
+.ano a { width: 14px; height: 14px; border-radius: 3px; background: var(--surface-2); display: block; }
+.ano a.ok { background: var(--ink); }
+.ano a.hoje { outline: 2px solid var(--accent); outline-offset: 1px; }
+.ano a.futuro { opacity: .35; }
+.sem { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: var(--sp-2); }
+.sem a { text-decoration: none; padding: var(--sp-3); border: 1px solid var(--line); border-radius: var(--r-md); display: flex; flex-direction: column; gap: 4px; min-height: 110px; }
+.sem a.ok { background: var(--surface-2); }
+.sem a.aberto { border-color: var(--accent); }
+@media (max-width: 800px) { .sem { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+</style></head><body data-page="meus-desafios">
 <header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
-<main><h1>Meus Desafios</h1><p>Progresso, sequência e pontuação</p><div class="row"><div class="panel stat"><span class="small">Principal</span><div class="metric">127</div></div><div class="panel stat"><span class="small">Ativos</span><div class="metric">2.480</div></div><div class="panel stat"><span class="small">Progresso</span><div class="metric">68%</div></div></div><h2>Conteúdo</h2><div class="panel"><h2>Progresso, sequência e pontuação</h2><p>Esta tela faz parte do ecossistema 365 Clicks. O protótipo demonstra a hierarquia visual, navegação e componentes principais da página.</p><button class="btn" type="button" data-toast="“Continuar” será ligado na versão funcional">Continuar</button></div><h2>Conteúdo relacionado</h2><div class="grid"><figure class="card"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&h=1000&q=80" alt="Fotografia de @fotografo_1" loading="lazy" style="--ratio:4/5;--tone:#18233a;--tone2:#4b5f88"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #127</b><span class="small">@fotografo_1 · São Paulo</span><span class="exif">35mm · f/2 · 1/500s · ISO 200</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_2" loading="lazy" style="--ratio:3/2;--tone:#37433a;--tone2:#8b9a84"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #128</b><span class="small">@fotografo_2 · São Paulo</span><span class="exif">50mm · f/1.8 · 1/250s · ISO 400</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=800&h=800&q=80" alt="Fotografia de @fotografo_3" loading="lazy" style="--ratio:1/1;--tone:#4f4336;--tone2:#c09a6c"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #129</b><span class="small">@fotografo_3 · São Paulo</span><span class="exif">24mm · f/8 · 1/125s · ISO 100</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&h=1200&q=80" alt="Fotografia de @fotografo_4" loading="lazy" style="--ratio:2/3;--tone:#26231f;--tone2:#6d6054"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #130</b><span class="small">@fotografo_4 · São Paulo</span><span class="exif">85mm · f/1.4 · 1/1000s · ISO 100</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_5" loading="lazy" style="--ratio:3/2;--tone:#35402f;--tone2:#7f8c6c"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #131</b><span class="small">@fotografo_5 · São Paulo</span><span class="exif">16mm · f/2.8 · 20s · ISO 3200</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=800&h=1000&q=80" alt="Fotografia de @fotografo_6" loading="lazy" style="--ratio:4/5;--tone:#2c464e;--tone2:#a3bab2"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #132</b><span class="small">@fotografo_6 · São Paulo</span><span class="exif">28mm · f/5.6 · 1/320s · ISO 160</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&h=1067&q=80" alt="Fotografia de @fotografo_7" loading="lazy" style="--ratio:3/4;--tone:#304131;--tone2:#a2b298"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #133</b><span class="small">@fotografo_7 · São Paulo</span><span class="exif">35mm · f/4 · 1/60s · ISO 800</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_8" loading="lazy" style="--ratio:3/2;--tone:#382c28;--tone2:#8e7061"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #134</b><span class="small">@fotografo_8 · São Paulo</span><span class="exif">70mm · f/2.8 · 1/400s · ISO 250</span></figcaption></figure></div></main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer></body></html>
+<main data-photos>
+<span class="eyebrow">365 Challenge · Ano 1</span>
+<h1>Meus desafios</h1>
+<p>O seu ano no 365: dias publicados, sequência, pontos e o que vem pela frente. Cada dia vale até 10 pontos: 2 por característica cumprida (mínimo 2 de 4) e mais 2 por publicar no próprio dia.</p>
+<div class="row" style="margin:24px 0">
+  <div class="panel stat"><span class="small">Dias publicados</span><div class="metric" id="m-dias">—</div><span class="small" id="m-dias-s"></span></div>
+  <div class="panel stat"><span class="small">Sequência atual</span><div class="metric" id="m-seq">—</div><span class="small" id="m-rec"></span></div>
+  <div class="panel stat"><span class="small">Pontos no ano</span><div class="metric" id="m-pts">—</div><span class="small">média <span id="m-med"></span> por dia</span></div>
+  <div class="panel stat"><span class="small">Próxima conquista</span><div class="metric" id="m-prox">—</div><a class="small" href="conquistas.html" id="m-prox-s">Ver conquistas →</a></div>
+</div>
+<div class="section-head"><h2 style="margin:0">Esta semana</h2><a href="desafios.html">Semana completa →</a></div>
+<div class="sem" id="semana"></div>
+<div class="section-head" style="margin-top:32px"><h2 style="margin:0">O seu ano</h2><a href="calendario.html">Calendário dos 365 →</a></div>
+<p class="small" style="margin:0">Cada quadrado é um dia. Preto: publicado. Clique para ver o desafio daquele dia.</p>
+<div class="ano" id="ano"></div>
+<div class="section-head" style="margin-top:32px"><h2 style="margin:0">Últimas publicações</h2><a href="perfil.html">Meu perfil →</a></div>
+<div class="table-wrap"><table class="table"><thead><tr><th>Dia</th><th>Tema</th><th>Características cumpridas</th><th>No dia?</th><th class="num">Pontos</th></tr></thead><tbody id="hist"></tbody></table></div>
+</main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer><script>
+document.addEventListener("c365:fotos", function () {
+  var D = window.Desafios; if (!D) return;
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  var hoje = D.hoje(), N = hoje.dia, ALVO = 127, SEQ = 12;
+  /* Histórico simulado e estável: os últimos 12 dias seguidos + dias anteriores escolhidos por um hash fixo */
+  function h(n) { return (n * 2654435761 % 4294967296) / 4294967296; }
+  var feitos = {}, cands = [];
+  for (var n = 1; n < N; n++) { if (n >= N - SEQ) feitos[n] = true; else cands.push(n); }
+  cands.sort(function (a, b) { return h(a) - h(b); }).slice(0, Math.max(0, ALVO - SEQ)).forEach(function (n) { feitos[n] = true; });
+  function caract(n) { return 2 + Math.floor(h(n + 7) * 3); }
+  function noDia(n) { return h(n + 13) > .15; }
+  var total = 0, dias = Object.keys(feitos).map(Number).sort(function (a, b) { return a - b; });
+  dias.forEach(function (n) { total += D.pontos(caract(n), noDia(n)); });
+  var rec = 0, run = 0; for (var k = 1; k < N; k++) { run = feitos[k] ? run + 1 : 0; rec = Math.max(rec, run); }
+  document.getElementById("m-dias").textContent = dias.length;
+  document.getElementById("m-dias-s").textContent = "de " + (N - 1) + " dias até ontem · " + Math.round(dias.length / (N - 1) * 100) + "%";
+  document.getElementById("m-seq").textContent = SEQ + " dias";
+  document.getElementById("m-rec").textContent = "recorde: " + rec + " dias";
+  document.getElementById("m-pts").textContent = total.toLocaleString("pt-BR");
+  var MARCOS = [[183, "Meio caminho"], [250, "Três quartos"], [365, "Ano completo"]].filter(function (m) { return m[0] > dias.length; })[0];
+  if (MARCOS) { document.getElementById("m-prox").textContent = MARCOS[1]; document.getElementById("m-prox-s").textContent = "faltam " + (MARCOS[0] - dias.length) + " dias publicados →"; }
+  document.getElementById("m-med").textContent = (total / dias.length).toFixed(1).replace(".", ",");
+
+  document.getElementById("semana").innerHTML = D.semana(0).map(function (d) {
+    var st = D.status(d), ok = feitos[d.dia];
+    var rot = ok ? "Publicado · " + D.pontos(caract(d.dia), noDia(d.dia)) + " pts" : st === "aberto" ? "Aberto até 23:59:59" : st === "agendado" ? "Agendado" : "Não publicado";
+    var href = st === "aberto" ? "desafio-do-dia.html" : "calendario.html#dia-" + d.dia;
+    return '<a class="' + (ok ? "ok " : "") + st + '" href="' + href + '"><span class="small mono">' + d.nomeDia + " · " + D.dataCurta(d.inicio) + '</span><strong>' + esc(d.tema) + '</strong><span class="small">' + rot + "</span></a>";
+  }).join("");
+
+  var html = "";
+  for (var i = 1; i <= 365; i++) {
+    var cls = feitos[i] ? "ok" : i > N ? "futuro" : "";
+    if (i === N) cls += " hoje";
+    var dd = D.porNumero(i) || null;
+    html += '<a class="' + cls + '" href="' + (i === N ? "desafio-do-dia.html" : "calendario.html#dia-" + i) + '" title="Dia ' + i + (dd && dd.tema ? " · " + esc(dd.tema) : "") + (feitos[i] ? " · publicado" : "") + '" aria-label="Dia ' + i + (feitos[i] ? ", publicado" : "") + '"></a>';
+  }
+  document.getElementById("ano").innerHTML = html;
+
+  document.getElementById("hist").innerHTML = dias.slice(-10).reverse().map(function (n) {
+    var dd = D.porNumero(n) || {}, c = caract(n), nd = noDia(n);
+    return '<tr><td class="mono"><a href="calendario.html#dia-' + n + '">' + n + "</a></td><td>" + esc(dd && dd.tema || "") + "</td><td>" + c + " de 4</td><td>" + (nd ? "Sim" : "Não") + '</td><td class="num">' + D.pontos(c, nd) + "</td></tr>";
+  }).join("");
+});
+</script>
+</body></html>

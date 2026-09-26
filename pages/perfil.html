@@ -1,34 +1,82 @@
 <!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>365 Clicks — Meu Perfil</title>
+<title>365 Clicks — Perfil</title>
 <link rel="stylesheet" href="../design-system/tokens.css">
 <link rel="stylesheet" href="../design-system/components.css">
-<script src="../design-system/app.js" defer></script></head><body data-page="perfil">
+<script src="../design-system/app.js" defer></script>
+<style>
+.pf-tab[hidden] { display: none; }
+.pf-conq { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--sp-3); }
+</style></head><body data-page="perfil">
 <header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
-<main>
+<main data-photos>
 <div class="cover" role="img" aria-label="Imagem de capa" style="--img:url('https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1800&h=600&q=80');--tone:#4f4336;--tone2:#c09a6c"></div>
 <div class="cluster" style="align-items:flex-end;margin-top:-72px;padding:0 8px;gap:20px">
   <span class="avatar avatar-xl" id="pf-av" style="--av:var(--accent-soft)">MA</span>
   <div style="flex:1;min-width:220px"><h1 style="margin:0" id="pf-nome">Marcos Andrade</h1><div class="small" id="pf-sub">@marcosandrade · São Paulo, SP · Rua e arquitetura</div><p class="small" id="pf-bio" style="margin:6px 0 0"></p></div>
-  <div class="cluster"><a class="btn btn-secondary" href="editar-perfil.html">Editar perfil</a><a class="btn" href="publicar.html">Publicar</a></div>
+  <div class="cluster" id="pf-acoes"><a class="btn btn-secondary" href="editar-perfil.html">Editar perfil</a><a class="btn" href="publicar.html">Publicar</a></div>
 </div>
-<div class="row" style="margin-top:28px">
-  <div class="panel stat"><span class="small">Clicks</span><div class="metric">127</div></div>
-  <div class="panel stat"><span class="small">Sequência atual</span><div class="metric">12 dias</div></div>
-  <div class="panel stat"><span class="small">Seguidores</span><div class="metric">1.906</div></div>
-  <div class="panel stat"><span class="small">Posição no ranking</span><div class="metric">#84</div></div>
+<div class="row" style="margin-top:28px" id="pf-stats">
+  <div class="panel stat"><span class="small">Clicks no 365</span><div class="metric" id="st-clicks">127</div></div>
+  <div class="panel stat"><span class="small">Sequência atual</span><div class="metric" id="st-seq">12 dias</div></div>
+  <div class="panel stat"><span class="small">Seguidores</span><div class="metric" id="st-seg">1.906</div></div>
+  <div class="panel stat"><span class="small">Pontos no 365</span><div class="metric" id="st-pts">842</div></div>
 </div>
-<div class="tabs" role="tablist" style="margin-top:28px"><button role="tab" aria-selected="true" type="button">Fotografias</button><button role="tab" aria-selected="false" type="button">Portfólio</button><button role="tab" aria-selected="false" type="button">Projetos</button><button role="tab" aria-selected="false" type="button">Coleções</button><button role="tab" aria-selected="false" type="button">Conquistas</button></div>
-<div class="grid"><figure class="card"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&h=1000&q=80" alt="Fotografia de @fotografo_1" loading="lazy" style="--ratio:4/5;--tone:#18233a;--tone2:#4b5f88"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #127</b><span class="small">@fotografo_1 · São Paulo</span><span class="exif">35mm · f/2 · 1/500s · ISO 200</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_2" loading="lazy" style="--ratio:3/2;--tone:#37433a;--tone2:#8b9a84"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #128</b><span class="small">@fotografo_2 · São Paulo</span><span class="exif">50mm · f/1.8 · 1/250s · ISO 400</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=800&h=800&q=80" alt="Fotografia de @fotografo_3" loading="lazy" style="--ratio:1/1;--tone:#4f4336;--tone2:#c09a6c"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #129</b><span class="small">@fotografo_3 · São Paulo</span><span class="exif">24mm · f/8 · 1/125s · ISO 100</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&h=1200&q=80" alt="Fotografia de @fotografo_4" loading="lazy" style="--ratio:2/3;--tone:#26231f;--tone2:#6d6054"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #130</b><span class="small">@fotografo_4 · São Paulo</span><span class="exif">85mm · f/1.4 · 1/1000s · ISO 100</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_5" loading="lazy" style="--ratio:3/2;--tone:#35402f;--tone2:#7f8c6c"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #131</b><span class="small">@fotografo_5 · São Paulo</span><span class="exif">16mm · f/2.8 · 20s · ISO 3200</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=800&h=1000&q=80" alt="Fotografia de @fotografo_6" loading="lazy" style="--ratio:4/5;--tone:#2c464e;--tone2:#a3bab2"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #132</b><span class="small">@fotografo_6 · São Paulo</span><span class="exif">28mm · f/5.6 · 1/320s · ISO 160</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&h=1067&q=80" alt="Fotografia de @fotografo_7" loading="lazy" style="--ratio:3/4;--tone:#304131;--tone2:#a2b298"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #133</b><span class="small">@fotografo_7 · São Paulo</span><span class="exif">35mm · f/4 · 1/60s · ISO 800</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_8" loading="lazy" style="--ratio:3/2;--tone:#382c28;--tone2:#8e7061"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #134</b><span class="small">@fotografo_8 · São Paulo</span><span class="exif">70mm · f/2.8 · 1/400s · ISO 250</span></figcaption></figure></div>
-<h2>Coleções</h2>
-<div class="empty"><div class="frame"></div><h3>Nenhuma coleção ainda</h3><p>Agrupe fotografias por tema, série ou viagem. Coleções aparecem no seu perfil público.</p><button class="btn" type="button" data-toast="Coleção criada (demonstração)">Criar coleção</button></div>
+<div class="tabs" role="tablist" style="margin-top:28px" id="pf-abas"><button role="tab" aria-selected="true" type="button" data-t="fotos">Fotografias</button><button role="tab" aria-selected="false" type="button" data-t="projetos">Projetos</button><button role="tab" aria-selected="false" type="button" data-t="conquistas">Conquistas</button><button role="tab" aria-selected="false" type="button" data-t="sobre">Sobre</button></div>
+<section class="pf-tab" data-tab="fotos"><div class="grid" id="pf-grid"></div><p class="small muted" id="pf-vazio" hidden>Nenhuma foto publicada ainda.</p></section>
+<section class="pf-tab" data-tab="projetos" hidden><div class="list" id="pf-proj"></div></section>
+<section class="pf-tab" data-tab="conquistas" hidden><div class="pf-conq" id="pf-conq"></div><p class="small" style="margin-top:12px"><a href="conquistas.html">Ver todas as conquistas →</a></p></section>
+<section class="pf-tab" data-tab="sobre" hidden><div class="panel"><dl class="kv" id="pf-sobre" style="grid-template-columns:auto 1fr"></dl></div></section>
 </main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer><script>
-document.addEventListener("DOMContentLoaded", function () {
-  var d; try { d = JSON.parse(localStorage.getItem("c365-perfil") || "null"); } catch (e) {} if (!d) return;
-  var t = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
-  t("pf-nome", d.nome); t("pf-sub", "@" + d.user + (d.mostracidade ? " · " + d.cidade + ", " + d.uf : "") + (d.esp && d.esp.length ? " · " + d.esp.join(", ") : "")); t("pf-bio", d.bio);
-  if (d.avatar) document.getElementById("pf-av").innerHTML = '<img src="' + d.avatar + '" alt="">';
-  if (d.capa) { var c = document.querySelector(".cover"); if (c) c.style.setProperty("--img", "url('" + d.capa + "')"); }
-});
+(function () {
+  var EU = "marcosandrade";
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function t(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; }
+  function card() { return '<figure class="card"><img alt="" loading="lazy"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button></div><figcaption class="meta"></figcaption></figure>'; }
+  function quem() { var h = decodeURIComponent(location.hash.replace(/^#@?/, "")); return h && window.Fotos && Fotos.fotografo(h) ? h : EU; }
+
+  function render() {
+    var F = window.Fotos, id = quem(), ph = F.fotografo(id), meu = id === EU, perfil = null;
+    if (meu) { try { perfil = JSON.parse(localStorage.getItem("c365-perfil") || "null"); } catch (e) {} }
+    document.title = "365 Clicks — " + (meu ? "Meu perfil" : ph.nome);
+    t("pf-nome", perfil && perfil.nome || ph.nome);
+    t("pf-sub", "@" + (perfil && perfil.user || ph.id) + " · " + ph.cidade + " · " + ph.foco);
+    t("pf-bio", perfil && perfil.bio || ph.bio);
+    var av = document.getElementById("pf-av");
+    av.style.setProperty("--av", ph.av);
+    av.innerHTML = perfil && perfil.avatar ? '<img src="' + perfil.avatar + '" alt="">' : F.iniciais(ph.nome);
+    document.querySelector(".cover").style.setProperty("--img", perfil && perfil.capa ? "url('" + perfil.capa + "')" : "none");
+    var fotos = F.doFotografo(id);
+    if (fotos.length && !(perfil && perfil.capa)) document.querySelector(".cover").style.setProperty("--img", "url('" + fotos[0].grande + "')");
+    document.getElementById("pf-acoes").innerHTML = meu
+      ? '<a class="btn btn-secondary" href="editar-perfil.html">Editar perfil</a><a class="btn" href="publicar.html">Publicar</a>'
+      : '<button class="btn btn-primary" type="button" aria-pressed="false" data-toggle data-on="Agora você segue ' + esc(ph.nome) + '">Seguir</button><a class="btn btn-secondary" href="mensagens.html#' + ph.id + '">Mensagem</a>' + (fotos[0] ? '<button class="btn btn-ghost" type="button" data-open-photo="' + fotos[0].id + '">Contratar ou licenciar</button>' : "");
+    var seg = Math.round(ph.clicks * 9.3 + 120);
+    t("st-clicks", ph.clicks); t("st-seq", (ph.clicks % 30 + 3) + " dias"); t("st-seg", seg.toLocaleString("pt-BR")); t("st-pts", (ph.clicks * 6 + 80).toLocaleString("pt-BR"));
+    var g = document.getElementById("pf-grid");
+    g.innerHTML = fotos.map(card).join("");
+    document.getElementById("pf-vazio").hidden = !!fotos.length;
+    if (window.C365 && C365.viewer) { C365.viewer.hidratar(g, fotos); C365.masonry(); }
+    document.getElementById("pf-proj").innerHTML = meu
+      ? '<a class="list-item" href="projeto.html"><div class="grow"><strong>São Paulo Invisível</strong><div class="small">Série autoral · 24 fotos</div></div><span class="small">Abrir →</span></a><a class="list-item" href="projetos.html"><div class="grow"><strong>Criar ou organizar projetos</strong><div class="small">Séries com nome, conceito e fotos</div></div><span class="small">Projetos →</span></a>'
+      : '<a class="list-item" href="projetos.html"><div class="grow"><strong>Projetos de ' + esc(ph.nome.split(" ")[0]) + '</strong><div class="small">Séries autorais publicadas</div></div><span class="small">Ver →</span></a>';
+    var conq = [["Primeiro click", "Publicou a primeira foto do 365", 1], ["Semana completa", "7 dias seguidos", 7], ["Um mês de olhar", "30 dias seguidos", 30], ["Centenário", "100 clicks no 365", 100], ["Meio caminho", "183 clicks", 183], ["Ano completo", "365 clicks", 365]];
+    document.getElementById("pf-conq").innerHTML = conq.map(function (c) {
+      var ok = ph.clicks >= c[2];
+      return '<div class="panel stack" style="gap:4px;opacity:' + (ok ? 1 : .5) + '"><span class="badge ' + (ok ? "badge-accent" : "") + ' plain">' + (ok ? "Conquistado" : "Bloqueado") + '</span><strong>' + c[0] + '</strong><span class="small">' + c[1] + "</span></div>";
+    }).join("");
+    document.getElementById("pf-sobre").innerHTML = "<dt>Cidade</dt><dd style='text-align:left'>" + esc(ph.cidade) + "</dd><dt>Especialidade</dt><dd style='text-align:left'>" + esc(ph.foco) + "</dd><dt>No 365</dt><dd style='text-align:left'>" + ph.clicks + " dias publicados</dd><dt>Contato</dt><dd style='text-align:left'>" + (meu ? "Seus interessados chegam em <a href='mensagens.html'>Mensagens</a>" : "Pelo botão “Contratar ou licenciar” em qualquer foto") + "</dd>";
+  }
+
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("#pf-abas [data-t]");
+    if (!b) return;
+    document.querySelectorAll("#pf-abas [data-t]").forEach(function (x) { x.setAttribute("aria-selected", String(x === b)); });
+    document.querySelectorAll(".pf-tab").forEach(function (s) { s.hidden = s.getAttribute("data-tab") !== b.getAttribute("data-t"); });
+    if (b.getAttribute("data-t") === "fotos" && window.C365) C365.masonry();
+  });
+  document.addEventListener("c365:fotos", render);
+  window.addEventListener("hashchange", function () { if (window.Fotos) { render(); scrollTo(0, 0); } });
+})();
 </script>
 </body></html>

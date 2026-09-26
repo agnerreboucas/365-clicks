@@ -14,7 +14,6 @@
     { id: "portal", name: "Portal", pages: [
       ["home", "Home", "Galeria viva + desafio diário"],
       ["explorar", "Explorar", "Descubra fotografias, temas e tendências"],
-      ["fotografias", "Fotografias", "Biblioteca visual da comunidade"],
       ["fotografia", "Fotografia", "Página individual da fotografia"],
       ["fotografos", "Fotógrafos", "Diretório de fotógrafos"],
       ["blog", "Blog", "Conteúdo editorial"],
@@ -32,7 +31,6 @@
       ["editar-perfil", "Editar Perfil", "Configuração do perfil público"],
       ["publicar", "Publicar", "Envie uma nova fotografia"],
       ["seguidores", "Seguidores", "Pessoas que acompanham você"],
-      ["seguindo", "Seguindo", "Fotógrafos acompanhados"],
       ["notificacoes", "Notificações", "Atividade da comunidade"],
       ["mensagens", "Mensagens", "Networking entre fotógrafos"],
       ["configuracoes", "Configurações", "Conta, privacidade e notificações"]
@@ -49,17 +47,14 @@
       ["portfolio", "Portfólio", "Seleção profissional"],
       ["projetos", "Projetos", "Séries fotográficas autorais"],
       ["projeto", "Projeto", "São Paulo Invisível"],
-      ["colecoes", "Coleções", "Organize e descubra coleções"],
-      ["equipamentos", "Equipamentos", "Câmeras, lentes e acessórios"]
+      ["colecoes", "Coleções", "Organize e descubra coleções"]
     ]},
     { id: "educacao", name: "Educação", pages: [
       ["cursos", "Cursos", "Formação em fotografia"],
       ["biblioteca", "Biblioteca", "Técnicas, enquadramentos, linguagens e equipamentos"],
       ["curso", "Curso", "Fotografia de Rua — do olhar à narrativa"],
       ["meus-cursos", "Meus Cursos", "Progresso educacional"],
-      ["aula", "Aula", "Player e materiais da aula"],
-      ["ebooks", "E-books", "Biblioteca digital"],
-      ["exercicios", "Exercícios", "Prática fotográfica"]
+      ["aula", "Aula", "Player e materiais da aula"]
     ]},
     { id: "experiencias", name: "Experiências", pages: [
       ["eventos", "Eventos", "Experiências presenciais"],
@@ -72,17 +67,14 @@
     ]},
     { id: "criativa", name: "Foto Criativa", pages: [
       ["foto-criativa", "Foto Criativa", "Ferramentas para desbloquear ideias"],
-      ["gerador-ideias", "Gerador de Ideias", "Gere uma proposta fotográfica"],
-      ["gerador-desafio", "Gerador de Desafio", "Crie um desafio personalizado"],
-      ["roteiros", "Roteiros", "Planeje uma saída fotográfica"],
-      ["inspiracao", "Inspiração", "Referências visuais"]
+      ["gerador-ideias", "Gerador criativo", "Combine tema, técnica, enquadramento, linguagem e equipamento"],
+      ["roteiros", "Roteiros", "Planeje uma saída fotográfica"]
     ]},
     { id: "comercial", name: "Comercial", pages: [
       ["loja", "Loja", "App, livros, e-books e camisetas"],
       ["anuncie", "Anuncie", "Espaços de mídia com mensalidade"],
       ["minhas-campanhas", "Minhas campanhas", "Painel do anunciante"],
       ["planos", "Planos", "Free + 365 + Clube"],
-      ["assinatura", "Assinatura", "Escolha e gerencie seu plano"],
       ["checkout", "Checkout", "Pagamento"],
       ["minha-assinatura", "Minha Assinatura", "Plano, cobrança e cancelamento"],
       ["minhas-compras", "Minhas Compras", "Histórico de compras"]
@@ -132,7 +124,13 @@
     flame: '<path d="M12 21c-4 0-6.5-2.7-6.5-6.2 0-3.4 2.5-5.3 3.5-8.3 1.6 1.2 2.4 2.7 2.5 4.2 1-1 1.6-2.4 1.6-4.2 3 2.2 5.4 5.3 5.4 8.5 0 3.4-2.5 6-6.5 6z"/>',
     check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
     grid: '<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',
-    settings: '<circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.3.9a7 7 0 0 0-2-1.2L14 3h-4l-.6 2.6a7 7 0 0 0-2 1.2l-2.3-.9-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.4 2.3-.9a7 7 0 0 0 2 1.2L10 21h4l.6-2.6a7 7 0 0 0 2-1.2l2.3.9 2-3.4-2-1.5c.1-.4.1-.8.1-1.2z"/>'
+    settings: '<circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.3.9a7 7 0 0 0-2-1.2L14 3h-4l-.6 2.6a7 7 0 0 0-2 1.2l-2.3-.9-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.4 2.3-.9a7 7 0 0 0 2 1.2L10 21h4l.6-2.6a7 7 0 0 0 2-1.2l2.3.9 2-3.4-2-1.5c.1-.4.1-.8.1-1.2z"/>',
+    chat: '<path d="M4 5h16v11H9l-5 4z"/>',
+    mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
+    at: '<circle cx="12" cy="12" r="4"/><path d="M16 12v1.5a2.5 2.5 0 0 0 5 0V12a9 9 0 1 0-3.5 7.1"/>',
+    star: '<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/>',
+    ticket: '<path d="M3 8a2 2 0 0 0 0 4v0a2 2 0 0 1 0 4v2h18v-2a2 2 0 0 1 0-4 2 2 0 0 0 0-4V6H3z"/><path d="M14 6v12"/>',
+    calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>'
   };
   function icon(name, cls) {
     return '<svg class="i ' + (cls || "") + '" viewBox="0 0 24 24" aria-hidden="true">' + (ICONS[name] || "") + "</svg>";
