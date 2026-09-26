@@ -25,15 +25,15 @@
 </head><body data-page="plano">
 <header data-shell><a class="logo" href="pages/home.html">365·CLICKS</a></header>
 <main>
-<span class="eyebrow">Diagnóstico · 25/09/2026</span>
+<span class="eyebrow">Diagnóstico · 26/09/2026</span>
 <h1 style="margin-top:4px">Do protótipo ao WordPress</h1>
 <p class="lead">O protótipo já mostra como o 365 Clicks funciona e como ele se parece. Para virar um site no ar, faltam as telas abaixo e a parte que grava de verdade: contas, fotos, pagamentos e e-mails.</p>
 
 <div class="kpis">
-  <div class="panel stat ok"><span class="small">Prontas como protótipo</span><div class="metric">35</div><span class="small">interativas, com regras definidas</span></div>
-  <div class="panel stat par"><span class="small">Parciais</span><div class="metric">4</div><span class="small">visual pronto, conteúdo de exemplo</span></div>
-  <div class="panel stat gen"><span class="small">Com conteúdo genérico</span><div class="metric">32</div><span class="small">precisam de definição</span></div>
-  <div class="panel stat nao"><span class="small">Ainda não existem</span><div class="metric">16</div><span class="small">telas novas necessárias</span></div>
+  <div class="panel stat ok"><span class="small">Prontas como protótipo</span><div class="metric">62</div><span class="small">interativas, com regras definidas</span></div>
+  <div class="panel stat par"><span class="small">Parciais</span><div class="metric">2</div><span class="small">visual pronto, conteúdo de exemplo</span></div>
+  <div class="panel stat gen"><span class="small">Removidas por repetir outras</span><div class="metric">8</div><span class="small">conteúdo absorvido por outras telas</span></div>
+  <div class="panel stat nao"><span class="small">Ainda não existem</span><div class="metric">14</div><span class="small">telas novas necessárias</span></div>
 </div>
 
 <section class="section" id="telas">
@@ -42,7 +42,20 @@
 </section>
 
 <section class="section">
-  <div class="section-head"><div><span class="eyebrow">Ainda não existem</span><h2 class="h2">16 telas novas</h2></div></div>
+  <div class="section-head"><div><span class="eyebrow">Auditoria</span><h2 class="h2">8 telas removidas</h2></div></div>
+  <div class="table-wrap"><table class="table"><thead><tr><th>Tela</th><th>Por que saiu / para onde foi</th></tr></thead><tbody>
+  <tr><td><strong>Exercícios</strong></td><td style="white-space:normal">O exercício diário é o próprio desafio do dia; as explicações estão na Biblioteca e nas aulas dos cursos.</td></tr>
+  <tr><td><strong>Fotografias</strong> e <strong>Inspiração</strong></td><td style="white-space:normal">Repetiam o Explorar (galeria com filtros e “Em alta”).</td></tr>
+  <tr><td><strong>Equipamentos</strong></td><td style="white-space:normal">O equipamento do fotógrafo fica no Editar perfil; o que cada equipamento faz, na Biblioteca.</td></tr>
+  <tr><td><strong>E-books</strong></td><td style="white-space:normal">Vendidos na Loja (categoria E-books).</td></tr>
+  <tr><td><strong>Gerador de Desafio</strong></td><td style="white-space:normal">Unido ao Gerador criativo (tema, técnica, enquadramento, linguagem e equipamento).</td></tr>
+  <tr><td><strong>Assinatura</strong></td><td style="white-space:normal">Dividida em Planos (escolher) e Minha assinatura (gerenciar).</td></tr>
+  <tr><td><strong>Seguindo</strong></td><td style="white-space:normal">Virou a aba “Seguindo” dentro de Seguidores.</td></tr>
+  </tbody></table></div>
+</section>
+
+<section class="section">
+  <div class="section-head"><div><span class="eyebrow">Ainda não existem</span><h2 class="h2">14 telas novas</h2></div></div>
   <div class="table-wrap"><table class="table"><thead><tr><th>Tela</th><th>Para quê</th></tr></thead><tbody id="novas"></tbody></table></div>
 </section>
 
@@ -75,16 +88,15 @@
 document.addEventListener("DOMContentLoaded", function () {
   var P = function (s) { return "pages/" + s + ".html"; };
   var GRUPOS = [
-    ["ok", "Prontas como protótipo", [["home", "Home"], ["explorar", "Explorar"], ["fotografia", "Fotografia"], ["feed", "Feed"], ["perfil", "Meu Perfil"], ["editar-perfil", "Editar Perfil"], ["publicar", "Publicar"], ["seguidores", "Seguidores"], ["cadastro", "Criar conta"], ["desafios", "Desafios 365"], ["desafio-do-dia", "Desafio do Dia"], ["projetos", "Projetos"], ["projeto", "Projeto"], ["eventos", "Eventos"], ["foto-na-paulista", "Foto na Paulista"], ["foto-no-parque", "Foto no Parque"], ["oferta", "Palestra"], ["inscricao", "Inscrição"], ["meus-ingressos", "Meus Ingressos"], ["termos", "Termos e contratos"], ["cursos", "Cursos"], ["curso", "Curso"], ["loja", "Loja"], ["nunca-tirei", "A foto que eu nunca tirei"], ["blog", "Blog"], ["biblioteca", "Biblioteca"], ["radar", "Radar 365"], ["admin-usuarios", "Admin Usuários"], ["admin-eventos", "Admin Eventos"], ["admin-contatos", "Admin Contatos e métricas"], ["admin-desafios", "Admin Desafios"], ["admin-fotos", "Admin Moderação"], ["anuncie", "Anuncie"], ["minhas-campanhas", "Minhas campanhas"], ["admin-anuncios", "Admin Mídia"]]],
-    ["par", "Parciais", [["fotografias", "Fotografias"], ["colecoes", "Coleções"], ["inspiracao", "Inspiração"], ["portfolio", "Portfólio"]]],
-    ["gen", "Com conteúdo genérico", [["sobre", "Sobre"], ["contato", "Contato"], ["ajuda", "Central de Ajuda"], ["artigo", "Artigo"], ["fotografos", "Fotógrafos"], ["seguindo", "Seguindo"], ["notificacoes", "Notificações"], ["mensagens", "Mensagens"], ["configuracoes", "Configurações"], ["calendario", "Calendário"], ["meus-desafios", "Meus Desafios"], ["ranking", "Ranking"], ["conquistas", "Conquistas"], ["equipamentos", "Equipamentos"], ["meus-cursos", "Meus Cursos"], ["aula", "Aula"], ["ebooks", "E-books"], ["exercicios", "Exercícios"], ["foto-criativa", "Foto Criativa"], ["gerador-ideias", "Gerador de Ideias"], ["gerador-desafio", "Gerador de Desafio"], ["roteiros", "Roteiros"], ["planos", "Planos"], ["assinatura", "Assinatura"], ["checkout", "Checkout"], ["minha-assinatura", "Minha Assinatura"], ["minhas-compras", "Minhas Compras"], ["admin", "Admin Dashboard"], ["admin-cursos", "Admin Cursos"], ["admin-assinaturas", "Admin Assinaturas"], ["admin-conteudo", "Admin Conteúdo"], ["admin-gamificacao", "Admin Gamificação"]]]
+    ["ok", "Prontas como protótipo", [["home", "Home"], ["explorar", "Explorar"], ["fotografia", "Fotografia"], ["fotografos", "Fotógrafos"], ["blog", "Blog"], ["artigo", "Artigo"], ["nunca-tirei", "A foto que eu nunca tirei"], ["radar", "Radar 365"], ["sobre", "Sobre"], ["contato", "Contato"], ["ajuda", "Central de Ajuda"], ["cadastro", "Criar conta"], ["feed", "Feed"], ["perfil", "Meu Perfil"], ["editar-perfil", "Editar Perfil"], ["publicar", "Publicar"], ["seguidores", "Seguidores"], ["notificacoes", "Notificações"], ["mensagens", "Mensagens"], ["configuracoes", "Configurações"], ["desafios", "Desafios 365"], ["desafio-do-dia", "Desafio do Dia"], ["calendario", "Calendário"], ["meus-desafios", "Meus Desafios"], ["ranking", "Ranking"], ["conquistas", "Conquistas"], ["projetos", "Projetos"], ["projeto", "Projeto"], ["cursos", "Cursos"], ["biblioteca", "Biblioteca"], ["curso", "Curso"], ["meus-cursos", "Meus Cursos"], ["aula", "Aula"], ["eventos", "Eventos"], ["foto-na-paulista", "Foto na Paulista"], ["foto-no-parque", "Foto no Parque"], ["oferta", "Palestra online"], ["inscricao", "Inscrição"], ["meus-ingressos", "Meus Ingressos"], ["termos", "Termos e contratos"], ["foto-criativa", "Foto Criativa"], ["gerador-ideias", "Gerador criativo"], ["roteiros", "Roteiros"], ["roteiro", "Roteiro"], ["loja", "Loja"], ["anuncie", "Anuncie"], ["minhas-campanhas", "Minhas campanhas"], ["planos", "Planos"], ["checkout", "Checkout"], ["minha-assinatura", "Minha Assinatura"], ["minhas-compras", "Minhas Compras"], ["admin", "Dashboard"], ["admin-contatos", "Contatos e métricas"], ["admin-anuncios", "Mídia e anunciantes"], ["admin-usuarios", "Usuários"], ["admin-fotos", "Moderação"], ["admin-desafios", "Desafios"], ["admin-cursos", "Cursos"], ["admin-eventos", "Eventos"], ["admin-assinaturas", "Assinaturas"], ["admin-conteudo", "Conteúdo"], ["admin-gamificacao", "Gamificação"]]],
+    ["par", "Parciais", [["portfolio", "Portfólio"], ["colecoes", "Coleções"]]]
   ];
   var BADGE = { ok: "badge-success", par: "badge-warning", gen: "" };
   document.getElementById("grupos").innerHTML = GRUPOS.map(function (g) {
     return '<div><div class="cluster" style="margin-bottom:8px"><span class="badge ' + BADGE[g[0]] + '">' + g[1] + '</span><span class="small muted">' + g[2].length + ' telas</span></div><div class="pills">' +
       g[2].map(function (p) { return '<a href="' + P(p[0]) + '">' + p[1] + "</a>"; }).join("") + "</div></div>";
   }).join("");
-  var NOVAS = [["Entrar, sair e recuperar senha", "Login com e-mail e senha, Google e Apple"], ["Onboarding (primeiro acesso)", "Ano no 365, especialidades, fotógrafos para seguir e termos"], ["Perfil público de outro fotógrafo", "/@usuario; hoje só existe Meu perfil"], ["Central do fotógrafo", "Visualizações, cliques, contatos e compartilhamentos das próprias fotos"], ["Caixa de contatos recebidos", "O fotógrafo lê e responde os interessados"], ["Resultados de busca", "Fotos, fotógrafos, desafios, temas e artigos"], ["Página de tema e de coleção", "Explorar por tema; abrir uma coleção"], ["Arquivo do Radar", "Edições anteriores da newsletter"], ["Denunciar foto", "A denúncia de comentário já existe; falta a de foto"], ["Admin Biblioteca e Referências", "Elementos, fotógrafos, livros, filmes"], ["Admin Radar e Linha Editorial", "Edição semanal e calendário de pautas"], ["Admin Loja e Pedidos", "Produtos, estoque, pedidos e frete"], ["Pagamento e pedido confirmado da loja", "Hoje o carrinho é simulado"], ["Termos de uso e Política de cookies", "Termos gerais da plataforma"], ["Página 404 e estados de erro", "Não encontrada, sem conexão, sem permissão"], ["Modelos de e-mail", "Boas-vindas, desafio do dia, menção, contato, ingresso, Radar"]];
+  var NOVAS = [["Entrar, sair e recuperar senha", "Login com e-mail e senha, Google e Apple"], ["Onboarding (primeiro acesso)", "Ano no 365, especialidades, fotógrafos para seguir e termos"], ["Central do fotógrafo", "Visualizações, cliques, contatos e compartilhamentos das próprias fotos"], ["Resultados de busca", "Fotos, fotógrafos, desafios, temas e artigos"], ["Página de tema e de coleção", "Explorar por tema; abrir uma coleção"], ["Arquivo do Radar", "Edições anteriores da newsletter"], ["Denunciar foto", "A denúncia de comentário já existe; falta a de foto"], ["Admin Biblioteca e Referências", "Elementos, fotógrafos, livros, filmes"], ["Admin Radar e Linha Editorial", "Edição semanal e calendário de pautas"], ["Admin Loja e Pedidos", "Produtos, estoque, pedidos e frete"], ["Pagamento da loja", "O pedido já é criado; falta o passo de Pix, cartão e boleto"], ["Termos de uso e Política de cookies", "Termos gerais da plataforma"], ["Página 404 e estados de erro", "Não encontrada, sem conexão, sem permissão"], ["Modelos de e-mail", "Boas-vindas, desafio do dia, menção, contato, ingresso, Radar"]];
   document.getElementById("novas").innerHTML = NOVAS.map(function (n) { return "<tr><td><strong>" + n[0] + '</strong></td><td style="white-space:normal">' + n[1] + "</td></tr>"; }).join("");
   var FASES = [["0", "Fundação", "Grande", ["Hospedagem e domínio", "Tema com o design system e plugin core", "Contas, onboarding e perfil", "Publicar com EXIF e WebP", "Motor dos 365 desafios importado da planilha"]], ["1", "Comunidade", "Grande", ["Feed e visualizador protegido", "Curtidas, comentários, menções e marcações", "Seguidores e notificações por e-mail", "Ordem Em alta"]], ["2", "Receita", "Grande", ["Eventos e inscrições com Pix, cartão e boleto", "Loja", "Planos e assinatura", "Cursos"]], ["3", "Conteúdo", "Média", ["Blog com editorias", "Biblioteca de Conhecimento", "Radar 365 com newsletter", "A foto que eu nunca tirei"]], ["4", "Gestão", "Média", ["Contatos e métricas", "UTM e origem das visitas", "Moderação", "Admin de conteúdo e gamificação"]], ["5", "Futuro", "—", ["App", "DRM contra print no celular", "IA na Foto Criativa", "Marketplace"]]];
   document.getElementById("fases").innerHTML = FASES.map(function (f) { return '<div class="fase"><span class="n">' + f[0] + '</span><div><h3 style="margin:0 0 6px">' + f[1] + "</h3><ul>" + f[3].map(function (i) { return "<li>" + i + "</li>"; }).join("") + '</ul></div><span class="badge plain">' + f[2] + "</span></div>"; }).join("");

@@ -3,6 +3,33 @@
 <title>365 Clicks — Admin Cursos</title>
 <link rel="stylesheet" href="../design-system/tokens.css">
 <link rel="stylesheet" href="../design-system/components.css">
+<script src="ofertas.js"></script>
 <script src="../design-system/app.js" defer></script></head><body data-page="admin-cursos">
 <header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
-<main><h1>Admin Cursos</h1><p>Gestão educacional</p><div class="row"><div class="panel stat"><span class="small">Usuários</span><div class="metric">12.480</div></div><div class="panel stat"><span class="small">Fotografias</span><div class="metric">84.210</div></div><div class="panel stat"><span class="small">Receita</span><div class="metric">R$ 48.900</div></div></div><h2>Atividade</h2><div class="panel">Tabela operacional, filtros, busca, ações de moderação e relatórios.</div></main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer></body></html>
+<main>
+<div class="cluster" style="justify-content:space-between"><div><h1 style="margin:0">Cursos</h1><p style="margin:8px 0 0">Turmas, alunos, conclusão e receita. As páginas de venda usam a narrativa StoryBrand definida em cada oferta.</p></div><a class="btn" href="cursos.html">Ver vitrine</a></div>
+<div class="row" style="margin:24px 0">
+  <div class="panel stat"><span class="small">Alunos ativos</span><div class="metric">1.284</div></div>
+  <div class="panel stat"><span class="small">Taxa de conclusão</span><div class="metric">61%</div><span class="small">média dos cursos</span></div>
+  <div class="panel stat"><span class="small">Receita no mês</span><div class="metric">R$ 21.780</div></div>
+</div>
+<div class="table-wrap"><table class="table"><thead><tr><th>Curso</th><th>Início</th><th class="num">Alunos</th><th class="num">Vagas</th><th>Conclusão</th><th class="num">Receita</th><th></th></tr></thead><tbody id="t"></tbody></table></div>
+<h2 style="margin-top:32px">Onde os alunos param</h2>
+<p class="small">Percentual de alunos que concluíram cada aula de “Fotografia de Rua”. Queda forte indica aula para rever.</p>
+<div class="stack" id="funil" style="gap:8px;max-width:640px"></div>
+</main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var O = window.Ofertas, esc = O.esc;
+  var DADOS = { "curso-fotografia-de-rua": [26, 71, 7722], "curso-celular": [1142, 58, 0] };
+  document.getElementById("t").innerHTML = Object.keys(O.lista).filter(function (k) { return O.lista[k].tipo === "curso"; }).map(function (k) {
+    var o = O.lista[k], d = DADOS[k] || [0, 0, 0];
+    return '<tr><td><strong>' + esc(o.titulo) + '</strong><div class="small">' + esc(o.categoria) + '</div></td><td>' + esc(o.dataCurta) + '</td><td class="num">' + d[0].toLocaleString("pt-BR") + '</td><td class="num">' + (o.vagas ? o.restantes + " de " + o.vagas : "ilimitado") + '</td><td><div class="progress" style="width:100px"><span style="--value:' + d[1] + '%"></span></div><span class="small">' + d[1] + '%</span></td><td class="num">' + O.brl(d[2]) + '</td><td><a class="btn btn-ghost btn-sm" href="' + O.pagina[k] + '">Página</a></td></tr>';
+  }).join("");
+  var o = O.lista["curso-fotografia-de-rua"], v = [100, 92, 84, 80, 66, 61, 58, 54];
+  document.getElementById("funil").innerHTML = o.programacao.map(function (p, i) {
+    return '<div><div class="cluster" style="justify-content:space-between"><span class="small">' + p[0] + " · " + esc(p[1]) + '</span><span class="small mono">' + v[i] + '%</span></div><div class="progress ink"><span style="--value:' + v[i] + '%"></span></div></div>';
+  }).join("");
+});
+</script>
+</body></html>

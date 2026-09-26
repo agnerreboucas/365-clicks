@@ -3,6 +3,81 @@
 <title>365 Clicks — Aula</title>
 <link rel="stylesheet" href="../design-system/tokens.css">
 <link rel="stylesheet" href="../design-system/components.css">
-<script src="../design-system/app.js" defer></script></head><body data-page="aula">
+<script src="ofertas.js"></script>
+<script src="../design-system/app.js" defer></script>
+<style>
+.au { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: var(--sp-5); align-items: start; margin-top: var(--sp-4); }
+.player { aspect-ratio: 16/9; border-radius: var(--r-md); background: #111 center/cover; display: grid; place-items: center; position: relative; overflow: hidden; }
+.player::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,.45); }
+.player button { position: relative; z-index: 1; width: 72px; height: 72px; border-radius: 50%; border: 0; background: #fff; cursor: pointer; font-size: 26px; }
+.player .pres { position: relative; z-index: 1; color: #fff; text-align: center; padding: var(--sp-5); }
+.aulas a { display: flex; gap: var(--sp-3); align-items: center; padding: var(--sp-3); border-radius: var(--r-sm); text-decoration: none; }
+.aulas a:hover { background: var(--surface-2); }
+.aulas a[aria-current="true"] { background: var(--surface-2); font-weight: 600; }
+.aulas .n { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--line-strong); font-size: var(--fs-xs); flex: none; }
+.aulas .ok .n { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+@media (max-width: 900px) { .au { grid-template-columns: 1fr; } }
+</style></head><body data-page="aula">
 <header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
-<main><h1>Aula</h1><p>Player e materiais da aula</p><div class="row"><div class="panel stat"><span class="small">Principal</span><div class="metric">127</div></div><div class="panel stat"><span class="small">Ativos</span><div class="metric">2.480</div></div><div class="panel stat"><span class="small">Progresso</span><div class="metric">68%</div></div></div><h2>Conteúdo</h2><div class="panel"><h2>Player e materiais da aula</h2><p>Esta tela faz parte do ecossistema 365 Clicks. O protótipo demonstra a hierarquia visual, navegação e componentes principais da página.</p><button class="btn" type="button" data-toast="“Continuar” será ligado na versão funcional">Continuar</button></div><h2>Conteúdo relacionado</h2><div class="grid"><figure class="card"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&h=1000&q=80" alt="Fotografia de @fotografo_1" loading="lazy" style="--ratio:4/5;--tone:#18233a;--tone2:#4b5f88"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #127</b><span class="small">@fotografo_1 · São Paulo</span><span class="exif">35mm · f/2 · 1/500s · ISO 200</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_2" loading="lazy" style="--ratio:3/2;--tone:#37433a;--tone2:#8b9a84"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #128</b><span class="small">@fotografo_2 · São Paulo</span><span class="exif">50mm · f/1.8 · 1/250s · ISO 400</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=800&h=800&q=80" alt="Fotografia de @fotografo_3" loading="lazy" style="--ratio:1/1;--tone:#4f4336;--tone2:#c09a6c"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #129</b><span class="small">@fotografo_3 · São Paulo</span><span class="exif">24mm · f/8 · 1/125s · ISO 100</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&h=1200&q=80" alt="Fotografia de @fotografo_4" loading="lazy" style="--ratio:2/3;--tone:#26231f;--tone2:#6d6054"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #130</b><span class="small">@fotografo_4 · São Paulo</span><span class="exif">85mm · f/1.4 · 1/1000s · ISO 100</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_5" loading="lazy" style="--ratio:3/2;--tone:#35402f;--tone2:#7f8c6c"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #131</b><span class="small">@fotografo_5 · São Paulo</span><span class="exif">16mm · f/2.8 · 20s · ISO 3200</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=800&h=1000&q=80" alt="Fotografia de @fotografo_6" loading="lazy" style="--ratio:4/5;--tone:#2c464e;--tone2:#a3bab2"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #132</b><span class="small">@fotografo_6 · São Paulo</span><span class="exif">28mm · f/5.6 · 1/320s · ISO 160</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&h=1067&q=80" alt="Fotografia de @fotografo_7" loading="lazy" style="--ratio:3/4;--tone:#304131;--tone2:#a2b298"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #133</b><span class="small">@fotografo_7 · São Paulo</span><span class="exif">35mm · f/4 · 1/60s · ISO 800</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_8" loading="lazy" style="--ratio:3/2;--tone:#382c28;--tone2:#8e7061"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #134</b><span class="small">@fotografo_8 · São Paulo</span><span class="exif">70mm · f/2.8 · 1/400s · ISO 250</span></figcaption></figure></div></main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer></body></html>
+<main>
+<a class="small" href="meus-cursos.html">← Meus cursos</a>
+<div class="au">
+  <div class="stack">
+    <div class="player" id="player"></div>
+    <div class="cluster" style="justify-content:space-between"><div><span class="eyebrow" id="a-eyebrow"></span><h1 style="margin:4px 0 0" id="a-titulo"></h1></div><button class="btn btn-primary" type="button" id="concluir">Marcar como concluída</button></div>
+    <p id="a-desc"></p>
+    <div class="panel stack"><h3 style="margin:0">Exercício da aula</h3><p class="small" style="margin:0" id="a-ex"></p><div class="cluster"><a class="btn btn-secondary btn-sm" href="publicar.html">Publicar o exercício</a><a class="btn btn-ghost btn-sm" href="desafio-do-dia.html">Usar o desafio de hoje</a></div></div>
+    <div class="panel stack"><h3 style="margin:0">Materiais</h3><ul class="small" style="margin:0;padding-left:1.1em" id="a-mat"></ul></div>
+    <div class="field"><label class="label" for="notas">Minhas anotações (só você vê)</label><textarea class="textarea" id="notas" rows="4" placeholder="O que você quer lembrar desta aula?"></textarea></div>
+    <div class="cluster" style="justify-content:space-between"><a class="btn btn-ghost" id="ant" href="#">← Aula anterior</a><a class="btn btn-secondary" id="prox" href="#">Próxima aula →</a></div>
+  </div>
+  <aside class="panel stack"><strong id="c-titulo"></strong><div class="progress"><span id="c-prog"></span></div><span class="small mono" id="c-prog-t"></span><nav class="aulas" id="aulas"></nav></aside>
+</div>
+</main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer><script>
+document.addEventListener("DOMContentLoaded", function () {
+  var O = window.Ofertas, esc = O.esc, C = window.C365;
+  function ler() { try { return JSON.parse(localStorage.getItem("c365-cursos") || "null") || { "curso-fotografia-de-rua": [1, 2, 3], "curso-celular": [1, 2, 3, 4, 5] }; } catch (e) { return {}; } }
+  function render() {
+    var h = location.hash.slice(1).split("/"), k = O.lista[h[0]] ? h[0] : "curso-fotografia-de-rua", o = O.lista[k], tot = o.programacao.length;
+    var n = Math.min(tot, Math.max(1, +h[1] || 1)), a = o.programacao[n - 1], prog = ler(), feitas = prog[k] || [];
+    var presencial = /saída/i.test(a[1]);
+    document.title = "365 Clicks — " + a[1];
+    document.getElementById("player").style.backgroundImage = "url('" + o.img + "')";
+    document.getElementById("player").innerHTML = presencial
+      ? '<div class="pres"><strong>Aula presencial</strong><div>' + esc(a[2]) + '</div><a class="btn btn-sm" style="margin-top:12px" href="meus-ingressos.html">Ver no Meus ingressos</a></div>'
+      : '<button type="button" aria-label="Reproduzir aula" data-toast="Player de vídeo (na versão real: vídeo protegido, sem download)">▶</button>';
+    document.getElementById("a-eyebrow").textContent = a[0] + " · " + o.titulo;
+    document.getElementById("a-titulo").textContent = a[1];
+    document.getElementById("a-desc").textContent = a[2] + ". " + (presencial ? "Encontro em grupo com o professor. Leve a câmera carregada e cartão vazio." : "Assista, anote e faça o exercício antes da próxima aula.");
+    document.getElementById("a-ex").textContent = presencial ? "Na saída, faça 10 fotos com o tema da semana e escolha 1 para publicar." : "Aplique “" + a[1].toLowerCase() + "” em 3 fotos esta semana. Publique a melhor e marque o professor para receber comentário.";
+    document.getElementById("a-mat").innerHTML = "<li>Resumo da aula (PDF)</li><li>Referências na <a href='biblioteca.html'>Biblioteca</a></li><li>Discussão da turma nos comentários</li>";
+    var feita = feitas.indexOf(n) > -1, btn = document.getElementById("concluir");
+    btn.textContent = feita ? "Concluída ✓" : "Marcar como concluída"; btn.className = "btn " + (feita ? "btn-secondary" : "btn-primary");
+    var ant = document.getElementById("ant"), prox = document.getElementById("prox");
+    ant.href = "#" + k + "/" + (n - 1); ant.hidden = n === 1;
+    prox.href = "#" + k + "/" + (n + 1); prox.hidden = n === tot;
+    document.getElementById("c-titulo").textContent = o.titulo;
+    var pct = Math.round(feitas.length / tot * 100);
+    document.getElementById("c-prog").style.setProperty("--value", pct + "%");
+    document.getElementById("c-prog-t").textContent = feitas.length + " de " + tot + " concluídas";
+    document.getElementById("aulas").innerHTML = o.programacao.map(function (p, i) {
+      var ok = feitas.indexOf(i + 1) > -1;
+      return '<a href="#' + k + "/" + (i + 1) + '" class="' + (ok ? "ok" : "") + '" aria-current="' + (i + 1 === n) + '"><span class="n">' + (ok ? "✓" : i + 1) + '</span><span class="grow">' + esc(p[1]) + '<div class="small">' + esc(p[2]) + "</div></span></a>";
+    }).join("");
+    var notas = document.getElementById("notas");
+    notas.value = localStorage.getItem("c365-notas-" + k + "-" + n) || "";
+    notas.oninput = function () { try { localStorage.setItem("c365-notas-" + k + "-" + n, notas.value); } catch (e) {} };
+    btn.onclick = function () {
+      var p = ler(); p[k] = p[k] || [];
+      var i = p[k].indexOf(n);
+      if (i > -1) p[k].splice(i, 1); else p[k].push(n);
+      try { localStorage.setItem("c365-cursos", JSON.stringify(p)); } catch (e) {}
+      render();
+      if (i < 0) C.toast(p[k].length === tot ? "Curso concluído! O certificado está em Meus cursos." : "Aula concluída");
+    };
+  }
+  window.addEventListener("hashchange", function () { render(); scrollTo(0, 0); });
+  render();
+});
+</script>
+</body></html>

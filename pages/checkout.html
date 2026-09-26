@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="../design-system/tokens.css">
 <link rel="stylesheet" href="../design-system/components.css">
 <script src="planos-dados.js"></script>
+<script src="roteiros-dados.js"></script>
 <script src="../design-system/app.js" defer></script>
 <style>
 .ck { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: var(--sp-6); align-items: start; margin-top: var(--sp-5); }
@@ -15,10 +16,10 @@
 <header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
 <main>
 <a class="small" href="planos.html">← Voltar aos planos</a>
-<h1 style="margin-top:8px">Assinar o plano <span id="t-plano">365</span></h1>
+<h1 style="margin-top:8px" id="t-h1">Assinar o plano <span id="t-plano">365</span></h1>
 <div class="ck" id="ck">
 <form class="stack" id="form" novalidate>
-  <div class="panel stack">
+  <div class="panel stack" id="ciclo-box">
     <h2 style="margin:0">Ciclo</h2>
     <div class="options inline" role="radiogroup" aria-label="Ciclo de cobrança"><label class="option"><input type="radio" name="ciclo" value="mensal"><div class="grow"><strong>Mensal</strong><span class="small" id="p-mensal"></span></div></label><label class="option"><input type="radio" name="ciclo" value="anual"><div class="grow"><strong>Anual</strong><span class="small" id="p-anual"></span></div></label></div>
   </div>
@@ -48,7 +49,7 @@
     <p class="small muted" data-pg="boleto" style="margin:0">O boleto chega por e-mail. A assinatura ativa na compensação.</p>
     <p class="small muted" style="margin:0">Protótipo: nenhum pagamento é processado. Na versão real, os dados do cartão vão direto para o gateway e não passam pelo 365 Clicks.</p>
   </div>
-  <label class="check accept"><input type="checkbox" id="f-termo"> <span>Li e aceito os <a href="termos.html">termos de uso</a> e a renovação automática. Posso cancelar quando quiser em Minha assinatura.</span></label>
+  <label class="check accept"><input type="checkbox" id="f-termo"> <span id="t-termo">Li e aceito os <a href="termos.html">termos de uso</a> e a renovação automática. Posso cancelar quando quiser em Minha assinatura.</span></label>
   <button class="btn btn-primary btn-lg" type="submit" id="pagar">Confirmar assinatura</button>
 </form>
 <aside class="panel stack">
@@ -62,11 +63,14 @@
   <span class="badge badge-success">Assinatura confirmada</span>
   <h2 style="margin:0" id="ok-t"></h2>
   <p id="ok-p" style="margin:0"></p>
-  <div class="cluster" style="justify-content:center"><a class="btn btn-primary" href="minha-assinatura.html">Ver minha assinatura</a><a class="btn btn-secondary" href="desafio-do-dia.html">Ir para o desafio do dia</a></div>
+  <div class="cluster" style="justify-content:center" id="ok-acoes"><a class="btn btn-primary" href="minha-assinatura.html">Ver minha assinatura</a><a class="btn btn-secondary" href="desafio-do-dia.html">Ir para o desafio do dia</a></div>
 </div>
 </main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer><script>
 document.addEventListener("DOMContentLoaded", function () {
-  var P = window.Planos, C = window.C365;
+  var P = window.Planos, C = window.C365, R = window.Roteiros;
+  /* Compra avulsa de roteiro: #roteiro-<id> */
+  var rid = location.hash.indexOf("#roteiro-") === 0 ? location.hash.slice(9) : "";
+  if (rid && R && R.lista[rid]) { roteiro(rid); return; }
   var h = location.hash.slice(1).split("-"), id = P.lista[h[0]] && h[0] !== "free" ? h[0] : "365", plano = P.lista[id];
   document.querySelector('input[name="ciclo"][value="' + (h[1] === "anual" ? "anual" : "mensal") + '"]').checked = true;
   document.getElementById("t-plano").textContent = plano.nome;
@@ -99,6 +103,34 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("ok-p").textContent = (a.status === "ativa" ? "Pagamento aprovado. " : pag() === "pix" ? "Pague o Pix que enviamos por e-mail para ativar. " : "O boleto foi enviado por e-mail. ") + "A nota fiscal chega no seu e-mail.";
     scrollTo(0, 0);
   });
+  function roteiro(id) {
+    var r = R.lista[id];
+    document.title = "365 Clicks — Comprar roteiro";
+    document.getElementById("t-h1").textContent = "Comprar o roteiro";
+    document.getElementById("ciclo-box").hidden = true;
+    document.getElementById("r-nome").textContent = r.titulo;
+    document.getElementById("r-itens").innerHTML = "<li>" + r.paradas.length + " paradas com horário e dicas</li><li>" + r.duracao + "</li><li>Acesso permanente na sua conta</li><li>Por " + r.autor + "</li>";
+    document.getElementById("r-tot").innerHTML = "<dt>Roteiro avulso</dt><dd>" + R.brl(r.preco) + '</dd><dt>Total</dt><dd><strong>' + R.brl(r.preco) + "</strong></dd>";
+    document.getElementById("t-termo").innerHTML = 'Li e aceito os <a href="termos.html">termos de uso</a>. O roteiro é para uso pessoal e não pode ser copiado ou redistribuído.';
+    document.querySelector('input[name="pag"][value="cartao"]').closest(".option").querySelector(".small").textContent = "Aprovação na hora";
+    function pag() { return document.querySelector('input[name="pag"]:checked').value; }
+    function pgs() { document.querySelectorAll("[data-pg]").forEach(function (el) { el.classList.toggle("on", el.getAttribute("data-pg") === pag()); }); }
+    document.getElementById("form").addEventListener("change", pgs); pgs();
+    document.getElementById("form").addEventListener("submit", function (e) {
+      e.preventDefault(); e.stopImmediatePropagation();
+      var bad = ["f-nome", "f-doc", "f-email"].map(function (i) { return document.getElementById(i); }).filter(function (el) { el.removeAttribute("aria-invalid"); return !el.value.trim(); });
+      bad.forEach(function (el) { el.setAttribute("aria-invalid", "true"); });
+      if (bad.length) { bad[0].focus(); C.toast("Confira os campos destacados"); return; }
+      if (!document.getElementById("f-termo").checked) { C.toast("Aceite os termos para continuar"); return; }
+      R.comprar(id);
+      document.getElementById("ck").hidden = true;
+      document.getElementById("ok").hidden = false;
+      document.getElementById("ok-t").textContent = "Roteiro liberado";
+      document.getElementById("ok-p").textContent = "“" + r.titulo + "” está na sua conta para sempre. A nota fiscal chega no seu e-mail.";
+      document.getElementById("ok-acoes").innerHTML = '<a class="btn btn-primary" href="roteiro.html#' + id + '">Abrir o roteiro</a><a class="btn btn-secondary" href="minhas-compras.html">Minhas compras</a>';
+      scrollTo(0, 0);
+    });
+  }
 });
 </script>
 </body></html>

@@ -1,8 +1,108 @@
 <!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>365 Clicks — Roteiros Fotográficos</title>
+<title>365 Clicks — Roteiros</title>
 <link rel="stylesheet" href="../design-system/tokens.css">
 <link rel="stylesheet" href="../design-system/components.css">
-<script src="../design-system/app.js" defer></script></head><body data-page="roteiros">
+<script src="planos-dados.js"></script>
+<script src="roteiros-dados.js"></script>
+<script src="../design-system/app.js" defer></script>
+<style>
+.rt { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: var(--sp-6); align-items: start; margin-top: var(--sp-5); }
+.luz { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-2); }
+.luz div { padding: var(--sp-3); border-radius: var(--r-sm); background: var(--surface-2); }
+.luz b { display: block; font-family: var(--font-mono); font-size: var(--fs-lg); }
+.guias { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--sp-4); margin-top: var(--sp-5); }
+.guia { display: flex; flex-direction: column; text-decoration: none; padding: 0; overflow: hidden; }
+.guia .capa { aspect-ratio: 16/9; background: center/cover; position: relative; }
+.guia .capa .badge { position: absolute; top: 10px; left: 10px; }
+.guia .body { padding: var(--sp-4); display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.paradas li { display: flex; gap: var(--sp-2); align-items: center; padding: 6px 0; border-bottom: 1px solid var(--line); }
+@media (max-width: 900px) { .rt { grid-template-columns: 1fr; } .luz { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+</style></head><body data-page="roteiros">
 <header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
-<main><h1>Roteiros Fotográficos</h1><p>Planeje uma saída fotográfica</p><div class="row"><div class="panel stat"><span class="small">Principal</span><div class="metric">127</div></div><div class="panel stat"><span class="small">Ativos</span><div class="metric">2.480</div></div><div class="panel stat"><span class="small">Progresso</span><div class="metric">68%</div></div></div><h2>Conteúdo</h2><div class="panel"><h2>Planeje uma saída fotográfica</h2><p>Esta tela faz parte do ecossistema 365 Clicks. O protótipo demonstra a hierarquia visual, navegação e componentes principais da página.</p><button class="btn" type="button" data-toast="“Continuar” será ligado na versão funcional">Continuar</button></div><h2>Conteúdo relacionado</h2><div class="grid"><figure class="card"><img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&h=1000&q=80" alt="Fotografia de @fotografo_1" loading="lazy" style="--ratio:4/5;--tone:#18233a;--tone2:#4b5f88"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #127</b><span class="small">@fotografo_1 · São Paulo</span><span class="exif">35mm · f/2 · 1/500s · ISO 200</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_2" loading="lazy" style="--ratio:3/2;--tone:#37433a;--tone2:#8b9a84"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #128</b><span class="small">@fotografo_2 · São Paulo</span><span class="exif">50mm · f/1.8 · 1/250s · ISO 400</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=800&h=800&q=80" alt="Fotografia de @fotografo_3" loading="lazy" style="--ratio:1/1;--tone:#4f4336;--tone2:#c09a6c"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #129</b><span class="small">@fotografo_3 · São Paulo</span><span class="exif">24mm · f/8 · 1/125s · ISO 100</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&h=1200&q=80" alt="Fotografia de @fotografo_4" loading="lazy" style="--ratio:2/3;--tone:#26231f;--tone2:#6d6054"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #130</b><span class="small">@fotografo_4 · São Paulo</span><span class="exif">85mm · f/1.4 · 1/1000s · ISO 100</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_5" loading="lazy" style="--ratio:3/2;--tone:#35402f;--tone2:#7f8c6c"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #131</b><span class="small">@fotografo_5 · São Paulo</span><span class="exif">16mm · f/2.8 · 20s · ISO 3200</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=800&h=1000&q=80" alt="Fotografia de @fotografo_6" loading="lazy" style="--ratio:4/5;--tone:#2c464e;--tone2:#a3bab2"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #132</b><span class="small">@fotografo_6 · São Paulo</span><span class="exif">28mm · f/5.6 · 1/320s · ISO 160</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&h=1067&q=80" alt="Fotografia de @fotografo_7" loading="lazy" style="--ratio:3/4;--tone:#304131;--tone2:#a2b298"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #133</b><span class="small">@fotografo_7 · São Paulo</span><span class="exif">35mm · f/4 · 1/60s · ISO 800</span></figcaption></figure><figure class="card"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&h=533&q=80" alt="Fotografia de @fotografo_8" loading="lazy" style="--ratio:3/2;--tone:#382c28;--tone2:#8e7061"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button><button type="button" aria-label="Salvar na coleção" aria-pressed="false" data-toggle data-on="Salva em Coleções"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16l-6-4-6 4z"/></svg></button></div><figcaption class="meta"><b>Click #134</b><span class="small">@fotografo_8 · São Paulo</span><span class="exif">70mm · f/2.8 · 1/400s · ISO 250</span></figcaption></figure></div></main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer></body></html>
+<main data-photos>
+<span class="eyebrow">Foto Criativa</span>
+<h1>Roteiros fotográficos</h1>
+<p style="max-width:70ch">Guias de saída escritos por fotógrafos da comunidade: paradas, melhor horário, o que fotografar em cada ponto, dicas de técnica e segurança. <b>Exclusivos para assinantes</b> dos planos 365 e Clube; quem está no Free pode comprar cada roteiro avulso.</p>
+<div class="notice" id="acesso" style="margin-top:16px"></div>
+<div class="guias" id="guias"></div>
+<div class="section-head" style="margin-top:48px" id="planejar"><div><span class="eyebrow">Ferramenta gratuita</span><h2 class="h2" style="margin:0">Monte o seu roteiro</h2></div></div>
+<p style="max-width:66ch;margin:0">Escolha o dia e o lugar: o planejador mostra os horários de luz, os desafios que dá para cumprir no caminho e o que levar.</p>
+<div class="rt">
+<form class="panel stack" id="form">
+  <div class="field"><label class="label" for="r-nome">Nome da saída</label><input class="input" id="r-nome" value="Centro antigo ao amanhecer"></div>
+  <div class="form-grid">
+    <div class="field"><label class="label" for="r-data">Dia</label><input class="input" id="r-data" type="date"></div>
+    <div class="field"><label class="label" for="r-cidade">Cidade</label><select class="select" id="r-cidade"><option value="-23.55">São Paulo</option><option value="-22.9">Rio de Janeiro</option><option value="-19.92">Belo Horizonte</option><option value="-25.43">Curitiba</option><option value="-27.6">Florianópolis</option><option value="-15.8">Brasília</option><option value="-8.05">Recife</option></select></div>
+  </div>
+  <div class="field"><label class="label" for="r-tipo">Tipo de lugar</label><select class="select" id="r-tipo"><option value="rua">Rua e centro histórico</option><option value="parque">Parque e natureza</option><option value="praia">Praia e água</option><option value="noite">Cidade à noite</option><option value="feira">Feira e mercado (pessoas)</option></select></div>
+  <div class="field"><label class="label" for="r-parada">Paradas</label><div class="cluster" style="flex-wrap:nowrap"><input class="input" id="r-parada" placeholder="Ex.: Pátio do Colégio"><button class="btn btn-secondary" type="button" id="add">Adicionar</button></div></div>
+  <ol class="paradas" id="paradas" style="margin:0;padding-left:1.2em"></ol>
+  <div class="cluster"><button class="btn btn-primary" type="submit">Salvar roteiro</button><a class="btn btn-ghost" href="eventos.html">Prefere ir em grupo? Ver eventos</a></div>
+</form>
+<div class="stack">
+  <div class="panel stack"><h2 style="margin:0">Luz do dia</h2><div class="luz" id="luz"></div><p class="small muted" style="margin:0" id="luz-dica"></p></div>
+  <div class="panel stack"><h2 style="margin:0">Desafios que cabem nesta saída</h2><div class="list" id="desafios"></div></div>
+  <div class="panel stack"><h2 style="margin:0">O que levar</h2><div class="stack" id="levar" style="gap:6px"></div></div>
+  <div class="panel stack" id="salvos-box"><h2 style="margin:0">Meus roteiros</h2><div class="list" id="salvos"></div></div>
+</div>
+</div>
+</main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer><script>
+(function () {
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function ler(k, d) { try { return JSON.parse(localStorage.getItem(k) || "null") || d; } catch (e) { return d; } }
+  var paradas = ["Pátio do Colégio", "Rua XV de Novembro", "Viaduto do Chá"];
+  var LEVAR = { rua: ["Lente fixa 35mm ou 50mm", "Cartão vazio e bateria extra", "Roupa discreta e calçado confortável"], parque: ["Tele (70–200mm) para detalhes", "Protetor e água", "Saco plástico para a câmera"], praia: ["Filtro polarizador", "Pano de microfibra (maresia)", "Tripé leve para longa exposição"], noite: ["Tripé", "Lanterna", "Controle remoto ou disparo temporizado"], feira: ["Lente curta e discreta", "Dinheiro trocado para comprar algo", "Pedir licença antes do retrato"] };
+  function hm(x) { var h = Math.floor(x), m = Math.round((x - h) * 60); if (m === 60) { h++; m = 0; } return ("0" + h).slice(-2) + ":" + ("0" + m).slice(-2); }
+  /* Nascer e pôr do sol aproximados (latitude da cidade, fuso de Brasília) */
+  function sol(d, lat) {
+    var n = Math.round((d - new Date(d.getFullYear(), 0, 0)) / 864e5), dec = -23.44 * Math.cos(2 * Math.PI / 365 * (n + 10)) * Math.PI / 180, la = lat * Math.PI / 180;
+    var ha = Math.acos(Math.max(-1, Math.min(1, (Math.sin(-0.833 * Math.PI / 180) - Math.sin(la) * Math.sin(dec)) / (Math.cos(la) * Math.cos(dec))))) * 180 / Math.PI / 15;
+    var meio = 12.1; return [meio - ha, meio + ha];
+  }
+  function render() {
+    var v = document.getElementById("r-data").value, d = v ? new Date(v + "T12:00") : new Date(), lat = +document.getElementById("r-cidade").value, tipo = document.getElementById("r-tipo").value;
+    var s = sol(d, lat);
+    document.getElementById("luz").innerHTML = [["Hora azul", s[0] - .5], ["Nascer", s[0]], ["Pôr do sol", s[1]], ["Hora azul", s[1] + .4]].map(function (x) { return "<div><span class='small'>" + x[0] + "</span><b>" + hm(x[1]) + "</b></div>"; }).join("");
+    document.getElementById("luz-dica").textContent = "Hora dourada: até " + hm(s[0] + 1) + " e a partir de " + hm(s[1] - 1) + ". " + (tipo === "noite" ? "Chegue antes da hora azul para montar o tripé." : "Evite o meio-dia se quiser sombras longas.");
+    document.getElementById("paradas").innerHTML = paradas.map(function (p, i) { return "<li><span class='grow'>" + esc(p) + "</span><button class='btn btn-ghost btn-sm' type='button' data-rm='" + i + "' aria-label='Remover " + esc(p) + "'>Remover</button></li>"; }).join("");
+    document.getElementById("levar").innerHTML = LEVAR[tipo].map(function (t) { return '<label class="check"><input type="checkbox"> ' + t + "</label>"; }).join("");
+    var D = window.Desafios;
+    if (D) {
+      var dia = D.doDia(d), sem = D.semana(0, d);
+      document.getElementById("desafios").innerHTML = [dia].concat(sem.filter(function (x) { return x.dia !== dia.dia; }).slice(0, 2)).map(function (x, i) {
+        return '<a class="list-item" href="' + (D.status(x) === "aberto" ? "desafio-do-dia.html" : "calendario.html#dia-" + x.dia) + '"><span class="day">DIA <b>' + x.dia + '</b></span><div class="grow"><strong>' + esc(x.tema) + '</strong><div class="small">' + (i === 0 ? "Desafio do dia da saída" : "Mesma semana · adiante para treinar") + " · " + esc(x.tecnica || "") + "</div></div></a>";
+      }).join("");
+    }
+    var salvos = ler("c365-roteiros", []);
+    document.getElementById("salvos-box").hidden = !salvos.length;
+    document.getElementById("salvos").innerHTML = salvos.map(function (r) { return '<div class="list-item"><div class="grow"><strong>' + esc(r.nome) + '</strong><div class="small">' + esc(r.data) + " · " + r.paradas.length + " paradas</div></div></div>"; }).join("");
+  }
+  function guias() {
+    var R = window.Roteiros, ass = R.assinante(), comp = R.comprados();
+    document.getElementById("acesso").innerHTML = ass ? "<strong>Você é assinante:</strong> todos os roteiros estão liberados." : "<strong>Plano Free:</strong> " + (comp.length ? comp.length + " roteiro(s) comprado(s). " : "") + 'Assine o 365 para liberar todos ou compre só os que quiser. <a href="planos.html">Ver planos</a>';
+    document.getElementById("guias").innerHTML = Object.keys(R.lista).map(function (id) {
+      var r = R.lista[id], ac = R.acesso(id);
+      return '<a class="panel guia" href="roteiro.html#' + id + '"><div class="capa" style="background-image:url(\'' + r.img.replace("w=1600&h=900", "w=800&h=450") + "'),linear-gradient(160deg," + r.tone2 + "," + r.tone + ')"><span class="badge ' + (ac ? "badge-success" : "badge-accent") + '">' + (ac === "compra" ? "Comprado" : ac ? "Liberado" : "Exclusivo") + '</span></div><div class="body"><span class="eyebrow">' + esc(r.cidade) + " · " + esc(r.tipo) + '</span><strong>' + esc(r.titulo) + '</strong><span class="small">' + esc(r.resumo) + '</span><span class="small mono" style="margin-top:auto">' + esc(r.duracao) + " · " + r.paradas.length + " paradas · por " + esc(r.autor) + '</span><span class="small">' + (ac ? "Abrir roteiro →" : "Assinantes: incluído · Avulso: " + R.brl(r.preco)) + "</span></div></a>";
+    }).join("");
+  }
+  document.addEventListener("DOMContentLoaded", function () {
+    guias();
+    var hoje = new Date(); hoje.setDate(hoje.getDate() + (6 - hoje.getDay() || 7));
+    document.getElementById("r-data").value = hoje.getFullYear() + "-" + ("0" + (hoje.getMonth() + 1)).slice(-2) + "-" + ("0" + hoje.getDate()).slice(-2);
+    document.getElementById("form").addEventListener("change", render);
+    document.getElementById("add").addEventListener("click", function () { var i = document.getElementById("r-parada"); if (i.value.trim()) { paradas.push(i.value.trim()); i.value = ""; render(); } });
+    document.getElementById("paradas").addEventListener("click", function (e) { var b = e.target.closest("[data-rm]"); if (b) { paradas.splice(+b.getAttribute("data-rm"), 1); render(); } });
+    document.getElementById("form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var s = ler("c365-roteiros", []);
+      s.unshift({ nome: document.getElementById("r-nome").value.trim() || "Saída", data: new Date(document.getElementById("r-data").value + "T12:00").toLocaleDateString("pt-BR"), paradas: paradas.slice() });
+      try { localStorage.setItem("c365-roteiros", JSON.stringify(s.slice(0, 20))); } catch (x) {}
+      render(); C365.toast("Roteiro salvo. Lembrete por e-mail na véspera.");
+    });
+    render();
+  });
+  document.addEventListener("c365:fotos", render);
+})();
+</script>
+</body></html>

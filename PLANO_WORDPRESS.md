@@ -1,37 +1,33 @@
 # 365 Clicks — do protótipo ao WordPress funcionando
 
-**Data:** 25/09/2026
-**Situação:** o protótipo HTML navegável (71 telas) está pronto para validar a experiência e o visual. Nada ainda grava em servidor: contas, fotos, contatos e pagamentos são simulados no navegador.
+**Data:** 26/09/2026
+**Situação:** o protótipo HTML navegável (64 telas) está pronto para validar a experiência e o visual. Nada ainda grava em servidor: contas, fotos, contatos e pagamentos são simulados no navegador.
 
 ## 1. Diagnóstico das telas
 
-### 1.1 Prontas como protótipo (interativas, conteúdo e regras definidos) — 35
-Home · Explorar · Fotografia · Feed · Meu Perfil · Editar Perfil · Publicar · Seguidores · Criar conta · Desafios 365 · Desafio do Dia · Projetos · Projeto · Eventos · Foto na Paulista · Foto no Parque · Palestra · Inscrição · Meus Ingressos · Termos e contratos · Cursos · Curso · Loja · A foto que eu nunca tirei · Blog · Biblioteca · Radar 365 · Admin Usuários · Admin Eventos · Admin Contatos e métricas · Admin Desafios · Admin Moderação · Anuncie · Minhas campanhas · Admin Mídia
+### 1.1 Prontas como protótipo (interativas, conteúdo e regras definidos) — 62
+Todas as telas do mapa, exceto as duas parciais abaixo. Na auditoria de 26/09 ganharam conteúdo real: Artigo, Calendário, Gerador criativo, Foto Criativa, Roteiros (com guias exclusivos para assinantes e compra avulsa), Roteiro, Perfil público (`perfil.html#@usuario`), Fotógrafos, Seguidores/Seguindo, Mensagens (com Interessados), Notificações, Configurações, Meus desafios, Ranking, Conquistas, Meus cursos, Aula, Planos, Checkout, Minha assinatura, Minhas compras, Sobre, Ajuda, Contato e os painéis Admin Dashboard, Cursos, Assinaturas, Conteúdo e Gamificação.
 
-### 1.2 Parciais (visual pronto, conteúdo de exemplo) — 4
-Fotografias · Coleções · Inspiração · Portfólio
+### 1.2 Parciais (visual pronto, conteúdo de exemplo) — 2
+Coleções · Portfólio
 
-### 1.3 Com conteúdo genérico (precisam de definição e desenho) — 32
-
-| Módulo | Telas |
+### 1.3 Removidas por repetir outras telas — 8
+| Tela | Para onde foi |
 |---|---|
-| Portal | Sobre · Contato · Central de Ajuda · Artigo · Fotógrafos (diretório) |
-| Comunidade | Seguindo · Notificações · Mensagens · Configurações |
-| 365 Challenge | Calendário · Meus Desafios · Ranking · Conquistas |
-| Portfólio | Equipamentos |
-| Educação | Meus Cursos · Aula · E-books · Exercícios |
-| Foto Criativa | Foto Criativa · Gerador de Ideias · Gerador de Desafio · Roteiros |
-| Comercial | Planos · Assinatura · Checkout · Minha Assinatura · Minhas Compras |
-| Administração | Dashboard · Fotografias (moderação) · Cursos · Assinaturas · Conteúdo (CMS) · Gamificação |
+| Exercícios | O exercício diário é o desafio do dia; explicações na Biblioteca e nas aulas |
+| Fotografias, Inspiração | Explorar |
+| Equipamentos | Editar perfil (do fotógrafo) e Biblioteca (o que cada um faz) |
+| E-books | Loja |
+| Gerador de Desafio | Gerador criativo |
+| Assinatura | Planos + Minha assinatura |
+| Seguindo | Aba dentro de Seguidores |
 
-### 1.4 Telas que ainda não existem — 16
+### 1.4 Telas que ainda não existem — 14
 | Tela | Para quê |
 |---|---|
 | Entrar / sair / recuperar senha | Login com e-mail e senha, Google e Apple |
 | Onboarding (primeiro acesso) | Escolher ano no 365, especialidades, seguir fotógrafos, aceitar termos |
-| Perfil público de outro fotógrafo (`/@usuario`) | Hoje só existe “Meu perfil” |
 | Central do fotógrafo | Suas visualizações, cliques, contatos e compartilhamentos |
-| Caixa de contatos recebidos | Onde o fotógrafo lê e responde os interessados |
 | Resultados de busca | Fotos, fotógrafos, desafios, temas e artigos |
 | Página de tema / coleção individual | Explorar por tema; abrir uma coleção |
 | Arquivo do Radar e edição individual | Edições anteriores da newsletter |
@@ -39,7 +35,7 @@ Fotografias · Coleções · Inspiração · Portfólio
 | Admin Biblioteca e Referências | Cadastrar elementos, fotógrafos, livros, filmes |
 | Admin Radar e Linha Editorial | Montar a edição semanal e o calendário de pautas |
 | Admin Loja e Pedidos | Produtos, estoque, pedidos, frete |
-| Pedido confirmado / pagamento da loja | Hoje o checkout da loja é simulado |
+| Pagamento da loja | O pedido já é criado; falta o passo de Pix, cartão e boleto |
 | Termos de uso da plataforma e Política de cookies | Hoje há os termos de eventos, do fotógrafo e de contato |
 | Página 404 e estados de erro | Página não encontrada, sem conexão, sem permissão |
 | E-mails transacionais (modelos) | Boas-vindas, desafio do dia, menção, contato, ingresso, Radar |
@@ -122,4 +118,4 @@ Trocar o tema um dia não apaga os dados; atualizar o plugin não quebra o visua
 4. Provedor de e-mail e de newsletter.
 5. Revisão jurídica de todos os termos.
 6. Curadoria do calendário: dicas, variações de ano e referências (ver `PRD_EVOLUCAO_365.md`, seção 8).
-7. Conteúdo das 33 telas genéricas (o que cada uma precisa mostrar).
+7. Validar o conteúdo das telas reconstruídas na auditoria (preços dos planos, conquistas, regras do ranking).

@@ -421,4 +421,15 @@ Qualquer empresa pode comprar espaço na mídia do 365 Clicks e pagar uma mensal
 - Frequência padrão dos e-mails, para não virar excesso.
 - Razão social, CNPJ e revisão jurídica de todos os termos.
 
-Este pacote inclui uma página HTML para cada rota listada no PRD (71 telas), o design system em `design-system/` e um `index.html` que lista todas as telas por módulo, com pré-visualização em desktop e celular.
+Este pacote inclui uma página HTML para cada rota listada no PRD (64 telas), o design system em `design-system/` e um `index.html` que lista todas as telas por módulo, com pré-visualização em desktop e celular.
+
+
+## 16. Roteiros fotográficos (guias exclusivos)
+
+- **O que é:** guias de saída fotográfica escritos por fotógrafos da comunidade: paradas em ordem, horário de cada parada, o que fotografar, dica de técnica, o que levar, segurança e elementos da Biblioteca para praticar.
+- **Acesso:** cada roteiro tem uma página exclusiva (`/roteiro/<slug>`). Assinantes dos planos 365 e Clube leem todos. Quem está no plano Free vê a primeira parada e compra o roteiro avulso (acesso permanente na conta).
+- **Compra avulsa:** Pix, cartão ou boleto no mesmo checkout dos planos; o pedido aparece em Minhas compras com o botão "Abrir roteiro".
+- **Autoria:** o autor é creditado na página. Proposta a validar: repasse de 30% das vendas avulsas ao autor.
+- **Ferramenta gratuita:** o planejador de saída (horários de luz, desafios da semana, paradas e checklist) continua aberto para todos.
+- **Admin:** aba Roteiros em Conteúdo, com vendas avulsas, leituras de assinantes e repasse.
+- **WordPress:** tipo de conteúdo `roteiro`; regra de acesso no plugin = assinatura ativa OU compra registrada; o conteúdo bloqueado não é enviado ao navegador de quem não tem acesso.

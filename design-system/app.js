@@ -68,7 +68,8 @@
     { id: "criativa", name: "Foto Criativa", pages: [
       ["foto-criativa", "Foto Criativa", "Ferramentas para desbloquear ideias"],
       ["gerador-ideias", "Gerador criativo", "Combine tema, técnica, enquadramento, linguagem e equipamento"],
-      ["roteiros", "Roteiros", "Planeje uma saída fotográfica"]
+      ["roteiros", "Roteiros", "Guias de saída para assinantes + planejador"],
+      ["roteiro", "Roteiro", "Guia exclusivo: Centro de SP ao amanhecer"]
     ]},
     { id: "comercial", name: "Comercial", pages: [
       ["loja", "Loja", "App, livros, e-books e camisetas"],
@@ -216,7 +217,8 @@
     ["Palestra", "Como vender suas fotos · 14/10, ao vivo · R$ 49", "oferta.html#palestra-vender-fotos", "Garantir vaga"],
     ["Evento", "Foto na Paulista · 18/10 · últimas 9 vagas", "foto-na-paulista.html", "Inscrever-se"],
     ["E-book", "Guia de Exposição sem Mistério · R$ 29", "loja.html#ebooks", "Comprar"],
-    ["Loja", "Livro “A foto que eu nunca tirei” em pré-venda", "loja.html", "Ver na loja"]
+    ["Loja", "Livro “A foto que eu nunca tirei” em pré-venda", "loja.html", "Ver na loja"],
+    ["Roteiro", "Centro de SP ao amanhecer: guia exclusivo para assinantes", "roteiro.html#centro-sp-amanhecer", "Ver roteiro"]
   ];
   C365.promos = PROMOS;
   function renderPromo(header) {
@@ -312,7 +314,7 @@
     return 1.25;
   }
   function layoutMasonry(grid, force) {
-    var items = grid._items || (grid._items = Array.prototype.slice.call(grid.querySelectorAll(":scope > .card, :scope > .masonry-col > .card")));
+    var items = (!force && grid._items) || (grid._items = Array.prototype.slice.call(grid.querySelectorAll(":scope > .card, :scope > .masonry-col > .card")));
     var min = parseFloat(getComputedStyle(grid).getPropertyValue("--masonry-min")) || 240;
     var gap = parseFloat(getComputedStyle(grid).getPropertyValue("--masonry-gap")) || 16;
     var cols = Math.max(1, Math.min(items.length, Math.floor((grid.clientWidth + gap) / (min + gap))));

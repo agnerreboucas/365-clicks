@@ -5,4 +5,34 @@
 <link rel="stylesheet" href="../design-system/components.css">
 <script src="../design-system/app.js" defer></script></head><body data-page="admin">
 <header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
-<main><h1>Admin Dashboard</h1><p>Visão operacional</p><div class="row"><div class="panel stat"><span class="small">Usuários</span><div class="metric">12.480</div></div><div class="panel stat"><span class="small">Fotografias</span><div class="metric">84.210</div></div><div class="panel stat"><span class="small">Receita</span><div class="metric">R$ 48.900</div></div></div><h2>Atividade</h2><div class="panel">Tabela operacional, filtros, busca, ações de moderação e relatórios.</div></main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer></body></html>
+<main>
+<div class="cluster" style="justify-content:space-between"><div><h1 style="margin:0">Dashboard</h1><p style="margin:8px 0 0">Visão da operação hoje. Cada bloco leva à área que resolve o assunto.</p></div><span class="small mono" id="agora"></span></div>
+<div class="row" style="margin:24px 0">
+  <div class="panel stat"><span class="small">Usuários ativos (30 dias)</span><div class="metric">8.912</div><span class="delta up">+6,2%</span></div>
+  <div class="panel stat"><span class="small">Publicaram o desafio hoje</span><div class="metric">1.436</div><span class="small">16% dos ativos</span></div>
+  <div class="panel stat"><span class="small">Receita recorrente (mês)</span><div class="metric" id="mrr">—</div><span class="small">assinaturas + mídia</span></div>
+  <div class="panel stat"><span class="small">Contatos para fotógrafos (7 dias)</span><div class="metric" id="leads">—</div><a class="small" href="admin-contatos.html">Ver métricas →</a></div>
+</div>
+<h2>Precisa de atenção</h2>
+<div class="list" id="pend"></div>
+<h2 style="margin-top:32px">Áreas</h2>
+<div class="grid-areas" id="areas" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px"></div>
+</main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function ler(k, d) { try { return JSON.parse(localStorage.getItem(k) || "null") || d; } catch (e) { return d; } }
+  document.getElementById("agora").textContent = new Date().toLocaleString("pt-BR");
+  var den = ler("c365-denuncias", []).filter(function (d) { return d.status !== "resolvida"; }).length + 3;
+  var hist = ler("c365-historias", []).length + 2;
+  var camp = ler("c365-campanhas", []).filter(function (c) { return c.status === "em análise"; }).length + 1;
+  var leads = ler("c365-leads", []).length + 184;
+  document.getElementById("leads").textContent = leads.toLocaleString("pt-BR");
+  document.getElementById("mrr").textContent = "R$ 58.240";
+  var P = [[den, "denúncias abertas de comentários e fotos", "admin-fotos.html", "Moderar"], [camp, "campanhas de anunciantes aguardando aprovação", "admin-anuncios.html", "Revisar"], [hist, "textos de “A foto que eu nunca tirei” para curadoria", "admin-conteudo.html#historias", "Curar"], [12, "dias do calendário com combinação para revisar (Documental + Dupla exposição)", "admin-desafios.html", "Revisar"], [9, "vagas restantes em Foto na Paulista", "admin-eventos.html", "Ver evento"]];
+  document.getElementById("pend").innerHTML = P.map(function (p) { return '<a class="list-item" href="' + p[2] + '"><span class="badge badge-accent num">' + p[0] + '</span><div class="grow">' + esc(p[1]) + '</div><span class="small">' + p[3] + " →</span></a>"; }).join("");
+  var A = [["admin-usuarios", "Usuários", "Contas, planos e bloqueios"], ["admin-fotos", "Moderação", "Denúncias de comentários e fotos"], ["admin-contatos", "Contatos e métricas", "Visualizações, cliques, contatos, UTM"], ["admin-desafios", "Desafios", "Calendário dos 365 e curadoria"], ["admin-conteudo", "Conteúdo", "Blog, Radar, Biblioteca e histórias"], ["admin-gamificacao", "Gamificação", "Pontos, conquistas e ranking"], ["admin-eventos", "Eventos", "Inscrições, check-in e vagas"], ["admin-cursos", "Cursos", "Turmas, alunos e conclusão"], ["admin-assinaturas", "Assinaturas", "Planos, assinantes e cancelamentos"], ["admin-anuncios", "Mídia e anunciantes", "Espaços, campanhas e receita"]];
+  document.getElementById("areas").innerHTML = A.map(function (a) { return '<a class="panel stack" style="text-decoration:none;gap:4px" href="' + a[0] + '.html"><strong>' + a[1] + '</strong><span class="small">' + a[2] + "</span></a>"; }).join("");
+});
+</script>
+</body></html>

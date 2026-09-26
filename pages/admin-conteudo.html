@@ -3,6 +3,54 @@
 <title>365 Clicks — Admin Conteúdo</title>
 <link rel="stylesheet" href="../design-system/tokens.css">
 <link rel="stylesheet" href="../design-system/components.css">
+<script src="roteiros-dados.js"></script>
 <script src="../design-system/app.js" defer></script></head><body data-page="admin-conteudo">
 <header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
-<main><h1>Admin Conteúdo</h1><p>CMS</p><div class="row"><div class="panel stat"><span class="small">Usuários</span><div class="metric">12.480</div></div><div class="panel stat"><span class="small">Fotografias</span><div class="metric">84.210</div></div><div class="panel stat"><span class="small">Receita</span><div class="metric">R$ 48.900</div></div></div><h2>Atividade</h2><div class="panel">Tabela operacional, filtros, busca, ações de moderação e relatórios.</div></main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer></body></html>
+<main data-photos>
+<div class="cluster" style="justify-content:space-between"><div><h1 style="margin:0">Conteúdo</h1><p style="margin:8px 0 0">Blog, Radar 365, Biblioteca e “A foto que eu nunca tirei”. Tudo que é editorial passa por aqui antes de publicar.</p></div><button class="btn" type="button" data-toast="Editor de texto (na versão real: editor de blocos do WordPress)">Novo conteúdo</button></div>
+<div class="tabs" role="tablist" id="abas" style="margin-top:24px"><button role="tab" type="button" aria-selected="true" data-a="blog">Blog</button><button role="tab" type="button" aria-selected="false" data-a="radar">Radar 365</button><button role="tab" type="button" aria-selected="false" data-a="historias">A foto que eu nunca tirei</button><button role="tab" type="button" aria-selected="false" data-a="roteiros">Roteiros</button><button role="tab" type="button" aria-selected="false" data-a="biblioteca">Biblioteca</button></div>
+<div class="table-wrap"><table class="table"><thead id="th"></thead><tbody id="t"></tbody></table></div>
+</main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
+<script>
+(function () {
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function ler(k, d) { try { return JSON.parse(localStorage.getItem(k) || "null") || d; } catch (e) { return d; } }
+  var aba = location.hash.slice(1) || "blog";
+  function bdg(s) { return '<span class="badge plain ' + (s === "publicado" ? "badge-success" : s === "agendado" ? "badge-info" : "badge-warning") + '">' + s + "</span>"; }
+  function render() {
+    document.querySelectorAll("#abas [data-a]").forEach(function (b) { b.setAttribute("aria-selected", String(b.getAttribute("data-a") === aba)); });
+    var D = window.Desafios, th = "", rows = "";
+    if (aba === "blog") {
+      th = "<tr><th>Dia</th><th>Artigo-base</th><th>Editoria</th><th>Status</th><th></th></tr>";
+      var n = D ? D.hoje().dia : 1;
+      for (var i = n - 3; i <= n + 4; i++) { var d = D && D.porNumero(i); if (!d) continue;
+        rows += '<tr><td class="mono">' + i + "</td><td>" + esc(d.tema) + '</td><td>' + esc(d.ciclo || "") + "</td><td>" + bdg(i < n ? "publicado" : i === n ? "publicado" : "agendado") + '</td><td><a class="btn btn-ghost btn-sm" href="artigo.html#dia-' + i + '">Ver</a></td></tr>'; }
+    } else if (aba === "radar") {
+      th = "<tr><th>Edição</th><th>Semana</th><th>Assinantes</th><th>Abertura</th><th>Status</th></tr>";
+      rows = [["#39", "27/09 a 03/10", "—", "—", "agendado"], ["#38", "20/09 a 26/09", "6.812", "48%", "publicado"], ["#37", "13/09 a 19/09", "6.740", "51%", "publicado"], ["#36", "06/09 a 12/09", "6.655", "46%", "publicado"]].map(function (r) { return '<tr><td class="mono"><a href="radar.html">' + r[0] + "</a></td><td>" + r[1] + '</td><td class="num">' + r[2] + '</td><td class="num">' + r[3] + "</td><td>" + bdg(r[4]) + "</td></tr>"; }).join("");
+    } else if (aba === "historias") {
+      th = "<tr><th>Autor</th><th>Título</th><th>Recebida</th><th>Cessão</th><th>Status</th><th></th></tr>";
+      var H = ler("c365-historias", []).map(function (h) { return [h.nome || h.autor || "Você", h.titulo || "Sem título", h.em ? new Date(h.em).toLocaleDateString("pt-BR") : "hoje"]; }).concat([["Laura Mendes", "O casamento da minha avó", "22/09/2026"], ["Pedro Costa", "A última noite do cinema de rua", "18/09/2026"]]);
+      var st = ler("c365-hist-status", {});
+      rows = H.map(function (h, i) { var s = st[i] || "em curadoria"; return "<tr><td>" + esc(h[0]) + "</td><td>" + esc(h[1]) + "</td><td>" + h[2] + '</td><td><span class="badge badge-success plain">aceita</span></td><td>' + bdg(s) + '</td><td class="cluster" style="gap:4px"><button class="btn btn-secondary btn-sm" type="button" data-h="' + i + '" data-s="publicado">Aprovar</button><button class="btn btn-ghost btn-sm" type="button" data-h="' + i + '" data-s="devolvido ao autor">Devolver</button></td></tr>'; }).join("");
+    } else if (aba === "roteiros") {
+      th = "<tr><th>Roteiro</th><th>Autor</th><th class=\"num\">Preço avulso</th><th class=\"num\">Vendas avulsas</th><th class=\"num\">Leituras de assinantes</th><th class=\"num\">Repasse ao autor (30%)</th><th></th></tr>";
+      var R = window.Roteiros, V = [[42, 610], [31, 488], [18, 205], [27, 377]];
+      rows = Object.keys(R.lista).map(function (id, i) { var r = R.lista[id], v = V[i % V.length]; return "<tr><td><strong>" + esc(r.titulo) + '</strong><div class="small">' + esc(r.cidade) + "</div></td><td>" + esc(r.autor) + '</td><td class="num">' + R.brl(r.preco) + '</td><td class="num">' + v[0] + '</td><td class="num">' + v[1] + '</td><td class="num">' + R.brl(v[0] * r.preco * .3) + '</td><td><a class="btn btn-ghost btn-sm" href="roteiro.html#' + id + '">Ver</a></td></tr>'; }).join("");
+    } else {
+      th = "<tr><th>Tipo</th><th>Elemento</th><th>Patrocínio</th><th></th></tr>";
+      var DF = D ? D.definicoes : {};
+      Object.keys(DF).forEach(function (campo) { Object.keys(DF[campo]).slice(0, 4).forEach(function (v) { rows += "<tr><td>" + esc(campo) + "</td><td>" + esc(v) + '</td><td class="small">' + (v === "Tripé" ? "Tripés Serra" : "livre") + '</td><td><a class="btn btn-ghost btn-sm" href="biblioteca.html">Ver</a></td></tr>'; }); });
+    }
+    document.getElementById("th").innerHTML = th;
+    document.getElementById("t").innerHTML = rows || '<tr><td class="small muted">Carregando…</td></tr>';
+  }
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("#abas [data-a]"); if (b) { aba = b.getAttribute("data-a"); history.replaceState(null, "", "#" + aba); render(); }
+    var h = e.target.closest("[data-h]"); if (h) { var st = ler("c365-hist-status", {}); st[h.getAttribute("data-h")] = h.getAttribute("data-s"); try { localStorage.setItem("c365-hist-status", JSON.stringify(st)); } catch (x) {} render(); C365.toast(h.getAttribute("data-s") === "publicado" ? "Aprovada. O autor recebe um e-mail." : "Devolvida ao autor com o seu comentário."); }
+  });
+  document.addEventListener("DOMContentLoaded", render);
+  document.addEventListener("c365:fotos", render);
+})();
+</script>
+</body></html>

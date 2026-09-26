@@ -3,6 +3,28 @@
 <title>365 Clicks — Admin Assinaturas</title>
 <link rel="stylesheet" href="../design-system/tokens.css">
 <link rel="stylesheet" href="../design-system/components.css">
+<script src="planos-dados.js"></script>
 <script src="../design-system/app.js" defer></script></head><body data-page="admin-assinaturas">
 <header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
-<main><h1>Admin Assinaturas</h1><p>Planos e assinantes</p><div class="row"><div class="panel stat"><span class="small">Usuários</span><div class="metric">12.480</div></div><div class="panel stat"><span class="small">Fotografias</span><div class="metric">84.210</div></div><div class="panel stat"><span class="small">Receita</span><div class="metric">R$ 48.900</div></div></div><h2>Atividade</h2><div class="panel">Tabela operacional, filtros, busca, ações de moderação e relatórios.</div></main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer></body></html>
+<main>
+<div class="cluster" style="justify-content:space-between"><div><h1 style="margin:0">Assinaturas</h1><p style="margin:8px 0 0">Planos, assinantes, receita recorrente e cancelamentos.</p></div><a class="btn" href="planos.html">Ver página de planos</a></div>
+<div class="row" style="margin:24px 0" id="kpis"></div>
+<div class="table-wrap"><table class="table"><thead><tr><th>Plano</th><th class="num">Preço mensal</th><th class="num">Preço anual</th><th class="num">Assinantes</th><th class="num">Receita/mês</th><th class="num">Cancelamento (30d)</th></tr></thead><tbody id="t"></tbody></table></div>
+<h2 style="margin-top:32px">Por que cancelaram</h2>
+<div class="stack" id="motivos" style="gap:8px;max-width:640px"></div>
+<p class="small muted" style="margin-top:24px">Números de exemplo. Na versão real, vêm do gateway de pagamento (WooCommerce Subscriptions + Pix/cartão/boleto).</p>
+</main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var P = window.Planos;
+  var D = { free: [10340, 0, 0], "365": [1612, .62, 3.1], clube: [528, .44, 2.2] }, mrr = 0, ass = 0;
+  document.getElementById("t").innerHTML = Object.keys(P.lista).map(function (k) {
+    var p = P.lista[k], d = D[k], rec = d[0] * (d[1] * p.mensal + (1 - d[1]) * p.anual / 12);
+    if (k !== "free") { mrr += rec; ass += d[0]; }
+    return "<tr><td><strong>" + p.nome + '</strong></td><td class="num">' + P.brl(p.mensal) + '</td><td class="num">' + P.brl(p.anual) + '</td><td class="num">' + d[0].toLocaleString("pt-BR") + '</td><td class="num">' + P.brl(rec) + '</td><td class="num">' + (k === "free" ? "—" : String(d[2]).replace(".", ",") + "%") + "</td></tr>";
+  }).join("");
+  document.getElementById("kpis").innerHTML = [["Assinantes pagantes", ass.toLocaleString("pt-BR")], ["Receita recorrente (MRR)", P.brl(mrr)], ["Conversão Free → pago", "17%"], ["Ticket médio", P.brl(mrr / ass)]].map(function (x) { return '<div class="panel stat"><span class="small">' + x[0] + '</span><div class="metric">' + x[1] + "</div></div>"; }).join("");
+  document.getElementById("motivos").innerHTML = [["Parei de fotografar todo dia", 38], ["Preço", 24], ["Uso só o plano gratuito", 19], ["Problema no pagamento", 11], ["Outro", 8]].map(function (m) { return '<div><div class="cluster" style="justify-content:space-between"><span class="small">' + m[0] + '</span><span class="small mono">' + m[1] + '%</span></div><div class="progress ink"><span style="--value:' + m[1] + '%"></span></div></div>'; }).join("");
+});
+</script>
+</body></html>

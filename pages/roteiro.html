@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>365 Clicks — Roteiro</title>
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="../design-system/components.css">
+<script src="planos-dados.js"></script>
+<script src="roteiros-dados.js"></script>
+<script src="../design-system/app.js" defer></script>
+<style>
+.rt-hero { aspect-ratio: 16/6; border-radius: var(--r-lg); background: center/cover; position: relative; overflow: hidden; display: flex; align-items: flex-end; }
+.rt-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.72), rgba(0,0,0,0) 60%); }
+.rt-hero > div { position: relative; z-index: 1; color: #fff; padding: var(--sp-6); }
+.rt-hero h1 { color: #fff; margin: 4px 0; }
+.rt-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: var(--sp-6); margin-top: var(--sp-5); align-items: start; }
+.parada { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: var(--sp-3); padding: var(--sp-4) 0; border-bottom: 1px solid var(--line); }
+.parada .n { width: 36px; height: 36px; border-radius: 50%; background: var(--ink); color: var(--bg); display: grid; place-items: center; font-family: var(--font-mono); }
+.bloqueado { position: relative; max-height: 260px; overflow: hidden; }
+.bloqueado > * { filter: blur(5px); user-select: none; pointer-events: none; }
+.bloqueado::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent, var(--bg) 85%); }
+.paywall { border-color: var(--accent); }
+.ver-como { font-size: var(--fs-xs); }
+@media (max-width: 900px) { .rt-grid { grid-template-columns: 1fr; } .rt-hero { aspect-ratio: 4/3; } }
+</style></head><body data-page="roteiro">
+<header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
+<main>
+<div class="cluster" style="justify-content:space-between;margin-bottom:12px"><a class="small" href="roteiros.html">← Todos os roteiros</a>
+  <div class="cluster ver-como" style="gap:6px"><span class="muted">Protótipo · ver como:</span><div class="chips" style="margin:0" id="ver"><button class="chip" type="button" data-v="" aria-pressed="true">Assinante</button><button class="chip" type="button" data-v="free" aria-pressed="false">Plano Free</button></div></div>
+</div>
+<div id="app"></div>
+</main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer><script>
+document.addEventListener("DOMContentLoaded", function () {
+  var R = window.Roteiros, C = window.C365;
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function parada(p, i) { return '<div class="parada"><span class="n">' + (i + 1) + '</span><div><div class="cluster" style="justify-content:space-between"><strong>' + esc(p[0]) + '</strong><span class="small mono">' + esc(p[1]) + '</span></div><p style="margin:4px 0">' + esc(p[2]) + '</p><p class="small" style="margin:0"><b>Dica:</b> ' + esc(p[3]) + "</p></div></div>"; }
+  function render() {
+    var id = location.hash.slice(1), r = R.lista[id];
+    if (!r) { id = Object.keys(R.lista)[0]; r = R.lista[id]; }
+    document.title = "365 Clicks — " + r.titulo;
+    document.querySelectorAll("#ver [data-v]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-v") === R.modo())); });
+    var ac = R.acesso(id);
+    var topo = '<div class="rt-hero" style="background-image:url(\'' + r.img + "'),linear-gradient(160deg," + r.tone2 + "," + r.tone + ')"><div><span class="badge ' + (ac ? "badge-success" : "badge-accent") + '">' + (ac === "assinatura" ? "Incluído na sua assinatura" : ac === "compra" ? "Comprado" : "Exclusivo para assinantes") + '</span><h1>' + esc(r.titulo) + '</h1><div class="small" style="color:#fff">' + esc(r.cidade) + " · " + esc(r.tipo) + " · " + esc(r.duracao) + " · " + esc(r.nivel) + "</div></div></div>";
+    var lado = '<aside class="stack">' +
+      '<div class="panel stack"><span class="eyebrow">Autora do guia</span><a href="perfil.html#@' + r.autorId + '"><strong>' + esc(r.autor) + "</strong></a><span class='small'>Fotógrafa da comunidade. Parte da venda vai para quem escreveu o roteiro.</span></div>" +
+      (ac ? '<div class="panel stack"><span class="eyebrow">O que levar</span><div class="stack" style="gap:6px">' + r.levar.map(function (l) { return '<label class="check"><input type="checkbox"> ' + esc(l) + "</label>"; }).join("") + "</div></div>" +
+        '<div class="panel stack"><span class="eyebrow">Pratique no caminho</span><div class="cluster" style="gap:6px">' + r.elementos.map(function (e) { return '<a class="tag" href="biblioteca.html">' + esc(e) + "</a>"; }).join("") + '</div><a class="small" href="roteiros.html#planejar">Planejar o dia desta saída →</a></div>' : "") +
+      "</aside>";
+    var corpo;
+    if (ac) {
+      corpo = '<div><p class="lead">' + esc(r.resumo) + '</p><div class="notice"><strong>Melhor horário.</strong> ' + esc(r.horario) + "</div>" +
+        "<h2 style='margin-top:24px'>Paradas</h2>" + r.paradas.map(parada).join("") +
+        '<div class="panel stack" style="margin-top:24px"><h3 style="margin:0">Segurança</h3><p class="small" style="margin:0">' + esc(r.seguranca) + "</p></div>" +
+        '<div class="cluster" style="margin-top:24px"><a class="btn btn-primary" href="publicar.html">Publicar uma foto deste roteiro</a><button class="btn btn-secondary" type="button" data-toast="Versão para celular salva para uso offline (no app)">Salvar para usar offline</button></div></div>';
+    } else {
+      var a = window.Planos ? Planos.lista : null;
+      corpo = '<div><p class="lead">' + esc(r.resumo) + "</p><h2>Paradas</h2>" + parada(r.paradas[0], 0) +
+        '<div class="bloqueado" aria-hidden="true">' + r.paradas.slice(1).map(function (p, i) { return parada(p, i + 1); }).join("") + "</div>" +
+        '<div class="panel stack paywall" style="margin-top:8px"><span class="eyebrow">Conteúdo exclusivo</span><h3 style="margin:0">Continue o roteiro: mais ' + (r.paradas.length - 1) + " paradas, horários, dicas e segurança</h3>" +
+        '<p class="small" style="margin:0">Assinantes dos planos 365 e Clube acessam todos os roteiros. Se preferir, compre só este e ele fica liberado para sempre na sua conta.</p>' +
+        '<div class="cluster"><a class="btn btn-primary" href="checkout.html#365-mensal">Assinar o 365' + (a ? " · " + Planos.brl(a["365"].mensal) + "/mês" : "") + '</a><a class="btn btn-secondary" href="checkout.html#roteiro-' + id + '">Comprar só este roteiro · ' + R.brl(r.preco) + "</a></div></div></div>";
+    }
+    document.getElementById("app").innerHTML = topo + '<div class="rt-grid">' + corpo + lado + "</div>";
+  }
+  document.getElementById("ver").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-v]"); if (!b) return;
+    try { sessionStorage.setItem("c365-ver-como", b.getAttribute("data-v")); } catch (x) {}
+    render(); C.toast(b.getAttribute("data-v") ? "Vendo como visitante do plano Free" : "Vendo como assinante");
+  });
+  window.addEventListener("hashchange", render);
+  render();
+});
+</script>
+</body></html>

@@ -5,4 +5,47 @@
 <link rel="stylesheet" href="../design-system/components.css">
 <script src="../design-system/app.js" defer></script></head><body data-page="admin-gamificacao">
 <header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
-<main><h1>Admin Gamificação</h1><p>Pontos, níveis e badges</p><div class="row"><div class="panel stat"><span class="small">Usuários</span><div class="metric">12.480</div></div><div class="panel stat"><span class="small">Fotografias</span><div class="metric">84.210</div></div><div class="panel stat"><span class="small">Receita</span><div class="metric">R$ 48.900</div></div></div><h2>Atividade</h2><div class="panel">Tabela operacional, filtros, busca, ações de moderação e relatórios.</div></main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer></body></html>
+<main data-photos>
+<h1 style="margin:0">Gamificação</h1>
+<p style="margin:8px 0 0;max-width:70ch">Regras de pontos do 365, conquistas e ranking. A regra vale para todos os usuários a partir do dia seguinte à alteração; o histórico não é recalculado.</p>
+<div class="split" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:24px;align-items:start">
+<form class="panel stack" id="regras">
+  <h2 style="margin:0">Pontuação diária</h2>
+  <div class="form-grid">
+    <div class="field"><label class="label" for="g-min">Mínimo de características</label><input class="input" id="g-min" type="number" min="1" max="4"></div>
+    <div class="field"><label class="label" for="g-car">Pontos por característica</label><input class="input" id="g-car" type="number" min="0" max="10"></div>
+    <div class="field"><label class="label" for="g-dia">Bônus por publicar no dia</label><input class="input" id="g-dia" type="number" min="0" max="10"></div>
+    <div class="field"><label class="label">Máximo por dia</label><div class="metric" id="g-max" style="font-size:var(--fs-2xl)"></div></div>
+  </div>
+  <p class="small muted" style="margin:0">Janela do desafio: 00:00:00 a 23:59:59 (Brasília). Semana começa no domingo.</p>
+  <button class="btn btn-primary" type="submit" style="align-self:flex-start">Salvar regras</button>
+</form>
+<div class="panel stack"><h2 style="margin:0">Ranking</h2>
+  <label class="switch"><input type="checkbox" checked> Ranking público de pontos (semana, mês, ano)</label>
+  <label class="switch"><input type="checkbox" checked disabled> “Em alta” (visibilidade) continua interno</label>
+  <label class="switch"><input type="checkbox" checked> Separar por ano do programa (Ano 1, 2, 3)</label>
+  <a class="small" href="ranking.html">Ver o ranking público →</a>
+</div>
+</div>
+<h2 style="margin-top:32px">Conquistas</h2>
+<div class="table-wrap"><table class="table"><thead><tr><th>Conquista</th><th>Regra</th><th class="num">Usuários com ela</th><th>Ativa</th></tr></thead><tbody id="cq"></tbody></table></div>
+</main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer>
+<script>
+document.addEventListener("c365:fotos", function () {
+  var D = window.Desafios, C = window.C365;
+  var r; try { r = JSON.parse(localStorage.getItem("c365-regras") || "null"); } catch (e) {}
+  r = r || { min: D.MINIMO, car: D.PONTOS.porCaracteristica, dia: D.PONTOS.noDia };
+  var f = { min: document.getElementById("g-min"), car: document.getElementById("g-car"), dia: document.getElementById("g-dia") };
+  Object.keys(f).forEach(function (k) { f[k].value = r[k]; });
+  function max() { document.getElementById("g-max").textContent = (4 * +f.car.value + +f.dia.value) + " pontos"; }
+  document.getElementById("regras").addEventListener("input", max); max();
+  document.getElementById("regras").addEventListener("submit", function (e) {
+    e.preventDefault();
+    try { localStorage.setItem("c365-regras", JSON.stringify({ min: +f.min.value, car: +f.car.value, dia: +f.dia.value })); } catch (x) {}
+    C.toast("Regras salvas. Valem a partir de amanhã, 00:00.");
+  });
+  var CQ = [["Primeiro click", "1 dia publicado", 11820], ["Semana completa", "7 dias seguidos", 6104], ["Um mês de olhar", "30 dias seguidos", 1822], ["Centenário", "100 dias publicados", 948], ["Meio caminho", "183 dias publicados", 402], ["Ano completo", "365 dias publicados", 87], ["Primeira pontuação máxima", "4 características em um dia", 5210], ["Olhar generoso", "50 comentários em fotos de outras pessoas", 1330], ["Primeiro negócio", "Venda ou licença fechada pelo contato", 142]];
+  document.getElementById("cq").innerHTML = CQ.map(function (c) { return "<tr><td><strong>" + c[0] + "</strong></td><td>" + c[1] + '</td><td class="num">' + c[2].toLocaleString("pt-BR") + '</td><td><label class="switch"><input type="checkbox" checked aria-label="Ativar ' + c[0] + '"></label></td></tr>'; }).join("");
+});
+</script>
+</body></html>
