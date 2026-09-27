@@ -101,6 +101,26 @@ Trocar o tema um dia não apaga os dados; atualizar o plugin não quebra o visua
 - O original nunca fica público.
 - O escurecimento no print do celular exige DRM (Widevine/FairPlay) ou app nativo; fica como fase futura.
 
+### 3.5 Split de pagamento por API (venda de fotos, 80/20)
+
+Todos os gateways abaixo fazem split e têm API REST documentada:
+
+| Gateway | Como cada fotógrafo entra | Como a venda é dividida | Observação |
+|---|---|---|---|
+| **Asaas** (recomendado) | Subconta criada por API (`POST /v3/accounts`), retorna o `walletId` | Na criação da cobrança (`POST /v3/payments`), campo `split` com `walletId` + valor fixo ou percentual | O split é calculado sobre o valor líquido (após taxas); subconta fica dentro da plataforma |
+| Pagar.me | Recebedor criado por API | Regras de split no pedido; a soma das regras precisa fechar o valor | Custos de gateway e antifraude ficam com o marketplace |
+| Iugu | Subconta por API (`POST /v1/marketplace/create_account`) | Split por fatura, conta mestre + subcontas | Exige o Plano Marketplace |
+| Mercado Pago | O fotógrafo conecta a própria conta Mercado Pago (OAuth) | `marketplace_fee` / `application_fee` no pagamento | Depende de cada fotógrafo ter conta Mercado Pago |
+
+**Fluxo com Asaas no plugin `365clicks-core`:**
+1. **Vincular conta** (Meus ganhos → Conta de recebimento): o plugin cria a subconta com CPF/CNPJ, nome, e-mail, celular e endereço, e guarda o `walletId` no usuário. O status da verificação chega por webhook.
+2. **Venda:** o checkout cria a cobrança na conta principal com `split: [{ walletId: <fotógrafo>, fixedValue: preço × 0,80 }]`. Usar **valor fixo** garante os 80% do preço ao fotógrafo e deixa as taxas do gateway dentro dos 20% da plataforma; com percentual, a taxa seria dividida entre os dois (o split incide sobre o valor líquido).
+3. **Webhooks:** pagamento confirmado → libera o download e registra a venda em `c365_vendas`; estorno ou chargeback → revoga o link e estorna o saldo.
+4. **Saldo e saque:** o saldo fica na subconta do fotógrafo; o saque vai para a chave Pix dele (automático no dia 5 ou pedido na tela). A tela Meus ganhos lê saldo e extrato pela API.
+5. **Prazo de 30 dias “a liberar”:** controlado pela plataforma (ou por retenção/antecipação do gateway), por causa do prazo de reembolso.
+
+Antes de fechar: confirmar taxas, prazo de recebimento, contrato de marketplace e limites de subcontas com o gateway; validar o modelo fiscal com contador.
+
 ## 4. Fases sugeridas
 | Fase | Entrega | Tamanho |
 |---|---|---|
