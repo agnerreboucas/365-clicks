@@ -421,7 +421,7 @@ Qualquer empresa pode comprar espaço na mídia do 365 Clicks e pagar uma mensal
 - Frequência padrão dos e-mails, para não virar excesso.
 - Razão social, CNPJ e revisão jurídica de todos os termos.
 
-Este pacote inclui uma página HTML para cada rota listada no PRD (66 telas), o design system em `design-system/` e um `index.html` que lista todas as telas por módulo, com pré-visualização em desktop e celular.
+Este pacote inclui uma página HTML para cada rota listada no PRD (67 telas), o design system em `design-system/` e um `index.html` que lista todas as telas por módulo, com pré-visualização em desktop e celular.
 
 
 ## 16. Roteiros fotográficos (guias exclusivos)
@@ -439,11 +439,23 @@ Este pacote inclui uma página HTML para cada rota listada no PRD (66 telas), o 
 
 - **Posicionamento:** além de comunidade, desafio diário e educação, o 365 Clicks é um banco de imagens brasileiro, feito por brasileiros: o país na sua maior diversidade, pelo olhar de quem vive aqui.
 
-- **Quem define:** o próprio fotógrafo, ao publicar (e depois em Minhas vendas), escolhe:
+- **Quem define:** o próprio fotógrafo, ao publicar (e depois em Meus ganhos → Preços e licenças), escolhe:
   - **Download grátis para uso pessoal** — Creative Commons BY-NC: sem uso comercial, com crédito ao autor; entrega a versão web (1600 px). O visitante confirma o compromisso de crédito antes de baixar.
   - **Licença comercial** — preço definido pelo fotógrafo; o comprador paga pela plataforma e baixa o arquivo original em alta resolução, sem marca d'água, com licença em PDF e nota fiscal. Licença não exclusiva, sem direito de revenda do arquivo.
   - **Negociação pelo WhatsApp** — botão abre conversa direta com o fotógrafo, com mensagem pronta citando a foto.
 - **Split de pagamento:** 80% para o fotógrafo, 20% para o 365 Clicks (pagamento, nota, entrega do arquivo e suporte). Repasse por Pix em até 30 dias (prazo de reembolso). Na versão real, o split é feito pelo gateway (subcontas / marketplace do Mercado Pago, Pagar.me ou Asaas).
 - **O que medimos:** fotógrafos vendendo, fotos à venda, preço médio definido, valor em vitrine, cliques no WhatsApp, vendas, faturamento (GMV), receita da plataforma e downloads gratuitos. Negociações pelo WhatsApp acontecem fora da plataforma: medimos o clique, não o fechamento (o fotógrafo pode marcar "negócio fechado" em Mensagens → Interessados).
-- **Telas:** visualizador (bloco "Usar esta foto"), Publicar (Venda e licenças), Checkout (#foto-<id>), Minhas vendas, Minhas compras, Admin Banco de imagens.
+- **Telas:** visualizador (bloco "Usar esta foto"), Publicar (Venda e licenças), Checkout (#foto-<id>), Meus ganhos, Meus downloads, Minhas compras, Admin Banco de imagens.
 - **Proteção:** continua valendo para todas as fotos; o original só sai após pagamento, por link temporário. Marca d'água do visualizador ficou mais leve (12% de opacidade).
+
+
+## 18. Meus downloads e Meus ganhos
+
+- **Meus downloads (todos os usuários):** biblioteca única do que a pessoa comprou ou baixou: fotos com licença comercial (arquivo original + licença em PDF), fotos grátis CC BY-NC (com o texto de crédito para copiar), e-books (PDF/EPUB), cursos (aulas, materiais e certificado) e roteiros (online e PDF offline). Links de download temporários (24 h), gerados a cada clique. Fotógrafo também é comprador: vê aqui os cursos e e-books dele.
+- **Meus ganhos (fotógrafo):**
+  - **Saldo:** disponível para saque, a liberar (vendas com menos de 30 dias), total ganho e já sacado.
+  - **Vendas:** cada foto vendida, uso declarado pelo comprador, preço, valor líquido (80%) e data de liberação.
+  - **Preços e licenças:** edição por foto (grátis CC, preço comercial, WhatsApp).
+  - **Conta de recebimento:** CPF ou CNPJ, titular, chave Pix no mesmo documento, saque automático (dia 5) ou manual. Saque liberado só com a conta verificada (KYC do parceiro de pagamentos).
+- **Split de pagamento:** cada fotógrafo vira uma subconta/recebedor no gateway; em toda venda o gateway divide na hora (80% fotógrafo, 20% plataforma). Opções que fazem split no Brasil: **Asaas** (subcontas via API e split por valor ou percentual), **Pagar.me** (recebedores e regras de split), **Iugu** (subcontas de marketplace) e **Mercado Pago** (marketplace, com o vendedor conectando a própria conta). Recomendação inicial: Asaas, pela criação de subcontas sem o fotógrafo sair da plataforma, Pix forte e emissão de nota. Confirmar taxas e contrato atuais com cada um antes de decidir.
+- **Fiscal:** a plataforma emite nota sobre a sua comissão (20%); o fotógrafo responde pela própria renda. Validar o modelo com contador.

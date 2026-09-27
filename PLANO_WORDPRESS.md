@@ -1,12 +1,12 @@
 # 365 Clicks — do protótipo ao WordPress funcionando
 
 **Data:** 26/09/2026
-**Situação:** o protótipo HTML navegável (66 telas) está pronto para validar a experiência e o visual. Nada ainda grava em servidor: contas, fotos, contatos e pagamentos são simulados no navegador.
+**Situação:** o protótipo HTML navegável (67 telas) está pronto para validar a experiência e o visual. Nada ainda grava em servidor: contas, fotos, contatos e pagamentos são simulados no navegador.
 
 ## 1. Diagnóstico das telas
 
-### 1.1 Prontas como protótipo (interativas, conteúdo e regras definidos) — 64
-Todas as telas do mapa, exceto as duas parciais abaixo. Na auditoria de 26/09 ganharam conteúdo real: Artigo, Calendário, Gerador criativo, Foto Criativa, Roteiros (com guias exclusivos para assinantes e compra avulsa), Roteiro, Minhas vendas, Admin Banco de imagens, Perfil público (`perfil.html#@usuario`), Fotógrafos, Seguidores/Seguindo, Mensagens (com Interessados), Notificações, Configurações, Meus desafios, Ranking, Conquistas, Meus cursos, Aula, Planos, Checkout, Minha assinatura, Minhas compras, Sobre, Ajuda, Contato e os painéis Admin Dashboard, Cursos, Assinaturas, Conteúdo e Gamificação.
+### 1.1 Prontas como protótipo (interativas, conteúdo e regras definidos) — 65
+Todas as telas do mapa, exceto as duas parciais abaixo. Na auditoria de 26/09 ganharam conteúdo real: Artigo, Calendário, Gerador criativo, Foto Criativa, Roteiros (com guias exclusivos para assinantes e compra avulsa), Roteiro, Meus ganhos, Meus downloads, Admin Banco de imagens, Perfil público (`perfil.html#@usuario`), Fotógrafos, Seguidores/Seguindo, Mensagens (com Interessados), Notificações, Configurações, Meus desafios, Ranking, Conquistas, Meus cursos, Aula, Planos, Checkout, Minha assinatura, Minhas compras, Sobre, Ajuda, Contato e os painéis Admin Dashboard, Cursos, Assinaturas, Conteúdo e Gamificação.
 
 ### 1.2 Parciais (visual pronto, conteúdo de exemplo) — 2
 Coleções · Portfólio
@@ -86,7 +86,7 @@ Trocar o tema um dia não apaga os dados; atualizar o plugin não quebra o visua
 | Necessidade | Opção sugerida | Observação |
 |---|---|---|
 | Loja, checkout, ingressos, assinaturas e mensalidade de anunciantes | WooCommerce (+ Subscriptions) | Inscrições de eventos como produto; o fluxo de 5 etapas vira um checkout personalizado |
-| Pix, cartão e boleto | Mercado Pago, Pagar.me ou Asaas | Escolher pelo custo e pela emissão de nota |
+| Pix, cartão, boleto e **split** da venda de fotos (80/20) | Asaas (recomendado), Pagar.me, Iugu ou Mercado Pago | Precisa de subconta/recebedor por fotógrafo, com verificação (KYC) e saque por Pix; escolher pelo custo, split automático e emissão de nota |
 | Cursos | Tutor LMS ou LearnDash | Aulas, progresso e certificados |
 | E-mail transacional | WP Mail SMTP + Amazon SES ou Brevo | Obrigatório para as notificações |
 | Newsletter Radar | Brevo, Mailchimp ou MailPoet | Listas por assunto |
@@ -113,7 +113,7 @@ Trocar o tema um dia não apaga os dados; atualizar o plugin não quebra o visua
 
 ## 5. Decisões e insumos que dependem de você
 1. Hospedagem e domínio (ex.: 365clicks.com.br).
-2. Gateway de pagamento e emissão de nota fiscal (razão social e CNPJ).
+2. Gateway de pagamento com split (subconta por fotógrafo) e emissão de nota fiscal (razão social e CNPJ). Sugestão: Asaas; alternativas Pagar.me, Iugu, Mercado Pago.
 3. Plataforma de cursos (Tutor LMS, LearnDash ou cursos em outra plataforma).
 4. Provedor de e-mail e de newsletter.
 5. Revisão jurídica de todos os termos.

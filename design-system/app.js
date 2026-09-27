@@ -79,7 +79,8 @@
       ["checkout", "Checkout", "Pagamento"],
       ["minha-assinatura", "Minha Assinatura", "Plano, cobrança e cancelamento"],
       ["minhas-compras", "Minhas Compras", "Histórico de compras"],
-      ["vendas", "Minhas vendas", "Preço, licenças e repasses das suas fotos"]
+      ["downloads", "Meus downloads", "Fotos, e-books, cursos e roteiros comprados"],
+      ["vendas", "Meus ganhos", "Saldo, vendas, preços e conta de recebimento"]
     ]},
     { id: "admin", name: "Administração", pages: [
       ["admin", "Dashboard", "Visão operacional"],
@@ -133,6 +134,8 @@
     at: '<circle cx="12" cy="12" r="4"/><path d="M16 12v1.5a2.5 2.5 0 0 0 5 0V12a9 9 0 1 0-3.5 7.1"/>',
     star: '<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3 6.5 20.2l1-6.2L3 9.6l6.2-.9z"/>',
     ticket: '<path d="M3 8a2 2 0 0 0 0 4v0a2 2 0 0 1 0 4v2h18v-2a2 2 0 0 1 0-4 2 2 0 0 0 0-4V6H3z"/><path d="M14 6v12"/>',
+    download: '<path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/>',
+    wallet: '<rect x="3" y="6" width="18" height="14" rx="2"/><path d="M3 10h18M16 15h2"/>',
     calendar: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>'
   };
   function icon(name, cls) {
@@ -204,6 +207,8 @@
           '<a href="' + page("perfil") + '">' + icon("user", "i-sm") + "Meu perfil</a>" +
           '<a href="' + page("meus-desafios") + '">' + icon("target", "i-sm") + "Meus desafios</a>" +
           '<a href="' + page("portfolio") + '">' + icon("grid", "i-sm") + "Portfólio</a>" +
+          '<a href="' + page("downloads") + '">' + icon("download", "i-sm") + "Meus downloads</a>" +
+          '<a href="' + page("vendas") + '">' + icon("wallet", "i-sm") + "Meus ganhos</a>" +
           '<a href="' + page("minha-assinatura") + '">' + icon("bookmark", "i-sm") + "Minha assinatura</a>" +
           '<a href="' + page("configuracoes") + '">' + icon("settings", "i-sm") + "Configurações</a>" +
           '<hr><a href="' + page("admin") + '">Administração</a>' +

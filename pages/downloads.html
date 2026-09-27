@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>365 Clicks — Meus downloads</title>
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="../design-system/components.css">
+<script src="planos-dados.js"></script>
+<script src="roteiros-dados.js"></script>
+<script src="ofertas.js"></script>
+<script src="fotos.js"></script>
+<script src="../design-system/app.js" defer></script>
+<style>
+.dl { display: grid; grid-template-columns: 72px minmax(0, 1fr) auto; gap: var(--sp-4); align-items: center; padding: var(--sp-4); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); }
+.dl .th { width: 72px; height: 72px; border-radius: var(--r-sm); background: center/cover var(--surface-2); display: grid; place-items: center; }
+.dl .acts { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+.dls { display: grid; gap: var(--sp-3); margin-top: var(--sp-4); }
+@media (max-width: 700px) { .dl { grid-template-columns: 56px minmax(0, 1fr); } .dl .th { width: 56px; height: 56px; } .dl .acts { grid-column: 1 / -1; justify-content: flex-start; } }
+</style></head><body data-page="downloads">
+<header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
+<main>
+<h1>Meus downloads</h1>
+<p style="max-width:70ch">Tudo o que você comprou ou baixou no 365 Clicks, num lugar só: fotos licenciadas, e-books, cursos e roteiros. Baixe de novo quantas vezes quiser. Pagamentos e notas fiscais ficam em <a href="minhas-compras.html">Minhas compras</a>.</p>
+<div class="tabs" role="tablist" id="abas" style="margin-top:20px"></div>
+<div class="dls" id="lista"></div>
+<p class="small muted" style="margin-top:20px">Cada clique gera um link de download temporário (vale 24 horas), para o arquivo não circular por aí. Os arquivos das fotos licenciadas saem sem marca d’água e com os dados da licença no próprio arquivo.</p>
+</main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer><script>
+document.addEventListener("DOMContentLoaded", function () {
+  var C = window.C365, F = window.Fotos, O = window.Ofertas, R = window.Roteiros;
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function ler(k, d) { try { return JSON.parse(localStorage.getItem(k) || "null") || d; } catch (e) { return d; } }
+  function data(t) { return new Date(t).toLocaleDateString("pt-BR"); }
+  function bg(f) { return "background-image:url('" + f.thumb + "'),linear-gradient(160deg," + f.tone2 + "," + f.tone + ")"; }
+  var itens = [];
+
+  /* Fotos com licença comercial (compradas aqui + exemplo) */
+  ler("c365-vendas", []).concat([{ codigo: "LC-188240", foto: "juliasantos-2", uso: "Site, blog ou redes sociais da empresa", em: Date.now() - 18 * 864e5 }]).forEach(function (v) {
+    var f = F.foto(v.foto); if (!f) return; var ph = F.fotografo(f.fotografo);
+    itens.push({ tipo: "fotos", em: v.em, th: '<span class="th" style="' + bg(f) + '"></span>', titulo: "“" + f.titulo + "”", sub: "Licença comercial · " + esc(ph.nome) + " · " + esc(v.uso || "") + " · pedido " + v.codigo,
+      acts: '<a class="btn btn-primary btn-sm" href="' + f.grande + '" target="_blank" rel="noopener" data-dl>Baixar original</a><button class="btn btn-secondary btn-sm" type="button" data-toast="Licença em PDF gerada (inclui nome do comprador, uso e data)">Licença (PDF)</button>' });
+  });
+  /* Fotos grátis (CC BY-NC) baixadas */
+  var vistos = {};
+  ler("c365-eventos", []).filter(function (e) { return e.t === "download"; }).forEach(function (e) {
+    if (vistos[e.foto]) return; vistos[e.foto] = 1;
+    var f = F.foto(e.foto); if (!f) return; var ph = F.fotografo(f.fotografo), cred = "Foto: " + ph.nome + " / 365 Clicks";
+    itens.push({ tipo: "fotos", em: e.em || Date.now(), th: '<span class="th" style="' + bg(f) + '"></span>', titulo: "“" + f.titulo + "”", sub: "Grátis para uso pessoal (CC BY-NC) · crédito obrigatório: " + esc(cred),
+      acts: '<a class="btn btn-secondary btn-sm" href="' + f.thumb.replace("w=800", "w=1600") + '" target="_blank" rel="noopener" data-dl>Baixar (web)</a><button class="btn btn-ghost btn-sm" type="button" data-copiar="' + esc(cred) + '">Copiar crédito</button>' + (F.venda(f).preco ? '<a class="btn btn-ghost btn-sm" href="checkout.html#foto-' + f.id + '">Licença comercial</a>' : "") });
+  });
+  /* E-books */
+  var ebooks = [["Guia de Exposição sem Mistério", "PDF e EPUB · 84 páginas", Date.now() - 20 * 864e5]];
+  ler("c365-pedidos", []).forEach(function (p) { (p.itens || []).forEach(function (i) { if (/e-?book/i.test(i.nome) && !/Guia de Exposição/.test(i.nome)) ebooks.push([i.nome, "PDF e EPUB", p.em]); }); });
+  ebooks.forEach(function (b) {
+    itens.push({ tipo: "ebooks", em: b[2], th: '<span class="th">' + C.icon("bookmark") + "</span>", titulo: esc(b[0]), sub: b[1] + " · com o seu nome em cada página",
+      acts: '<button class="btn btn-primary btn-sm" type="button" data-toast="Download do PDF iniciado">PDF</button><button class="btn btn-secondary btn-sm" type="button" data-toast="Download do EPUB iniciado">EPUB</button>' });
+  });
+  /* Cursos */
+  var prog = ler("c365-cursos", { "curso-fotografia-de-rua": [1, 2, 3], "curso-celular": [1, 2, 3, 4, 5] });
+  Object.keys(prog).forEach(function (k) {
+    var o = O.lista[k]; if (!o) return; var tot = o.programacao.length, fim = prog[k].length >= tot;
+    itens.push({ tipo: "cursos", em: Date.now() - 40 * 864e5, th: '<span class="th" style="background-image:url(\'' + o.img + "'),linear-gradient(160deg," + o.tone2 + "," + o.tone + ')"></span>', titulo: esc(o.titulo), sub: prog[k].length + " de " + tot + " aulas · materiais em PDF de cada aula" + (fim ? " · certificado disponível" : ""),
+      acts: '<a class="btn btn-primary btn-sm" href="aula.html#' + k + "/1" + '">Acessar aulas</a><button class="btn btn-secondary btn-sm" type="button" data-toast="Pacote com os materiais do curso (ZIP) baixado">Materiais</button>' + (fim ? '<button class="btn btn-ghost btn-sm" type="button" data-toast="Certificado em PDF baixado">Certificado</button>' : "") });
+  });
+  /* Roteiros */
+  var ass = R.assinante(), comp = R.comprados();
+  Object.keys(R.lista).forEach(function (id) {
+    if (!ass && comp.indexOf(id) < 0) return;
+    var r = R.lista[id];
+    itens.push({ tipo: "roteiros", em: Date.now() - 5 * 864e5, th: '<span class="th" style="background-image:url(\'' + r.img.replace("w=1600&h=900", "w=400&h=400") + "'),linear-gradient(160deg," + r.tone2 + "," + r.tone + ')"></span>', titulo: esc(r.titulo), sub: (comp.indexOf(id) > -1 ? "Comprado" : "Incluído na sua assinatura") + " · " + r.paradas.length + " paradas · " + esc(r.cidade),
+      acts: '<a class="btn btn-primary btn-sm" href="roteiro.html#' + id + '">Abrir</a><button class="btn btn-secondary btn-sm" type="button" data-toast="Roteiro em PDF para usar offline baixado">PDF offline</button>' });
+  });
+
+  var TIPOS = [["", "Tudo"], ["fotos", "Fotos"], ["ebooks", "E-books"], ["cursos", "Cursos"], ["roteiros", "Roteiros"]], atual = location.hash.slice(1);
+  function render() {
+    document.getElementById("abas").innerHTML = TIPOS.map(function (t) { var n = itens.filter(function (i) { return !t[0] || i.tipo === t[0]; }).length; return '<button role="tab" type="button" data-t="' + t[0] + '" aria-selected="' + (t[0] === atual) + '">' + t[1] + ' <span class="small mono">' + n + "</span></button>"; }).join("");
+    var l = itens.filter(function (i) { return !atual || i.tipo === atual; }).sort(function (a, b) { return b.em - a.em; });
+    document.getElementById("lista").innerHTML = l.map(function (i) { return '<div class="dl">' + i.th + '<div style="min-width:0"><strong>' + i.titulo + '</strong><div class="small">' + i.sub + '</div><div class="small mono">' + data(i.em) + '</div></div><div class="acts">' + i.acts + "</div></div>"; }).join("") ||
+      '<div class="empty"><h3>Nada por aqui ainda</h3><p>Fotos que você licenciar, e-books, cursos e roteiros aparecem aqui.</p><a class="btn" href="explorar.html">Explorar fotos</a></div>';
+  }
+  document.getElementById("abas").addEventListener("click", function (e) { var b = e.target.closest("[data-t]"); if (!b) return; atual = b.getAttribute("data-t"); history.replaceState(null, "", atual ? "#" + atual : location.pathname); render(); });
+  document.getElementById("lista").addEventListener("click", function (e) {
+    var c = e.target.closest("[data-copiar]");
+    if (c) { try { navigator.clipboard.writeText(c.getAttribute("data-copiar")); } catch (x) {} C.toast("Crédito copiado"); }
+    if (e.target.closest("[data-dl]")) C.toast("Link temporário gerado (vale 24 horas)");
+  });
+  render();
+});
+</script>
+</body></html>
