@@ -421,7 +421,7 @@ Qualquer empresa pode comprar espaço na mídia do 365 Clicks e pagar uma mensal
 - Frequência padrão dos e-mails, para não virar excesso.
 - Razão social, CNPJ e revisão jurídica de todos os termos.
 
-Este pacote inclui uma página HTML para cada rota listada no PRD (64 telas), o design system em `design-system/` e um `index.html` que lista todas as telas por módulo, com pré-visualização em desktop e celular.
+Este pacote inclui uma página HTML para cada rota listada no PRD (66 telas), o design system em `design-system/` e um `index.html` que lista todas as telas por módulo, com pré-visualização em desktop e celular.
 
 
 ## 16. Roteiros fotográficos (guias exclusivos)
@@ -433,3 +433,17 @@ Este pacote inclui uma página HTML para cada rota listada no PRD (64 telas), o 
 - **Ferramenta gratuita:** o planejador de saída (horários de luz, desafios da semana, paradas e checklist) continua aberto para todos.
 - **Admin:** aba Roteiros em Conteúdo, com vendas avulsas, leituras de assinantes e repasse.
 - **WordPress:** tipo de conteúdo `roteiro`; regra de acesso no plugin = assinatura ativa OU compra registrada; o conteúdo bloqueado não é enviado ao navegador de quem não tem acesso.
+
+
+## 17. Venda de fotos (banco de imagens brasileiro)
+
+- **Posicionamento:** além de comunidade, desafio diário e educação, o 365 Clicks é um banco de imagens brasileiro, feito por brasileiros: o país na sua maior diversidade, pelo olhar de quem vive aqui.
+
+- **Quem define:** o próprio fotógrafo, ao publicar (e depois em Minhas vendas), escolhe:
+  - **Download grátis para uso pessoal** — Creative Commons BY-NC: sem uso comercial, com crédito ao autor; entrega a versão web (1600 px). O visitante confirma o compromisso de crédito antes de baixar.
+  - **Licença comercial** — preço definido pelo fotógrafo; o comprador paga pela plataforma e baixa o arquivo original em alta resolução, sem marca d'água, com licença em PDF e nota fiscal. Licença não exclusiva, sem direito de revenda do arquivo.
+  - **Negociação pelo WhatsApp** — botão abre conversa direta com o fotógrafo, com mensagem pronta citando a foto.
+- **Split de pagamento:** 80% para o fotógrafo, 20% para o 365 Clicks (pagamento, nota, entrega do arquivo e suporte). Repasse por Pix em até 30 dias (prazo de reembolso). Na versão real, o split é feito pelo gateway (subcontas / marketplace do Mercado Pago, Pagar.me ou Asaas).
+- **O que medimos:** fotógrafos vendendo, fotos à venda, preço médio definido, valor em vitrine, cliques no WhatsApp, vendas, faturamento (GMV), receita da plataforma e downloads gratuitos. Negociações pelo WhatsApp acontecem fora da plataforma: medimos o clique, não o fechamento (o fotógrafo pode marcar "negócio fechado" em Mensagens → Interessados).
+- **Telas:** visualizador (bloco "Usar esta foto"), Publicar (Venda e licenças), Checkout (#foto-<id>), Minhas vendas, Minhas compras, Admin Banco de imagens.
+- **Proteção:** continua valendo para todas as fotos; o original só sai após pagamento, por link temporário. Marca d'água do visualizador ficou mais leve (12% de opacidade).

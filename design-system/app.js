@@ -78,12 +78,14 @@
       ["planos", "Planos", "Free + 365 + Clube"],
       ["checkout", "Checkout", "Pagamento"],
       ["minha-assinatura", "Minha Assinatura", "Plano, cobrança e cancelamento"],
-      ["minhas-compras", "Minhas Compras", "Histórico de compras"]
+      ["minhas-compras", "Minhas Compras", "Histórico de compras"],
+      ["vendas", "Minhas vendas", "Preço, licenças e repasses das suas fotos"]
     ]},
     { id: "admin", name: "Administração", pages: [
       ["admin", "Dashboard", "Visão operacional"],
       ["admin-contatos", "Contatos e métricas", "Visualizações, cliques e contatos"],
       ["admin-anuncios", "Mídia e anunciantes", "Espaços, campanhas e receita mensal"],
+      ["admin-vendas", "Banco de imagens", "Fotos à venda, vendas, split e WhatsApp"],
       ["admin-usuarios", "Usuários", "Gestão de usuários"],
       ["admin-fotos", "Moderação", "Denúncias de comentários e fotos"],
       ["admin-desafios", "Desafios", "Criador dos 365 desafios"],

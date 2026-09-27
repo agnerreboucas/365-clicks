@@ -58,11 +58,11 @@
         entry = cache[key] = { ref: ref, chain: Promise.resolve(), timer: null };
         entry.loading = ref.get().then(function (s) {
           var d = s.exists ? s.data() : null;
-          entry.data = { foto: foto.id, fotografo: foto.fotografo, dia: hoje(), views: d ? d.views || 0 : 0, clicks: d ? d.clicks || 0 : 0, leads: d ? d.leads || 0 : 0, shares: d ? d.shares || 0 : 0 };
-        }).catch(function () { entry.data = { foto: foto.id, fotografo: foto.fotografo, dia: hoje(), views: 0, clicks: 0, leads: 0, shares: 0 }; });
+          entry.data = { foto: foto.id, fotografo: foto.fotografo, dia: hoje(), views: d ? d.views || 0 : 0, clicks: d ? d.clicks || 0 : 0, leads: d ? d.leads || 0 : 0, shares: d ? d.shares || 0 : 0, whatsapp: d ? d.whatsapp || 0 : 0, vendas: d ? d.vendas || 0 : 0, downloads: d ? d.downloads || 0 : 0 };
+        }).catch(function () { entry.data = { foto: foto.id, fotografo: foto.fotografo, dia: hoje(), views: 0, clicks: 0, leads: 0, shares: 0, whatsapp: 0, vendas: 0, downloads: 0 }; });
       }
       await entry.loading;
-      var campo = { view: "views", click: "clicks", lead: "leads", share: "shares" }[tipo];
+      var campo = { view: "views", click: "clicks", lead: "leads", share: "shares", whatsapp: "whatsapp", venda: "vendas", download: "downloads" }[tipo];
       entry.data[campo] = (entry.data[campo] || 0) + 1;
       agendar(entry);
     }
@@ -89,8 +89,8 @@
       var agg = {};
       lerLocal("c365-eventos").forEach(function (e) {
         var k = e.foto + "~" + e.dia;
-        var a = agg[k] || (agg[k] = { foto: e.foto, fotografo: e.fotografo, dia: e.dia, views: 0, clicks: 0, leads: 0, shares: 0 });
-        a[{ view: "views", click: "clicks", lead: "leads", share: "shares" }[e.t]]++;
+        var a = agg[k] || (agg[k] = { foto: e.foto, fotografo: e.fotografo, dia: e.dia, views: 0, clicks: 0, leads: 0, shares: 0, whatsapp: 0, vendas: 0, downloads: 0 });
+        a[{ view: "views", click: "clicks", lead: "leads", share: "shares", whatsapp: "whatsapp", venda: "vendas", download: "downloads" }[e.t]]++;
       });
       return { fonte: "local", stats: Object.keys(agg).map(function (k) { return agg[k]; }), leads: lerLocal("c365-leads") };
     }
@@ -152,7 +152,7 @@
   document.addEventListener("visibilitychange", function () { if (document.hidden) escudo(0); });
 
   function marcaDagua(texto) {
-    var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="480" height="220"><text x="30" y="120" transform="rotate(-24 240 110)" font-family="Arial, sans-serif" font-size="15" fill="#fff" fill-opacity=".34">' +
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="560" height="280"><text x="30" y="150" transform="rotate(-24 280 140)" font-family="Arial, sans-serif" font-size="13" fill="#fff" fill-opacity=".12">' +
       esc(texto) + "</text></svg>";
     return 'url("data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg) + '")';
   }
@@ -219,6 +219,10 @@
       else if (a === "prev") passo(-1);
       else if (a === "next") passo(1);
       else if (a === "contato") { Track.registrar("click", atual); mostrarContato(); }
+      else if (a === "baixar-cc") baixarCC();
+      else if (a === "baixar-cc-ok") baixarCCOk();
+      else if (a === "whatsapp") { Track.registrar("whatsapp", atual); Track.registrar("click", atual); }
+      else if (a === "comprar") Track.registrar("click", atual);
       else if (a === "voltar") mostrarInfo();
       else if (a === "abrir") abrir(F.foto(b.getAttribute("data-id")), F.doFotografo(atual.fotografo));
       else if (a === "marcar") abrirMarcacao();
@@ -253,6 +257,33 @@
     Track.registrar("view", foto);
   }
 
+  /* Licenças e venda: download gratuito (CC BY-NC), licença comercial paga pela plataforma e negociação pelo WhatsApp */
+  function licencas(foto, ph) {
+    var v = F.venda(foto), nome = esc(ph.nome.split(" ")[0]), brl = function (x) { return "R$ " + x.toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, "."); };
+    return '<div class="viewer-cta"><strong>Usar esta foto</strong><p class="small" style="margin:4px 0 12px">Quem define as licenças e o preço é o próprio fotógrafo.</p>' +
+      '<div class="lic"><div><b>Uso pessoal · grátis</b><span class="small">' + (v.cc ? "Creative Commons BY-NC: sem uso comercial, com crédito a " + esc(ph.nome) + ". Arquivo web (1600 px)." : nome + " não liberou o download gratuito desta foto.") + "</span></div>" +
+        (v.cc ? '<button class="btn btn-secondary btn-sm" type="button" data-v="baixar-cc">Baixar grátis</button>' : "") + "</div>" +
+      '<div data-cc-box hidden></div>' +
+      '<div class="lic"><div><b>Uso comercial' + (v.preco ? " · " + brl(v.preco) : "") + '</b><span class="small">' + (v.preco ? "Arquivo original em alta resolução, licença comercial e nota fiscal. Pagamento pela plataforma." : nome + " prefere combinar o preço direto com você.") + "</span></div>" +
+        (v.preco ? '<a class="btn btn-primary btn-sm" data-v="comprar" href="' + C.page("checkout") + "#foto-" + foto.id + '">Comprar</a>' : "") + "</div>" +
+      '<div class="cluster" style="margin-top:12px">' + (v.whatsapp ? '<a class="btn btn-secondary btn-sm" data-v="whatsapp" href="' + F.whatsLink(foto) + '" target="_blank" rel="noopener">Negociar no WhatsApp</a>' : "") +
+        '<button class="btn btn-ghost btn-sm" type="button" data-v="contato">Enviar mensagem</button></div></div>';
+  }
+  function baixarCC() {
+    var box = V.querySelector("[data-cc-box]"), ph = F.fotografo(atual.fotografo);
+    if (!box.hidden) { box.hidden = true; return; }
+    box.innerHTML = '<div class="report"><label class="check"><input type="checkbox" data-cc-ok> Vou usar sem fins comerciais e dar crédito: “Foto: ' + esc(ph.nome) + ' / 365 Clicks”.</label><button class="btn btn-sm" type="button" data-v="baixar-cc-ok" style="margin-top:8px">Baixar arquivo web</button></div>';
+    box.hidden = false;
+  }
+  function baixarCCOk() {
+    var ok = V.querySelector("[data-cc-ok]");
+    if (!ok || !ok.checked) { C.toast("Marque o compromisso de crédito e uso não comercial"); return; }
+    Track.registrar("download", atual);
+    window.open(atual.thumb.replace("w=800", "w=1600"), "_blank", "noopener");
+    V.querySelector("[data-cc-box]").hidden = true;
+    C.toast("Download registrado. Obrigado por dar o crédito!");
+  }
+
   function renderInfo(foto, ph) {
     var outras = F.doFotografo(ph.id).filter(function (f) { return f.id !== foto.id; });
     V.querySelector('[data-panel="info"]').innerHTML =
@@ -262,7 +293,7 @@
       '<p class="viewer-desc">' + esc(foto.descricao) + "</p>" +
       '<dl class="kv" style="grid-template-columns:auto 1fr;margin:16px 0"><dt>Câmera</dt><dd style="text-align:left" class="mono">' + esc(foto.exif) + '</dd><dt>Local</dt><dd style="text-align:left">' + esc(foto.local) + '</dd><dt>Publicada</dt><dd style="text-align:left">' + esc(foto.data) + "</dd></dl>" +
       '<div class="cluster"><button class="btn btn-secondary btn-sm" type="button" aria-pressed="false" data-toggle data-on="Curtida registrada">' + I("heart", "i-sm") + " " + foto.curtidas + '</button><button class="btn btn-secondary btn-sm" type="button" aria-pressed="false" data-toggle data-on="Salva em Coleções">' + I("bookmark", "i-sm") + " Salvar</button>" + '<button class="btn btn-secondary btn-sm" type="button" data-v="compartilhar">Compartilhar</button></div><div data-share hidden></div>' +
-      '<div class="viewer-cta"><strong>Quer usar esta foto?</strong><p class="small" style="margin:4px 0 12px">Esta foto não pode ser baixada. Para comprar, licenciar ou contratar um trabalho, fale direto com ' + esc(ph.nome.split(" ")[0]) + '.</p><button class="btn btn-primary btn-block" type="button" data-v="contato">Falar com o fotógrafo</button></div>' +
+      licencas(foto, ph) +
       (outras.length ? '<h3 class="viewer-more">Mais de ' + esc(ph.nome) + '</h3><div class="viewer-thumbs">' + outras.map(function (f) {
         return '<button type="button" class="viewer-thumb" data-v="abrir" data-id="' + f.id + '" aria-label="Abrir “' + esc(f.titulo) + '”" style="background-image:url(\'' + f.thumb + "'),linear-gradient(160deg," + f.tone2 + "," + f.tone + ')"></button>';
       }).join("") + "</div>" : "") +

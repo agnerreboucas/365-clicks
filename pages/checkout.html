@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="../design-system/components.css">
 <script src="planos-dados.js"></script>
 <script src="roteiros-dados.js"></script>
+<script src="fotos.js"></script>
 <script src="../design-system/app.js" defer></script>
 <style>
 .ck { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: var(--sp-6); align-items: start; margin-top: var(--sp-5); }
@@ -71,6 +72,9 @@ document.addEventListener("DOMContentLoaded", function () {
   /* Compra avulsa de roteiro: #roteiro-<id> */
   var rid = location.hash.indexOf("#roteiro-") === 0 ? location.hash.slice(9) : "";
   if (rid && R && R.lista[rid]) { roteiro(rid); return; }
+  /* Licença comercial de foto: #foto-<id> */
+  var fid = location.hash.indexOf("#foto-") === 0 ? location.hash.slice(6) : "";
+  if (fid && window.Fotos && Fotos.foto(fid) && Fotos.venda(Fotos.foto(fid)).preco) { foto(fid); return; }
   var h = location.hash.slice(1).split("-"), id = P.lista[h[0]] && h[0] !== "free" ? h[0] : "365", plano = P.lista[id];
   document.querySelector('input[name="ciclo"][value="' + (h[1] === "anual" ? "anual" : "mensal") + '"]').checked = true;
   document.getElementById("t-plano").textContent = plano.nome;
@@ -103,6 +107,41 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("ok-p").textContent = (a.status === "ativa" ? "Pagamento aprovado. " : pag() === "pix" ? "Pague o Pix que enviamos por e-mail para ativar. " : "O boleto foi enviado por e-mail. ") + "A nota fiscal chega no seu e-mail.";
     scrollTo(0, 0);
   });
+  function foto(id) {
+    var F = window.Fotos, f = F.foto(id), ph = F.fotografo(f.fotografo), v = F.venda(f), preco = v.preco, taxa = Math.round(preco * F.TAXA * 100) / 100;
+    var brl = P.brl;
+    document.title = "365 Clicks — Licenciar foto";
+    document.getElementById("t-h1").textContent = "Licença comercial da foto";
+    var cb = document.getElementById("ciclo-box");
+    cb.innerHTML = '<h2 style="margin:0">Como você vai usar</h2><div class="field"><label class="label" for="f-uso">Uso previsto</label><select class="select" id="f-uso"><option>Publicidade e anúncios</option><option>Site, blog ou redes sociais da empresa</option><option>Editorial (revista, jornal, livro)</option><option>Produto impresso (embalagem, quadro, camiseta)</option><option>Outro uso comercial</option></select></div><p class="small muted" style="margin:0">A licença é não exclusiva, por prazo indeterminado e não permite revender o arquivo. O fotógrafo continua dono da obra.</p>';
+    document.getElementById("r-nome").textContent = "“" + f.titulo + "”";
+    document.getElementById("r-itens").innerHTML = '<li style="list-style:none;margin-left:-1.1em"><span style="display:block;aspect-ratio:' + f.ratio.replace("/", " / ") + ';max-height:220px;border-radius:8px;background:url(\'' + f.thumb + "') center/cover, linear-gradient(160deg," + f.tone2 + "," + f.tone + ')"></span></li><li>Por <a href="perfil.html#@' + ph.id + '">' + ph.nome + "</a></li><li>Arquivo original em alta resolução, sem marca d’água</li><li>Licença comercial em PDF + nota fiscal</li>";
+    document.getElementById("r-tot").innerHTML = "<dt>Licença comercial</dt><dd>" + brl(preco) + "</dd><dt class='small'>Fotógrafo recebe (80%)</dt><dd class='small'>" + brl(preco - taxa) + "</dd><dt class='small'>365 Clicks (20%)</dt><dd class='small'>" + brl(taxa) + "</dd><dt>Total</dt><dd><strong>" + brl(preco) + "</strong></dd>";
+    document.getElementById("t-termo").innerHTML = 'Li e aceito a <a href="termos.html">licença de uso comercial</a>. Não vou revender nem redistribuir o arquivo.';
+    document.querySelector('input[name="pag"][value="cartao"]').closest(".option").querySelector(".small").textContent = "Aprovação na hora";
+    function pag() { return document.querySelector('input[name="pag"]:checked').value; }
+    function pgs() { document.querySelectorAll("[data-pg]").forEach(function (el) { el.classList.toggle("on", el.getAttribute("data-pg") === pag()); }); }
+    document.getElementById("form").addEventListener("change", pgs); pgs();
+    document.getElementById("form").addEventListener("submit", function (e) {
+      e.preventDefault(); e.stopImmediatePropagation();
+      var bad = ["f-nome", "f-doc", "f-email"].map(function (i) { return document.getElementById(i); }).filter(function (el) { el.removeAttribute("aria-invalid"); return !el.value.trim(); });
+      bad.forEach(function (el) { el.setAttribute("aria-invalid", "true"); });
+      if (bad.length) { bad[0].focus(); C.toast("Confira os campos destacados"); return; }
+      if (!document.getElementById("f-termo").checked) { C.toast("Aceite a licença para continuar"); return; }
+      function ler(k) { try { return JSON.parse(localStorage.getItem(k) || "[]"); } catch (x) { return []; } }
+      var cod = "LC-" + String(Date.now()).slice(-6), venda = { codigo: cod, foto: f.id, titulo: f.titulo, fotografo: ph.id, preco: preco, taxa: taxa, repasse: preco - taxa, uso: document.getElementById("f-uso").value, comprador: document.getElementById("f-nome").value.trim(), pagamento: pag(), em: Date.now() };
+      var vs = ler("c365-vendas"); vs.unshift(venda);
+      var ped = ler("c365-pedidos"); ped.unshift({ codigo: cod, itens: [{ nome: "Licença comercial: “" + f.titulo + "”, de " + ph.nome, q: 1, preco: preco }], total: preco, em: Date.now(), status: "pago", acao: ["Baixar arquivo original", f.grande] });
+      var ev = ler("c365-eventos"); ev.push({ t: "venda", foto: f.id, fotografo: ph.id, dia: new Date().toISOString().slice(0, 10), em: Date.now() });
+      try { localStorage.setItem("c365-vendas", JSON.stringify(vs.slice(0, 200))); localStorage.setItem("c365-pedidos", JSON.stringify(ped.slice(0, 30))); localStorage.setItem("c365-eventos", JSON.stringify(ev)); } catch (x) {}
+      document.getElementById("ck").hidden = true;
+      document.getElementById("ok").hidden = false;
+      document.getElementById("ok-t").textContent = "Licença emitida";
+      document.getElementById("ok-p").textContent = "Pedido " + cod + ". O arquivo original e a licença em PDF também foram enviados para o seu e-mail. " + ph.nome + " recebe " + brl(preco - taxa) + " por Pix.";
+      document.getElementById("ok-acoes").innerHTML = '<a class="btn btn-primary" href="' + f.grande + '" target="_blank" rel="noopener">Baixar arquivo original</a><button class="btn btn-secondary" type="button" data-toast="Licença em PDF enviada para o seu e-mail">Licença (PDF)</button><a class="btn btn-ghost" href="minhas-compras.html">Minhas compras</a>';
+      scrollTo(0, 0);
+    });
+  }
   function roteiro(id) {
     var r = R.lista[id];
     document.title = "365 Clicks — Comprar roteiro";

@@ -751,3 +751,8 @@ body.is-shielded .card img, body.is-shielded .viewer-img, body.is-shielded .feed
 .ad-vaga { display: block; padding: var(--sp-3) var(--sp-4); border: 1px dashed var(--c-line-strong); border-radius: var(--r-md); font-size: var(--fs-14); color: var(--c-muted); text-decoration: none; text-align: center; }
 .ad-vaga:hover { color: var(--c-ink); border-color: var(--c-ink); }
 @media (max-width: 640px) { .ad-card { grid-template-columns: 1fr; } }
+
+/* Licenças no visualizador (grátis CC BY-NC · comercial · WhatsApp) */
+.viewer-cta .lic { display: flex; gap: var(--sp-3); align-items: center; justify-content: space-between; padding: var(--sp-3) 0; border-top: 1px solid var(--line); }
+.viewer-cta .lic > div { display: grid; gap: 2px; min-width: 0; }
+.viewer-cta .lic .btn { flex: none; }

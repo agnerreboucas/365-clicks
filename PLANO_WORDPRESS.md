@@ -1,12 +1,12 @@
 # 365 Clicks — do protótipo ao WordPress funcionando
 
 **Data:** 26/09/2026
-**Situação:** o protótipo HTML navegável (64 telas) está pronto para validar a experiência e o visual. Nada ainda grava em servidor: contas, fotos, contatos e pagamentos são simulados no navegador.
+**Situação:** o protótipo HTML navegável (66 telas) está pronto para validar a experiência e o visual. Nada ainda grava em servidor: contas, fotos, contatos e pagamentos são simulados no navegador.
 
 ## 1. Diagnóstico das telas
 
-### 1.1 Prontas como protótipo (interativas, conteúdo e regras definidos) — 62
-Todas as telas do mapa, exceto as duas parciais abaixo. Na auditoria de 26/09 ganharam conteúdo real: Artigo, Calendário, Gerador criativo, Foto Criativa, Roteiros (com guias exclusivos para assinantes e compra avulsa), Roteiro, Perfil público (`perfil.html#@usuario`), Fotógrafos, Seguidores/Seguindo, Mensagens (com Interessados), Notificações, Configurações, Meus desafios, Ranking, Conquistas, Meus cursos, Aula, Planos, Checkout, Minha assinatura, Minhas compras, Sobre, Ajuda, Contato e os painéis Admin Dashboard, Cursos, Assinaturas, Conteúdo e Gamificação.
+### 1.1 Prontas como protótipo (interativas, conteúdo e regras definidos) — 64
+Todas as telas do mapa, exceto as duas parciais abaixo. Na auditoria de 26/09 ganharam conteúdo real: Artigo, Calendário, Gerador criativo, Foto Criativa, Roteiros (com guias exclusivos para assinantes e compra avulsa), Roteiro, Minhas vendas, Admin Banco de imagens, Perfil público (`perfil.html#@usuario`), Fotógrafos, Seguidores/Seguindo, Mensagens (com Interessados), Notificações, Configurações, Meus desafios, Ranking, Conquistas, Meus cursos, Aula, Planos, Checkout, Minha assinatura, Minhas compras, Sobre, Ajuda, Contato e os painéis Admin Dashboard, Cursos, Assinaturas, Conteúdo e Gamificação.
 
 ### 1.2 Parciais (visual pronto, conteúdo de exemplo) — 2
 Coleções · Portfólio

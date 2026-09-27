@@ -139,7 +139,28 @@
     return lista.slice().sort(function (a, b) { return chave(b) - chave(a); });
   }
 
+  /* Venda e licenças definidas pelo fotógrafo ao publicar.
+     cc: libera download gratuito da versão web (Creative Commons BY-NC: sem uso comercial, com crédito).
+     preco: licença comercial com o arquivo original em alta resolução, paga pela plataforma (null = só negociação).
+     O comprador também pode negociar direto com o fotógrafo pelo WhatsApp. A plataforma fica com TAXA de cada venda. */
+  var TAXA = 0.20;
+  var WHATS = { analima: "5511987650101", rafaborges: "5531988770202", juliasantos: "5548999880303", pedrocosta: "5541977660404", marinafaria: "5521966550505", marcosandrade: "5511955440606" };
+  var PRECOS = [180, 250, 320, 450, 150, 600, 290, 390];
+  lista.forEach(function (f, k) {
+    f.venda = { cc: k % 3 !== 1, preco: k % 5 === 4 ? null : PRECOS[k % PRECOS.length], whatsapp: true };
+  });
+  function venda(foto) {
+    var extra = null;
+    try { extra = JSON.parse(localStorage.getItem("c365-venda-" + foto.id) || "null"); } catch (e) {}
+    return Object.assign({}, foto.venda || { cc: false, preco: null, whatsapp: true }, extra || {});
+  }
+  function whatsLink(foto, texto) {
+    var n = WHATS[foto.fotografo] || "5511900000000";
+    return "https://wa.me/" + n + "?text=" + encodeURIComponent(texto || ("Olá! Vi sua foto “" + foto.titulo + "” no 365 Clicks e tenho interesse em comprar ou licenciar."));
+  }
+
   window.Fotos = {
+    TAXA: TAXA, venda: venda, whatsLink: whatsLink,
     ordenar: ordenar, emAlta: emAlta, posts7d: POSTS_7D,
     pessoas: PESSOAS,
     pessoa: function (id) { return PESSOAS.filter(function (p) { return p.id === id; })[0]; },

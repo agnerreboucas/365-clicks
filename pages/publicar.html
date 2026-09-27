@@ -98,6 +98,15 @@
       </div>
     </div>
 
+    <div class="panel stack" id="venda">
+      <h2 style="margin:0;font-size:var(--fs-lg)">Venda e licenças</h2>
+      <p class="small" style="margin:0">Você decide como a foto pode ser usada e quanto custa. A foto continua protegida no site: ninguém baixa o original sem pagar.</p>
+      <label class="switch"><input type="checkbox" id="v-cc" checked> Permitir download grátis para uso pessoal (Creative Commons BY-NC: sem uso comercial, com crédito)</label>
+      <label class="switch"><input type="checkbox" id="v-vender" checked> Vender licença comercial pela plataforma</label>
+      <div class="field" id="v-preco-wrap"><label class="label" for="v-preco">Preço da licença comercial (R$)</label><input class="input" id="v-preco" type="number" min="20" step="10" value="250" inputmode="numeric"><span class="hint" id="v-split"></span></div>
+      <label class="switch"><input type="checkbox" id="v-whats" checked> Aceitar negociação direta pelo WhatsApp</label>
+      <p class="small muted" style="margin:0">Número usado: o do seu perfil (<a href="editar-perfil.html#s-contato">editar</a>). Na venda pela plataforma, o comprador recebe o arquivo original em alta resolução e a nota; você recebe 80% por Pix.</p>
+    </div>
     <div class="panel stack">
       <details class="doc"><summary><span class="grow" id="aut-titulo">Declaração de Autoria e Responsabilidade</span><span class="badge plain mono" id="aut-v">v1.0</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><div class="doc-body" id="aut-body"></div></details>
       <label class="accept"><input type="checkbox" id="autoria" required><span>Declaro que sou <strong>autor ou coautor desta fotografia</strong> e assumo a responsabilidade por esta declaração.</span></label>
@@ -341,6 +350,15 @@ document.addEventListener("DOMContentLoaded", function () {
   var aut = O && O.termos.autoria;
   if (aut) { $("#aut-titulo").textContent = aut.titulo; $("#aut-v").textContent = "v" + aut.versao; $("#aut-body").innerHTML = O.termoHTML("autoria", {}); }
 
+  /* ---------- Venda e licenças ---------- */
+  function split() {
+    var on = $("#v-vender").checked, v = +$("#v-preco").value || 0;
+    $("#v-preco-wrap").hidden = !on;
+    $("#v-split").textContent = "Você recebe R$ " + (v * 0.8).toFixed(2).replace(".", ",") + " (80%). A plataforma fica com 20% para pagamento, nota fiscal, entrega do arquivo e suporte.";
+  }
+  ["v-vender", "v-preco"].forEach(function (id) { $("#" + id).addEventListener("input", split); $("#" + id).addEventListener("change", split); });
+  split();
+
   /* ---------- Publicar ---------- */
   $("#pub").addEventListener("submit", function (e) {
     e.preventDefault();
@@ -362,6 +380,9 @@ document.addEventListener("DOMContentLoaded", function () {
     $("#ok-desc").textContent = $("#descricao").value;
     $("#ok-msg").innerHTML = "Publicada. Você ganhou <strong>+" + pts + " pontos</strong>" + (t === "desafio" ? " (" + marcadas() + " de 4 características" + (hoje ? " + publicação no dia" : "") + ")" : "") + (hoje ? " e a foto está em destaque no desafio de hoje." : t === "desafio" ? " e a foto entrou na galeria do desafio." : ".");
     var kv = [["Autor", "Marcos Andrade (@marcosandrade)" + ($("#coautores").value ? " · coautores: " + $("#coautores").value : "")], ["Câmera", $("#camera").value + ($("#lente").value ? " · " + $("#lente").value : "")], ["Exposição", [$("#focal").value, $("#abertura").value, $("#velocidade").value, "ISO " + $("#iso").value].filter(Boolean).join(" · ")], ["Tirada em", fmt(captura())], ["Local", $("#local").value], ["Desafio", t === "livre" ? "Foto livre" : ds.tema + " + " + ds.tecnica + ": " + Array.prototype.map.call(document.querySelectorAll("#caract input:checked"), function (x) { return ds.caracteristicas[+x.getAttribute("data-car")]; }).join("; ")], ["Arquivo", U.FORMATOS[formato()].nome + " · " + (processado ? processado.w + " × " + processado.h + " px · " + processado.tipo + " " + U.mb(processado.bytes) + " · galeria " + U.mb(processado.versoes[2].bytes) : "")], ["Autoria", "Declaração v" + (aut ? aut.versao : "1.0") + " aceita em " + fmt(new Date())]];
+    var vd = { cc: $("#v-cc").checked, preco: $("#v-vender").checked ? +$("#v-preco").value || null : null, whatsapp: $("#v-whats").checked };
+    try { localStorage.setItem("c365-venda-ultima", JSON.stringify(vd)); } catch (x) {}
+    kv.push(["Licenças", (vd.cc ? "Grátis para uso pessoal (CC BY-NC)" : "Sem download grátis") + " · " + (vd.preco ? "Comercial por R$ " + vd.preco.toFixed(2).replace(".", ",") + " (você recebe R$ " + (vd.preco * 0.8).toFixed(2).replace(".", ",") + ")" : "Comercial só por negociação") + (vd.whatsapp ? " · WhatsApp ativo" : "")]);
     $("#ok-kv").innerHTML = kv.map(function (p) { return "<dt>" + p[0] + '</dt><dd style="text-align:left">' + p[1].replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; }) + "</dd>"; }).join("");
     window.scrollTo({ top: 0, behavior: "smooth" });
     C.toast("Foto publicada · seus seguidores receberam um e-mail");

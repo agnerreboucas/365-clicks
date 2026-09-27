@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>365 Clicks — Minhas vendas</title>
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="../design-system/components.css">
+<script src="../design-system/app.js" defer></script>
+<style>
+.th { width: 56px; height: 56px; border-radius: var(--r-sm); background: center/cover; flex: none; }
+.preco-in { width: 110px; }
+</style></head><body data-page="vendas">
+<header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
+<main data-photos>
+<div class="cluster" style="justify-content:space-between;align-items:flex-end"><div><h1 style="margin:0">Minhas vendas</h1><p style="margin:8px 0 0;max-width:70ch">Você define o preço e as licenças de cada foto. Nas vendas pela plataforma você recebe 80% por Pix; o 365 Clicks fica com 20% (pagamento, nota fiscal, entrega do arquivo e suporte). Negociações pelo WhatsApp são 100% suas.</p></div><a class="btn" href="publicar.html">Publicar e vender uma foto</a></div>
+<div class="row" style="margin:24px 0" id="kpis"></div>
+<h2>Minhas fotos à venda</h2>
+<div class="table-wrap"><table class="table"><thead><tr><th>Foto</th><th>Grátis (CC BY-NC)</th><th>Licença comercial (R$)</th><th>Você recebe</th><th>WhatsApp</th><th class="num">Cliques WhatsApp</th></tr></thead><tbody id="fotos"></tbody></table></div>
+<div class="cluster" style="justify-content:flex-end;margin-top:12px"><button class="btn btn-primary" type="button" id="salvar">Salvar preços e licenças</button></div>
+<h2 style="margin-top:32px">Vendas e repasses</h2>
+<div class="table-wrap"><table class="table"><thead><tr><th>Data</th><th>Pedido</th><th>Foto</th><th>Uso</th><th class="num">Preço</th><th class="num">Você recebe</th><th>Repasse</th></tr></thead><tbody id="vendas"></tbody></table></div>
+<p class="small muted" style="margin-top:12px">Repasse por Pix em até 30 dias após a venda (prazo de reembolso do comprador). Chave Pix e dados fiscais ficam em <a href="configuracoes.html#assinatura">Configurações</a>.</p>
+</main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer><script>
+document.addEventListener("c365:fotos", function () {
+  var F = window.Fotos, C = window.C365, EU = "marcosandrade";
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function ler(k, d) { try { return JSON.parse(localStorage.getItem(k) || "null") || d; } catch (e) { return d; } }
+  function brl(v) { return "R$ " + v.toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
+  var minhas = F.doFotografo(EU), ev = ler("c365-eventos", []);
+  function zaps(id) { return ev.filter(function (e) { return e.t === "whatsapp" && e.foto === id; }).length + (id.slice(-1) * 3 % 7); }
+  function linha(f) {
+    var v = F.venda(f);
+    return '<tr data-id="' + f.id + '"><td><div class="cluster" style="flex-wrap:nowrap"><span class="th" style="background-image:url(\'' + f.thumb + "'),linear-gradient(160deg," + f.tone2 + "," + f.tone + ')"></span><div><strong>' + esc(f.titulo) + '</strong><div class="small">Dia ' + f.dia + " · " + esc(f.data) + '</div></div></div></td>' +
+      '<td><label class="switch"><input type="checkbox" data-k="cc"' + (v.cc ? " checked" : "") + ' aria-label="Download grátis"></label></td>' +
+      '<td><input class="input preco-in" type="number" min="0" step="10" data-k="preco" value="' + (v.preco || "") + '" placeholder="só negociação" aria-label="Preço da licença comercial"></td>' +
+      '<td class="mono" data-recebe>' + (v.preco ? brl(v.preco * (1 - F.TAXA)) : "—") + '</td>' +
+      '<td><label class="switch"><input type="checkbox" data-k="whatsapp"' + (v.whatsapp ? " checked" : "") + ' aria-label="Negociação por WhatsApp"></label></td><td class="num">' + zaps(f.id) + "</td></tr>";
+  }
+  document.getElementById("fotos").innerHTML = minhas.map(linha).join("");
+  document.getElementById("fotos").addEventListener("input", function (e) {
+    var tr = e.target.closest("tr"); if (!tr || e.target.getAttribute("data-k") !== "preco") return;
+    var v = +e.target.value; tr.querySelector("[data-recebe]").textContent = v ? brl(v * (1 - F.TAXA)) : "—";
+  });
+  document.getElementById("salvar").addEventListener("click", function () {
+    document.querySelectorAll("#fotos tr").forEach(function (tr) {
+      var d = { cc: tr.querySelector('[data-k="cc"]').checked, preco: +tr.querySelector('[data-k="preco"]').value || null, whatsapp: tr.querySelector('[data-k="whatsapp"]').checked };
+      try { localStorage.setItem("c365-venda-" + tr.getAttribute("data-id"), JSON.stringify(d)); } catch (x) {}
+    });
+    C.toast("Preços e licenças salvos. Já valem no visualizador das fotos.");
+  });
+  var EX = [
+    { codigo: "LC-204118", titulo: "Primeiro click do mês", uso: "Site, blog ou redes sociais da empresa", preco: 250, em: Date.now() - 12 * 864e5 },
+    { codigo: "LC-198870", titulo: "Quadrado", uso: "Editorial (revista, jornal, livro)", preco: 180, em: Date.now() - 41 * 864e5 }
+  ];
+  var vs = ler("c365-vendas", []).filter(function (v) { return v.fotografo === EU; }).concat(EX);
+  var bruto = vs.reduce(function (a, v) { return a + v.preco; }, 0), cc = ev.filter(function (e) { return e.t === "download" && e.fotografo === EU; }).length + 37;
+  var z = minhas.reduce(function (a, f) { return a + zaps(f.id); }, 0);
+  document.getElementById("kpis").innerHTML = [["Vendas pela plataforma", vs.length], ["Faturado", brl(bruto)], ["Você recebe (80%)", brl(bruto * (1 - F.TAXA))], ["Cliques no WhatsApp", z], ["Downloads grátis (CC)", cc]].map(function (k) { return '<div class="panel stat"><span class="small">' + k[0] + '</span><div class="metric">' + k[1] + "</div></div>"; }).join("");
+  document.getElementById("vendas").innerHTML = vs.map(function (v) {
+    var pago = Date.now() - v.em > 30 * 864e5;
+    return "<tr><td class='mono'>" + new Date(v.em).toLocaleDateString("pt-BR") + "</td><td class='mono'>" + v.codigo + "</td><td>" + esc(v.titulo) + "</td><td class='small'>" + esc(v.uso) + '</td><td class="num">' + brl(v.preco) + '</td><td class="num">' + brl(v.preco * (1 - F.TAXA)) + '</td><td><span class="badge plain ' + (pago ? "badge-success" : "badge-warning") + '">' + (pago ? "pago" : "previsto " + new Date(v.em + 30 * 864e5).toLocaleDateString("pt-BR")) + "</span></td></tr>";
+  }).join("");
+});
+</script>
+</body></html>
