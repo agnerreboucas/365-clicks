@@ -1,12 +1,12 @@
 # 365 Clicks — do protótipo ao WordPress funcionando
 
 **Data:** 26/09/2026
-**Situação:** o protótipo HTML navegável (67 telas) está pronto para validar a experiência e o visual. Nada ainda grava em servidor: contas, fotos, contatos e pagamentos são simulados no navegador.
+**Situação:** o lançamento começa pela Fase 1, o Banco de Imagem Brasileiro (ver PRD, seção 19). O protótipo HTML navegável (71 telas) está pronto para validar a experiência e o visual. Nada ainda grava em servidor: contas, fotos, contatos e pagamentos são simulados no navegador.
 
 ## 1. Diagnóstico das telas
 
-### 1.1 Prontas como protótipo (interativas, conteúdo e regras definidos) — 65
-Todas as telas do mapa, exceto as duas parciais abaixo. Na auditoria de 26/09 ganharam conteúdo real: Artigo, Calendário, Gerador criativo, Foto Criativa, Roteiros (com guias exclusivos para assinantes e compra avulsa), Roteiro, Meus ganhos, Meus downloads, Admin Banco de imagens, Perfil público (`perfil.html#@usuario`), Fotógrafos, Seguidores/Seguindo, Mensagens (com Interessados), Notificações, Configurações, Meus desafios, Ranking, Conquistas, Meus cursos, Aula, Planos, Checkout, Minha assinatura, Minhas compras, Sobre, Ajuda, Contato e os painéis Admin Dashboard, Cursos, Assinaturas, Conteúdo e Gamificação.
+### 1.1 Prontas como protótipo (interativas, conteúdo e regras definidos) — 69
+Todas as telas do mapa, exceto as duas parciais abaixo. Na auditoria de 26/09 ganharam conteúdo real: Artigo, Calendário, Gerador criativo, Foto Criativa, Roteiros (com guias exclusivos para assinantes e compra avulsa), Roteiro, Meus ganhos, Meus downloads, Admin Banco de imagens, Banco de Imagem Brasileiro (Home da Fase 1), Buscar fotos, Para fotógrafos, Admin Hashtags e convites, Perfil público (`perfil.html#@usuario`), Fotógrafos, Seguidores/Seguindo, Mensagens (com Interessados), Notificações, Configurações, Meus desafios, Ranking, Conquistas, Meus cursos, Aula, Planos, Checkout, Minha assinatura, Minhas compras, Sobre, Ajuda, Contato e os painéis Admin Dashboard, Cursos, Assinaturas, Conteúdo e Gamificação.
 
 ### 1.2 Parciais (visual pronto, conteúdo de exemplo) — 2
 Coleções · Portfólio
@@ -124,12 +124,13 @@ Antes de fechar: confirmar taxas, prazo de recebimento, contrato de marketplace 
 ## 4. Fases sugeridas
 | Fase | Entrega | Tamanho |
 |---|---|---|
-| **0 · Fundação** | Hospedagem, tema com design system, plugin core, contas, onboarding, perfil, publicar com EXIF e WebP, motor de desafios importado da planilha | Grande |
-| **1 · Comunidade** | Feed, visualizador protegido, curtidas, comentários, menções, marcações, seguidores, notificações por e-mail, “Em alta” | Grande |
-| **2 · Receita** | Eventos e inscrições com Pix/cartão/boleto, loja, planos e assinatura, cursos | Grande |
-| **3 · Conteúdo** | Blog com editorias, Biblioteca, Radar 365 com newsletter, “A foto que eu nunca tirei” | Média |
-| **4 · Gestão** | Contatos e métricas, UTM, moderação, admin de conteúdo e gamificação | Média |
-| **5 · Futuro** | App, DRM, IA na Foto Criativa, marketplace | — |
+| **0 · Banco de Imagem Brasileiro (lançamento)** | Tema com a marca do banco, contas, perfil, enviar fotos com hashtags e WebP, busca por texto/#hashtag/categoria, curadoria de hashtags → categorias, convites de fotógrafos e coletivos, licenças (grátis CC, comercial com split, WhatsApp), Meus ganhos e Meus downloads | Grande |
+| **1 · Fundação do 365** | Hospedagem, tema com design system, plugin core, contas, onboarding, perfil, publicar com EXIF e WebP, motor de desafios importado da planilha | Grande |
+| **2 · Comunidade** | Feed, visualizador protegido, curtidas, comentários, menções, marcações, seguidores, notificações por e-mail, “Em alta” | Grande |
+| **3 · Receita** | Eventos e inscrições com Pix/cartão/boleto, loja, planos e assinatura, cursos | Grande |
+| **4 · Conteúdo** | Blog com editorias, Biblioteca, Radar 365 com newsletter, “A foto que eu nunca tirei” | Média |
+| **5 · Gestão** | Contatos e métricas, UTM, moderação, admin de conteúdo e gamificação | Média |
+| **6 · Futuro** | App, DRM, IA na Foto Criativa, marketplace | — |
 
 ## 5. Decisões e insumos que dependem de você
 1. Hospedagem e domínio (ex.: 365clicks.com.br).

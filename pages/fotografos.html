@@ -21,7 +21,7 @@
 <div class="dir-bar">
   <div class="search-field"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><label class="sr-only" for="q">Buscar fotógrafo</label><input class="input" id="q" placeholder="Nome, @usuário ou cidade"></div>
   <label class="sr-only" for="esp">Especialidade</label><select class="input" id="esp"><option value="">Todas as especialidades</option></select>
-  <label class="sr-only" for="ord">Ordenar</label><select class="input" id="ord"><option value="clicks">Mais clicks no 365</option><option value="nome">Nome (A–Z)</option></select>
+  <label class="sr-only" for="ord">Ordenar</label><select class="input" id="ord"><option value="clicks">Mais ativos</option><option value="nome">Nome (A–Z)</option></select>
 </div>
 <div class="dir" id="dir"></div>
 <p class="small muted" id="vazio" hidden>Nenhum fotógrafo encontrado com esses filtros.</p>
@@ -47,7 +47,7 @@
         '<div class="person-head"><span class="avatar avatar-lg" style="--size:56px;--av:' + ph.av + '">' + F.iniciais(ph.nome) + '</span><div><a href="perfil.html#@' + ph.id + '"><b>' + esc(ph.nome) + '</b></a><div class="small muted">' + esc(ph.foco) + " · " + esc(ph.cidade) + "</div></div></div>" +
         '<p class="small" style="margin:0">' + esc(ph.bio) + "</p>" +
         '<div class="person-shots">' + fs.slice(0, 3).map(function (f) { return '<button type="button" data-open-photo="' + f.id + '" aria-label="Abrir “' + esc(f.titulo) + '”" style="' + bg(f) + '"></button>'; }).join("") + "</div>" +
-        '<div class="cluster" style="justify-content:space-between"><span class="small mono">' + ph.clicks + ' clicks no 365</span><span class="cluster" style="gap:6px"><button class="btn btn-secondary btn-sm" type="button" aria-pressed="false" data-toggle data-on="Agora você segue ' + esc(ph.nome) + '">Seguir</button><a class="btn btn-sm" href="perfil.html#@' + ph.id + '">Ver perfil</a></span></div></article>';
+        '<div class="cluster" style="justify-content:space-between"><span class="small mono">' + (window.C365 && C365.fase === "banco" ? F.doFotografo(ph.id).length + " fotos no banco" : ph.clicks + " clicks no 365") + '</span><span class="cluster" style="gap:6px"><button class="btn btn-secondary btn-sm" type="button" aria-pressed="false" data-toggle data-on="Agora você segue ' + esc(ph.nome) + '">Seguir</button><a class="btn btn-sm" href="perfil.html#@' + ph.id + '">Ver perfil</a></span></div></article>';
     }).join("");
   }
   document.addEventListener("c365:fotos", function () {

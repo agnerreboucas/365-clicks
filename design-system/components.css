@@ -756,3 +756,17 @@ body.is-shielded .card img, body.is-shielded .viewer-img, body.is-shielded .feed
 .viewer-cta .lic { display: flex; gap: var(--sp-3); align-items: center; justify-content: space-between; padding: var(--sp-3) 0; border-top: 1px solid var(--line); }
 .viewer-cta .lic > div { display: grid; gap: 2px; min-width: 0; }
 .viewer-cta .lic .btn { flex: none; }
+
+/* Fase 1 · Banco de Imagem Brasileiro */
+.logo .logo-banco { letter-spacing: -0.03em; font-weight: 800; }
+.logo .logo-banco b { color: var(--c-accent); font-weight: 800; }
+@media (max-width: 520px) { .logo .logo-banco { font-size: var(--fs-14, 14px); } }
+.hashtags { display: flex; flex-wrap: wrap; gap: 6px; }
+.hashtags a, .hashtags button { font: inherit; font-size: var(--fs-sm); padding: 4px 10px; border-radius: var(--r-pill); background: var(--surface-2); color: var(--ink); text-decoration: none; border: 0; cursor: pointer; }
+.hashtags a:hover, .hashtags button:hover, .hashtags [aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.cats { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--sp-3); }
+.cat { position: relative; aspect-ratio: 4 / 3; border-radius: var(--r-md); overflow: hidden; background: center / cover; display: flex; align-items: flex-end; padding: var(--sp-4); color: #fff; text-decoration: none; }
+.cat::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.65), rgba(0,0,0,0) 60%); }
+.cat > span { position: relative; z-index: 1; display: grid; gap: 2px; }
+.cat strong { font-size: var(--fs-lg); }
+.cat .small { color: rgba(255,255,255,.85); }

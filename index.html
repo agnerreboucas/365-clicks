@@ -35,9 +35,10 @@
   <div class="hub-intro">
     <div>
       <div class="eyebrow">Protótipo navegável · PRD v2.0</div>
-      <h1>67 telas, um só sistema.</h1>
+      <h1>71 telas, um só sistema.</h1>
       <p>Todas as telas usam os mesmos tokens, componentes e navegação. Abra uma tela para navegar por ela ou pré-visualize aqui, no tamanho desktop ou celular.</p>
-      <div class="cluster"><a class="btn btn-primary" href="pages/home.html">Começar pela Home</a><a class="btn btn-secondary" href="pages/desafio-do-dia.html">Desafio do dia</a><a class="btn btn-secondary" href="plano.html">Plano WordPress</a></div>
+      <div class="panel stack" style="margin:0 0 16px;gap:8px"><strong>Fase de lançamento</strong><span class="small" id="fase-txt"></span><div class="cluster"><button class="btn btn-sm btn-secondary" type="button" data-fase="banco">Fase 1 · Banco de Imagem</button><button class="btn btn-sm btn-secondary" type="button" data-fase="completa">Plataforma completa</button></div></div>
+      <div class="cluster"><a class="btn btn-primary" href="pages/banco.html">Abrir o Banco de Imagem</a><a class="btn btn-secondary" href="pages/home.html">Home da plataforma completa</a><a class="btn btn-secondary" href="pages/desafio-do-dia.html">Desafio do dia</a><a class="btn btn-secondary" href="plano.html">Plano WordPress</a></div>
     </div>
     <a class="panel ds-card" href="design-system/index.html">
       <span class="eyebrow">Design System v1.0</span>
@@ -65,6 +66,8 @@
 document.addEventListener("DOMContentLoaded", function () {
   var C = window.C365, host = document.getElementById("modules");
   if (!C) return;
+  document.getElementById("fase-txt").textContent = C.fase === "banco" ? "Agora: Fase 1. O site mostra só o Banco de Imagem Brasileiro (menu, Home e rodapé enxutos). As outras telas continuam aqui no índice." : "Agora: plataforma completa, com desafios, cursos, eventos, loja e comunidade.";
+  document.querySelectorAll("[data-fase]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-fase") === C.fase)); });
   var n = 0;
   host.innerHTML = C.sitemap.map(function (m) {
     return '<section class="module" id="' + m.id + '"><div class="module-head"><h2>' + m.name + '</h2><span class="mono">' + m.pages.length + ' telas</span></div><div class="pages">' +

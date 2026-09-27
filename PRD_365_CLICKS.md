@@ -421,7 +421,7 @@ Qualquer empresa pode comprar espaço na mídia do 365 Clicks e pagar uma mensal
 - Frequência padrão dos e-mails, para não virar excesso.
 - Razão social, CNPJ e revisão jurídica de todos os termos.
 
-Este pacote inclui uma página HTML para cada rota listada no PRD (67 telas), o design system em `design-system/` e um `index.html` que lista todas as telas por módulo, com pré-visualização em desktop e celular.
+Este pacote inclui uma página HTML para cada rota listada no PRD (71 telas), o design system em `design-system/` e um `index.html` que lista todas as telas por módulo, com pré-visualização em desktop e celular.
 
 
 ## 16. Roteiros fotográficos (guias exclusivos)
@@ -459,3 +459,18 @@ Este pacote inclui uma página HTML para cada rota listada no PRD (67 telas), o 
   - **Conta de recebimento:** CPF ou CNPJ, titular, chave Pix no mesmo documento, saque automático (dia 5) ou manual. Saque liberado só com a conta verificada (KYC do parceiro de pagamentos).
 - **Split de pagamento:** cada fotógrafo vira uma subconta/recebedor no gateway; em toda venda o gateway divide na hora (80% fotógrafo, 20% plataforma). Opções que fazem split no Brasil: **Asaas** (subcontas via API e split por valor ou percentual), **Pagar.me** (recebedores e regras de split), **Iugu** (subcontas de marketplace) e **Mercado Pago** (marketplace, com o vendedor conectando a própria conta). Todos têm API com split. Recomendação inicial: Asaas, pela criação de subcontas por API sem o fotógrafo sair da plataforma, Pix forte e emissão de nota. Usar split por valor fixo (80% do preço) para as taxas do gateway ficarem dentro dos 20% da plataforma. Fluxo técnico em `PLANO_WORDPRESS.md`, seção 3.5. Confirmar taxas e contrato atuais com cada um antes de decidir.
 - **Fiscal:** a plataforma emite nota sobre a sua comissão (20%); o fotógrafo responde pela própria renda. Validar o modelo com contador.
+
+
+## 19. Lançamento em fases — Fase 1: Banco de Imagem Brasileiro
+
+**Decisão:** o lançamento começa pelo banco de imagens, não pelo desafio. Fotógrafos, projetos e coletivos convidados compõem o acervo desde o primeiro dia; os outros módulos (365 Challenge, cursos, eventos, loja, comunidade) são apresentados aos participantes depois, aos poucos.
+
+- **Nome e marca da Fase 1:** Banco de Imagem Brasileiro (uma iniciativa 365 Clicks).
+- **Home:** busca grande, hashtags em alta, números do acervo, categorias, projetos e coletivos convidados, chamada para fotógrafos e galeria com rolagem infinita por categoria.
+- **Menu enxuto:** Início · Buscar fotos · Categorias · Fotógrafos · Para fotógrafos · Enviar fotos. Conta: Minhas fotos, Meus ganhos, Meus downloads, Editar perfil, Configurações. Sem faixa de ofertas, sem desafios, cursos, eventos ou loja no menu.
+- **Busca:** texto livre, `#hashtag` e `cat:categoria`; filtros de licença (grátis para uso pessoal, à venda, negocia no WhatsApp), formato (vertical, horizontal, quadrada) e ordem (relevância, recentes, curtidas, menor preço); hashtags relacionadas.
+- **Hashtags → categorias:** quem publica escreve de 3 a 10 hashtags (obrigatório). A curadoria (Admin · Hashtags e convites) promove hashtags fortes a categorias novas ou as junta a categorias existentes; a mudança aparece na hora na Home e na busca.
+- **Enviar fotos na Fase 1:** sem a parte de desafio; hashtags, projeto/coletivo, venda e licenças, autoria.
+- **Convites:** página “Para fotógrafos” com proposta (80% das vendas, preço e licença definidos pelo fotógrafo, sem exclusividade), requisitos (autoria, 2.000 px no lado maior para venda, autorização de uso de imagem para pessoas identificáveis) e formulário com código de convite. No admin, geração de códigos/links e acompanhamento: convidado → cadastrado → enviou fotos.
+- **Projetos e coletivos:** página/vitrine do projeto com descrição, membros e fotos; cada membro tem conta própria e recebe pelas próprias vendas.
+- **Protótipo:** a fase é um interruptor (`c365-fase`: `banco` ou `completa`), no índice e no rodapé. Na versão WordPress, é uma opção do plugin que liga/desliga os módulos.

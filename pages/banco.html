@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Banco de Imagem Brasileiro</title>
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="../design-system/components.css">
+<script src="../design-system/app.js" defer></script>
+<style>
+.bb-hero { padding: var(--sp-8) 0 var(--sp-6); display: grid; gap: var(--sp-4); max-width: 860px; }
+.bb-hero h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(40px, 6vw, 72px); line-height: 1; letter-spacing: -.01em; margin: 0; }
+.bb-hero h1 em { color: var(--c-accent); }
+.bb-busca { display: flex; gap: var(--sp-2); }
+.bb-busca .search-field { flex: 1; }
+.bb-busca .input { height: 56px; font-size: var(--fs-lg); }
+.bb-nums { display: flex; flex-wrap: wrap; gap: var(--sp-6); margin-top: var(--sp-2); }
+.bb-nums b { display: block; font-size: var(--fs-2xl); font-variant-numeric: tabular-nums; }
+.bb-proj { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--sp-4); }
+.bb-proj .panel { display: flex; flex-direction: column; gap: var(--sp-2); }
+.bb-shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+.bb-shots button { aspect-ratio: 1; border: 0; border-radius: var(--r-sm); background: center / cover; cursor: pointer; }
+@media (max-width: 640px) { .bb-busca { flex-direction: column; } }
+</style></head><body data-page="banco">
+<header data-shell><a class="logo" href="banco.html">Banco de Imagem Brasileiro</a></header>
+<main data-photos>
+<section class="bb-hero">
+  <span class="eyebrow">Banco de Imagem Brasileiro</span>
+  <h1>O Brasil pelo olhar de <em>quem vive aqui</em>.</h1>
+  <p class="lead" style="margin:0;max-width:62ch">Fotos de todo o país, feitas por fotógrafos e coletivos brasileiros. Baixe grátis para uso pessoal, licencie para uso comercial ou fale direto com quem fotografou. Quem define o preço é o fotógrafo.</p>
+  <form class="bb-busca" id="busca" role="search"><div class="search-field"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><label class="sr-only" for="q">Buscar fotos</label><input class="input" id="q" type="search" placeholder="Busque por lugar, tema ou #hashtag: sertão, #retrato, Minas"></div><button class="btn btn-primary btn-lg" type="submit">Buscar</button></form>
+  <div class="hashtags" id="em-alta" aria-label="Hashtags em alta"></div>
+  <div class="bb-nums" id="nums"></div>
+</section>
+
+<section class="section" aria-labelledby="cat-t">
+  <div class="section-head"><div><span class="eyebrow">Nascidas das hashtags</span><h2 class="h2" id="cat-t">Categorias</h2></div><a href="busca.html#categorias">Todas →</a></div>
+  <div class="cats" id="cats"></div>
+</section>
+
+<section class="section" aria-labelledby="col-t" id="coletivos">
+  <div class="section-head"><div><span class="eyebrow">Convidados da primeira fase</span><h2 class="h2" id="col-t">Projetos e coletivos</h2></div><a href="convite.html">Quero participar →</a></div>
+  <div class="bb-proj" id="projetos"></div>
+</section>
+
+<section class="section">
+  <div class="panel cluster" style="justify-content:space-between;gap:24px;padding:28px">
+    <div style="max-width:62ch"><span class="eyebrow">Para fotógrafos</span><h2 class="h2" style="margin:6px 0">Suas fotos, seu preço, 80% para você.</h2><p class="muted" style="margin:0">Crie a conta, envie suas fotos com hashtags e defina as licenças: grátis para uso pessoal, venda comercial pela plataforma ou negociação pelo WhatsApp.</p></div>
+    <div class="cluster"><a class="btn btn-primary" href="convite.html">Como participar</a><a class="btn btn-secondary" href="publicar.html">Enviar fotos</a></div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="galeria">
+  <div class="section-head"><div><span class="eyebrow">Acabaram de chegar · role para ver mais</span><h2 class="h2" id="galeria">Fotos do banco</h2></div><a href="busca.html">Buscar com filtros →</a></div>
+  <div class="grid" id="grade"></div>
+</section>
+</main>
+<footer data-shell>Banco de Imagem Brasileiro</footer>
+<script>
+(function () {
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  var CARD = '<figure class="card"><img alt="" loading="lazy"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button></div><figcaption class="meta"></figcaption></figure>';
+  /* 12 cards estáticos para o shell montar o Masonry e o “Carregar mais” com rolagem infinita */
+  document.getElementById("grade").innerHTML = new Array(13).join(CARD);
+  document.getElementById("busca").addEventListener("submit", function (e) { e.preventDefault(); location.href = "busca.html?q=" + encodeURIComponent(document.getElementById("q").value.trim()); });
+  document.addEventListener("c365:fotos", function () {
+    var F = window.Fotos;
+    function bg(f) { return "background-image:url('" + f.thumb + "'),linear-gradient(160deg," + f.tone2 + "," + f.tone + ")"; }
+    document.getElementById("em-alta").innerHTML = '<span class="small muted" style="align-self:center">Em alta:</span>' + F.contagemTags().slice(0, 10).map(function (t) { return '<a href="busca.html?q=%23' + t.tag + '">#' + esc(t.tag) + "</a>"; }).join("");
+    var tags = F.contagemTags();
+    document.getElementById("nums").innerHTML = [[F.lista.length, "fotos"], [F.fotografos.length, "fotógrafos"], [F.projetos.length, "projetos e coletivos"], [tags.length, "hashtags"]].map(function (n) { return "<div><b>" + n[0] + '</b><span class="small muted">' + n[1] + "</span></div>"; }).join("");
+    document.getElementById("cats").innerHTML = F.categorias().map(function (c) {
+      var fs = F.buscar("cat:" + c.id); if (!fs.length) return "";
+      return '<a class="cat" href="busca.html?q=cat:' + c.id + '" style="' + bg(fs[0]) + '"><span><strong>' + esc(c.nome) + '</strong><span class="small">' + fs.length + " fotos · #" + c.tags.slice(0, 3).join(" #") + "</span></span></a>";
+    }).join("");
+    document.getElementById("projetos").innerHTML = F.projetos.map(function (p) {
+      var fs = []; p.membros.forEach(function (m) { fs = fs.concat(F.doFotografo(m).slice(0, 2)); });
+      return '<article class="panel"><div class="cluster"><span class="avatar" style="--av:' + p.av + '">' + F.iniciais(p.nome) + '</span><div><strong>' + esc(p.nome) + '</strong><div class="small">' + p.tipo + " · " + esc(p.cidade) + "</div></div></div>" +
+        '<p class="small" style="margin:0">' + esc(p.descricao) + '</p><div class="bb-shots">' + fs.slice(0, 3).map(function (f) { return '<button type="button" data-open-photo="' + f.id + '" aria-label="Abrir “' + esc(f.titulo) + '”" style="' + bg(f) + '"></button>'; }).join("") + "</div>" +
+        '<div class="small">' + p.membros.map(function (m) { var ph = F.fotografo(m); return '<a href="perfil.html#@' + m + '">' + esc(ph.nome) + "</a>"; }).join(" · ") + "</div></article>";
+    }).join("");
+  });
+})();
+</script>
+</body></html>

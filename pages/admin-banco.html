@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin · Hashtags e convites — Banco de Imagem Brasileiro</title>
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="../design-system/components.css">
+<script src="../design-system/app.js" defer></script>
+<style>.aba[hidden] { display: none; } .tag-sel { width: auto; min-width: 180px; }</style>
+</head><body data-page="admin-banco">
+<header data-shell><a class="logo" href="banco.html">Banco de Imagem Brasileiro</a></header>
+<main data-photos>
+<h1 style="margin:0">Curadoria do banco</h1>
+<p style="margin:8px 0 0;max-width:72ch">Quem publica escreve as hashtags. Aqui a curadoria transforma as mais usadas em categorias (ou junta numa categoria que já existe) e acompanha os fotógrafos e coletivos convidados para a primeira fase.</p>
+<div class="row" style="margin:24px 0" id="kpis"></div>
+<div class="tabs" role="tablist" id="abas"><button role="tab" type="button" aria-selected="true" data-a="hashtags">Hashtags → categorias</button><button role="tab" type="button" aria-selected="false" data-a="convites">Convites</button></div>
+
+<section class="aba" data-aba="hashtags">
+  <h2 style="margin-top:24px">Categorias ativas</h2>
+  <div class="table-wrap"><table class="table"><thead><tr><th>Categoria</th><th>Hashtags que ela reúne</th><th class="num">Fotos</th></tr></thead><tbody id="cats"></tbody></table></div>
+  <h2 style="margin-top:28px">Hashtags usadas</h2>
+  <p class="small" style="margin:0 0 12px">Hashtags sem categoria aparecem primeiro. Promova uma hashtag forte a categoria nova ou junte a uma categoria existente.</p>
+  <div class="table-wrap"><table class="table"><thead><tr><th>Hashtag</th><th class="num">Fotos</th><th>Está em</th><th>Ação</th></tr></thead><tbody id="tags"></tbody></table></div>
+</section>
+
+<section class="aba" data-aba="convites" hidden>
+  <form class="panel stack" id="novo" style="margin-top:24px" novalidate>
+    <h2 style="margin:0">Convidar</h2>
+    <div class="form-grid">
+      <div class="field"><label class="label" for="c-nome">Nome do fotógrafo ou do projeto</label><input class="input" id="c-nome"></div>
+      <div class="field"><label class="label" for="c-email">E-mail ou Instagram</label><input class="input" id="c-email"></div>
+      <div class="field"><label class="label" for="c-tipo">Tipo</label><select class="select" id="c-tipo"><option value="fotografo">Fotógrafo</option><option value="coletivo">Projeto ou coletivo</option></select></div>
+      <div class="field"><label class="label" for="c-temas">Temas</label><input class="input" id="c-temas" placeholder="#sertao #retrato"></div>
+    </div>
+    <button class="btn btn-primary" type="submit" style="align-self:flex-start">Gerar convite</button>
+  </form>
+  <div class="table-wrap" style="margin-top:20px"><table class="table"><thead><tr><th>Convidado</th><th>Tipo</th><th>Temas</th><th>Status</th><th>Link do convite</th></tr></thead><tbody id="lista"></tbody></table></div>
+</section>
+</main>
+<footer data-shell>Banco de Imagem Brasileiro</footer>
+<script>
+document.addEventListener("c365:fotos", function () {
+  var F = window.Fotos, C = window.C365;
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function ler(k, d) { try { return JSON.parse(localStorage.getItem(k) || "null") || d; } catch (e) { return d; } }
+  function gravar(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  var BASE = [
+    { nome: "Ana Lima", tipo: "fotografo", temas: "#saopaulo #rua", status: "enviou fotos", codigo: "BRASIL-AL01" },
+    { nome: "Olhares da Serra", tipo: "coletivo", temas: "#serra #estrelas", status: "enviou fotos", codigo: "BRASIL-OS02" },
+    { nome: "Estrada de Minas", tipo: "coletivo", temas: "#minasgerais #retrato", status: "enviou fotos", codigo: "BRASIL-EM03" },
+    { nome: "Coletivo Sertão Vivo", tipo: "coletivo", temas: "#sertao #nordeste", status: "convidado", codigo: "BRASIL-SV04" },
+    { nome: "Joana Ribeiro", tipo: "fotografo", temas: "#amazonia #ribeirinhos", status: "cadastrado", codigo: "BRASIL-JR05" },
+    { nome: "Favela em Foco", tipo: "coletivo", temas: "#periferia #cotidiano", status: "convidado", codigo: "BRASIL-FF06" }
+  ];
+  function convites() { return ler("c365-convites", []).concat(BASE); }
+  function renderKpis() {
+    var cv = convites();
+    document.getElementById("kpis").innerHTML = [["Convidados", cv.length], ["Cadastrados", cv.filter(function (c) { return c.status !== "convidado" && c.status !== "pedido"; }).length], ["Enviaram fotos", cv.filter(function (c) { return c.status === "enviou fotos"; }).length], ["Fotos no banco", F.lista.length], ["Hashtags", F.contagemTags().length], ["Categorias", F.categorias().length]].map(function (k) { return '<div class="panel stat"><span class="small">' + k[0] + '</span><div class="metric">' + k[1] + "</div></div>"; }).join("");
+  }
+  function renderTags() {
+    var cats = F.categorias();
+    document.getElementById("cats").innerHTML = cats.map(function (c) { return "<tr><td><a href='busca.html?q=cat:" + c.id + "'><strong>" + esc(c.nome) + "</strong></a></td><td class='small'>#" + c.tags.join(" #") + '</td><td class="num">' + F.buscar("cat:" + c.id).length + "</td></tr>"; }).join("");
+    var opts = cats.map(function (c) { return '<option value="' + c.id + '">' + esc(c.nome) + "</option>"; }).join("");
+    var tags = F.contagemTags().map(function (t) { t.em = cats.filter(function (c) { return c.tags.indexOf(t.tag) > -1; }).map(function (c) { return c.nome; }); return t; })
+      .sort(function (a, b) { return (a.em.length ? 1 : 0) - (b.em.length ? 1 : 0) || b.n - a.n; });
+    document.getElementById("tags").innerHTML = tags.map(function (t) {
+      return '<tr data-tag="' + t.tag + '"><td><a href="busca.html?q=%23' + t.tag + '">#' + esc(t.tag) + '</a></td><td class="num">' + t.n + "</td><td class='small'>" + (t.em.length ? esc(t.em.join(", ")) : '<span class="badge badge-warning plain">sem categoria</span>') + "</td>" +
+        '<td><div class="cluster" style="gap:6px;flex-wrap:nowrap"><button class="btn btn-secondary btn-sm" type="button" data-promover>Virar categoria</button><label class="sr-only" for="j-' + t.tag + '">Juntar a</label><select class="select tag-sel" id="j-' + t.tag + '"><option value="">Juntar a…</option>' + opts + "</select></div></td></tr>";
+    }).join("");
+  }
+  document.getElementById("tags").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-promover]"); if (!b) return;
+    var tag = b.closest("tr").getAttribute("data-tag"), nome = prompt("Nome da nova categoria", tag.charAt(0).toUpperCase() + tag.slice(1));
+    if (!nome) return;
+    var extra = ler("c365-categorias", []); extra.push({ id: tag, nome: nome, tags: [tag] }); gravar("c365-categorias", extra);
+    renderTags(); renderKpis(); C.toast("Categoria “" + nome + "” criada. Já aparece na Home e na busca.");
+  });
+  document.getElementById("tags").addEventListener("change", function (e) {
+    var sel = e.target.closest("select"); if (!sel || !sel.value) return;
+    var tag = sel.closest("tr").getAttribute("data-tag"), j = ler("c365-cat-tags", {});
+    (j[sel.value] = j[sel.value] || []).push(tag); gravar("c365-cat-tags", j);
+    renderTags(); C.toast("#" + tag + " agora faz parte da categoria");
+  });
+  function renderConvites() {
+    document.getElementById("lista").innerHTML = convites().map(function (c) {
+      var link = "convite.html?codigo=" + (c.codigo || "");
+      return "<tr><td><strong>" + esc(c.nome) + "</strong>" + (c.email ? '<div class="small">' + esc(c.email) + "</div>" : "") + "</td><td>" + (c.tipo === "coletivo" ? "Coletivo" : "Fotógrafo") + "</td><td class='small'>" + esc(c.temas || "") + '</td><td><span class="badge plain ' + (c.status === "enviou fotos" ? "badge-success" : c.status === "cadastrado" ? "badge-info" : "badge-warning") + '">' + esc(c.status) + "</span></td><td>" + (c.codigo ? '<button class="btn btn-ghost btn-sm" type="button" data-copiar="' + link + '">Copiar link · ' + esc(c.codigo) + "</button>" : '<span class="small muted">pedido sem código</span>') + "</td></tr>";
+    }).join("");
+  }
+  document.getElementById("lista").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-copiar]"); if (!b) return;
+    var url = new URL(b.getAttribute("data-copiar"), location.href).href;
+    try { navigator.clipboard.writeText(url); } catch (x) {}
+    C.toast("Link do convite copiado");
+  });
+  document.getElementById("novo").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var nome = document.getElementById("c-nome").value.trim(); if (!nome) { document.getElementById("c-nome").focus(); return; }
+    var cod = "BRASIL-" + nome.replace(/[^A-Za-z]/g, "").slice(0, 2).toUpperCase() + String(Date.now()).slice(-3);
+    var l = ler("c365-convites", []); l.unshift({ nome: nome, email: document.getElementById("c-email").value.trim(), tipo: document.getElementById("c-tipo").value, temas: document.getElementById("c-temas").value.trim(), codigo: cod, status: "convidado", em: Date.now() }); gravar("c365-convites", l);
+    e.target.reset(); renderConvites(); renderKpis(); C.toast("Convite " + cod + " gerado. Copie o link e envie.");
+  });
+  document.getElementById("abas").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-a]"); if (!b) return;
+    document.querySelectorAll("#abas [data-a]").forEach(function (x) { x.setAttribute("aria-selected", String(x === b)); });
+    document.querySelectorAll(".aba").forEach(function (s) { s.hidden = s.getAttribute("data-aba") !== b.getAttribute("data-a"); });
+  });
+  renderKpis(); renderTags(); renderConvites();
+});
+</script>
+</body></html>

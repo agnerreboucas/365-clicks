@@ -245,7 +245,7 @@
     var img = V.querySelector(".viewer-img");
     img.style.backgroundImage = "url('" + foto.grande + "'), linear-gradient(160deg," + foto.tone2 + "," + foto.tone + ")";
     img.setAttribute("data-ratio", foto.ratio);
-    V.querySelector(".viewer-mark").style.backgroundImage = marcaDagua("© " + ph.nome + " · 365 Clicks · " + agora());
+    V.querySelector(".viewer-mark").style.backgroundImage = marcaDagua("© " + ph.nome + " · " + (C.fase === "banco" ? "Banco de Imagem Brasileiro" : "365 Clicks") + " · " + agora());
     V.querySelector("[data-rights]").textContent = "© " + foto.data.slice(-4) + " " + ph.nome + " · Todos os direitos reservados";
     var idx = contexto.indexOf(foto);
     V.querySelector("[data-count]").textContent = idx > -1 ? (idx + 1) + " / " + contexto.length : "";
@@ -288,9 +288,10 @@
     var outras = F.doFotografo(ph.id).filter(function (f) { return f.id !== foto.id; });
     V.querySelector('[data-panel="info"]').innerHTML =
       '<div class="cluster" style="gap:12px"><span class="avatar" style="--av:' + ph.av + '">' + F.iniciais(ph.nome) + '</span><div style="flex:1;min-width:0"><a href="' + C.page("perfil") + "#@" + ph.id + '"><strong>' + esc(ph.nome) + '</strong></a><div class="small">@' + ph.id + " · " + esc(ph.cidade) + '</div></div><button class="btn btn-secondary btn-sm" type="button" aria-pressed="false" data-toggle data-on="Agora você segue ' + esc(ph.nome) + '">Seguir</button></div>' +
-      '<div class="cluster" style="margin-top:20px;gap:8px"><span class="day">DIA <b>' + foto.dia + "</b>/365</span></div>" +
+      (C.fase === "banco" ? '<div style="margin-top:20px"></div>' : '<div class="cluster" style="margin-top:20px;gap:8px"><span class="day">DIA <b>' + foto.dia + "</b>/365</span></div>") +
       '<h2 id="viewer-title" class="viewer-title">' + esc(foto.titulo) + "</h2>" +
       '<p class="viewer-desc">' + esc(foto.descricao) + "</p>" +
+      (F.tagsDe && F.tagsDe(foto).length ? '<div class="hashtags" style="margin-top:8px">' + F.tagsDe(foto).map(function (t) { return '<a href="' + C.page("busca") + "?q=%23" + encodeURIComponent(t) + '">#' + esc(t) + "</a>"; }).join("") + "</div>" : "") +
       '<dl class="kv" style="grid-template-columns:auto 1fr;margin:16px 0"><dt>Câmera</dt><dd style="text-align:left" class="mono">' + esc(foto.exif) + '</dd><dt>Local</dt><dd style="text-align:left">' + esc(foto.local) + '</dd><dt>Publicada</dt><dd style="text-align:left">' + esc(foto.data) + "</dd></dl>" +
       '<div class="cluster"><button class="btn btn-secondary btn-sm" type="button" aria-pressed="false" data-toggle data-on="Curtida registrada">' + I("heart", "i-sm") + " " + foto.curtidas + '</button><button class="btn btn-secondary btn-sm" type="button" aria-pressed="false" data-toggle data-on="Salva em Coleções">' + I("bookmark", "i-sm") + " Salvar</button>" + '<button class="btn btn-secondary btn-sm" type="button" data-v="compartilhar">Compartilhar</button></div><div data-share hidden></div>' +
       licencas(foto, ph) +

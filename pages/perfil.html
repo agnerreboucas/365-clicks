@@ -53,6 +53,14 @@
       : '<button class="btn btn-primary" type="button" aria-pressed="false" data-toggle data-on="Agora você segue ' + esc(ph.nome) + '">Seguir</button><a class="btn btn-secondary" href="mensagens.html#' + ph.id + '">Mensagem</a>' + (fotos[0] ? '<button class="btn btn-ghost" type="button" data-open-photo="' + fotos[0].id + '">Contratar ou licenciar</button>' : "");
     var seg = Math.round(ph.clicks * 9.3 + 120);
     t("st-clicks", ph.clicks); t("st-seq", (ph.clicks % 30 + 3) + " dias"); t("st-seg", seg.toLocaleString("pt-BR")); t("st-pts", (ph.clicks * 6 + 80).toLocaleString("pt-BR"));
+    if (window.C365 && C365.fase === "banco") {
+      var st = document.querySelectorAll("#pf-stats .stat .small");
+      st[0].textContent = "Fotos no banco"; t("st-clicks", fotos.length);
+      st[1].textContent = "Hashtags usadas"; t("st-seq", fotos.reduce(function (a, f) { F.tagsDe(f).forEach(function (x) { if (a.indexOf(x) < 0) a.push(x); }); return a; }, []).length);
+      st[3].textContent = "Fotos à venda"; t("st-pts", fotos.filter(function (f) { return F.venda(f).preco; }).length);
+      var cq = document.querySelector('#pf-abas [data-t="conquistas"]'); if (cq) cq.hidden = true;
+      document.title = (meu ? "Minhas fotos" : ph.nome) + " — Banco de Imagem Brasileiro";
+    }
     var g = document.getElementById("pf-grid");
     g.innerHTML = fotos.map(card).join("");
     document.getElementById("pf-vazio").hidden = !!fotos.length;

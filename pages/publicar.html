@@ -3,6 +3,7 @@
 <title>365 Clicks — Publicar</title>
 <link rel="stylesheet" href="../design-system/tokens.css">
 <link rel="stylesheet" href="../design-system/components.css">
+<script src="fotos.js"></script>
 <script src="../design-system/app.js" defer></script>
 <script src="../design-system/upload.js" defer></script>
 <script src="ofertas.js" defer></script>
@@ -80,9 +81,11 @@
       <div class="field"><label class="label" for="titulo">Título<span class="req">*</span></label><input class="input" id="titulo" maxlength="80" required placeholder="Ex.: Reflexo na poça"></div>
       <div class="field"><label class="label" for="descricao">Descrição<span class="req">*</span></label><textarea class="textarea" id="descricao" maxlength="600" required placeholder="Conte o que você viu, como fez a foto e o que quis mostrar."></textarea><span class="hint">Aparece quando alguém abre a foto.</span></div>
       <div class="field"><label class="label" for="coautores">Coautores</label><input class="input" id="coautores" placeholder="@usuario, @outro (opcional)"><span class="hint">Você aparece como autor. Coautores recebem um e-mail.</span></div>
+      <div class="field"><label class="label" for="hashtags">Hashtags<span class="req">*</span></label><input class="input" id="hashtags" placeholder="#praia #nordeste #pordosol #pescador"><span class="hint">De 3 a 10 hashtags: lugar, tema, clima, pessoas. É assim que as pessoas encontram sua foto; as mais usadas viram categorias do banco.</span><div class="cluster" id="tag-sug" style="gap:6px;margin-top:6px"></div></div>
+      <div class="field"><label class="label" for="projeto">Projeto ou coletivo</label><select class="select" id="projeto"><option value="">Nenhum (foto individual)</option></select></div>
     </div>
 
-    <div class="panel stack">
+    <div class="panel stack" id="desafio-panel">
       <span class="eyebrow">Desafio</span>
       <div class="options inline" role="radiogroup" aria-label="Faz parte de um desafio?">
         <label class="option"><input type="radio" name="tipo" value="desafio" checked><div class="grow"><strong>#desafio</strong><span class="small">Faz parte de um desafio</span></div></label>
@@ -350,6 +353,22 @@ document.addEventListener("DOMContentLoaded", function () {
   var aut = O && O.termos.autoria;
   if (aut) { $("#aut-titulo").textContent = aut.titulo; $("#aut-v").textContent = "v" + aut.versao; $("#aut-body").innerHTML = O.termoHTML("autoria", {}); }
 
+  /* ---------- Hashtags e projeto ---------- */
+  function lerTags() { return ($("#hashtags").value.match(/#?[\p{L}\p{N}_]+/gu) || []).map(function (t) { return t.replace(/^#/, "").toLowerCase(); }).filter(function (t, i, a) { return a.indexOf(t) === i; }); }
+  (function () {
+    var F = window.Fotos;
+    if (F && F.contagemTags) $("#tag-sug").innerHTML = '<span class="small muted">Mais usadas:</span>' + F.contagemTags().slice(0, 8).map(function (x) { return '<button class="chip" type="button" data-tag="' + x.tag + '">#' + x.tag + "</button>"; }).join("");
+    if (F && F.projetos) F.projetos.forEach(function (p) { $("#projeto").insertAdjacentHTML("beforeend", "<option value=\"" + p.id + "\">" + p.nome + " · " + p.tipo + "</option>"); });
+    $("#tag-sug").addEventListener("click", function (e) { var b = e.target.closest("[data-tag]"); if (!b) return; var t = lerTags(); if (t.indexOf(b.getAttribute("data-tag")) < 0) $("#hashtags").value = ($("#hashtags").value.trim() + " #" + b.getAttribute("data-tag")).trim(); });
+  })();
+  /* Fase 1 (Banco de Imagem Brasileiro): sem desafio, a foto vai direto para o banco */
+  var BANCO = window.C365 && C365.fase === "banco";
+  if (BANCO) {
+    document.querySelector('input[name="tipo"][value="livre"]').checked = true;
+    $("#desafio-panel").hidden = true;
+    document.title = "Banco de Imagem Brasileiro — Enviar fotos";
+  }
+
   /* ---------- Venda e licenças ---------- */
   function split() {
     var on = $("#v-vender").checked, v = +$("#v-preco").value || 0;
@@ -366,6 +385,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("#pub [aria-invalid]").forEach(function (x) { x.removeAttribute("aria-invalid"); });
     if (!previewURL) { C.toast("Escolha a foto primeiro"); $("#drop").focus(); return; }
     ["camera", "abertura", "velocidade", "iso", "captura", "local", "titulo", "descricao"].forEach(function (id) { var el = document.getElementById(id); if (!el.value.trim()) { el.setAttribute("aria-invalid", "true"); bad.push(el); } });
+    if (lerTags().length < 3) { $("#hashtags").setAttribute("aria-invalid", "true"); bad.push($("#hashtags")); }
     if (!$("#autoria").checked) { $("#autoria").closest(".accept").setAttribute("aria-invalid", "true"); bad.push($("#autoria")); }
     if (bad.length) { bad[0].focus(); C.toast(bad.length === 1 ? "Falta 1 item para publicar" : "Faltam " + bad.length + " itens para publicar"); return; }
     if (!validarRegra()) { $("#regra").scrollIntoView({ behavior: "smooth", block: "center" }); C.toast("A data da foto não vale para o desafio escolhido"); return; }
@@ -380,6 +400,9 @@ document.addEventListener("DOMContentLoaded", function () {
     $("#ok-desc").textContent = $("#descricao").value;
     $("#ok-msg").innerHTML = "Publicada. Você ganhou <strong>+" + pts + " pontos</strong>" + (t === "desafio" ? " (" + marcadas() + " de 4 características" + (hoje ? " + publicação no dia" : "") + ")" : "") + (hoje ? " e a foto está em destaque no desafio de hoje." : t === "desafio" ? " e a foto entrou na galeria do desafio." : ".");
     var kv = [["Autor", "Marcos Andrade (@marcosandrade)" + ($("#coautores").value ? " · coautores: " + $("#coautores").value : "")], ["Câmera", $("#camera").value + ($("#lente").value ? " · " + $("#lente").value : "")], ["Exposição", [$("#focal").value, $("#abertura").value, $("#velocidade").value, "ISO " + $("#iso").value].filter(Boolean).join(" · ")], ["Tirada em", fmt(captura())], ["Local", $("#local").value], ["Desafio", t === "livre" ? "Foto livre" : ds.tema + " + " + ds.tecnica + ": " + Array.prototype.map.call(document.querySelectorAll("#caract input:checked"), function (x) { return ds.caracteristicas[+x.getAttribute("data-car")]; }).join("; ")], ["Arquivo", U.FORMATOS[formato()].nome + " · " + (processado ? processado.w + " × " + processado.h + " px · " + processado.tipo + " " + U.mb(processado.bytes) + " · galeria " + U.mb(processado.versoes[2].bytes) : "")], ["Autoria", "Declaração v" + (aut ? aut.versao : "1.0") + " aceita em " + fmt(new Date())]];
+    kv.push(["Hashtags", lerTags().map(function (t) { return "#" + t; }).join(" ")]);
+    if ($("#projeto").value) kv.push(["Projeto", $("#projeto").selectedOptions[0].textContent]);
+    if (BANCO) { $("#ok-eyebrow").textContent = "Banco de Imagem Brasileiro"; $("#ok-msg").innerHTML = "Publicada no banco. Ela já aparece na busca pelas suas hashtags e no seu perfil."; }
     var vd = { cc: $("#v-cc").checked, preco: $("#v-vender").checked ? +$("#v-preco").value || null : null, whatsapp: $("#v-whats").checked };
     try { localStorage.setItem("c365-venda-ultima", JSON.stringify(vd)); } catch (x) {}
     kv.push(["Licenças", (vd.cc ? "Grátis para uso pessoal (CC BY-NC)" : "Sem download grátis") + " · " + (vd.preco ? "Comercial por R$ " + vd.preco.toFixed(2).replace(".", ",") + " (você recebe R$ " + (vd.preco * 0.8).toFixed(2).replace(".", ",") + ")" : "Comercial só por negociação") + (vd.whatsapp ? " · WhatsApp ativo" : "")]);

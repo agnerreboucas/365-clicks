@@ -159,7 +159,81 @@
     return "https://wa.me/" + n + "?text=" + encodeURIComponent(texto || ("Olá! Vi sua foto “" + foto.titulo + "” no 365 Clicks e tenho interesse em comprar ou licenciar."));
   }
 
+  /* Hashtags de cada foto (quem publica escreve; as mais usadas viram categorias na curadoria) */
+  var TAGS = {
+    "analima-1": ["saopaulo", "cidade", "amanhecer", "nevoa", "paisagemurbana"],
+    "analima-2": ["retrato", "equipamento", "luznatural", "stilllife"],
+    "analima-3": ["mantiqueira", "rio", "natureza", "minasgerais", "paisagem"],
+    "analima-4": ["lago", "amanhecer", "reflexo", "serra", "saopaulo"],
+    "rafaborges-1": ["retrato", "luznatural", "pordosol", "pessoas", "belohorizonte"],
+    "rafaborges-2": ["retrato", "pessoas", "janela", "luznatural"],
+    "rafaborges-3": ["bastidores", "equipamento", "estudio", "belohorizonte"],
+    "rafaborges-4": ["campo", "paisagem", "minasgerais", "natureza"],
+    "juliasantos-1": ["vialactea", "estrelas", "noite", "serra", "santacatarina"],
+    "juliasantos-2": ["estrelas", "noite", "montanha", "santacatarina"],
+    "juliasantos-3": ["serra", "pordosol", "nuvens", "santacatarina", "paisagem"],
+    "juliasantos-4": ["natureza", "verde", "chuva", "florianopolis"],
+    "pedrocosta-1": ["estrelas", "noite", "montanha", "parana", "vertical"],
+    "pedrocosta-2": ["lago", "reflexo", "simetria", "parana"],
+    "pedrocosta-3": ["serradomar", "montanha", "paisagem", "parana"],
+    "pedrocosta-4": ["stilllife", "sombra", "estudio", "curitiba"],
+    "marinafaria-1": ["lago", "viagem", "amanhecer"],
+    "marinafaria-2": ["estrada", "serra", "viagem", "minasgerais"],
+    "marinafaria-3": ["chapada", "cerrado", "goias", "horizonte", "viagem"],
+    "marinafaria-4": ["retrato", "pessoas", "viagem", "ouropreto", "minasgerais"],
+    "marcosandrade-1": ["saopaulo", "rio", "caminhada"],
+    "marcosandrade-2": ["saopaulo", "quadrado", "paisagem"]
+  };
+  lista.forEach(function (f) { f.tags = (TAGS[f.id] || []).map(function (t) { return t.toLowerCase(); }); });
+  function tagsDe(foto) {
+    var extra = null; try { extra = JSON.parse(localStorage.getItem("c365-tags-foto-" + foto.id) || "null"); } catch (e) {}
+    return extra || foto.tags || [];
+  }
+  /* Categorias: hashtags promovidas pela curadoria (padrão + as promovidas no admin) */
+  var CATEGORIAS = [
+    { id: "paisagem", nome: "Paisagem", tags: ["paisagem", "serra", "montanha", "campo", "horizonte", "chapada", "cerrado"] },
+    { id: "cidade", nome: "Cidade", tags: ["cidade", "paisagemurbana", "saopaulo", "belohorizonte", "curitiba", "caminhada"] },
+    { id: "pessoas", nome: "Pessoas e retratos", tags: ["retrato", "pessoas"] },
+    { id: "noite", nome: "Noite e estrelas", tags: ["noite", "estrelas", "vialactea"] },
+    { id: "agua", nome: "Água e reflexos", tags: ["lago", "rio", "reflexo", "chuva"] },
+    { id: "natureza", nome: "Natureza", tags: ["natureza", "verde", "nevoa", "nuvens"] },
+    { id: "viagem", nome: "Viagem e estrada", tags: ["viagem", "estrada"] },
+    { id: "objetos", nome: "Objetos e estúdio", tags: ["stilllife", "equipamento", "estudio", "bastidores", "sombra"] }
+  ];
+  function categorias() {
+    var extra = [], junta = {};
+    try { extra = JSON.parse(localStorage.getItem("c365-categorias") || "[]"); junta = JSON.parse(localStorage.getItem("c365-cat-tags") || "{}"); } catch (e) {}
+    return CATEGORIAS.concat(extra).map(function (c) { return { id: c.id, nome: c.nome, tags: c.tags.concat(junta[c.id] || []) }; });
+  }
+  function contagemTags() {
+    var c = {};
+    lista.forEach(function (f) { tagsDe(f).forEach(function (t) { c[t] = (c[t] || 0) + 1; }); });
+    return Object.keys(c).map(function (t) { return { tag: t, n: c[t] }; }).sort(function (a, b) { return b.n - a.n || a.tag.localeCompare(b.tag); });
+  }
+  function buscar(q) {
+    q = (q || "").toLowerCase().trim();
+    var cat = null, tag = null;
+    if (q.indexOf("cat:") === 0) cat = categorias().filter(function (c) { return c.id === q.slice(4); })[0];
+    else if (q.charAt(0) === "#") tag = q.slice(1);
+    return lista.filter(function (f) {
+      var tg = tagsDe(f), ph = fotografoPorId(f.fotografo);
+      if (cat) return tg.some(function (t) { return cat.tags.indexOf(t) > -1; });
+      if (tag) return tg.indexOf(tag) > -1;
+      if (!q) return true;
+      return (f.titulo + " " + f.descricao + " " + f.local + " " + ph.nome + " " + tg.join(" ")).toLowerCase().indexOf(q.replace(/^#/, "")) > -1;
+    });
+  }
+  function fotografoPorId(id) { return FOTOGRAFOS.filter(function (f) { return f.id === id; })[0]; }
+
+  /* Projetos e coletivos convidados para compor o banco na fase de lançamento */
+  var PROJETOS = [
+    { id: "olhares-da-serra", nome: "Olhares da Serra", tipo: "Coletivo", cidade: "Sul do Brasil", av: "#dcefe2", descricao: "Fotógrafos de natureza que documentam as serras catarinense e paranaense.", membros: ["juliasantos", "pedrocosta"] },
+    { id: "cidade-acordando", nome: "Cidade Acordando", tipo: "Projeto", cidade: "São Paulo, SP", av: "#d9e3f2", descricao: "O centro de São Paulo antes das 8 da manhã, um dia de cada vez.", membros: ["analima", "marcosandrade"] },
+    { id: "estrada-de-minas", nome: "Estrada de Minas", tipo: "Projeto", cidade: "Minas Gerais", av: "#f2dada", descricao: "Retratos e paisagens de quem vive entre as cidades históricas e o cerrado mineiro.", membros: ["marinafaria", "rafaborges"] }
+  ];
+
   window.Fotos = {
+    tagsDe: tagsDe, categorias: categorias, contagemTags: contagemTags, buscar: buscar, projetos: PROJETOS,
     TAXA: TAXA, venda: venda, whatsLink: whatsLink,
     ordenar: ordenar, emAlta: emAlta, posts7d: POSTS_7D,
     pessoas: PESSOAS,

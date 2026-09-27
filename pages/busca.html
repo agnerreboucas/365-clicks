@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Buscar fotos — Banco de Imagem Brasileiro</title>
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="../design-system/components.css">
+<script src="../design-system/app.js" defer></script>
+<style>
+.bx-top { display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: center; margin: var(--sp-4) 0; }
+.bx-top .search-field { flex: 1; min-width: 260px; }
+.bx-top .input { height: 48px; }
+.bx-filtros { display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: center; margin-bottom: var(--sp-4); }
+.bx-filtros select { width: auto; }
+.lic-line { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
+.lic-line .badge { font-size: var(--fs-xs); }
+</style></head><body data-page="busca">
+<header data-shell><a class="logo" href="banco.html">Banco de Imagem Brasileiro</a></header>
+<main data-photos>
+<h1 id="titulo" style="margin:0">Buscar fotos</h1>
+<form class="bx-top" id="form" role="search"><div class="search-field"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><label class="sr-only" for="q">Buscar</label><input class="input" id="q" type="search" placeholder="Lugar, tema, fotógrafo ou #hashtag"></div><button class="btn btn-primary" type="submit">Buscar</button></form>
+<div class="bx-filtros">
+  <div class="chips" style="margin:0" id="lic"><button class="chip" type="button" aria-pressed="false" data-l="cc">Grátis para uso pessoal</button><button class="chip" type="button" aria-pressed="false" data-l="venda">À venda (uso comercial)</button><button class="chip" type="button" aria-pressed="false" data-l="whats">Negocia no WhatsApp</button></div>
+  <label class="sr-only" for="ori">Orientação</label><select class="select" id="ori"><option value="">Qualquer formato</option><option value="v">Vertical</option><option value="h">Horizontal</option><option value="q">Quadrada</option></select>
+  <label class="sr-only" for="ord">Ordenar</label><select class="select" id="ord"><option value="rel">Mais relevantes</option><option value="recentes">Mais recentes</option><option value="curtidas">Mais curtidas</option><option value="preco">Menor preço</option></select>
+</div>
+<p class="small muted" id="resumo" style="margin:0 0 8px"></p>
+<div class="hashtags" id="relacionadas" style="margin-bottom:16px"></div>
+<div class="grid" id="grade" data-sem-mais></div>
+<div class="empty" id="vazio" hidden><h3>Nenhuma foto encontrada</h3><p id="vazio-p">Tente outra palavra ou hashtag.</p><a class="btn" href="publicar.html">Enviar fotos</a></div>
+<section class="section" id="categorias" aria-labelledby="cat-t">
+  <div class="section-head"><div><span class="eyebrow">Nascidas das hashtags</span><h2 class="h2" id="cat-t">Categorias</h2></div></div>
+  <div class="cats" id="cats"></div>
+  <h3 style="margin-top:28px">Todas as hashtags</h3>
+  <div class="hashtags" id="todas"></div>
+</section>
+</main>
+<footer data-shell>Banco de Imagem Brasileiro</footer>
+<script>
+document.addEventListener("c365:fotos", function () {
+  var F = window.Fotos, C = window.C365;
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function bg(f) { return "background-image:url('" + f.thumb + "'),linear-gradient(160deg," + f.tone2 + "," + f.tone + ")"; }
+  var CARD = '<figure class="card"><img alt="" loading="lazy"><div class="actions"><button type="button" aria-label="Curtir" aria-pressed="false" data-toggle data-on="Curtida registrada"><svg class="i i-sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button></div><figcaption class="meta"></figcaption></figure>';
+  var q = new URLSearchParams(location.search).get("q") || "", lic = {};
+  document.getElementById("q").value = q;
+  function formato(f) { var p = f.ratio.split("/"), r = +p[0] / +p[1]; return r > 1.05 ? "h" : r < 0.95 ? "v" : "q"; }
+  function render() {
+    var ori = document.getElementById("ori").value, ord = document.getElementById("ord").value;
+    var l = F.buscar(q).filter(function (f) {
+      var v = F.venda(f);
+      return (!lic.cc || v.cc) && (!lic.venda || v.preco) && (!lic.whats || v.whatsapp) && (!ori || formato(f) === ori);
+    });
+    if (ord === "recentes") l.sort(function (a, b) { var d = function (x) { var p = x.data.split("/"); return +(p[2] + p[1] + p[0]); }; return d(b) - d(a); });
+    if (ord === "curtidas") l.sort(function (a, b) { return b.curtidas - a.curtidas; });
+    if (ord === "preco") l.sort(function (a, b) { return (F.venda(a).preco || 1e9) - (F.venda(b).preco || 1e9); });
+    var cat = q.indexOf("cat:") === 0 ? F.categorias().filter(function (c) { return c.id === q.slice(4); })[0] : null;
+    document.getElementById("titulo").textContent = cat ? cat.nome : q.charAt(0) === "#" ? q : q ? "Fotos: “" + q + "”" : "Todas as fotos";
+    document.title = document.getElementById("titulo").textContent + " — Banco de Imagem Brasileiro";
+    document.getElementById("resumo").textContent = l.length + (l.length === 1 ? " foto" : " fotos") + (cat ? " · reúne #" + cat.tags.join(" #") : "");
+    var rel = {}; l.forEach(function (f) { F.tagsDe(f).forEach(function (t) { if ("#" + t !== q) rel[t] = (rel[t] || 0) + 1; }); });
+    var relL = Object.keys(rel).sort(function (a, b) { return rel[b] - rel[a]; }).slice(0, 12);
+    document.getElementById("relacionadas").innerHTML = relL.length ? '<span class="small muted" style="align-self:center">Relacionadas:</span>' + relL.map(function (t) { return '<a href="?q=%23' + t + '">#' + esc(t) + "</a>"; }).join("") : "";
+    var g = document.getElementById("grade");
+    g.innerHTML = l.map(function () { return CARD; }).join("");
+    document.getElementById("vazio").hidden = !!l.length;
+    document.getElementById("vazio-p").innerHTML = q ? "Ninguém publicou com “" + esc(q) + "” ainda. Que tal ser o primeiro?" : "Tente outra palavra ou hashtag.";
+    if (l.length && C.viewer) {
+      C.viewer.hidratar(g, l);
+      g.querySelectorAll(".card").forEach(function (card, i) {
+        var f = l[i], v = F.venda(f), meta = card.querySelector(".meta");
+        meta.insertAdjacentHTML("beforeend", '<span class="lic-line">' + (v.cc ? '<span class="badge badge-success plain">Grátis uso pessoal</span>' : "") + (v.preco ? '<span class="badge plain">R$ ' + v.preco + "</span>" : '<span class="badge plain">Negociar</span>') + "</span>");
+      });
+      C.masonry();
+    }
+  }
+  document.getElementById("form").addEventListener("submit", function (e) { e.preventDefault(); q = document.getElementById("q").value.trim(); history.replaceState(null, "", "?q=" + encodeURIComponent(q)); render(); });
+  document.getElementById("lic").addEventListener("click", function (e) { var b = e.target.closest("[data-l]"); if (!b) return; var k = b.getAttribute("data-l"); lic[k] = !lic[k]; b.setAttribute("aria-pressed", String(lic[k])); render(); });
+  ["ori", "ord"].forEach(function (id) { document.getElementById(id).addEventListener("change", render); });
+  document.getElementById("cats").innerHTML = F.categorias().map(function (c) {
+    var fs = F.buscar("cat:" + c.id); if (!fs.length) return "";
+    return '<a class="cat" href="?q=cat:' + c.id + '" style="' + bg(fs[0]) + '"><span><strong>' + esc(c.nome) + '</strong><span class="small">' + fs.length + " fotos</span></span></a>";
+  }).join("");
+  document.getElementById("todas").innerHTML = F.contagemTags().map(function (t) { return '<a href="?q=%23' + t.tag + '">#' + esc(t.tag) + ' <span class="muted">' + t.n + "</span></a>"; }).join("");
+  render();
+  if (location.hash === "#categorias") setTimeout(function () { document.getElementById("categorias").scrollIntoView(); }, 50);
+});
+</script>
+</body></html>

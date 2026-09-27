@@ -11,6 +11,11 @@
 
   /* ---------- Mapa do site: fonte única das 58 telas ---------- */
   var SITEMAP = [
+    { id: "banco", name: "Banco de Imagem", pages: [
+      ["banco", "Banco de Imagem Brasileiro", "Home da Fase 1: busca, categorias e hashtags"],
+      ["busca", "Buscar fotos", "Resultados, hashtags, categorias e filtros de licença"],
+      ["convite", "Para fotógrafos", "Convite para fotógrafos e coletivos comporem o banco"]
+    ] },
     { id: "portal", name: "Portal", pages: [
       ["home", "Home", "Galeria viva + desafio diário"],
       ["explorar", "Explorar", "Descubra fotografias, temas e tendências"],
@@ -87,6 +92,7 @@
       ["admin-contatos", "Contatos e métricas", "Visualizações, cliques e contatos"],
       ["admin-anuncios", "Mídia e anunciantes", "Espaços, campanhas e receita mensal"],
       ["admin-vendas", "Banco de imagens", "Fotos à venda, vendas, split e WhatsApp"],
+      ["admin-banco", "Hashtags e convites", "Hashtags viram categorias; fotógrafos e coletivos convidados"],
       ["admin-usuarios", "Usuários", "Gestão de usuários"],
       ["admin-fotos", "Moderação", "Denúncias de comentários e fotos"],
       ["admin-desafios", "Desafios", "Criador dos 365 desafios"],
@@ -143,6 +149,19 @@
   }
   window.C365 = { icon: icon, sitemap: SITEMAP, page: page, root: ROOT };
 
+  /* ---------- Fase de lançamento ----------
+     "banco": Fase 1, só o Banco de Imagem Brasileiro (menu enxuto, sem desafios, cursos, eventos e loja).
+     "completa": a plataforma 365 Clicks inteira. No protótipo, alterna pelo índice ou pelo rodapé. */
+  var FASE = "banco";
+  try { FASE = localStorage.getItem("c365-fase") || "banco"; } catch (e) {}
+  var BANCO = FASE === "banco";
+  C365.fase = FASE;
+  C365.setFase = function (f) { try { localStorage.setItem("c365-fase", f); } catch (e) {} location.reload(); };
+  var HOME = BANCO ? "banco" : "home";
+  var LOGO = BANCO ? '<span class="logo-banco">Banco de Imagem <b>Brasileiro</b></span>' : "365<b>·</b>CLICKS";
+  var NAV_BANCO = [["banco", "Início"], ["busca", "Buscar fotos"], ["busca#categorias", "Categorias"], ["fotografos", "Fotógrafos"], ["convite", "Para fotógrafos"]];
+  function href(slug) { var p = slug.split("#"); return page(p[0]) + (p[1] ? "#" + p[1] : ""); }
+
   /* ---------- Página atual ---------- */
   var current = document.body.getAttribute("data-page") ||
     (location.pathname.split("/").pop() || "").replace(/\.html$/, "");
@@ -190,6 +209,7 @@
     }).join("");
     var inPrimary = PRIMARY.some(function (l) { return l[0] === current; });
     el.className = "site-header";
+    if (BANCO) { renderHeaderBanco(el); return; }
     el.innerHTML =
       '<button class="btn btn-ghost btn-icon menu-toggle" type="button" data-drawer-open aria-label="Abrir menu">' + icon("menu") + "</button>" +
       '<a class="logo" href="' + page("home") + '" aria-label="365 Clicks — início">365<b>·</b>CLICKS</a>' +
@@ -218,6 +238,28 @@
   }
 
 
+  function renderHeaderBanco(el) {
+    el.innerHTML =
+      '<button class="btn btn-ghost btn-icon menu-toggle" type="button" data-drawer-open aria-label="Abrir menu">' + icon("menu") + "</button>" +
+      '<a class="logo" href="' + page(HOME) + '" aria-label="Banco de Imagem Brasileiro — início">' + LOGO + "</a>" +
+      '<nav class="site-nav" aria-label="Principal">' + NAV_BANCO.map(function (l) { return '<a href="' + href(l[0]) + '"' + (l[0] === current ? ' aria-current="page"' : "") + ">" + l[1] + "</a>"; }).join("") + "</nav>" +
+      '<form class="header-search search-field" role="search" data-search>' + icon("search") +
+        '<label class="sr-only" for="q-header">Buscar fotos</label><input class="input" id="q-header" type="search" placeholder="Buscar: #praia, sertão, retrato"></form>' +
+      '<div class="header-actions">' +
+        '<button class="btn btn-ghost btn-icon" type="button" data-theme-toggle></button>' +
+        '<button class="btn btn-ghost btn-icon hide-mobile" type="button" data-account aria-expanded="false" aria-label="Minha conta"><span class="avatar avatar-sm" style="--av:var(--accent-soft)">MA</span></button>' +
+        '<div class="menu" data-account-menu hidden>' +
+          '<a href="' + page("perfil") + '">' + icon("user", "i-sm") + "Minhas fotos</a>" +
+          '<a href="' + page("vendas") + '">' + icon("wallet", "i-sm") + "Meus ganhos</a>" +
+          '<a href="' + page("downloads") + '">' + icon("download", "i-sm") + "Meus downloads</a>" +
+          '<a href="' + page("editar-perfil") + '">' + icon("settings", "i-sm") + "Editar perfil</a>" +
+          '<a href="' + page("configuracoes") + '">' + icon("settings", "i-sm") + "Configurações</a>" +
+          '<hr><a href="' + page("admin-banco") + '">Curadoria e convites</a><a href="' + page("admin-vendas") + '">Admin do banco</a>' +
+        "</div>" +
+        '<a class="btn hide-mobile" href="' + page("publicar") + '">' + icon("camera", "i-sm") + "Enviar fotos</a>" +
+      "</div>";
+  }
+
   /* ---------- Faixa de ofertas (receita: cursos, e-books, palestras, eventos, loja) ---------- */
   var PROMOS = [
     ["Curso", "Fotografia de Rua: inscrições abertas, início em 3/11", "curso.html", "Ver curso"],
@@ -229,6 +271,7 @@
   ];
   C365.promos = PROMOS;
   function renderPromo(header) {
+    if (BANCO) return;
     var hoje = new Date().toDateString();
     try { if (localStorage.getItem("c365-promo-off") === hoje) return; } catch (e) {}
     var bar = document.createElement("div");
@@ -260,9 +303,10 @@
     var nav = document.createElement("nav");
     nav.className = "tabbar";
     nav.setAttribute("aria-label", "Navegação rápida");
-    var items = [["home", "Início", "home"], ["explorar", "Explorar", "compass"], ["publicar", "Publicar", "plus"], ["desafios", "Desafios", "target"], ["perfil", "Perfil", "user"]];
+    var items = BANCO ? [["banco", "Início", "home"], ["busca", "Buscar", "search"], ["publicar", "Enviar", "plus"], ["busca#categorias", "Categorias", "grid"], ["perfil", "Minhas fotos", "user"]]
+      : [["home", "Início", "home"], ["explorar", "Explorar", "compass"], ["publicar", "Publicar", "plus"], ["desafios", "Desafios", "target"], ["perfil", "Perfil", "user"]];
     nav.innerHTML = items.map(function (t) {
-      return '<a href="' + page(t[0]) + '"' + cur(t[0]) + (t[0] === "publicar" ? ' class="shoot"' : "") + ">" + icon(t[2]) + "<span>" + t[1] + "</span></a>";
+      return '<a href="' + href(t[0]) + '"' + cur(t[0]) + (t[0] === "publicar" ? ' class="shoot"' : "") + ">" + icon(t[2]) + "<span>" + t[1] + "</span></a>";
     }).join("");
     document.body.appendChild(nav);
   }
@@ -275,10 +319,11 @@
     d.setAttribute("aria-modal", "true");
     d.setAttribute("aria-label", "Menu");
     d.innerHTML = '<div class="modal-backdrop" data-drawer-close></div><div class="drawer-panel">' +
-      '<div class="drawer-head"><a class="logo" href="' + page("home") + '">365<b>·</b>CLICKS</a>' +
+      '<div class="drawer-head"><a class="logo" href="' + page(HOME) + '">' + LOGO + "</a>" +
       '<button class="btn btn-ghost btn-icon" type="button" data-drawer-close aria-label="Fechar menu">' + icon("close") + "</button></div>" +
       '<form class="search-field" role="search" data-search style="margin-bottom:16px">' + icon("search") + '<label class="sr-only" for="q-drawer">Pesquisar</label><input class="input" id="q-drawer" type="search" placeholder="Pesquisar"></form>' +
-      SITEMAP.map(function (m) {
+      (BANCO ? '<nav class="stack" style="gap:2px">' + NAV_BANCO.concat([["publicar", "Enviar fotos"], ["perfil", "Minhas fotos"], ["vendas", "Meus ganhos"], ["downloads", "Meus downloads"], ["sobre", "Sobre"], ["ajuda", "Ajuda"]]).map(function (l) { return '<a href="' + href(l[0]) + '">' + l[1] + "</a>"; }).join("") + "</nav>" : "") +
+      (BANCO ? [] : SITEMAP).map(function (m) {
         return "<details" + (m === currentModule ? " open" : "") + "><summary>" + m.name + ' <span class="count">' + m.pages.length + "</span></summary>" +
           m.pages.map(function (p) { return '<a href="' + page(p[0]) + '"' + cur(p[0]) + ">" + p[1] + "</a>"; }).join("") + "</details>";
       }).join("") +
@@ -289,7 +334,7 @@
   }
 
   function renderSubnav() {
-    if (!currentModule || current === "home") return;
+    if (BANCO || !currentModule || current === "home") return;
     var main = document.querySelector("main");
     if (!main || main.querySelector(".subnav")) return;
     var nav = document.createElement("nav");
@@ -302,8 +347,16 @@
 
   function renderFooter(el) {
     el.className = "site-footer";
-    var col = function (titulo, itens) { return "<div><h4>" + titulo + "</h4>" + itens.map(function (i) { return '<a href="' + page(i[0]) + '">' + i[1] + "</a>"; }).join("") + "</div>"; };
-    el.innerHTML = '<div class="footer-grid"><div><a class="logo" href="' + page("home") + '">365<b>·</b>CLICKS</a><p>Fotografe. Compartilhe. Evolua.</p></div>' +
+    var col = function (titulo, itens) { return "<div><h4>" + titulo + "</h4>" + itens.map(function (i) { return '<a href="' + href(i[0]) + '">' + i[1] + "</a>"; }).join("") + "</div>"; };
+    var troca = '<p class="small" style="margin-top:12px"><button class="btn btn-ghost btn-sm" type="button" data-fase="' + (BANCO ? "completa" : "banco") + '">Protótipo: ver ' + (BANCO ? "a plataforma completa" : "só o Banco de Imagem (Fase 1)") + "</button></p>";
+    if (BANCO) {
+      el.innerHTML = '<div class="footer-grid"><div><a class="logo" href="' + page(HOME) + '">' + LOGO + '</a><p>O Brasil pelo olhar de quem vive aqui. Uma iniciativa 365 Clicks.</p>' + troca + "</div>" +
+        col("Buscar", [["busca", "Todas as fotos"], ["busca#categorias", "Categorias"], ["fotografos", "Fotógrafos"]]) +
+        col("Para fotógrafos", [["convite", "Como participar"], ["cadastro", "Criar conta"], ["publicar", "Enviar fotos"], ["vendas", "Meus ganhos"]]) +
+        col("Banco", [["sobre", "Sobre"], ["ajuda", "Ajuda"], ["contato", "Contato"], ["termos", "Termos e licenças"]]) + "</div>";
+      return;
+    }
+    el.innerHTML = '<div class="footer-grid"><div><a class="logo" href="' + page("home") + '">365<b>·</b>CLICKS</a><p>Fotografe. Compartilhe. Evolua.</p>' + troca + '</div>' +
       col("Descobrir", [["explorar", "Explorar"], ["colecoes", "Coleções"], ["fotografos", "Fotógrafos"], ["nunca-tirei", "A foto que eu nunca tirei"]]) +
       col("Praticar", [["desafio-do-dia", "Desafio do dia"], ["desafios", "Semana de desafios"], ["foto-criativa", "Foto Criativa"], ["cursos", "Cursos"]]) +
       col("Comunidade", [["eventos", "Eventos"], ["blog", "Blog"], ["ranking", "Ranking"], ["loja", "Loja"]]) +
@@ -368,10 +421,12 @@
         if (carregando || bloco >= MAX_BLOCOS) return;
         carregando = true;
         bloco++;
-        var ds = desafioAnterior(bloco);
+        var ds = BANCO ? null : desafioAnterior(bloco);
+        var cats = BANCO && window.Fotos && window.Fotos.categorias ? window.Fotos.categorias() : null, cat = cats ? cats[(bloco - 1) % cats.length] : null;
         var sec = document.createElement("section");
         sec.className = "infinite-block";
-        sec.innerHTML = '<div class="infinite-head"><span class="eyebrow">' + (bloco === 1 ? "Desafio de ontem" : ds ? ds.nomeDia.charAt(0).toUpperCase() + ds.nomeDia.slice(1) + ", " + window.Desafios.dataCurta(ds.inicio) : "Mais fotografias") + "</span>" +
+        if (cat) sec.innerHTML = '<div class="infinite-head"><span class="eyebrow">Categoria</span><h3>' + cat.nome + ' <span class="small muted">· #' + cat.tags.slice(0, 3).join(" #") + '</span> <a class="small" href="' + page("busca") + "?q=cat:" + cat.id + '">ver todas →</a></h3></div>';
+        else sec.innerHTML = '<div class="infinite-head"><span class="eyebrow">' + (bloco === 1 ? "Desafio de ontem" : ds ? ds.nomeDia.charAt(0).toUpperCase() + ds.nomeDia.slice(1) + ", " + window.Desafios.dataCurta(ds.inicio) : "Mais fotografias") + "</span>" +
           (ds ? '<h3>Dia ' + ds.dia + " · " + ds.tema + ' <span class="small muted">· ' + ds.tecnica + "</span></h3>" : "") + "</div>";
         var grid = document.createElement("div");
         grid.className = "grid";
@@ -387,7 +442,8 @@
         ancora.parentNode.insertBefore(sec, ancora.nextSibling);
         ancora = sec;
         if (C365.viewer && window.Fotos) {
-          var l = window.Fotos.lista, desloc = (bloco * 5) % l.length;
+          var l = cat ? window.Fotos.buscar("cat:" + cat.id) : window.Fotos.lista, desloc = cat ? 0 : (bloco * 5) % l.length;
+          if (!l.length) l = window.Fotos.lista;
           C365.viewer.hidratar(grid, l.slice(desloc).concat(l.slice(0, desloc)));
         }
         layoutMasonry(grid, true);
@@ -502,10 +558,12 @@
       if (!drawer.hidden) closeLayer(drawer);
       document.querySelectorAll(".modal:not([hidden])").forEach(closeLayer);
     });
+    document.addEventListener("click", function (e) { var f = e.target.closest("[data-fase]"); if (f) C365.setFase(f.getAttribute("data-fase")); });
     document.addEventListener("submit", function (e) {
       if (!e.target.matches("[data-search], [data-demo-form]")) return;
       e.preventDefault();
       var q = e.target.querySelector("input");
+      if (e.target.hasAttribute("data-search")) { location.href = page("busca") + "?q=" + encodeURIComponent(q && q.value.trim() || ""); return; }
       toast(e.target.hasAttribute("data-search") ? "Busca por “" + (q && q.value || "tudo") + "” — disponível na versão funcional" : "Enviado (demonstração)");
     });
   }
