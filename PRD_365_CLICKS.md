@@ -442,9 +442,8 @@ Este pacote inclui uma página HTML para cada rota listada no PRD (71 telas), o 
 - **Quem define:** o próprio fotógrafo, ao publicar (e depois em Meus ganhos → Preços e licenças), escolhe:
   - **Download grátis para uso pessoal** — Creative Commons BY-NC: sem uso comercial, com crédito ao autor; entrega a versão web (1600 px). O visitante confirma o compromisso de crédito antes de baixar.
   - **Licença comercial** — preço definido pelo fotógrafo; o comprador paga pela plataforma e baixa o arquivo original em alta resolução, sem marca d'água, com licença em PDF e nota fiscal. Licença não exclusiva, sem direito de revenda do arquivo.
-  - **Negociação pelo WhatsApp** — botão abre conversa direta com o fotógrafo, com mensagem pronta citando a foto.
 - **Split de pagamento:** 80% para o fotógrafo, 20% para o 365 Clicks (pagamento, nota, entrega do arquivo e suporte). Repasse por Pix em até 30 dias (prazo de reembolso). Na versão real, o split é feito pelo gateway (subcontas / marketplace do Mercado Pago, Pagar.me ou Asaas).
-- **O que medimos:** fotógrafos vendendo, fotos à venda, preço médio definido, valor em vitrine, cliques no WhatsApp, vendas, faturamento (GMV), receita da plataforma e downloads gratuitos. Negociações pelo WhatsApp acontecem fora da plataforma: medimos o clique, não o fechamento (o fotógrafo pode marcar "negócio fechado" em Mensagens → Interessados).
+- **O que medimos:** fotógrafos vendendo, fotos à venda, preço médio definido, valor em vitrine, cliques em Comprar, vendas, faturamento (GMV), receita da plataforma, repasses a pessoas retratadas e downloads gratuitos.
 - **Telas:** visualizador (bloco "Usar esta foto"), Publicar (Venda e licenças), Checkout (#foto-<id>), Meus ganhos, Meus downloads, Minhas compras, Admin Banco de imagens.
 - **Proteção:** continua valendo para todas as fotos; o original só sai após pagamento, por link temporário. Marca d'água do visualizador ficou mais leve (12% de opacidade).
 
@@ -455,7 +454,7 @@ Este pacote inclui uma página HTML para cada rota listada no PRD (71 telas), o 
 - **Meus ganhos (fotógrafo):**
   - **Saldo:** disponível para saque, a liberar (vendas com menos de 30 dias), total ganho e já sacado.
   - **Vendas:** cada foto vendida, uso declarado pelo comprador, preço, valor líquido (80%) e data de liberação.
-  - **Preços e licenças:** edição por foto (grátis CC, preço comercial, WhatsApp).
+  - **Preços e licenças:** edição por foto (grátis CC, preço comercial) e pessoas retratadas.
   - **Conta de recebimento:** CPF ou CNPJ, titular, chave Pix no mesmo documento, saque automático (dia 5) ou manual. Saque liberado só com a conta verificada (KYC do parceiro de pagamentos).
 - **Split de pagamento:** cada fotógrafo vira uma subconta/recebedor no gateway; em toda venda o gateway divide na hora (80% fotógrafo, 20% plataforma). Opções que fazem split no Brasil: **Asaas** (subcontas via API e split por valor ou percentual), **Pagar.me** (recebedores e regras de split), **Iugu** (subcontas de marketplace) e **Mercado Pago** (marketplace, com o vendedor conectando a própria conta). Todos têm API com split. Recomendação inicial: Asaas, pela criação de subcontas por API sem o fotógrafo sair da plataforma, Pix forte e emissão de nota. Usar split por valor fixo (80% do preço) para as taxas do gateway ficarem dentro dos 20% da plataforma. Fluxo técnico em `PLANO_WORDPRESS.md`, seção 3.5. Confirmar taxas e contrato atuais com cada um antes de decidir.
 - **Fiscal:** a plataforma emite nota sobre a sua comissão (20%); o fotógrafo responde pela própria renda. Validar o modelo com contador.
@@ -468,9 +467,19 @@ Este pacote inclui uma página HTML para cada rota listada no PRD (71 telas), o 
 - **Nome e marca da Fase 1:** Banco de Imagem Brasileiro (uma iniciativa 365 Clicks).
 - **Home:** busca grande, hashtags em alta, números do acervo, categorias, projetos e coletivos convidados, chamada para fotógrafos e galeria com rolagem infinita por categoria.
 - **Menu enxuto:** Início · Buscar fotos · Categorias · Fotógrafos · Para fotógrafos · Enviar fotos. Conta: Minhas fotos, Meus ganhos, Meus downloads, Editar perfil, Configurações. Sem faixa de ofertas, sem desafios, cursos, eventos ou loja no menu.
-- **Busca:** texto livre, `#hashtag` e `cat:categoria`; filtros de licença (grátis para uso pessoal, à venda, negocia no WhatsApp), formato (vertical, horizontal, quadrada) e ordem (relevância, recentes, curtidas, menor preço); hashtags relacionadas.
+- **Busca:** texto livre, `#hashtag` e `cat:categoria`; filtros de licença (grátis para uso pessoal, à venda), formato (vertical, horizontal, quadrada) e ordem (relevância, recentes, curtidas, menor preço); hashtags relacionadas.
 - **Hashtags → categorias:** quem publica escreve de 3 a 10 hashtags (obrigatório). A curadoria (Admin · Hashtags e convites) promove hashtags fortes a categorias novas ou as junta a categorias existentes; a mudança aparece na hora na Home e na busca.
 - **Enviar fotos na Fase 1:** sem a parte de desafio; hashtags, projeto/coletivo, venda e licenças, autoria.
-- **Convites:** página “Para fotógrafos” com proposta (80% das vendas, preço e licença definidos pelo fotógrafo, sem exclusividade), requisitos (autoria, 2.000 px no lado maior para venda, autorização de uso de imagem para pessoas identificáveis) e formulário com código de convite. No admin, geração de códigos/links e acompanhamento: convidado → cadastrado → enviou fotos.
+- **Cadastro de fotógrafos:** página “Seja fotógrafo” (banner na Home para quem ainda não é fotógrafo do banco) com proposta (80% das vendas, preço e licença definidos pelo fotógrafo, sem exclusividade), requisitos (autoria, 2.000 px no lado maior para venda, autorização de uso de imagem para pessoas identificáveis) e formulário com código de convite. No admin, geração de códigos/links e acompanhamento: convidado → cadastrado → enviou fotos.
 - **Projetos e coletivos:** página/vitrine do projeto com descrição, membros e fotos; cada membro tem conta própria e recebe pelas próprias vendas.
 - **Protótipo:** a fase é um interruptor (`c365-fase`: `banco` ou `completa`), no índice e no rodapé. Na versão WordPress, é uma opção do plugin que liga/desliga os módulos.
+
+
+## 20. Regras de venda, autoria e imagem (revisão)
+
+- **Sem negociação direta.** Removidos o botão de WhatsApp e o contato direto na foto. Toda licença é comprada pela plataforma, que fica com **20%** (pagamento, nota fiscal, entrega do arquivo e suporte).
+- **Autoria.** O termo afirma que quem publica é o autor e que a foto é **autoral**. A autoria é sempre atribuída ao fotógrafo: nome na foto, na ficha técnica, na marca d’água, na licença em PDF, nos arquivos entregues e no crédito obrigatório (“Foto: Nome”).
+- **Sem IA.** Não aceitamos fotos geradas ou com partes criadas por IA generativa. No envio, o sistema lê o arquivo e bloqueia marcas de IA (IPTC DigitalSourceType `trainedAlgorithmicMedia` / `compositeWithTrainedAlgorithmicMedia`, nomes de geradores). Tratamento de luz, cor, recorte, limpeza e redução de ruído é permitido e declarado.
+- **Pessoas retratadas (modelos).** Havendo pessoa identificável, o fotógrafo cadastra nome, e-mail e CPF. **Trava:** cada pessoa recebe no mínimo **30% da parte do fotógrafo** (a soma das pessoas é limitada a 70%). A foto só vai à venda depois do aceite da autorização de uso de imagem (menores: responsável legal). Exemplo em R$ 250: plataforma R$ 50, modelo (30%) R$ 60, fotógrafo R$ 140. No gateway, cada pessoa retratada também recebe por split (subconta).
+- **Tratamento de imagem.** Ao publicar, o sistema lê do arquivo o programa (EXIF Software / XMP CreatorTool) e os ajustes do Lightroom/Camera Raw (exposição, contraste, realces, sombras, brancos, pretos, textura, claridade, remover névoa, vibratilidade, saturação, temperatura, matiz, nitidez, redução de ruído, preto e branco, recorte, perfil). O fotógrafo completa o que foi feito e uma nota. Na foto aberta, aba **Tratamento de imagem** ao lado da **Ficha técnica**; outras características do design da foto podem entrar nessa aba depois.
+- **Celular.** No visualizador, a foto aparece inteira (sem corte), com o aviso de direitos abaixo dela.

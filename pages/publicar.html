@@ -74,6 +74,23 @@
         <div class="field col-6"><label class="label" for="local">Local<span class="req">*</span><span class="src" data-src="local"></span></label><input class="input" id="local" placeholder="Ex.: Parque Ibirapuera, São Paulo, SP" required><span class="hint" id="gps-hint">Sem localização na foto. Informe onde foi tirada.</span></div>
       </div>
     </fieldset>
+    <div class="panel stack" id="trat">
+      <div class="cluster" style="justify-content:space-between"><h2 style="margin:0;font-size:var(--fs-lg)">Tratamento de imagem</h2><span class="small" id="trat-status">· envie a foto para lermos os ajustes</span></div>
+      <p class="small" style="margin:0">Lemos da foto o programa e os ajustes de edição (quando o arquivo traz essas informações, como no Lightroom e no Photoshop). Complete o que faltar: isso aparece para quem vê a foto.</p>
+      <div class="field"><label class="label" for="t-software">Programa de edição</label><input class="input" id="t-software" placeholder="Ex.: Lightroom Classic, Snapseed, sem edição"></div>
+      <dl class="kv" id="t-ajustes" style="grid-template-columns:auto 1fr;margin:0" hidden></dl>
+      <fieldset class="fieldset" style="margin:0"><legend class="label">O que foi feito</legend><div class="cluster" id="t-tipos" style="gap:6px">
+        <label class="check"><input type="checkbox" value="Sem tratamento (direto da câmera)"> Sem tratamento</label>
+        <label class="check"><input type="checkbox" value="Luz e cor"> Luz e cor</label>
+        <label class="check"><input type="checkbox" value="Recorte e alinhamento"> Recorte e alinhamento</label>
+        <label class="check"><input type="checkbox" value="Preto e branco"> Preto e branco</label>
+        <label class="check"><input type="checkbox" value="Limpeza pontual (poeira, fios)"> Limpeza pontual</label>
+        <label class="check"><input type="checkbox" value="Redução de ruído"> Redução de ruído</label>
+        <label class="check"><input type="checkbox" value="HDR, panorama ou empilhamento das minhas fotos"> HDR / panorama / empilhamento</label>
+      </div></fieldset>
+      <div class="field"><label class="label" for="t-notas">Como você tratou (opcional)</label><textarea class="textarea" id="t-notas" rows="2" placeholder="Ex.: subi as sombras, esfriei o balanço de branco e recortei em 4:5."></textarea></div>
+      <div class="rule info"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v5M12 16h.01"/></svg><span>Não aceitamos fotos geradas por IA nem com partes criadas por IA generativa (preenchimento, expansão, troca de céu ou rosto). Se o arquivo indicar isso, o envio é bloqueado.</span></div>
+    </div>
   </section>
 
   <aside class="stack" style="gap:20px">
@@ -107,12 +124,21 @@
       <label class="switch"><input type="checkbox" id="v-cc" checked> Permitir download grátis para uso pessoal (Creative Commons BY-NC: sem uso comercial, com crédito)</label>
       <label class="switch"><input type="checkbox" id="v-vender" checked> Vender licença comercial pela plataforma</label>
       <div class="field" id="v-preco-wrap"><label class="label" for="v-preco">Preço da licença comercial (R$)</label><input class="input" id="v-preco" type="number" min="20" step="10" value="250" inputmode="numeric"><span class="hint" id="v-split"></span></div>
-      <label class="switch"><input type="checkbox" id="v-whats" checked> Aceitar negociação direta pelo WhatsApp</label>
-      <p class="small muted" style="margin:0">Número usado: o do seu perfil (<a href="editar-perfil.html#s-contato">editar</a>). Na venda pela plataforma, o comprador recebe o arquivo original em alta resolução e a nota; você recebe 80% por Pix (saldo e conta de recebimento em <a href="vendas.html">Meus ganhos</a>).</p>
+      <p class="small muted" style="margin:0">Toda venda acontece pela plataforma: o comprador paga, recebe o arquivo original em alta resolução e a nota; a plataforma fica com 20% e o restante vai para você (e para as pessoas retratadas, se houver) por Pix. Saldo e conta de recebimento em <a href="vendas.html">Meus ganhos</a>.</p>
+    </div>
+    <div class="panel stack" id="pessoas">
+      <h2 style="margin:0;font-size:var(--fs-lg)">Pessoas na foto</h2>
+      <div class="options inline" role="radiogroup" aria-label="Há pessoas identificáveis na foto?"><label class="option"><input type="radio" name="tem-modelo" value="nao" checked><div class="grow"><strong>Ninguém identificável</strong><span class="small">Paisagem, objeto, multidão de longe</span></div></label><label class="option"><input type="radio" name="tem-modelo" value="sim"><div class="grow"><strong>Tem pessoa identificável</strong><span class="small">Cadastre cada uma</span></div></label></div>
+      <div id="modelos-wrap" hidden>
+        <p class="small" style="margin:0 0 8px">Cada pessoa retratada recebe <strong>no mínimo 30%</strong> do valor que cabe a você em cada venda, pago automaticamente. Ela recebe um e-mail para aceitar a autorização de uso de imagem; a foto só vai à venda depois do aceite. Menores de idade: cadastre o responsável legal.</p>
+        <div class="stack" id="modelos" style="gap:10px"></div>
+        <button class="btn btn-secondary btn-sm" type="button" id="add-modelo" style="align-self:flex-start;margin-top:8px">+ Adicionar pessoa</button>
+        <div class="rule info" id="split-prev" style="margin-top:10px"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v5M12 16h.01"/></svg><span></span></div>
+      </div>
     </div>
     <div class="panel stack">
       <details class="doc"><summary><span class="grow" id="aut-titulo">Declaração de Autoria e Responsabilidade</span><span class="badge plain mono" id="aut-v">v1.0</span><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary><div class="doc-body" id="aut-body"></div></details>
-      <label class="accept"><input type="checkbox" id="autoria" required><span>Declaro que sou <strong>autor ou coautor desta fotografia</strong> e assumo a responsabilidade por esta declaração.</span></label>
+      <label class="accept"><input type="checkbox" id="autoria" required><span>Declaro que sou <strong>o autor desta fotografia</strong>, que ela é <strong>autoral e não foi gerada por inteligência artificial</strong>, que cadastrei as pessoas retratadas e assumo a responsabilidade por esta declaração.</span></label>
       <button class="btn btn-primary btn-lg btn-block" type="submit" id="publicar">Publicar foto</button>
     </div>
   </aside>
@@ -193,13 +219,58 @@ document.addEventListener("DOMContentLoaded", function () {
       return out;
     }
     var i0 = ifd(u32(t + 4)), ex = i0[0x8769] ? ifd(i0[0x8769]) : {}, gps = i0[0x8825] ? ifd(i0[0x8825]) : {};
-    var r = { make: i0[0x010F], model: i0[0x0110], lens: ex[0xA434], f: ex[0x829D], exp: ex[0x829A], iso: ex[0x8827], focal: ex[0x920A], focal35: ex[0xA405], data: ex[0x9003] || i0[0x0132] };
+    var r = { software: i0[0x0131], artista: i0[0x013B], make: i0[0x010F], model: i0[0x0110], lens: ex[0xA434], f: ex[0x829D], exp: ex[0x829A], iso: ex[0x8827], focal: ex[0x920A], focal35: ex[0xA405], data: ex[0x9003] || i0[0x0132] };
     if (gps[2] && gps[4]) {
       var dms = function (a) { return a[0] + a[1] / 60 + a[2] / 3600; };
       r.lat = dms(gps[2]) * (gps[1] === "S" ? -1 : 1);
       r.lon = dms(gps[4]) * (gps[3] === "W" ? -1 : 1);
     }
     return r;
+  }
+
+  /* ---------- XMP: tratamento de imagem e origem (IA) ---------- */
+  var AJUSTES = [["Exposure2012", "Exposição"], ["Contrast2012", "Contraste"], ["Highlights2012", "Realces"], ["Shadows2012", "Sombras"], ["Whites2012", "Brancos"], ["Blacks2012", "Pretos"], ["Texture", "Textura"], ["Clarity2012", "Claridade"], ["Dehaze", "Remover névoa"], ["Vibrance", "Vibratilidade"], ["Saturation", "Saturação"], ["Temperature", "Temperatura (K)"], ["Tint", "Matiz"], ["Sharpness", "Nitidez"], ["LuminanceSmoothing", "Redução de ruído"], ["ConvertToGrayscale", "Preto e branco"], ["HasCrop", "Recorte"], ["Look", "Perfil / preset"]];
+  function lerXmp(buf) {
+    var txt = ""; var b = new Uint8Array(buf);
+    for (var i = 0; i < b.length; i += 8192) txt += String.fromCharCode.apply(null, b.subarray(i, i + 8192));
+    var ini = txt.indexOf("<x:xmpmeta"), fim = txt.indexOf("</x:xmpmeta>");
+    var xmp = ini > -1 ? txt.slice(ini, fim > ini ? fim : ini + 200000) : "";
+    function campo(nome) {
+      var m = xmp.match(new RegExp("(?:crs|xmp|photoshop|Iptc4xmpExt):" + nome + '="([^"]*)"')) || xmp.match(new RegExp("<(?:crs|xmp|photoshop|Iptc4xmpExt):" + nome + ">([^<]*)<"));
+      return m ? m[1] : null;
+    }
+    var ajustes = [];
+    AJUSTES.forEach(function (a) {
+      var v = campo(a[0]); if (v == null || v === "" || v === "0" || v === "+0" || v === "0.00" || v === "False") return;
+      if (a[0] === "Look") { var n = xmp.match(/crs:Look>\s*<rdf:Description[^>]*crs:Name="([^"]*)"/); v = n ? n[1] : v; }
+      ajustes.push([a[1], v === "True" ? "sim" : v]);
+    });
+    var tool = campo("CreatorTool") || "";
+    /* Marcas de conteúdo gerado por IA: IPTC DigitalSourceType, C2PA e nomes de geradores */
+    var ia = null, low = txt.toLowerCase();
+    if (/trainedalgorithmicmedia|compositewithtrainedalgorithmicmedia|algorithmicmedia/.test(low)) ia = "o arquivo declara que a imagem foi criada ou alterada por IA (IPTC DigitalSourceType)";
+    else if (/firefly|midjourney|dall-e|dall·e|stable diffusion|generative fill|preenchimento generativo|openai|imagen\b/.test(low)) ia = "o arquivo traz marcas de ferramenta de IA generativa";
+    return { software: tool, ajustes: ajustes, ia: ia, temXmp: !!xmp };
+  }
+  function preencherTratamento(t) {
+    var soft = t.software || "";
+    if (soft) $("#t-software").value = soft;
+    var dl = $("#t-ajustes");
+    dl.hidden = !t.ajustes.length;
+    dl.innerHTML = t.ajustes.map(function (a) { return "<dt>" + a[0] + '</dt><dd class="mono" style="text-align:left">' + String(a[1]).replace(/[&<>]/g, "") + "</dd>"; }).join("");
+    if (t.ajustes.length) document.querySelector('#t-tipos input[value="Luz e cor"]').checked = true;
+    $("#trat-status").textContent = t.ajustes.length ? "· " + t.ajustes.length + " ajustes lidos da foto" : soft ? "· programa lido da foto" : "· a foto não traz dados de edição, preencha abaixo";
+  }
+  function tratamento() {
+    var tipos = Array.prototype.map.call(document.querySelectorAll("#t-tipos input:checked"), function (i) { return i.value; });
+    var aj = Array.prototype.map.call(document.querySelectorAll("#t-ajustes dt"), function (dt) { return [dt.textContent, dt.nextElementSibling.textContent]; });
+    return { software: $("#t-software").value.trim(), tipos: tipos, ajustes: aj, notas: $("#t-notas").value.trim() };
+  }
+  function bloquearIA(motivo) {
+    $("#preview").hidden = true; $("#formato-wrap").hidden = true; $("#drop").hidden = false; $("#arquivo").value = ""; previewURL = null;
+    $("#trat-status").textContent = "· envio bloqueado";
+    C.toast("Não aceitamos fotos feitas por IA: " + motivo + ".");
+    alert("Esta foto não pode ser enviada.\n\nMotivo: " + motivo + ".\n\nO Banco aceita só fotos autorais, feitas com câmera ou celular. Se isso for um engano, fale com a curadoria.");
   }
 
   /* ---------- Preenchimento a partir dos metadados ---------- */
@@ -274,8 +345,12 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!/^image\//.test(file.type)) { C.toast("Escolha um arquivo de imagem (JPG, PNG ou HEIC)"); return; }
     if (file.size > U.LIMITE_ORIGINAL) { C.toast("A foto passa de 25 MB. Exporte uma versão menor."); return; }
     mostrarPreview(URL.createObjectURL(file), file.size);
-    file.slice(0, 512 * 1024).arrayBuffer().then(function (buf) {
+    file.slice(0, 1024 * 1024).arrayBuffer().then(function (buf) {
+      var t = lerXmp(buf);
+      if (t.ia) { bloquearIA(t.ia); return; }
       var x = lerExif(buf);
+      if (x && x.software && !t.software) t.software = x.software;
+      preencherTratamento(t);
       preencher(x || { vazio: true });
       if (!x) C.toast("Não encontramos dados EXIF. Preencha os dados da foto.");
       else C.toast("Dados da foto lidos automaticamente");
@@ -304,7 +379,8 @@ document.addEventListener("DOMContentLoaded", function () {
       : { make: "FUJIFILM", model: "X-T4", f: 8, exp: 1 / 125, iso: 160, focal: 16, dataObj: quando });
     $("#titulo").value = hoje ? "Reflexo no lago" : "Vale ao entardecer";
     $("#descricao").value = hoje ? "O vento parou por alguns segundos e o lago virou espelho. Abaixei o celular quase na água para pegar o reflexo inteiro." : "Luz rasante no fim da tarde, depois de um dia inteiro de nuvens.";
-    C.toast("Exemplo carregado com dados EXIF simulados");
+    preencherTratamento(hoje ? { software: "Lightroom Mobile 9.3", ajustes: [["Exposição", "+0.35"], ["Realces", "-42"], ["Sombras", "+28"], ["Temperatura (K)", "5200"], ["Vibratilidade", "+12"], ["Recorte", "sim"]] } : { software: "Adobe Lightroom Classic 13.4", ajustes: [["Exposição", "+0.20"], ["Contraste", "+15"], ["Claridade", "+10"], ["Remover névoa", "+8"], ["Perfil / preset", "Adobe Landscape"]] });
+    C.toast("Exemplo carregado com dados EXIF e de edição simulados");
   });
 
   /* ---------- Regra do desafio ---------- */
@@ -369,13 +445,47 @@ document.addEventListener("DOMContentLoaded", function () {
     document.title = "Banco de Imagem Brasileiro — Enviar fotos";
   }
 
+  /* ---------- Pessoas retratadas (modelos): mínimo de 30% da parte do fotógrafo ---------- */
+  var FF = window.Fotos, MIN = FF ? FF.MIN_MODELO : 30, MAXM = FF ? FF.MAX_MODELOS : 70;
+  function linhaModelo() {
+    var n = document.querySelectorAll("#modelos .modelo").length + 1;
+    $("#modelos").insertAdjacentHTML("beforeend", '<div class="modelo panel" style="padding:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;align-items:end">' +
+      '<div class="field"><label class="label" for="m-nome-' + n + '">Nome da pessoa</label><input class="input" id="m-nome-' + n + '" data-m="nome"></div>' +
+      '<div class="field"><label class="label" for="m-email-' + n + '">E-mail</label><input class="input" id="m-email-' + n + '" type="email" data-m="email"></div>' +
+      '<div class="field"><label class="label" for="m-cpf-' + n + '">CPF</label><input class="input" id="m-cpf-' + n + '" inputmode="numeric" data-m="cpf"></div>' +
+      '<div class="field"><label class="label" for="m-pct-' + n + '">% da sua parte</label><input class="input" id="m-pct-' + n + '" type="number" min="' + MIN + '" max="' + MAXM + '" value="' + MIN + '" data-m="pct"></div>' +
+      '<button class="btn btn-ghost btn-sm" type="button" data-rm-modelo>Remover</button></div>');
+    splitPrev();
+  }
+  function modelos() {
+    return Array.prototype.map.call(document.querySelectorAll("#modelos .modelo"), function (el) {
+      var g = function (k) { return el.querySelector('[data-m="' + k + '"]'); };
+      return { el: el, nome: g("nome").value.trim(), email: g("email").value.trim(), cpf: g("cpf").value.trim(), pct: +g("pct").value || 0, inputs: g };
+    });
+  }
+  function temModelo() { return document.querySelector('input[name="tem-modelo"]:checked').value === "sim"; }
+  function splitPrev() {
+    var ms = modelos(), preco = $("#v-vender").checked ? (+$("#v-preco").value || 0) : 0;
+    var total = ms.reduce(function (a, m) { return a + m.pct; }, 0), sp = FF ? FF.split(preco, ms) : null;
+    var erro = ms.some(function (m) { return m.pct < MIN; }) ? "Cada pessoa precisa receber no mínimo " + MIN + "%." : total > MAXM ? "A soma para as pessoas retratadas não pode passar de " + MAXM + "% da sua parte." : "";
+    var box = $("#split-prev"); box.className = "rule " + (erro ? "bad" : "info");
+    box.lastElementChild.innerHTML = erro ? erro : preco && sp ? "Em uma venda de R$ " + preco.toFixed(2).replace(".", ",") + ": plataforma R$ " + sp.plataforma.toFixed(2).replace(".", ",") + " · " + sp.modelos.map(function (m) { return (m.nome || "pessoa") + " R$ " + m.valor.toFixed(2).replace(".", ","); }).join(" · ") + " · você R$ " + sp.fotografo.toFixed(2).replace(".", ",") + "." : "Defina o preço para ver a divisão.";
+    return !erro;
+  }
+  document.addEventListener("change", function (e) {
+    if (e.target.name === "tem-modelo") { $("#modelos-wrap").hidden = !temModelo(); if (temModelo() && !modelos().length) linhaModelo(); }
+  });
+  $("#pessoas").addEventListener("input", splitPrev);
+  $("#add-modelo").addEventListener("click", linhaModelo);
+  $("#modelos").addEventListener("click", function (e) { var b = e.target.closest("[data-rm-modelo]"); if (b) { b.closest(".modelo").remove(); if (!modelos().length) { document.querySelector('input[name="tem-modelo"][value="nao"]').checked = true; $("#modelos-wrap").hidden = true; } splitPrev(); } });
+
   /* ---------- Venda e licenças ---------- */
   function split() {
     var on = $("#v-vender").checked, v = +$("#v-preco").value || 0;
     $("#v-preco-wrap").hidden = !on;
     $("#v-split").textContent = "Você recebe R$ " + (v * 0.8).toFixed(2).replace(".", ",") + " (80%). A plataforma fica com 20% para pagamento, nota fiscal, entrega do arquivo e suporte.";
   }
-  ["v-vender", "v-preco"].forEach(function (id) { $("#" + id).addEventListener("input", split); $("#" + id).addEventListener("change", split); });
+  ["v-vender", "v-preco"].forEach(function (id) { $("#" + id).addEventListener("input", function () { split(); splitPrev(); }); $("#" + id).addEventListener("change", function () { split(); splitPrev(); }); });
   split();
 
   /* ---------- Publicar ---------- */
@@ -385,6 +495,10 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll("#pub [aria-invalid]").forEach(function (x) { x.removeAttribute("aria-invalid"); });
     if (!previewURL) { C.toast("Escolha a foto primeiro"); $("#drop").focus(); return; }
     ["camera", "abertura", "velocidade", "iso", "captura", "local", "titulo", "descricao"].forEach(function (id) { var el = document.getElementById(id); if (!el.value.trim()) { el.setAttribute("aria-invalid", "true"); bad.push(el); } });
+    if (temModelo()) {
+      modelos().forEach(function (m) { ["nome", "email", "cpf"].forEach(function (k) { if (!m[k] || (k === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m.email)) || (k === "cpf" && m.cpf.replace(/\D/g, "").length !== 11)) { m.inputs(k).setAttribute("aria-invalid", "true"); bad.push(m.inputs(k)); } }); if (m.pct < MIN) { m.inputs("pct").setAttribute("aria-invalid", "true"); bad.push(m.inputs("pct")); } });
+      if (!splitPrev() && !bad.length) { $("#split-prev").scrollIntoView({ behavior: "smooth", block: "center" }); C.toast("Ajuste os percentuais das pessoas retratadas"); return; }
+    }
     if (lerTags().length < 3) { $("#hashtags").setAttribute("aria-invalid", "true"); bad.push($("#hashtags")); }
     if (!$("#autoria").checked) { $("#autoria").closest(".accept").setAttribute("aria-invalid", "true"); bad.push($("#autoria")); }
     if (bad.length) { bad[0].focus(); C.toast(bad.length === 1 ? "Falta 1 item para publicar" : "Faltam " + bad.length + " itens para publicar"); return; }
@@ -403,9 +517,13 @@ document.addEventListener("DOMContentLoaded", function () {
     kv.push(["Hashtags", lerTags().map(function (t) { return "#" + t; }).join(" ")]);
     if ($("#projeto").value) kv.push(["Projeto", $("#projeto").selectedOptions[0].textContent]);
     if (BANCO) { $("#ok-eyebrow").textContent = "Banco de Imagem Brasileiro"; $("#ok-msg").innerHTML = "Publicada no banco. Ela já aparece na busca pelas suas hashtags e no seu perfil."; }
-    var vd = { cc: $("#v-cc").checked, preco: $("#v-vender").checked ? +$("#v-preco").value || null : null, whatsapp: $("#v-whats").checked };
+    var ms = temModelo() ? modelos().map(function (m) { return { nome: m.nome, email: m.email, pct: m.pct, status: "aguardando aceite" }; }) : [];
+    var vd = { cc: $("#v-cc").checked, preco: $("#v-vender").checked ? +$("#v-preco").value || null : null, modelos: ms };
+    var tr = tratamento();
+    kv.push(["Tratamento", [tr.software || "programa não informado"].concat(tr.tipos).join(" · ") + (tr.ajustes.length ? " · " + tr.ajustes.length + " ajustes lidos" : "")]);
+    if (ms.length) kv.push(["Pessoas retratadas", ms.map(function (m) { return m.nome + " (" + m.pct + "% da sua parte, aguardando aceite)"; }).join(", ")]);
     try { localStorage.setItem("c365-venda-ultima", JSON.stringify(vd)); } catch (x) {}
-    kv.push(["Licenças", (vd.cc ? "Grátis para uso pessoal (CC BY-NC)" : "Sem download grátis") + " · " + (vd.preco ? "Comercial por R$ " + vd.preco.toFixed(2).replace(".", ",") + " (você recebe R$ " + (vd.preco * 0.8).toFixed(2).replace(".", ",") + ")" : "Comercial só por negociação") + (vd.whatsapp ? " · WhatsApp ativo" : "")]);
+    kv.push(["Licenças", (vd.cc ? "Grátis para uso pessoal (CC BY-NC)" : "Sem download grátis") + " · " + (vd.preco ? "Comercial por R$ " + vd.preco.toFixed(2).replace(".", ",") + " (você recebe R$ " + (FF ? FF.split(vd.preco, ms).fotografo : vd.preco * 0.8).toFixed(2).replace(".", ",") + ")" + (ms.length ? " · à venda após o aceite das pessoas retratadas" : "") : "Não está à venda")]);
     $("#ok-kv").innerHTML = kv.map(function (p) { return "<dt>" + p[0] + '</dt><dd style="text-align:left">' + p[1].replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; }) + "</dd>"; }).join("");
     window.scrollTo({ top: 0, behavior: "smooth" });
     C.toast("Foto publicada · seus seguidores receberam um e-mail");

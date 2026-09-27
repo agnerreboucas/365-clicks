@@ -228,27 +228,28 @@
     fotografo: {
       titulo: "Termo de Adesão do Fotógrafo",
       curto: "Termo do fotógrafo",
-      versao: "1.0",
+      versao: "2.0",
       secoes: [
         ["1. Autoria e direitos", "Você continua sendo o único autor e titular dos direitos autorais de todas as fotografias que publicar (Lei 9.610/98). O 365 Clicks recebe apenas uma licença gratuita, não exclusiva e revogável para exibir as fotos dentro da plataforma, com o seu crédito."],
         ["2. Proteção das fotos", "O 365 Clicks exibe as fotos em resolução limitada, com marca d'água e bloqueio de download, clique direito e impressão, e escurece a imagem quando detecta tentativa de captura de tela. Essas medidas dificultam cópias, mas nenhuma tecnologia impede totalmente uma captura de tela ou uma foto da tela."],
-        ["3. Métricas e rastreio", "Registramos cada visualização das suas fotos, cada clique em “Falar com o fotógrafo” e cada contato enviado, com data e hora. Usamos esses dados para mostrar seu desempenho, montar rankings, entender o crescimento da plataforma e para gestão interna."],
-        ["4. Contatos de interessados", "Quem quiser comprar, licenciar ou contratar você preenche nome, telefone e mensagem. Você recebe esses dados para responder. O 365 Clicks também guarda uma cópia do contato e tem acesso ao registro dessa negociação."],
-        ["5. Negociação", "Preço, prazo, forma de entrega e licença de uso são combinados diretamente entre você e o interessado. O 365 Clicks não interfere na negociação e não é parte do acordo, mas pode apresentar o registro do contato para comprovar a sua autoria e o seu direito sobre a obra."],
+        ["3. Métricas e rastreio", "Registramos cada visualização das suas fotos, cada clique em Comprar, cada download gratuito e cada venda, com data e hora. Usamos esses dados para mostrar seu desempenho em Meus ganhos, montar rankings e para gestão interna."],
+        ["4. Venda pela plataforma", "Você define o preço da licença comercial e se libera o download gratuito para uso pessoal (Creative Commons BY-NC). Toda venda acontece pela plataforma, que fica com 20% do valor (pagamento, nota fiscal, entrega do arquivo e suporte) e repassa o restante a você por Pix, pelo split do parceiro de pagamentos. Você não negocia por fora fotos publicadas aqui com compradores encontrados pela plataforma."],
+        ["5. Autoria, IA e pessoas retratadas", "Você só publica fotos autorais, feitas por você, sem imagens geradas ou com partes criadas por inteligência artificial generativa, e informa o tratamento de imagem aplicado. A autoria é sempre atribuída a você. Se houver pessoas identificáveis, você as cadastra: cada uma recebe no mínimo 30% da sua parte em cada venda, e a foto só vai à venda depois do aceite da autorização de uso de imagem."],
         ["6. Uso indevido", "Se alguém usar uma foto sua sem autorização, avise pelo e-mail direitos@365clicks.com.br. Ajudamos com o registro de autoria, data de publicação e histórico de contatos."],
         ["7. Remoção", "Você pode apagar suas fotos a qualquer momento. A licença de exibição termina na remoção; as métricas já registradas continuam nos relatórios de forma agregada."]
       ]
     },
     autoria: {
-      titulo: "Declaração de Autoria e Responsabilidade",
+      titulo: "Declaração de Autoria, Imagem e Responsabilidade",
       curto: "Declaração de autoria",
-      versao: "1.0",
+      versao: "2.0",
       secoes: [
-        ["1. Autoria", "Ao publicar, declaro que sou o autor ou coautor desta fotografia e que tenho todos os direitos para publicá-la. O meu perfil aparece como autor. Se houver coautores, eu os informo na publicação."],
-        ["2. Responsabilidade", "Assumo toda a responsabilidade por essa declaração. Se a foto for de outra pessoa, respondo por qualquer dano causado ao verdadeiro autor e ao 365 Clicks, e a publicação pode ser removida e minha conta suspensa."],
-        ["3. Pessoas na foto", "Se houver pessoas identificáveis, declaro ter a autorização delas para publicar a imagem, especialmente em caso de crianças e adolescentes."],
-        ["4. Dados da foto", "Autorizo o 365 Clicks a ler e exibir os metadados da foto (câmera ou celular, lente, abertura, velocidade, ISO, data e local) para validar os desafios e mostrar as informações técnicas."],
-        ["5. Direitos preservados", "Continuo titular dos direitos autorais. A publicação segue o Termo de Adesão do Fotógrafo."]
+        ["1. Autoria", "Declaro que sou o autor desta fotografia (ou coautor, com os coautores informados) e que tenho todos os direitos para publicá-la e licenciá-la. A autoria será sempre atribuída a mim: no site, na marca d’água, nas licenças, nos arquivos entregues e em todo crédito exigido de quem usar a foto."],
+        ["2. Foto autoral, sem inteligência artificial", "Declaro que a foto é autoral, feita por mim com câmera ou celular, e que não foi gerada nem teve partes criadas por inteligência artificial generativa (por exemplo: imagens geradas por texto, preenchimento ou expansão generativa, troca de rostos ou de céu por IA). Tratamentos de luz, cor, recorte, limpeza e redução de ruído são permitidos e devem ser informados na aba Tratamento de imagem. Fotos identificadas como geradas por IA são recusadas ou removidas."],
+        ["3. Pessoas retratadas (modelos)", "Se houver pessoas identificáveis, eu as cadastro na publicação (nome, e-mail e CPF) e cada uma recebe no mínimo 30% do valor que me cabe em cada venda, pago automaticamente pela plataforma. A foto só é colocada à venda depois que cada pessoa aceitar a autorização de uso de imagem. Para crianças e adolescentes, a autorização é dada pelo responsável legal."],
+        ["4. Venda pela plataforma", "Toda venda de licença acontece pela plataforma, que fica com 20% do valor para pagamento, nota fiscal, entrega do arquivo e suporte. Não negocio por fora as fotos publicadas aqui com compradores encontrados pela plataforma."],
+        ["5. Dados e tratamento da foto", "Autorizo a leitura e exibição dos metadados da foto (câmera ou celular, lente, abertura, velocidade, ISO, data, local, software e ajustes de edição) para mostrar as informações técnicas, o tratamento de imagem e verificar a origem."],
+        ["6. Responsabilidade", "Assumo toda a responsabilidade por esta declaração. Se a foto for de outra pessoa, gerada por IA ou publicada sem autorização de quem aparece nela, respondo por qualquer dano causado a terceiros e à plataforma; a publicação é removida, as vendas estornadas e minha conta pode ser suspensa. Continuo titular dos direitos autorais."]
       ]
     },
     cessao: {

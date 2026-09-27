@@ -6,7 +6,7 @@
 ## 1. Diagnóstico das telas
 
 ### 1.1 Prontas como protótipo (interativas, conteúdo e regras definidos) — 69
-Todas as telas do mapa, exceto as duas parciais abaixo. Na auditoria de 26/09 ganharam conteúdo real: Artigo, Calendário, Gerador criativo, Foto Criativa, Roteiros (com guias exclusivos para assinantes e compra avulsa), Roteiro, Meus ganhos, Meus downloads, Admin Banco de imagens, Banco de Imagem Brasileiro (Home da Fase 1), Buscar fotos, Para fotógrafos, Admin Hashtags e convites, Perfil público (`perfil.html#@usuario`), Fotógrafos, Seguidores/Seguindo, Mensagens (com Interessados), Notificações, Configurações, Meus desafios, Ranking, Conquistas, Meus cursos, Aula, Planos, Checkout, Minha assinatura, Minhas compras, Sobre, Ajuda, Contato e os painéis Admin Dashboard, Cursos, Assinaturas, Conteúdo e Gamificação.
+Todas as telas do mapa, exceto as duas parciais abaixo. Na auditoria de 26/09 ganharam conteúdo real: Artigo, Calendário, Gerador criativo, Foto Criativa, Roteiros (com guias exclusivos para assinantes e compra avulsa), Roteiro, Meus ganhos, Meus downloads, Admin Banco de imagens, Banco de Imagem Brasileiro (Home da Fase 1), Buscar fotos, Seja fotógrafo, Admin Hashtags e convites, Perfil público (`perfil.html#@usuario`), Fotógrafos, Seguidores/Seguindo, Mensagens (com Interessados), Notificações, Configurações, Meus desafios, Ranking, Conquistas, Meus cursos, Aula, Planos, Checkout, Minha assinatura, Minhas compras, Sobre, Ajuda, Contato e os painéis Admin Dashboard, Cursos, Assinaturas, Conteúdo e Gamificação.
 
 ### 1.2 Parciais (visual pronto, conteúdo de exemplo) — 2
 Coleções · Portfólio
@@ -124,7 +124,7 @@ Antes de fechar: confirmar taxas, prazo de recebimento, contrato de marketplace 
 ## 4. Fases sugeridas
 | Fase | Entrega | Tamanho |
 |---|---|---|
-| **0 · Banco de Imagem Brasileiro (lançamento)** | Tema com a marca do banco, contas, perfil, enviar fotos com hashtags e WebP, busca por texto/#hashtag/categoria, curadoria de hashtags → categorias, convites de fotógrafos e coletivos, licenças (grátis CC, comercial com split, WhatsApp), Meus ganhos e Meus downloads | Grande |
+| **0 · Banco de Imagem Brasileiro (lançamento)** | Tema com a marca do banco, contas, perfil, enviar fotos com hashtags e WebP, busca por texto/#hashtag/categoria, curadoria de hashtags → categorias, página Seja fotógrafo e convites, licenças (grátis CC, comercial com split 80/20 e repasse mínimo de 30% às pessoas retratadas), bloqueio de fotos com IA, leitura do tratamento de imagem (XMP), Meus ganhos e Meus downloads | Grande |
 | **1 · Fundação do 365** | Hospedagem, tema com design system, plugin core, contas, onboarding, perfil, publicar com EXIF e WebP, motor de desafios importado da planilha | Grande |
 | **2 · Comunidade** | Feed, visualizador protegido, curtidas, comentários, menções, marcações, seguidores, notificações por e-mail, “Em alta” | Grande |
 | **3 · Receita** | Eventos e inscrições com Pix/cartão/boleto, loja, planos e assinatura, cursos | Grande |

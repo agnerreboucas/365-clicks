@@ -219,9 +219,9 @@
       else if (a === "prev") passo(-1);
       else if (a === "next") passo(1);
       else if (a === "contato") { Track.registrar("click", atual); mostrarContato(); }
+      else if (a === "aba") trocarAba(b);
       else if (a === "baixar-cc") baixarCC();
       else if (a === "baixar-cc-ok") baixarCCOk();
-      else if (a === "whatsapp") { Track.registrar("whatsapp", atual); Track.registrar("click", atual); }
       else if (a === "comprar") Track.registrar("click", atual);
       else if (a === "voltar") mostrarInfo();
       else if (a === "abrir") abrir(F.foto(b.getAttribute("data-id")), F.doFotografo(atual.fotografo));
@@ -257,17 +257,16 @@
     Track.registrar("view", foto);
   }
 
-  /* Licenças e venda: download gratuito (CC BY-NC), licença comercial paga pela plataforma e negociação pelo WhatsApp */
+  /* Licenças: download gratuito (CC BY-NC) ou licença comercial paga pela plataforma. Não há negociação por fora. */
   function licencas(foto, ph) {
     var v = F.venda(foto), nome = esc(ph.nome.split(" ")[0]), brl = function (x) { return "R$ " + x.toFixed(2).replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, "."); };
-    return '<div class="viewer-cta"><strong>Usar esta foto</strong><p class="small" style="margin:4px 0 12px">Quem define as licenças e o preço é o próprio fotógrafo.</p>' +
+    var comercial = !v.preco ? nome + " não colocou esta foto à venda." : v.pendente ? "Em breve: aguardando a autorização de uso de imagem da pessoa retratada." : "Arquivo original em alta resolução, licença comercial em PDF e nota fiscal." + (v.modelos.length ? " Inclui autorização de uso de imagem de " + (v.modelos.length === 1 ? "1 pessoa retratada" : v.modelos.length + " pessoas retratadas") + "." : "");
+    return '<div class="viewer-cta"><strong>Usar esta foto</strong><p class="small" style="margin:4px 0 12px">Licenças e preço definidos pelo autor. Pagamento e entrega pela plataforma.</p>' +
       '<div class="lic"><div><b>Uso pessoal · grátis</b><span class="small">' + (v.cc ? "Creative Commons BY-NC: sem uso comercial, com crédito a " + esc(ph.nome) + ". Arquivo web (1600 px)." : nome + " não liberou o download gratuito desta foto.") + "</span></div>" +
         (v.cc ? '<button class="btn btn-secondary btn-sm" type="button" data-v="baixar-cc">Baixar grátis</button>' : "") + "</div>" +
       '<div data-cc-box hidden></div>' +
-      '<div class="lic"><div><b>Uso comercial' + (v.preco ? " · " + brl(v.preco) : "") + '</b><span class="small">' + (v.preco ? "Arquivo original em alta resolução, licença comercial e nota fiscal. Pagamento pela plataforma." : nome + " prefere combinar o preço direto com você.") + "</span></div>" +
-        (v.preco ? '<a class="btn btn-primary btn-sm" data-v="comprar" href="' + C.page("checkout") + "#foto-" + foto.id + '">Comprar</a>' : "") + "</div>" +
-      '<div class="cluster" style="margin-top:12px">' + (v.whatsapp ? '<a class="btn btn-secondary btn-sm" data-v="whatsapp" href="' + F.whatsLink(foto) + '" target="_blank" rel="noopener">Negociar no WhatsApp</a>' : "") +
-        '<button class="btn btn-ghost btn-sm" type="button" data-v="contato">Enviar mensagem</button></div></div>';
+      '<div class="lic"><div><b>Uso comercial' + (v.preco ? " · " + brl(v.preco) : "") + '</b><span class="small">' + comercial + "</span></div>" +
+        (v.preco && !v.pendente ? '<a class="btn btn-primary btn-sm" data-v="comprar" href="' + C.page("checkout") + "#foto-" + foto.id + '">Comprar</a>' : "") + "</div></div>";
   }
   function baixarCC() {
     var box = V.querySelector("[data-cc-box]"), ph = F.fotografo(atual.fotografo);
@@ -284,6 +283,25 @@
     C.toast("Download registrado. Obrigado por dar o crédito!");
   }
 
+  /* Ficha técnica e Tratamento de imagem em abas; a autoria aparece sempre */
+  function fichaTecnica(foto, ph) {
+    var t = F.tratamentoDe ? F.tratamentoDe(foto) : null;
+    var ficha = '<dl class="kv" style="grid-template-columns:auto 1fr;margin:0"><dt>Autor</dt><dd style="text-align:left">' + esc(ph.nome) + '</dd><dt>Câmera</dt><dd style="text-align:left" class="mono">' + esc(foto.exif) + '</dd><dt>Local</dt><dd style="text-align:left">' + esc(foto.local) + '</dd><dt>Publicada</dt><dd style="text-align:left">' + esc(foto.data) + "</dd></dl>";
+    var trat = !t ? '<p class="small muted" style="margin:0">' + esc(ph.nome.split(" ")[0]) + " ainda não informou o tratamento desta foto.</p>" :
+      '<dl class="kv" style="grid-template-columns:auto 1fr;margin:0"><dt>Programa</dt><dd style="text-align:left">' + esc(t.software || "não informado") + "</dd>" +
+        (t.tipos && t.tipos.length ? '<dt>O que foi feito</dt><dd style="text-align:left">' + esc(t.tipos.join(" · ")) + "</dd>" : "") +
+        (t.ajustes || []).map(function (a) { return "<dt>" + esc(a[0]) + '</dt><dd style="text-align:left" class="mono">' + esc(a[1]) + "</dd>"; }).join("") + "</dl>" +
+      (t.notas ? '<p class="small" style="margin:8px 0 0">“' + esc(t.notas) + "”</p>" : "") +
+      '<p class="small muted" style="margin:8px 0 0">Foto autoral, sem uso de IA generativa, declarada por ' + esc(ph.nome) + ".</p>";
+    return '<div class="tabs" role="tablist" style="margin:16px 0 10px" data-vabas><button role="tab" type="button" aria-selected="true" data-v="aba" data-aba="ficha">Ficha técnica</button><button role="tab" type="button" aria-selected="false" data-v="aba" data-aba="trat">Tratamento de imagem</button></div>' +
+      '<div data-vaba="ficha">' + ficha + '</div><div data-vaba="trat" hidden>' + trat + "</div>" + '<div style="height:16px"></div>';
+  }
+  function trocarAba(b) {
+    var a = b.getAttribute("data-aba");
+    V.querySelectorAll("[data-vabas] [data-aba]").forEach(function (x) { x.setAttribute("aria-selected", String(x === b)); });
+    V.querySelectorAll("[data-vaba]").forEach(function (p) { p.hidden = p.getAttribute("data-vaba") !== a; });
+  }
+
   function renderInfo(foto, ph) {
     var outras = F.doFotografo(ph.id).filter(function (f) { return f.id !== foto.id; });
     V.querySelector('[data-panel="info"]').innerHTML =
@@ -292,7 +310,7 @@
       '<h2 id="viewer-title" class="viewer-title">' + esc(foto.titulo) + "</h2>" +
       '<p class="viewer-desc">' + esc(foto.descricao) + "</p>" +
       (F.tagsDe && F.tagsDe(foto).length ? '<div class="hashtags" style="margin-top:8px">' + F.tagsDe(foto).map(function (t) { return '<a href="' + C.page("busca") + "?q=%23" + encodeURIComponent(t) + '">#' + esc(t) + "</a>"; }).join("") + "</div>" : "") +
-      '<dl class="kv" style="grid-template-columns:auto 1fr;margin:16px 0"><dt>Câmera</dt><dd style="text-align:left" class="mono">' + esc(foto.exif) + '</dd><dt>Local</dt><dd style="text-align:left">' + esc(foto.local) + '</dd><dt>Publicada</dt><dd style="text-align:left">' + esc(foto.data) + "</dd></dl>" +
+      fichaTecnica(foto, ph) +
       '<div class="cluster"><button class="btn btn-secondary btn-sm" type="button" aria-pressed="false" data-toggle data-on="Curtida registrada">' + I("heart", "i-sm") + " " + foto.curtidas + '</button><button class="btn btn-secondary btn-sm" type="button" aria-pressed="false" data-toggle data-on="Salva em Coleções">' + I("bookmark", "i-sm") + " Salvar</button>" + '<button class="btn btn-secondary btn-sm" type="button" data-v="compartilhar">Compartilhar</button></div><div data-share hidden></div>' +
       licencas(foto, ph) +
       (outras.length ? '<h3 class="viewer-more">Mais de ' + esc(ph.nome) + '</h3><div class="viewer-thumbs">' + outras.map(function (f) {
@@ -480,7 +498,7 @@
     if (!V || V.hidden) return;
     var box = V.querySelector(".viewer-photo"), img = V.querySelector(".viewer-img");
     var r = (img.getAttribute("data-ratio") || "3/2").split("/"), ar = +r[0] / +r[1];
-    var bw = box.clientWidth, bh = window.innerWidth <= 900 ? window.innerHeight * 0.62 : box.clientHeight;
+    var bw = box.clientWidth, bh = window.innerWidth <= 900 ? window.innerHeight * 0.72 : box.clientHeight;
     var w = bw, h = w / ar;
     if (h > bh) { h = bh; w = h * ar; }
     img.style.width = Math.round(w) + "px";

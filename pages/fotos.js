@@ -139,24 +139,48 @@
     return lista.slice().sort(function (a, b) { return chave(b) - chave(a); });
   }
 
-  /* Venda e licenças definidas pelo fotógrafo ao publicar.
+  /* Venda e licenças definidas pelo fotógrafo ao publicar. Toda venda passa pela plataforma (sem negociação por fora).
      cc: libera download gratuito da versão web (Creative Commons BY-NC: sem uso comercial, com crédito).
-     preco: licença comercial com o arquivo original em alta resolução, paga pela plataforma (null = só negociação).
-     O comprador também pode negociar direto com o fotógrafo pelo WhatsApp. A plataforma fica com TAXA de cada venda. */
-  var TAXA = 0.20;
-  var WHATS = { analima: "5511987650101", rafaborges: "5531988770202", juliasantos: "5548999880303", pedrocosta: "5541977660404", marinafaria: "5521966550505", marcosandrade: "5511955440606" };
+     preco: licença comercial com o arquivo original em alta resolução (null = foto não está à venda).
+     modelos: pessoas identificáveis cadastradas pelo fotógrafo; cada uma recebe no mínimo MIN_MODELO% da parte do fotógrafo
+     e a foto só vai à venda depois que todas aceitarem a autorização de uso de imagem.
+     A plataforma fica com TAXA de cada venda. */
+  var TAXA = 0.20, MIN_MODELO = 30, MAX_MODELOS = 70;
   var PRECOS = [180, 250, 320, 450, 150, 600, 290, 390];
+  var MODELOS = {
+    "rafaborges-1": [{ nome: "Laura Mendes", email: "laura@email.com", pct: 30, status: "aceito" }],
+    "rafaborges-2": [{ nome: "Laura Mendes", email: "laura@email.com", pct: 35, status: "aceito" }],
+    "marinafaria-4": [{ nome: "Bia Castro", email: "bia@email.com", pct: 30, status: "aceito" }]
+  };
   lista.forEach(function (f, k) {
-    f.venda = { cc: k % 3 !== 1, preco: k % 5 === 4 ? null : PRECOS[k % PRECOS.length], whatsapp: true };
+    f.venda = { cc: k % 3 !== 1, preco: PRECOS[k % PRECOS.length], modelos: MODELOS[f.id] || [] };
   });
   function venda(foto) {
     var extra = null;
     try { extra = JSON.parse(localStorage.getItem("c365-venda-" + foto.id) || "null"); } catch (e) {}
-    return Object.assign({}, foto.venda || { cc: false, preco: null, whatsapp: true }, extra || {});
+    var v = Object.assign({}, foto.venda || { cc: false, preco: null, modelos: [] }, extra || {});
+    v.modelos = v.modelos || [];
+    v.pendente = v.modelos.some(function (m) { return m.status !== "aceito"; });
+    return v;
   }
-  function whatsLink(foto, texto) {
-    var n = WHATS[foto.fotografo] || "5511900000000";
-    return "https://wa.me/" + n + "?text=" + encodeURIComponent(texto || ("Olá! Vi sua foto “" + foto.titulo + "” no 365 Clicks e tenho interesse em comprar ou licenciar."));
+  /* Divisão de uma venda: plataforma 20%; do restante, cada modelo recebe o percentual combinado (mínimo 30%) */
+  function split(preco, modelos) {
+    var plat = Math.round(preco * TAXA * 100) / 100, resto = preco - plat, ms = (modelos || []).map(function (m) { return { nome: m.nome, pct: m.pct, valor: Math.round(resto * m.pct) / 100 }; });
+    var fot = Math.round((resto - ms.reduce(function (a, m) { return a + m.valor; }, 0)) * 100) / 100;
+    return { plataforma: plat, fotografo: fot, modelos: ms };
+  }
+
+  /* Tratamento de imagem: lido do XMP/EXIF ao publicar e completado pelo fotógrafo */
+  var TRAT = {
+    "analima-1": { software: "Adobe Lightroom Classic 13.4", tipos: ["Luz e cor", "Recorte e alinhamento"], ajustes: [["Exposição", "+0.30"], ["Realces", "-35"], ["Sombras", "+22"], ["Remover névoa", "+12"], ["Temperatura (K)", "5600"]], notas: "Tirei um pouco da névoa para aparecer o desenho do terreno." },
+    "juliasantos-1": { software: "Adobe Lightroom Classic 13.2", tipos: ["Luz e cor", "Redução de ruído", "HDR, panorama ou empilhamento das minhas fotos"], ajustes: [["Exposição", "+0.65"], ["Contraste", "+18"], ["Claridade", "+25"], ["Temperatura (K)", "4100"], ["Redução de ruído", "35"]], notas: "Empilhamento de 8 fotos do céu para reduzir o ruído." },
+    "rafaborges-1": { software: "Capture One 23", tipos: ["Luz e cor"], ajustes: [["Exposição", "+0.15"], ["Realces", "-20"], ["Saturação", "-6"]], notas: "Tratamento leve de pele, sem mudar traços." },
+    "pedrocosta-4": { software: "Sem edição", tipos: ["Sem tratamento (direto da câmera)"], ajustes: [], notas: "" },
+    "marinafaria-2": { software: "Snapseed 2.21", tipos: ["Luz e cor", "Recorte e alinhamento"], ajustes: [["Estrutura", "+15"], ["Brilho", "+10"]], notas: "" }
+  };
+  function tratamentoDe(foto) {
+    var extra = null; try { extra = JSON.parse(localStorage.getItem("c365-trat-" + foto.id) || "null"); } catch (e) {}
+    return extra || TRAT[foto.id] || null;
   }
 
   /* Hashtags de cada foto (quem publica escreve; as mais usadas viram categorias na curadoria) */
@@ -233,8 +257,8 @@
   ];
 
   window.Fotos = {
-    tagsDe: tagsDe, categorias: categorias, contagemTags: contagemTags, buscar: buscar, projetos: PROJETOS,
-    TAXA: TAXA, venda: venda, whatsLink: whatsLink,
+    tratamentoDe: tratamentoDe, tagsDe: tagsDe, categorias: categorias, contagemTags: contagemTags, buscar: buscar, projetos: PROJETOS,
+    TAXA: TAXA, MIN_MODELO: MIN_MODELO, MAX_MODELOS: MAX_MODELOS, venda: venda, split: split,
     ordenar: ordenar, emAlta: emAlta, posts7d: POSTS_7D,
     pessoas: PESSOAS,
     pessoa: function (id) { return PESSOAS.filter(function (p) { return p.id === id; })[0]; },

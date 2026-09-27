@@ -14,7 +14,7 @@
 </style></head><body data-page="vendas">
 <header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
 <main data-photos>
-<div class="cluster" style="justify-content:space-between;align-items:flex-end"><div><h1 style="margin:0">Meus ganhos</h1><p style="margin:8px 0 0;max-width:72ch">Quanto você ganhou, seu saldo e as fotos que vendeu. Nas vendas pela plataforma você recebe 80%; o 365 Clicks fica com 20% (pagamento, nota fiscal, entrega do arquivo e suporte). Negociações pelo WhatsApp são 100% suas e não passam por aqui.</p></div><a class="btn" href="publicar.html">Publicar e vender uma foto</a></div>
+<div class="cluster" style="justify-content:space-between;align-items:flex-end"><div><h1 style="margin:0">Meus ganhos</h1><p style="margin:8px 0 0;max-width:72ch">Quanto você ganhou, seu saldo e as fotos que vendeu. Toda venda passa pela plataforma: ela fica com 20% (pagamento, nota fiscal, entrega do arquivo e suporte) e o restante é seu, descontada a parte das pessoas retratadas, quando houver.</p></div><a class="btn" href="publicar.html">Publicar e vender uma foto</a></div>
 <div class="notice" id="aviso-conta" hidden style="margin-top:16px"></div>
 <div class="saldo" id="saldo"></div>
 <div class="tabs" role="tablist" id="abas"><button role="tab" type="button" aria-selected="true" data-a="resumo">Resumo</button><button role="tab" type="button" aria-selected="false" data-a="vendas">Vendas</button><button role="tab" type="button" aria-selected="false" data-a="precos">Preços e licenças</button><button role="tab" type="button" aria-selected="false" data-a="conta">Conta de recebimento</button></div>
@@ -34,7 +34,7 @@
 
 <section class="aba" data-aba="precos" hidden>
   <p class="small" style="margin:20px 0 12px">Você define o preço e as licenças de cada foto. As mudanças valem na hora no visualizador.</p>
-  <div class="table-wrap"><table class="table"><thead><tr><th>Foto</th><th>Grátis (CC BY-NC)</th><th>Licença comercial (R$)</th><th>Você recebe</th><th>WhatsApp</th><th class="num">Cliques WhatsApp</th></tr></thead><tbody id="fotos"></tbody></table></div>
+  <div class="table-wrap"><table class="table"><thead><tr><th>Foto</th><th>Grátis (CC BY-NC)</th><th>Licença comercial (R$)</th><th>Você recebe</th><th>Pessoas retratadas</th><th class="num">Cliques em Comprar</th></tr></thead><tbody id="fotos"></tbody></table></div>
   <div class="cluster" style="justify-content:flex-end;margin-top:12px"><button class="btn btn-primary" type="button" id="salvar">Salvar preços e licenças</button></div>
 </section>
 
@@ -97,10 +97,10 @@ document.addEventListener("c365:fotos", function () {
   var disp = renderSaldo();
 
   /* Resumo */
-  var z = minhas.reduce(function (a, f) { return a + ev.filter(function (e) { return e.t === "whatsapp" && e.foto === f.id; }).length + (f.id.slice(-1) * 3 % 7); }, 0);
+  var z = minhas.reduce(function (a, f) { return a + ev.filter(function (e) { return e.t === "click" && e.foto === f.id; }).length + (f.id.slice(-1) * 3 % 7); }, 0);
   var cc = ev.filter(function (e) { return e.t === "download" && e.fotografo === EU; }).length + 37;
   var aVenda = minhas.filter(function (f) { return F.venda(f).preco; }).length;
-  document.getElementById("kpis").innerHTML = [["Fotos à venda", aVenda + " de " + minhas.length], ["Fotos vendidas", vs.length], ["Ticket médio", brl(vs.reduce(function (a, v) { return a + v.preco; }, 0) / (vs.length || 1))], ["Cliques no WhatsApp", z], ["Downloads grátis (CC)", cc]].map(function (k) { return '<div class="panel stat"><span class="small">' + k[0] + '</span><div class="metric">' + k[1] + "</div></div>"; }).join("");
+  document.getElementById("kpis").innerHTML = [["Fotos à venda", aVenda + " de " + minhas.length], ["Fotos vendidas", vs.length], ["Ticket médio", brl(vs.reduce(function (a, v) { return a + v.preco; }, 0) / (vs.length || 1))], ["Cliques em Comprar", z], ["Downloads grátis (CC)", cc]].map(function (k) { return '<div class="panel stat"><span class="small">' + k[0] + '</span><div class="metric">' + k[1] + "</div></div>"; }).join("");
   var meses = {};
   vs.forEach(function (v) { var d = new Date(v.em), k = d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2); var m = meses[k] || (meses[k] = { n: 0, b: 0, rot: d.toLocaleDateString("pt-BR", { month: "long", year: "numeric" }) }); m.n++; m.b += v.preco; });
   document.getElementById("meses").innerHTML = Object.keys(meses).sort().reverse().map(function (k) { var m = meses[k]; return "<tr><td>" + m.rot + '</td><td class="num">' + m.n + '</td><td class="num">' + brl(m.b) + '</td><td class="num"><strong>' + brl(m.b * (1 - F.TAXA)) + "</strong></td></tr>"; }).join("");
@@ -114,22 +114,22 @@ document.addEventListener("c365:fotos", function () {
   }).join("");
 
   /* Preços e licenças */
-  function zaps(id) { return ev.filter(function (e) { return e.t === "whatsapp" && e.foto === id; }).length + (id.slice(-1) * 3 % 7); }
+  function zaps(id) { return ev.filter(function (e) { return e.t === "click" && e.foto === id; }).length + (id.slice(-1) * 3 % 7); }
   document.getElementById("fotos").innerHTML = minhas.map(function (f) {
     var v = F.venda(f);
     return '<tr data-id="' + f.id + '"><td><div class="cluster" style="flex-wrap:nowrap"><span class="th" style="background-image:url(\'' + f.thumb + "'),linear-gradient(160deg," + f.tone2 + "," + f.tone + ')"></span><div><strong>' + esc(f.titulo) + '</strong><div class="small">Dia ' + f.dia + " · " + esc(f.data) + "</div></div></div></td>" +
       '<td><label class="switch"><input type="checkbox" data-k="cc"' + (v.cc ? " checked" : "") + ' aria-label="Download grátis"></label></td>' +
-      '<td><input class="input preco-in" type="number" min="0" step="10" data-k="preco" value="' + (v.preco || "") + '" placeholder="só negociação" aria-label="Preço da licença comercial"></td>' +
-      '<td class="mono" data-recebe>' + (v.preco ? brl(v.preco * (1 - F.TAXA)) : "—") + "</td>" +
-      '<td><label class="switch"><input type="checkbox" data-k="whatsapp"' + (v.whatsapp ? " checked" : "") + ' aria-label="Negociação por WhatsApp"></label></td><td class="num">' + zaps(f.id) + "</td></tr>";
+      '<td><input class="input preco-in" type="number" min="0" step="10" data-k="preco" value="' + (v.preco || "") + '" placeholder="não vender" aria-label="Preço da licença comercial"></td>' +
+      '<td class="mono" data-recebe>' + (v.preco ? brl(F.split(v.preco, v.modelos).fotografo) : "—") + "</td>" +
+      '<td class="small">' + (v.modelos.length ? v.modelos.map(function (m) { return esc(m.nome) + " · " + m.pct + "% · " + esc(m.status); }).join("<br>") : "—") + '</td><td class="num">' + zaps(f.id) + "</td></tr>";
   }).join("");
   document.getElementById("fotos").addEventListener("input", function (e) {
     var tr = e.target.closest("tr"); if (!tr || e.target.getAttribute("data-k") !== "preco") return;
-    var v = +e.target.value; tr.querySelector("[data-recebe]").textContent = v ? brl(v * (1 - F.TAXA)) : "—";
+    var v = +e.target.value, f = F.foto(tr.getAttribute("data-id")); tr.querySelector("[data-recebe]").textContent = v ? brl(F.split(v, F.venda(f).modelos).fotografo) : "—";
   });
   document.getElementById("salvar").addEventListener("click", function () {
     document.querySelectorAll("#fotos tr").forEach(function (tr) {
-      gravar("c365-venda-" + tr.getAttribute("data-id"), { cc: tr.querySelector('[data-k="cc"]').checked, preco: +tr.querySelector('[data-k="preco"]').value || null, whatsapp: tr.querySelector('[data-k="whatsapp"]').checked });
+      gravar("c365-venda-" + tr.getAttribute("data-id"), { cc: tr.querySelector('[data-k="cc"]').checked, preco: +tr.querySelector('[data-k="preco"]').value || null});
     });
     C.toast("Preços e licenças salvos. Já valem no visualizador das fotos.");
   });

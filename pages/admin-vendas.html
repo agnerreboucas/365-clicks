@@ -8,15 +8,15 @@
 <header data-shell><a class="logo" href="home.html">365 Clicks</a></header>
 <main data-photos>
 <h1 style="margin:0">Banco de imagens</h1>
-<p style="margin:8px 0 0;max-width:72ch">Fotos à venda, vendas pela plataforma (split 80% fotógrafo / 20% 365 Clicks), downloads gratuitos e interesse que vai para o WhatsApp. Negociações pelo WhatsApp acontecem fora da plataforma: medimos o clique, não o fechamento.</p>
+<p style="margin:8px 0 0;max-width:72ch">Fotos à venda, vendas pela plataforma (split 80% fotógrafo / 20% 365 Clicks), downloads gratuitos e repasses às pessoas retratadas. Toda venda passa pela plataforma, então medimos do clique em Comprar até o pagamento.</p>
 <div class="row" style="margin:24px 0" id="kpis"></div>
 <div class="row" style="margin:0 0 24px" id="kpis2"></div>
 <h2>Por fotógrafo</h2>
-<div class="table-wrap"><table class="table"><thead><tr><th>Fotógrafo</th><th class="num">Fotos à venda</th><th class="num">Preço médio</th><th class="num">Cliques WhatsApp</th><th class="num">Vendas</th><th class="num">Faturado</th><th class="num">Repasse (80%)</th><th class="num">Receita 365 (20%)</th></tr></thead><tbody id="porfot"></tbody></table></div>
+<div class="table-wrap"><table class="table"><thead><tr><th>Fotógrafo</th><th class="num">Fotos à venda</th><th class="num">Preço médio</th><th class="num">Cliques em Comprar</th><th class="num">Vendas</th><th class="num">Faturado</th><th class="num">Repasse a autores e modelos (80%)</th><th class="num">Receita 365 (20%)</th></tr></thead><tbody id="porfot"></tbody></table></div>
 <h2 style="margin-top:32px">Fotos com mais interesse</h2>
-<p class="small" style="margin:0 0 12px">Interesse = visualizações + 5 × cliques no WhatsApp + 10 × vendas. Ajuda a ver onde o preço pode estar alto (muito WhatsApp, pouca venda).</p>
-<div class="table-wrap"><table class="table"><thead><tr><th>Foto</th><th>Licenças</th><th class="num">Preço</th><th class="num">Visualizações</th><th class="num">WhatsApp</th><th class="num">Vendas</th><th class="num">Conversão</th></tr></thead><tbody id="top"></tbody></table></div>
-<p class="small muted" style="margin-top:16px">Dados de exemplo somados às ações feitas neste navegador (downloads, WhatsApp e compras no checkout).</p>
+<p class="small" style="margin:0 0 12px">Interesse = visualizações + 5 × cliques em Comprar + 10 × vendas. Muitos cliques e poucas vendas podem indicar preço alto.</p>
+<div class="table-wrap"><table class="table"><thead><tr><th>Foto</th><th>Licenças</th><th class="num">Preço</th><th class="num">Visualizações</th><th class="num">Cliques em Comprar</th><th class="num">Vendas</th><th class="num">Conversão</th></tr></thead><tbody id="top"></tbody></table></div>
+<p class="small muted" style="margin-top:16px">Dados de exemplo somados às ações feitas neste navegador (downloads, cliques em Comprar e compras no checkout).</p>
 </main><footer data-shell>365 Clicks · Fotografe. Compartilhe. Evolua.</footer><script>
 document.addEventListener("c365:fotos", function () {
   var F = window.Fotos;
@@ -30,7 +30,7 @@ document.addEventListener("c365:fotos", function () {
   var S = F.lista.map(function (f, k) {
     var v = F.venda(f), views = 300 + (k * 137) % 1900, zap = 2 + (k * 7) % 23, vend = v.preco ? (k * 3) % 5 : 0;
     vend += vendasReais.filter(function (x) { return x.foto === f.id; }).length;
-    return { f: f, v: v, views: views + cont("view", f.id), zap: zap + cont("whatsapp", f.id), vendas: vend, cc: v.cc ? 5 + (k * 11) % 40 + cont("download", f.id) : 0, fat: vend * (v.preco || 0) };
+    return { f: f, v: v, views: views + cont("view", f.id), zap: zap + cont("click", f.id), vendas: vend, cc: v.cc ? 5 + (k * 11) % 40 + cont("download", f.id) : 0, fat: vend * (v.preco || 0) };
   });
   var aVenda = S.filter(function (s) { return s.v.preco; }), fat = S.reduce(function (a, s) { return a + s.fat; }, 0);
   var vendas = S.reduce(function (a, s) { return a + s.vendas; }, 0), zaps = S.reduce(function (a, s) { return a + s.zap; }, 0), cc = S.reduce(function (a, s) { return a + s.cc; }, 0);
@@ -38,7 +38,7 @@ document.addEventListener("c365:fotos", function () {
   var medio = aVenda.reduce(function (a, s) { return a + s.v.preco; }, 0) / (aVenda.length || 1);
   var estoque = aVenda.reduce(function (a, s) { return a + s.v.preco; }, 0);
   function tiles(id, l) { document.getElementById(id).innerHTML = l.map(function (k) { return '<div class="panel stat"><span class="small">' + k[0] + '</span><div class="metric">' + k[1] + "</div>" + (k[2] ? '<span class="small">' + k[2] + "</span>" : "") + "</div>"; }).join(""); }
-  tiles("kpis", [["Fotógrafos vendendo", Object.keys(fotografos).length, "de " + F.fotografos.length + " com fotos"], ["Fotos à venda", aVenda.length, S.filter(function (s) { return s.v.cc; }).length + " com download grátis"], ["Preço médio definido", brl(medio), "valor em vitrine: " + brl(estoque)], ["Cliques no WhatsApp", n(zaps), "negociação fora da plataforma"]]);
+  tiles("kpis", [["Fotógrafos vendendo", Object.keys(fotografos).length, "de " + F.fotografos.length + " com fotos"], ["Fotos à venda", aVenda.length, S.filter(function (s) { return s.v.cc; }).length + " com download grátis"], ["Preço médio definido", brl(medio), "valor em vitrine: " + brl(estoque)], ["Cliques em Comprar", n(zaps), "intenção de compra"]]);
   tiles("kpis2", [["Vendas pela plataforma", n(vendas)], ["Faturado (GMV)", brl(fat)], ["Receita 365 (20%)", brl(fat * F.TAXA)], ["Downloads grátis (CC)", n(cc)]]);
   var por = {};
   S.forEach(function (s) { var p = por[s.f.fotografo] || (por[s.f.fotografo] = { fotos: 0, soma: 0, zap: 0, vendas: 0, fat: 0 }); if (s.v.preco) { p.fotos++; p.soma += s.v.preco; } p.zap += s.zap; p.vendas += s.vendas; p.fat += s.fat; });
@@ -47,7 +47,7 @@ document.addEventListener("c365:fotos", function () {
     return '<tr><td><a href="perfil.html#@' + id + '">' + esc(ph.nome) + '</a></td><td class="num">' + p.fotos + '</td><td class="num">' + (p.fotos ? brl(p.soma / p.fotos) : "—") + '</td><td class="num">' + p.zap + '</td><td class="num">' + p.vendas + '</td><td class="num">' + brl(p.fat) + '</td><td class="num">' + brl(p.fat * (1 - F.TAXA)) + '</td><td class="num">' + brl(p.fat * F.TAXA) + "</td></tr>";
   }).join("");
   document.getElementById("top").innerHTML = S.slice().sort(function (a, b) { return (b.views + 5 * b.zap + 10 * b.vendas) - (a.views + 5 * a.zap + 10 * a.vendas); }).slice(0, 10).map(function (s) {
-    return '<tr><td><button class="btn btn-ghost btn-sm" type="button" data-open-photo="' + s.f.id + '">' + esc(s.f.titulo) + '</button><div class="small">' + esc(F.fotografo(s.f.fotografo).nome) + "</div></td><td class='small'>" + (s.v.cc ? "Grátis CC · " : "") + (s.v.preco ? "Comercial" : "Só negociação") + '</td><td class="num">' + (s.v.preco ? brl(s.v.preco) : "—") + '</td><td class="num">' + n(s.views) + '</td><td class="num">' + s.zap + '</td><td class="num">' + s.vendas + '</td><td class="num">' + (s.vendas / s.views * 100).toFixed(1).replace(".", ",") + "%</td></tr>";
+    return '<tr><td><button class="btn btn-ghost btn-sm" type="button" data-open-photo="' + s.f.id + '">' + esc(s.f.titulo) + '</button><div class="small">' + esc(F.fotografo(s.f.fotografo).nome) + "</div></td><td class='small'>" + (s.v.cc ? "Grátis CC · " : "") + (s.v.preco ? "Comercial" : "Não está à venda") + '</td><td class="num">' + (s.v.preco ? brl(s.v.preco) : "—") + '</td><td class="num">' + n(s.views) + '</td><td class="num">' + s.zap + '</td><td class="num">' + s.vendas + '</td><td class="num">' + (s.vendas / s.views * 100).toFixed(1).replace(".", ",") + "%</td></tr>";
   }).join("");
 });
 </script>

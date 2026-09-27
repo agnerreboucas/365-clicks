@@ -18,7 +18,7 @@
 <h1 id="titulo" style="margin:0">Buscar fotos</h1>
 <form class="bx-top" id="form" role="search"><div class="search-field"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><label class="sr-only" for="q">Buscar</label><input class="input" id="q" type="search" placeholder="Lugar, tema, fotógrafo ou #hashtag"></div><button class="btn btn-primary" type="submit">Buscar</button></form>
 <div class="bx-filtros">
-  <div class="chips" style="margin:0" id="lic"><button class="chip" type="button" aria-pressed="false" data-l="cc">Grátis para uso pessoal</button><button class="chip" type="button" aria-pressed="false" data-l="venda">À venda (uso comercial)</button><button class="chip" type="button" aria-pressed="false" data-l="whats">Negocia no WhatsApp</button></div>
+  <div class="chips" style="margin:0" id="lic"><button class="chip" type="button" aria-pressed="false" data-l="cc">Grátis para uso pessoal</button><button class="chip" type="button" aria-pressed="false" data-l="venda">À venda (uso comercial)</button></div>
   <label class="sr-only" for="ori">Orientação</label><select class="select" id="ori"><option value="">Qualquer formato</option><option value="v">Vertical</option><option value="h">Horizontal</option><option value="q">Quadrada</option></select>
   <label class="sr-only" for="ord">Ordenar</label><select class="select" id="ord"><option value="rel">Mais relevantes</option><option value="recentes">Mais recentes</option><option value="curtidas">Mais curtidas</option><option value="preco">Menor preço</option></select>
 </div>
@@ -47,7 +47,7 @@ document.addEventListener("c365:fotos", function () {
     var ori = document.getElementById("ori").value, ord = document.getElementById("ord").value;
     var l = F.buscar(q).filter(function (f) {
       var v = F.venda(f);
-      return (!lic.cc || v.cc) && (!lic.venda || v.preco) && (!lic.whats || v.whatsapp) && (!ori || formato(f) === ori);
+      return (!lic.cc || v.cc) && (!lic.venda || v.preco) && (!ori || formato(f) === ori);
     });
     if (ord === "recentes") l.sort(function (a, b) { var d = function (x) { var p = x.data.split("/"); return +(p[2] + p[1] + p[0]); }; return d(b) - d(a); });
     if (ord === "curtidas") l.sort(function (a, b) { return b.curtidas - a.curtidas; });
@@ -67,7 +67,7 @@ document.addEventListener("c365:fotos", function () {
       C.viewer.hidratar(g, l);
       g.querySelectorAll(".card").forEach(function (card, i) {
         var f = l[i], v = F.venda(f), meta = card.querySelector(".meta");
-        meta.insertAdjacentHTML("beforeend", '<span class="lic-line">' + (v.cc ? '<span class="badge badge-success plain">Grátis uso pessoal</span>' : "") + (v.preco ? '<span class="badge plain">R$ ' + v.preco + "</span>" : '<span class="badge plain">Negociar</span>') + "</span>");
+        meta.insertAdjacentHTML("beforeend", '<span class="lic-line">' + (v.cc ? '<span class="badge badge-success plain">Grátis uso pessoal</span>' : "") + (v.preco ? '<span class="badge plain">R$ ' + v.preco + "</span>" : '') + "</span>");
       });
       C.masonry();
     }

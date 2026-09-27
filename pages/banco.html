@@ -16,6 +16,10 @@
 .bb-proj { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--sp-4); }
 .bb-proj .panel { display: flex; flex-direction: column; gap: var(--sp-2); }
 .bb-shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
+.bb-banner { display: flex; flex-wrap: wrap; gap: var(--sp-5); align-items: center; justify-content: space-between; padding: var(--sp-7) var(--sp-6); border-radius: var(--r-lg); text-decoration: none; color: #fff; background: linear-gradient(120deg, rgba(12,12,11,.88), rgba(12,12,11,.55)), url("https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1600&q=70") center / cover, #26231f; }
+.bb-banner-txt { display: grid; gap: 6px; max-width: 60ch; }
+.bb-banner-txt strong { font-size: var(--fs-2xl); line-height: 1.15; }
+.bb-banner:hover .btn { filter: brightness(1.08); }
 .bb-shots button { aspect-ratio: 1; border: 0; border-radius: var(--r-sm); background: center / cover; cursor: pointer; }
 @media (max-width: 640px) { .bb-busca { flex-direction: column; } }
 </style></head><body data-page="banco">
@@ -24,7 +28,7 @@
 <section class="bb-hero">
   <span class="eyebrow">Banco de Imagem Brasileiro</span>
   <h1>O Brasil pelo olhar de <em>quem vive aqui</em>.</h1>
-  <p class="lead" style="margin:0;max-width:62ch">Fotos de todo o país, feitas por fotógrafos e coletivos brasileiros. Baixe grátis para uso pessoal, licencie para uso comercial ou fale direto com quem fotografou. Quem define o preço é o fotógrafo.</p>
+  <p class="lead" style="margin:0;max-width:62ch">Fotos de todo o país, feitas por fotógrafos e coletivos brasileiros. Baixe grátis para uso pessoal, licencie para uso comercial com pagamento seguro pela plataforma. Quem define o preço é o fotógrafo.</p>
   <form class="bb-busca" id="busca" role="search"><div class="search-field"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><label class="sr-only" for="q">Buscar fotos</label><input class="input" id="q" type="search" placeholder="Busque por lugar, tema ou #hashtag: sertão, #retrato, Minas"></div><button class="btn btn-primary btn-lg" type="submit">Buscar</button></form>
   <div class="hashtags" id="em-alta" aria-label="Hashtags em alta"></div>
   <div class="bb-nums" id="nums"></div>
@@ -36,15 +40,15 @@
 </section>
 
 <section class="section" aria-labelledby="col-t" id="coletivos">
-  <div class="section-head"><div><span class="eyebrow">Convidados da primeira fase</span><h2 class="h2" id="col-t">Projetos e coletivos</h2></div><a href="convite.html">Quero participar →</a></div>
+  <div class="section-head"><div><span class="eyebrow">Convidados da primeira fase</span><h2 class="h2" id="col-t">Projetos e coletivos</h2></div><a href="seja-fotografo.html">Seja fotógrafo do banco →</a></div>
   <div class="bb-proj" id="projetos"></div>
 </section>
 
-<section class="section">
-  <div class="panel cluster" style="justify-content:space-between;gap:24px;padding:28px">
-    <div style="max-width:62ch"><span class="eyebrow">Para fotógrafos</span><h2 class="h2" style="margin:6px 0">Suas fotos, seu preço, 80% para você.</h2><p class="muted" style="margin:0">Crie a conta, envie suas fotos com hashtags e defina as licenças: grátis para uso pessoal, venda comercial pela plataforma ou negociação pelo WhatsApp.</p></div>
-    <div class="cluster"><a class="btn btn-primary" href="convite.html">Como participar</a><a class="btn btn-secondary" href="publicar.html">Enviar fotos</a></div>
-  </div>
+<section class="section" aria-labelledby="seja-t">
+  <a class="bb-banner" href="seja-fotografo.html">
+    <span class="bb-banner-txt"><span class="eyebrow" style="color:rgba(255,255,255,.75)">Você é fotógrafo?</span><strong id="seja-t">Venda suas fotos no Banco de Imagem Brasileiro.</strong><span>Você define o preço, a plataforma cuida da venda, do pagamento e da nota. Cadastro gratuito.</span></span>
+    <span class="btn btn-primary btn-lg">Quero ser fotógrafo do banco</span>
+  </a>
 </section>
 
 <section class="section" aria-labelledby="galeria">

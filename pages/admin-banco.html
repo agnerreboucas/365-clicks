@@ -81,7 +81,7 @@ document.addEventListener("c365:fotos", function () {
   });
   function renderConvites() {
     document.getElementById("lista").innerHTML = convites().map(function (c) {
-      var link = "convite.html?codigo=" + (c.codigo || "");
+      var link = "seja-fotografo.html?codigo=" + (c.codigo || "");
       return "<tr><td><strong>" + esc(c.nome) + "</strong>" + (c.email ? '<div class="small">' + esc(c.email) + "</div>" : "") + "</td><td>" + (c.tipo === "coletivo" ? "Coletivo" : "Fotógrafo") + "</td><td class='small'>" + esc(c.temas || "") + '</td><td><span class="badge plain ' + (c.status === "enviou fotos" ? "badge-success" : c.status === "cadastrado" ? "badge-info" : "badge-warning") + '">' + esc(c.status) + "</span></td><td>" + (c.codigo ? '<button class="btn btn-ghost btn-sm" type="button" data-copiar="' + link + '">Copiar link · ' + esc(c.codigo) + "</button>" : '<span class="small muted">pedido sem código</span>') + "</td></tr>";
     }).join("");
   }

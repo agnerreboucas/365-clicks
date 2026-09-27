@@ -392,12 +392,13 @@ main {
 @media (max-width: 800px) {
   body.has-shell { padding-bottom: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px)); }
   .tabbar {
-    display: grid; grid-template-columns: repeat(5, 1fr); position: fixed; left: 0; right: 0; bottom: 0; z-index: 25;
+    display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: fixed; left: 0; right: 0; bottom: 0; z-index: 25;
     height: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px)); padding-bottom: env(safe-area-inset-bottom, 0px);
     background: color-mix(in srgb, var(--surface) 94%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
     border-top: 1px solid var(--line);
   }
-  .tabbar a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; text-decoration: none; color: var(--ink-3); font-size: 11px; font-weight: 500; }
+  .tabbar a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-width: 0; text-decoration: none; color: var(--ink-3); font-size: 11px; font-weight: 500; }
+  .tabbar a span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .tabbar a[aria-current="page"] { color: var(--ink); font-weight: 700; }
   .tabbar a.shoot .i { width: 44px; height: 44px; padding: 11px; border-radius: var(--r-pill); background: var(--c-accent); color: var(--c-on-accent); stroke-width: 2.2; }
   .tabbar a.shoot span { display: none; }
@@ -426,8 +427,10 @@ main {
 /* Rodapé */
 .site-footer { margin-top: var(--sp-8); padding: var(--sp-7) var(--gutter); border-top: 1px solid var(--line); background: var(--surface); font-size: var(--fs-14); color: var(--ink-3); }
 .site-footer .footer-grid { max-width: var(--container); margin: 0 auto; }
-.footer-grid { display: grid; gap: var(--sp-6); grid-template-columns: repeat(2, 1fr); }
-@media (min-width: 900px) { .footer-grid { grid-template-columns: 2fr repeat(4, 1fr); } }
+.footer-grid { display: grid; gap: var(--sp-6); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.footer-grid > div:first-child { grid-column: 1 / -1; }
+.footer-grid .logo { white-space: normal; }
+@media (min-width: 900px) { .footer-grid { grid-template-columns: 2fr repeat(4, minmax(0, 1fr)); } .footer-grid > div:first-child { grid-column: auto; } }
 .footer-grid h4 { margin: 0 0 var(--sp-3); font-size: var(--fs-14); color: var(--ink); }
 .footer-grid a { display: block; padding: var(--sp-1) 0; text-decoration: none; color: var(--ink-3); }
 .footer-grid a:hover { color: var(--ink); }
@@ -595,8 +598,11 @@ body.viewer-open { overflow: hidden; }
 .viewer-legal { margin-top: var(--sp-6); font-size: var(--fs-xs); color: var(--ink-3); }
 .viewer .kv dd { color: var(--ink); }
 @media (max-width: 900px) {
-  .viewer { grid-template-columns: 1fr; grid-template-rows: auto 1fr; overflow-y: auto; }
-  .viewer-stage { padding: calc(var(--sp-8) + env(safe-area-inset-top, 0px)) var(--sp-3) var(--sp-7); }
+  /* Celular: foto e painel empilhados; a foto aparece inteira (sem cortar) e o aviso de direitos fica abaixo dela */
+  .viewer { display: block; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .viewer-stage { display: block; overflow: visible; padding: calc(56px + env(safe-area-inset-top, 0px)) var(--sp-3) var(--sp-3); }
+  .viewer-photo { height: auto; }
+  .viewer-rights { position: static; display: block; text-align: center; margin-top: var(--sp-3); }
   .viewer-nav { width: 40px; height: 40px; }
   .viewer-nav.prev { left: 6px; }
   .viewer-nav.next { right: 6px; }

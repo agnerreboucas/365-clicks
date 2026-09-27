@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (rid && R && R.lista[rid]) { roteiro(rid); return; }
   /* Licença comercial de foto: #foto-<id> */
   var fid = location.hash.indexOf("#foto-") === 0 ? location.hash.slice(6) : "";
-  if (fid && window.Fotos && Fotos.foto(fid) && Fotos.venda(Fotos.foto(fid)).preco) { foto(fid); return; }
+  if (fid && window.Fotos && Fotos.foto(fid) && Fotos.venda(Fotos.foto(fid)).preco && !Fotos.venda(Fotos.foto(fid)).pendente) { foto(fid); return; }
   var h = location.hash.slice(1).split("-"), id = P.lista[h[0]] && h[0] !== "free" ? h[0] : "365", plano = P.lista[id];
   document.querySelector('input[name="ciclo"][value="' + (h[1] === "anual" ? "anual" : "mensal") + '"]').checked = true;
   document.getElementById("t-plano").textContent = plano.nome;
@@ -108,15 +108,15 @@ document.addEventListener("DOMContentLoaded", function () {
     scrollTo(0, 0);
   });
   function foto(id) {
-    var F = window.Fotos, f = F.foto(id), ph = F.fotografo(f.fotografo), v = F.venda(f), preco = v.preco, taxa = Math.round(preco * F.TAXA * 100) / 100;
+    var F = window.Fotos, f = F.foto(id), ph = F.fotografo(f.fotografo), v = F.venda(f), preco = v.preco, sp = F.split(preco, v.modelos), taxa = sp.plataforma;
     var brl = P.brl;
     document.title = "365 Clicks — Licenciar foto";
     document.getElementById("t-h1").textContent = "Licença comercial da foto";
     var cb = document.getElementById("ciclo-box");
     cb.innerHTML = '<h2 style="margin:0">Como você vai usar</h2><div class="field"><label class="label" for="f-uso">Uso previsto</label><select class="select" id="f-uso"><option>Publicidade e anúncios</option><option>Site, blog ou redes sociais da empresa</option><option>Editorial (revista, jornal, livro)</option><option>Produto impresso (embalagem, quadro, camiseta)</option><option>Outro uso comercial</option></select></div><p class="small muted" style="margin:0">A licença é não exclusiva, por prazo indeterminado e não permite revender o arquivo. O fotógrafo continua dono da obra.</p>';
     document.getElementById("r-nome").textContent = "“" + f.titulo + "”";
-    document.getElementById("r-itens").innerHTML = '<li style="list-style:none;margin-left:-1.1em"><span style="display:block;aspect-ratio:' + f.ratio.replace("/", " / ") + ';max-height:220px;border-radius:8px;background:url(\'' + f.thumb + "') center/cover, linear-gradient(160deg," + f.tone2 + "," + f.tone + ')"></span></li><li>Por <a href="perfil.html#@' + ph.id + '">' + ph.nome + "</a></li><li>Arquivo original em alta resolução, sem marca d’água</li><li>Licença comercial em PDF + nota fiscal</li>";
-    document.getElementById("r-tot").innerHTML = "<dt>Licença comercial</dt><dd>" + brl(preco) + "</dd><dt class='small'>Fotógrafo recebe (80%)</dt><dd class='small'>" + brl(preco - taxa) + "</dd><dt class='small'>365 Clicks (20%)</dt><dd class='small'>" + brl(taxa) + "</dd><dt>Total</dt><dd><strong>" + brl(preco) + "</strong></dd>";
+    document.getElementById("r-itens").innerHTML = '<li style="list-style:none;margin-left:-1.1em"><span style="display:block;aspect-ratio:' + f.ratio.replace("/", " / ") + ';max-height:220px;border-radius:8px;background:url(\'' + f.thumb + "') center/cover, linear-gradient(160deg," + f.tone2 + "," + f.tone + ')"></span></li><li>Por <a href="perfil.html#@' + ph.id + '">' + ph.nome + "</a></li><li>Arquivo original em alta resolução, sem marca d’água</li><li>Licença comercial em PDF + nota fiscal</li>" + (v.modelos.length ? "<li>Com autorização de uso de imagem de " + v.modelos.length + (v.modelos.length === 1 ? " pessoa retratada" : " pessoas retratadas") + "</li>" : "") + "<li>Crédito obrigatório: “Foto: " + ph.nome + "”</li>";
+    document.getElementById("r-tot").innerHTML = "<dt>Licença comercial</dt><dd>" + brl(preco) + "</dd><dt class='small'>Autor: " + ph.nome + "</dt><dd class='small'>" + brl(sp.fotografo) + "</dd>" + sp.modelos.map(function (m) { return "<dt class='small'>Pessoa retratada: " + m.nome + "</dt><dd class='small'>" + brl(m.valor) + "</dd>"; }).join("") + "<dt class='small'>Taxa da plataforma (20%)</dt><dd class='small'>" + brl(taxa) + "</dd><dt>Total</dt><dd><strong>" + brl(preco) + "</strong></dd>";
     document.getElementById("t-termo").innerHTML = 'Li e aceito a <a href="termos.html">licença de uso comercial</a>. Não vou revender nem redistribuir o arquivo.';
     document.querySelector('input[name="pag"][value="cartao"]').closest(".option").querySelector(".small").textContent = "Aprovação na hora";
     function pag() { return document.querySelector('input[name="pag"]:checked').value; }
@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (bad.length) { bad[0].focus(); C.toast("Confira os campos destacados"); return; }
       if (!document.getElementById("f-termo").checked) { C.toast("Aceite a licença para continuar"); return; }
       function ler(k) { try { return JSON.parse(localStorage.getItem(k) || "[]"); } catch (x) { return []; } }
-      var cod = "LC-" + String(Date.now()).slice(-6), venda = { codigo: cod, foto: f.id, titulo: f.titulo, fotografo: ph.id, preco: preco, taxa: taxa, repasse: preco - taxa, uso: document.getElementById("f-uso").value, comprador: document.getElementById("f-nome").value.trim(), pagamento: pag(), em: Date.now() };
+      var cod = "LC-" + String(Date.now()).slice(-6), venda = { codigo: cod, foto: f.id, titulo: f.titulo, fotografo: ph.id, preco: preco, taxa: taxa, repasse: sp.fotografo, modelos: sp.modelos, uso: document.getElementById("f-uso").value, comprador: document.getElementById("f-nome").value.trim(), pagamento: pag(), em: Date.now() };
       var vs = ler("c365-vendas"); vs.unshift(venda);
       var ped = ler("c365-pedidos"); ped.unshift({ codigo: cod, itens: [{ nome: "Licença comercial: “" + f.titulo + "”, de " + ph.nome, q: 1, preco: preco }], total: preco, em: Date.now(), status: "pago", acao: ["Baixar arquivo original", f.grande] });
       var ev = ler("c365-eventos"); ev.push({ t: "venda", foto: f.id, fotografo: ph.id, dia: new Date().toISOString().slice(0, 10), em: Date.now() });
@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("ck").hidden = true;
       document.getElementById("ok").hidden = false;
       document.getElementById("ok-t").textContent = "Licença emitida";
-      document.getElementById("ok-p").textContent = "Pedido " + cod + ". O arquivo original e a licença em PDF também foram enviados para o seu e-mail. " + ph.nome + " recebe " + brl(preco - taxa) + " por Pix.";
+      document.getElementById("ok-p").textContent = "Pedido " + cod + ". O arquivo original e a licença em PDF também foram enviados para o seu e-mail. " + ph.nome + " recebe " + brl(sp.fotografo) + " por Pix" + (sp.modelos.length ? " e a pessoa retratada recebe a parte dela" : "") + ". Lembre-se de creditar: “Foto: " + ph.nome + "”.";
       document.getElementById("ok-acoes").innerHTML = '<a class="btn btn-primary" href="' + f.grande + '" target="_blank" rel="noopener">Baixar arquivo original</a><button class="btn btn-secondary" type="button" data-toast="Licença em PDF enviada para o seu e-mail">Licença (PDF)</button><a class="btn btn-ghost" href="downloads.html">Meus downloads</a>';
       scrollTo(0, 0);
     });

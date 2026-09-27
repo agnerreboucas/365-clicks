@@ -14,7 +14,7 @@
     { id: "banco", name: "Banco de Imagem", pages: [
       ["banco", "Banco de Imagem Brasileiro", "Home da Fase 1: busca, categorias e hashtags"],
       ["busca", "Buscar fotos", "Resultados, hashtags, categorias e filtros de licença"],
-      ["convite", "Para fotógrafos", "Convite para fotógrafos e coletivos comporem o banco"]
+      ["seja-fotografo", "Seja fotógrafo", "Cadastro de fotógrafos e coletivos (com ou sem código de convite)"]
     ] },
     { id: "portal", name: "Portal", pages: [
       ["home", "Home", "Galeria viva + desafio diário"],
@@ -91,7 +91,7 @@
       ["admin", "Dashboard", "Visão operacional"],
       ["admin-contatos", "Contatos e métricas", "Visualizações, cliques e contatos"],
       ["admin-anuncios", "Mídia e anunciantes", "Espaços, campanhas e receita mensal"],
-      ["admin-vendas", "Banco de imagens", "Fotos à venda, vendas, split e WhatsApp"],
+      ["admin-vendas", "Banco de imagens", "Fotos à venda, vendas, split e repasses"],
       ["admin-banco", "Hashtags e convites", "Hashtags viram categorias; fotógrafos e coletivos convidados"],
       ["admin-usuarios", "Usuários", "Gestão de usuários"],
       ["admin-fotos", "Moderação", "Denúncias de comentários e fotos"],
@@ -159,7 +159,7 @@
   C365.setFase = function (f) { try { localStorage.setItem("c365-fase", f); } catch (e) {} location.reload(); };
   var HOME = BANCO ? "banco" : "home";
   var LOGO = BANCO ? '<span class="logo-banco">Banco de Imagem <b>Brasileiro</b></span>' : "365<b>·</b>CLICKS";
-  var NAV_BANCO = [["banco", "Início"], ["busca", "Buscar fotos"], ["busca#categorias", "Categorias"], ["fotografos", "Fotógrafos"], ["convite", "Para fotógrafos"]];
+  var NAV_BANCO = [["banco", "Início"], ["busca", "Buscar fotos"], ["busca#categorias", "Categorias"], ["fotografos", "Fotógrafos"], ["seja-fotografo", "Seja fotógrafo"]];
   function href(slug) { var p = slug.split("#"); return page(p[0]) + (p[1] ? "#" + p[1] : ""); }
 
   /* ---------- Página atual ---------- */
@@ -303,7 +303,7 @@
     var nav = document.createElement("nav");
     nav.className = "tabbar";
     nav.setAttribute("aria-label", "Navegação rápida");
-    var items = BANCO ? [["banco", "Início", "home"], ["busca", "Buscar", "search"], ["publicar", "Enviar", "plus"], ["busca#categorias", "Categorias", "grid"], ["perfil", "Minhas fotos", "user"]]
+    var items = BANCO ? [["banco", "Início", "home"], ["busca", "Buscar", "search"], ["publicar", "Enviar", "plus"], ["busca#categorias", "Categorias", "grid"], ["perfil", "Perfil", "user"]]
       : [["home", "Início", "home"], ["explorar", "Explorar", "compass"], ["publicar", "Publicar", "plus"], ["desafios", "Desafios", "target"], ["perfil", "Perfil", "user"]];
     nav.innerHTML = items.map(function (t) {
       return '<a href="' + href(t[0]) + '"' + cur(t[0]) + (t[0] === "publicar" ? ' class="shoot"' : "") + ">" + icon(t[2]) + "<span>" + t[1] + "</span></a>";
@@ -352,7 +352,7 @@
     if (BANCO) {
       el.innerHTML = '<div class="footer-grid"><div><a class="logo" href="' + page(HOME) + '">' + LOGO + '</a><p>O Brasil pelo olhar de quem vive aqui. Uma iniciativa 365 Clicks.</p>' + troca + "</div>" +
         col("Buscar", [["busca", "Todas as fotos"], ["busca#categorias", "Categorias"], ["fotografos", "Fotógrafos"]]) +
-        col("Para fotógrafos", [["convite", "Como participar"], ["cadastro", "Criar conta"], ["publicar", "Enviar fotos"], ["vendas", "Meus ganhos"]]) +
+        col("Para fotógrafos", [["seja-fotografo", "Seja fotógrafo do banco"], ["publicar", "Publicar fotos"], ["vendas", "Meus ganhos"]]) +
         col("Banco", [["sobre", "Sobre"], ["ajuda", "Ajuda"], ["contato", "Contato"], ["termos", "Termos e licenças"]]) + "</div>";
       return;
     }
